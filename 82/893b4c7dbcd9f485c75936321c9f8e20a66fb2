@@ -1,0 +1,71 @@
+README.md
+  s_f2a017c1eb8a95::t_8994c19093c936 18-19,73-78
+THIRD_PARTY.md
+  s_f2a017c1eb8a95::t_e3ca1db288b357 3
+docs/original-arms.md
+  s_f2a017c1eb8a95::t_37eee793d4412e 1-45
+docs/original-fans.md
+  s_f2a017c1eb8a95::t_a804efeb118bba 37,42-44,48,51,55
+docs/original-import.md
+  s_f2a017c1eb8a95::t_5f0ab4a2dbb29d 14-15,26,73-78
+docs/original-lift.md
+  s_f2a017c1eb8a95::t_541d4bf8e98e71 1-44
+docs/original-slider.md
+  s_f2a017c1eb8a95::t_7cb92e25113629 1-39
+docs/original-swings.md
+  s_f2a017c1eb8a95::t_c60700b605a71b 1-42
+scripts/read-original-arms.py
+  s_f2a017c1eb8a95::t_b999c366531a71 1-25
+scripts/read-original-lift.py
+  s_f2a017c1eb8a95::t_ec3c49678e6d00 1-16
+scripts/read-original-slider.py
+  s_f2a017c1eb8a95::t_729876f86a7a14 1-20
+src/game/original-arms-data.json
+  s_f2a017c1eb8a95::t_518bdbe3636b22 1-75
+src/game/original-arms.ts
+  s_f2a017c1eb8a95::t_8c26a090989465 1-88
+src/game/original-chain.ts
+  s_f2a017c1eb8a95::t_4399cd5dacc730 1,27-28,96
+src/game/original-engine.ts
+  s_f2a017c1eb8a95::t_70555319e76d5a 1-3,20-21,55-59,185-211,239,250,286-290,316-320,438-439
+src/game/original-inspector.ts
+  s_f2a017c1eb8a95::t_59b73bff8fcdad 14,21-28,32,103-285
+src/game/original-lift-data.json
+  s_f2a017c1eb8a95::t_0f9c352f1086a8 1-338
+src/game/original-lift.ts
+  s_f2a017c1eb8a95::t_7ccdf22de28827 1-111
+src/game/original-proximity.ts
+  s_f2a017c1eb8a95::t_c4918c7026ef85 1-27
+src/game/original-sack-data.json
+  s_f2a017c1eb8a95::t_ccfba3d5007548 1-150
+src/game/original-slider-data.json
+  s_f2a017c1eb8a95::t_31d645ecd7e389 1-107
+src/game/original-slider.ts
+  s_f2a017c1eb8a95::t_37a3a96576dbdf 1-96
+src/game/original-spring.ts
+  s_f2a017c1eb8a95::t_1ffe3cd3a8543c 1-33
+src/game/original-swing-data.json
+  s_f2a017c1eb8a95::t_73d350b2b9366d 1-118
+tests/original-arms.test.ts
+  s_f2a017c1eb8a95::t_aaf831ce7c1e3e 1-138
+tests/original-lift.test.ts
+  s_f2a017c1eb8a95::t_c2eb80be2bd958 1-149
+tests/original-slider.test.ts
+  s_f2a017c1eb8a95::t_635851743d0e02 1-131
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "82893b4c7dbcd9f485c75936321c9f8e20a66fb2",
+  "prompts": {},
+  "sessions": {
+    "s_f2a017c1eb8a95": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a07b89-b5da-7993-a5cd-aa6860ea5d27",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Fayaz Ahmed <fayazara@gmail.com>"
+    }
+  }
+}
