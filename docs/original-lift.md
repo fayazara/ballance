@@ -39,6 +39,6 @@ The in-app browser reproduced doorway entry, one fallen wall and the wood ball r
 
 ## Remaining parity work
 
-The original activation also iterates `P_Modul_03_FallingParts` into the global `DepthTest` group. Its later hide/unphysicalize/reposition cleanup is not implemented by this adapter: fallen walls currently remain simulated until sector reset or level teardown. That shared cleanup path must be recovered alongside the other globally managed physics objects.
+Activation now registers `P_Modul_03_FallingParts` with the shared depth cleanup. Fallen weights stop simulating below the recovered level cutoff, disappear and return on reset. See [cleanup evidence and remaining scheduling differences](original-depth.md).
 
 Exact IVP inertia, contact solving, sleep-island behavior and script-frame scheduling remain unproven. The adapter holds the cage frozen until proximity activation, then restores sleeping dynamic weights before waking the platform; this is not an implementation of IVP's internal wake propagation. All placements are physically exercised, but clearing every wall, reaching every exit, and complete level playthroughs remain outstanding. The module inventory tracks these broader gaps; the presence of an adapter is not proof of complete 1:1 parity.

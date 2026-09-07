@@ -2,9 +2,9 @@ import type { Material } from './levels'
 export class OriginalAudio {
   enabled = false; unlocked = false; paused = true
   tracks = new Map<string, HTMLAudioElement>()
-  get(name: string, loop = false) {
-    if (!this.tracks.has(name)) { const a = new Audio(`/original/audio/${name}.ogg`); a.loop = loop; a.volume = loop ? 0.18 : 0.55; this.tracks.set(name, a) }
-    return this.tracks.get(name)!
+  get(name: string, loop = false, key = name) {
+    if (!this.tracks.has(key)) { const a = new Audio(`/original/audio/${name}.ogg`); a.loop = loop; a.volume = loop ? 0.18 : 0.55; this.tracks.set(key, a) }
+    return this.tracks.get(key)!
   }
   unlock() { this.unlocked = true; this.sync() }
   sync() {
@@ -16,11 +16,13 @@ export class OriginalAudio {
   effect(name: string) { if (this.enabled && this.unlocked) { const a = this.get(name); a.currentTime = 0; void a.play().catch(() => {}) } }
   stop(name: string) { const a = this.tracks.get(name); if (a) { a.pause(); a.currentTime = 0 } }
   resumeEffect(name: string) { const a = this.tracks.get(name); if (a && !a.ended && this.enabled && this.unlocked && !this.paused) void a.play().catch(() => {}) }
-  fan(distance: number) {
-    if (!Number.isFinite(distance)) { this.stop('Misc_Ventilator'); return }
-    const a = this.get('Misc_Ventilator', true)
-    if (!this.enabled || !this.unlocked || this.paused || distance >= 20) { a.pause(); return }
-    a.volume = .35 * Math.max(0, 1 - distance / 20) ** 2
+  stopFans() { for (const key of this.tracks.keys()) if (key.startsWith('Fan:')) this.stop(key) }
+  fan(name: string, gain: number) {
+    const key = `Fan:${name}`
+    if (gain <= 0) { this.stop(key); return }
+    const a = this.get('Misc_Ventilator', true, key)
+    if (!this.enabled || !this.unlocked || this.paused) { a.pause(); return }
+    a.volume = Math.min(1, gain)
     if (a.paused) void a.play().catch(() => {})
   }
   roll(material: Material, speed: number, grounded: boolean, surface: 'Stone' | 'Wood' | 'Metal' = 'Stone') {

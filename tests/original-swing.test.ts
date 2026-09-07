@@ -1,3 +1,4 @@
+import { PLAYER_GROUPS } from '../src/game/original-collisions.ts'
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { existsSync, readFileSync } from 'node:fs'
@@ -124,7 +125,7 @@ test('wood, stone and paper can stand on the open compound deck without hitting 
         const g = originalGeometry(d.meshes.find(m => m.id === o.mesh)!, o.matrix, true)
         shape = RAPIER.ColliderDesc.convexHull(g.attributes.position!.array as Float32Array)!; g.dispose()
       }
-      world.createCollider(configureContact(shape.setMass(PLAYER_PHYSICS[kind].mass).setCollisionGroups(0x0004ffff), PLAYER_PHYSICS[kind]), ball); configureBody(ball, PLAYER_PHYSICS[kind])
+      world.createCollider(configureContact(shape.setMass(PLAYER_PHYSICS[kind].mass).setCollisionGroups(PLAYER_GROUPS), PLAYER_PHYSICS[kind]), ball); configureBody(ball, PLAYER_PHYSICS[kind])
       // Hold at the initial frozen stage to isolate the six-part collision shape from motor motion.
       for (let i = 0; i < 264; i++) world.step()
       const height = ball.translation().y - s.origin.y
@@ -143,10 +144,10 @@ test('wood can enter and cross the moving Level 9 platform using normal drive im
     // Approach on the return stroke; rolling immediately at startup chases it into the gap.
     for (let i = 0; i < 2 / PHYSICS_STEP; i++) { s.update(PHYSICS_STEP, 1); world.step() }
     world.step()
-    const hit = world.castShape({ x: start.x, y: start.y + 2, z: start.z }, { x: 0, y: 0, z: 0, w: 1 }, { x: 0, y: -1, z: 0 }, new RAPIER.Ball(.5), 0, 8, true, undefined, 0x0004ffff)
+    const hit = world.castShape({ x: start.x, y: start.y + 2, z: start.z }, { x: 0, y: 0, z: 0, w: 1 }, { x: 0, y: -1, z: 0 }, new RAPIER.Ball(.5), 0, 8, true, undefined, PLAYER_GROUPS)
     assert.ok(hit, 'approach is on the original floor'); start.y += 2 - hit.time_of_impact + .01
     const ball = world.createRigidBody(RAPIER.RigidBodyDesc.dynamic().setTranslation(start.x, start.y, start.z).setCcdEnabled(true))
-    world.createCollider(configureContact(RAPIER.ColliderDesc.ball(.5).setMass(PLAYER_PHYSICS.wood.mass).setCollisionGroups(0x0004ffff), PLAYER_PHYSICS.wood), ball); configureBody(ball, PLAYER_PHYSICS.wood)
+    world.createCollider(configureContact(RAPIER.ColliderDesc.ball(.5).setMass(PLAYER_PHYSICS.wood.mass).setCollisionGroups(PLAYER_GROUPS), PLAYER_PHYSICS.wood), ball); configureBody(ball, PLAYER_PHYSICS.wood)
     let crossed = false, touched = false
     for (let i = 0; i < 6 / PHYSICS_STEP; i++) {
       s.update(PHYSICS_STEP, 1); driveBall(ball, 'wood', axis.x, axis.z, PHYSICS_STEP); world.step()

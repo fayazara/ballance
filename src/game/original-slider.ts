@@ -1,3 +1,4 @@
+import { originalCollisionGroups } from './original-collisions.ts'
 import * as THREE from 'three'
 import RAPIER from '@dimforge/rapier3d-compat'
 import recovered from './original-slider-data.json' with { type: 'json' }
@@ -39,7 +40,7 @@ export class OriginalSlider {
       const hull = document.meshes.find(m => m.name === data.hulls[0])
       if (!hull) throw new Error(`Missing slider collision hull ${data.hulls[0]}`)
       const geometry = originalGeometry(hull, matrix.toArray(), true)
-      const collider = world.createCollider(configureContact(RAPIER.ColliderDesc.convexHull(geometry.attributes.position!.array as Float32Array)!.setMass(data.mass).setCollisionGroups(0x0040ffff), data), body)
+      const collider = world.createCollider(configureContact(RAPIER.ColliderDesc.convexHull(geometry.attributes.position!.array as Float32Array)!.setMass(data.mass).setCollisionGroups(originalCollisionGroups(data.collisionGroup)), data), body)
       geometry.dispose(); body.recomputeMassPropertiesFromColliders()
       const inertia = body.principalInertia(), frame = body.principalInertiaLocalFrame()
       const center = new THREE.Vector3(...data.massCenter as [number, number, number]).applyMatrix4(matrix.clone().setPosition(0, 0, 0)).multiplyScalar(SCALE); center.z *= -1

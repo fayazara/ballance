@@ -3,13 +3,15 @@ import RAPIER from '@dimforge/rapier3d-compat'
 import { originalGeometry, originalPosition, SCALE } from './original-data.ts'
 import type { OriginalDocument, OriginalObject } from './original-data.ts'
 import { configureBody, configureContact } from './original-physics.ts'
+import { OriginalProximity } from './original-proximity.ts'
+import sectors from './original-sector-data.json' with { type: 'json' }
 
-// IVP's nocoll_group_ident prevents objects in the same named group from colliding.
-// Pusher/Filler = Floor; guide channel = Ball. Keep the guide invisible to the player.
-export const LEVEL_FLOOR_GROUPS = 0x0001ffff
-export const LEVEL_STOPPER_GROUPS = 0x0021ffff // preserve existing contacts, but allow pushers to hit floor stoppers
-export const PUSHER_GROUPS = 0x0008fff6 // skip level Floor (1) and other Floor pushers (8)
-export const PUSHER_GUIDE_GROUPS = 0x00100008 // guide contacts the pusher, never the player
+import { originalCollisionGroups, LEVEL_FLOOR_GROUPS } from './original-collisions.ts'
+export { LEVEL_FLOOR_GROUPS, LEVEL_STOPPER_GROUPS } from './original-collisions.ts'
+
+// Original pusher/filler are Floor; the physical channel is Ball.
+export const PUSHER_GROUPS = originalCollisionGroups('Floor')
+export const PUSHER_GUIDE_GROUPS = originalCollisionGroups('Ball')
 export const PUSHER_PHYSICS = { mass: 3, friction: .6, restitution: .4, linearDamping: .1, angularDamping: 1 }
 const GUIDE_PHYSICS = { friction: .7, restitution: .4 }
 
@@ -22,6 +24,10 @@ export class OriginalPusher {
   axis: THREE.Vector3
   target: THREE.Vector3
   passage: THREE.Vector3
+  active = false
+  activated = false
+  guides: RAPIER.Collider[] = []
+  private wake = new OriginalProximity(sectors.wake.P_Modul_01)
   constructor(world: RAPIER.World, parent: OriginalObject, document: OriginalDocument, materials: Map<number, THREE.MeshPhongMaterial>, sector: number) {
     this.name = parent.name; this.sector = sector; this.passage = originalPosition(parent)
     const object = document.objects.find(o => o.name === 'P_Modul_01_Pusher')!
@@ -65,10 +71,32 @@ export class OriginalPusher {
         if (!hull) throw new Error(`Missing original pusher guide mesh: ${name}`)
         const geometry = originalGeometry(hull, helperMatrix.toArray())
         const desc = RAPIER.ColliderDesc.convexHull(geometry.attributes.position!.array as Float32Array)!
-        world.createCollider(configureContact(desc.setCollisionGroups(helperName.endsWith('Rinne') ? PUSHER_GUIDE_GROUPS : LEVEL_FLOOR_GROUPS), GUIDE_PHYSICS))
+        this.guides.push(world.createCollider(configureContact(desc.setCollisionGroups(helperName.endsWith('Rinne') ? PUSHER_GUIDE_GROUPS : LEVEL_FLOOR_GROUPS), GUIDE_PHYSICS)))
         geometry.dispose()
       }
     }
+    this.reset()
+  }
+  setActive(active: boolean) {
+    if (this.active === active) return
+    if (!active) { this.reset(); return }
+    this.active = true
+    for (const collider of this.guides) collider.setEnabled(true)
+    this.body.setEnabled(true)
+  }
+  update(player: THREE.Vector3, activeSector: number) {
+    this.setActive(this.sector === activeSector)
+    if (!this.active || this.activated) return
+    if (this.wake.enter(player, new THREE.Vector3().copy(this.body.translation()))) {
+      this.activated = true; this.body.setBodyType(RAPIER.RigidBodyType.Dynamic, true); this.body.wakeUp()
+    }
+  }
+  reset() {
+    for (const collider of this.guides) collider.setEnabled(false)
+    this.body.setEnabled(false); this.body.setBodyType(RAPIER.RigidBodyType.Fixed, false)
+    this.body.setTranslation(this.origin, false); this.body.setRotation({ x: 0, y: 0, z: 0, w: 1 }, false)
+    this.body.setLinvel({ x: 0, y: 0, z: 0 }, false); this.body.setAngvel({ x: 0, y: 0, z: 0 }, false)
+    this.active = false; this.activated = false; this.wake = new OriginalProximity(sectors.wake.P_Modul_01)
   }
   get travel() { return new THREE.Vector3().copy(this.body.translation()).sub(this.origin).dot(this.axis) }
 }

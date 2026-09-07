@@ -1,0 +1,22 @@
+{
+  "source": "Gameplay.nmo / Levelinit.nmo",
+  "boundsGroup": "DepthTestCubes",
+  "depthGroup": "DepthTest",
+  "initialDepth": 0.0,
+  "margin": 200.0,
+  "groups": [
+    "P_Ball_Paper",
+    "P_Ball_Wood",
+    "P_Ball_Stone",
+    "P_Box"
+  ],
+  "comparison": "less-than",
+  "position": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "hideHierarchy": false,
+  "moveHierarchy": true,
+  "sweepDelayFrames": 1
+}

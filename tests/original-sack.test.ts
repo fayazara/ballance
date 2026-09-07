@@ -1,3 +1,4 @@
+import { PLAYER_GROUPS } from '../src/game/original-collisions.ts'
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { existsSync, readFileSync } from 'node:fs'
@@ -137,7 +138,7 @@ test('player contact moves the Level 8 sack; heavier balls transfer more momentu
       const axis = new THREE.Vector3(1, 0, 0), start = s.sack.origin.clone().addScaledVector(axis, -2)
       world.step()
       // The original approach uses paired rails: a center ray falls through their gap.
-      const hit = world.castShape({ x: start.x, y: start.y + 3, z: start.z }, { x: 0, y: 0, z: 0, w: 1 }, { x: 0, y: -1, z: 0 }, new RAPIER.Ball(.5), 0, 10, true, undefined, 0x0004ffff)
+      const hit = world.castShape({ x: start.x, y: start.y + 3, z: start.z }, { x: 0, y: 0, z: 0, w: 1 }, { x: 0, y: -1, z: 0 }, new RAPIER.Ball(.5), 0, 10, true, undefined, PLAYER_GROUPS)
       assert.ok(hit); start.y += 3 - hit.time_of_impact + .01
       const ball = world.createRigidBody(RAPIER.RigidBodyDesc.dynamic().setTranslation(start.x, start.y, start.z).setCcdEnabled(true))
       let shape = RAPIER.ColliderDesc.ball(.5)
@@ -146,7 +147,7 @@ test('player contact moves the Level 8 sack; heavier balls transfer more momentu
         const geometry = originalGeometry(doc.meshes.find(m => m.id === object.mesh)!, object.matrix, true)
         shape = RAPIER.ColliderDesc.convexHull(geometry.attributes.position!.array as Float32Array)!; geometry.dispose()
       }
-      world.createCollider(configureContact(shape.setMass(PLAYER_PHYSICS[kind].mass).setCollisionGroups(0x0004ffff), PLAYER_PHYSICS[kind]), ball)
+      world.createCollider(configureContact(shape.setMass(PLAYER_PHYSICS[kind].mass).setCollisionGroups(PLAYER_GROUPS), PLAYER_PHYSICS[kind]), ball)
       configureBody(ball, PLAYER_PHYSICS[kind])
       let excursion = 0
       // Isolate player contact here; the separate oscillator tests cover the script's drive.

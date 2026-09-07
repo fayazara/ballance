@@ -15,7 +15,7 @@ Values below were read directly from the supplied game's `Balls.nmo` (`Physicali
 | Wooden crate | 1 | .7 | .3 | .1 | .1 | none |
 | Dome (fixed) | ignored | .2 | .8 | ignored | ignored | none |
 
-Domes are anchored obstacles. `Levelinit.nmo` → `Physicalize_Convex` → `P_Dome` references boolean parameter 4011 (original object ID 4090), whose stored value is **true** for `Fixed?`. The importer previously ignored that flag and incorrectly created a dynamic dome using the otherwise-unused mass/damping columns. Domes now use stationary triangle colliders with their original friction and elasticity, without a movable rigid body.
+Domes are anchored obstacles. `Levelinit.nmo` → `Physicalize_Convex` → `P_Dome` references boolean parameter 4011 (original object ID 4090), whose stored value is **true** for `Fixed?`. The importer previously ignored that flag and incorrectly created a dynamic dome using the otherwise-unused mass/damping columns. Domes now use fixed convex bodies from their original mesh, with their original friction and elasticity. They activate with their sector and remain immovable; see [sector object behavior](original-objects.md).
 
 The in-app browser verified three-second pushes with wood, stone and paper: the dome stayed at exactly the same coordinates and each ball collided with its surface. The inspector's `Push dome 3 seconds` control repeats this check. All 28 existing tests, lint and the production build passed after this fix.
 
@@ -48,3 +48,7 @@ The runtime still uses Rapier rather than IVP. Contact solvers, sleep thresholds
 `scripts/dump-original-chunks.cpp` is a read-only LibCmo utility. Build it against the separately built LibCmo/YYCCommonplace libraries documented in [original-import.md](original-import.md), then run it on `Balls.nmo`, `Levelinit.nmo`, `Gameplay.nmo` and `PH/PS_FourFlames.nmo`, saving output as `balls-chunks.tsv`, `levelinit-chunks.tsv`, `gameplay-chunks.tsv` and `fire-chunks.tsv` in a temporary directory. It shallow-loads serialized objects and does not run their scripts or the original executable.
 
 Run `python3 scripts/read-original-physics.py /path/to/dumps` to decode the typed data-array columns and selected parameters. Raw object dumps and original textures remain local; only the small numerical evidence is documented here.
+
+## Collision filtering
+
+The shared [collision identifier mapping](original-collisions.md) applies the recovered no-collision names to all adapters. In particular, the player passes through Ball floor stoppers, loose props contact guide channels, and debris contacts props while remaining excluded from the player. This establishes the named-group rule; exclusive-pair filtering and exact solver behavior remain separate.

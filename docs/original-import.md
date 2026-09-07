@@ -4,10 +4,10 @@ The local game now reads the 12 original NMO levels, textures, ball models and s
 
 ## What works
 
-- Original object transforms, triangle meshes, material slots, UVs, floor/rail collision groups, and each level's five sky textures.
+- Original object transforms, triangle meshes, material slots, UVs, [named collision identifiers](original-collisions.md), and each level's five sky textures.
 - Real wood, stone and paper ball meshes with recovered material parameters, correctly scaled drive impulses, momentum, gravity and continuous collision detection. Paper uses its convex collision hull.
 - Original purple flame texture, with rising particle emitters using recovered lifetime, speed and size settings.
-- Loose balls and crates, anchored steel domes, and shared movable pieces for Level 1's modules 01 and 34. The three-post target gates now use their original compound collision hulls and sliding guide; see [pusher findings](original-pushers.md).
+- [Sector-managed loose balls/crates and fixed convex domes](original-objects.md), and shared movable pieces for Level 1's modules 01 and 34. The three-post target gates now use their original compound collision hulls and sliding guide; see [pusher findings](original-pushers.md).
 - All 113 fan instances use the recovered upward force and oriented wind volumes. Paper rises and can steer between fans; wood and stone stay grounded. Rotors, smoke and original fan audio are active. See [fan behavior and mechanism inventory](original-fans.md).
 - Passive hinges for modules 19, 25, 30, 37 and 41: original pivots, compound hulls, mass centers and activation across 118 instances. See [hinge findings and verification limits](original-hinges.md).
 - Module 29's 17 linked bridges use nine physical planks, ten hinges, the original stone-triggered connection release, tearing sound and sector reset. See [bridge behavior and limits](original-chain.md).
@@ -27,9 +27,9 @@ All twelve courses load, but this is not complete behavioral parity. Levels 2–
 
 Level 1 is the first playable integration, with its core interactions implemented. Its shared pushers use recovered compound hulls and a physical guide, while the sliding stone uses reconstructed rigid-body behavior; ball/object material parameters have now been recovered, but complete constraint and solver parity is still outstanding. See [the physics findings](original-physics.md). The whole course has not been completed end to end in testing. Lantern effects, scoring-particle motion and finish animation are approximations. Transformer timings and debris parameters now come from the original scripts; exact curve evaluation and the lightning effect remain incomplete. The first original music theme is currently reused across levels, with surface-specific rolling sounds selected using the original sound groups. Original menu scripts, cutscenes, tutorials, sound scheduling and the UFO extraction sequence are not executed. The absent thirteenth bonus level is not part of this ISO.
 
-## Local asset boundary
+## Asset packaging
 
-`.local/original/` is ignored by Git. The custom Vite middleware serves it under `/original/` only during `npm run dev`. It is outside `public/`, and the production build never copies it into `dist`. With no local pack, the app falls back to the existing three original web courses. Normal Cloudflare deployment contains only the new code and independently made assets.
+`.local/original/` is ignored by Git. The custom Vite middleware serves it under `/original/` during development. `pnpm run deploy` builds the application, then stages the converted JSON, PNG, JPG and Ogg files into `dist/client/original` before uploading through Wrangler. The staging step requires a manifest and rejects files above the Workers asset limit. It does not upload installers or executables. An ordinary build still excludes the pack; without a served pack, the app falls back to the three independently made web courses.
 
 The download's presence does not grant redistribution rights to its content. Keep the imported pack local unless you have permission to publish it. A future distributable version can accept users' own game files.
 

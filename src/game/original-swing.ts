@@ -1,10 +1,10 @@
+import { originalCollisionGroups } from './original-collisions.ts'
 import * as THREE from 'three'
 import RAPIER from '@dimforge/rapier3d-compat'
 import recovered from './original-swing-data.json' with { type: 'json' }
 import { originalGeometry, originalPosition, SCALE } from './original-data.ts'
 import type { OriginalDocument, OriginalObject } from './original-data.ts'
 import { configureBody, configureContact, ORIGINAL_PSI_HZ, ORIGINAL_TIME_FACTOR, PHYSICS_STEP } from './original-physics.ts'
-import { PUSHER_GROUPS } from './original-pusher.ts'
 
 export const ORIGINAL_SWING = recovered
 type Drive = { direction: THREE.Vector3; point: THREE.Vector3; impulse: number }
@@ -46,7 +46,7 @@ export class OriginalSwing {
       const hull = document.meshes.find(m => m.name === name)
       if (!hull) throw new Error(`Missing swing collision hull ${name}`)
       const geometry = originalGeometry(hull, matrix.toArray(), true)
-      colliders.push(world.createCollider(configureContact(RAPIER.ColliderDesc.convexHull(geometry.attributes.position!.array as Float32Array)!.setCollisionGroups(PUSHER_GROUPS), data), this.body))
+      colliders.push(world.createCollider(configureContact(RAPIER.ColliderDesc.convexHull(geometry.attributes.position!.array as Float32Array)!.setCollisionGroups(originalCollisionGroups(data.collisionGroup)), data), this.body))
       geometry.dispose()
     }
     const volume = colliders.reduce((sum, c) => sum + c.volume(), 0)

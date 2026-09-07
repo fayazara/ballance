@@ -15,37 +15,7 @@ def rows(name):
         if len(row) == 5: result.append((int(row[0]), int(row[2]), row[3], bytes.fromhex(row[4])))
     return result
 
-def table(data):
-    chunks = {}; offset = 8
-    while offset:
-        key, next_word = struct.unpack_from('<II', data, offset)
-        chunks[key] = offset + 8
-        offset = 8 + next_word * 4 if next_word else 0
-    position = chunks[0x1000]
-    def integer():
-        nonlocal position
-        value = struct.unpack_from('<I', data, position)[0]; position += 4; return value
-    def string():
-        nonlocal position
-        length = integer(); value = data[position:position + length].split(b'\0')[0].decode('windows-1252')
-        position += (length + 3) // 4 * 4; return value
-    columns = []
-    for _ in range(integer()):
-        name = string(); kind = integer()
-        if kind == 5: position += 8  # Parameter GUID; each row holds an object reference.
-        columns.append((name, kind))
-    position = chunks[0x2000]; result = []
-    for _ in range(integer()):
-        entry = {}
-        for name, kind in columns:
-            if kind == 3: value = string()
-            elif kind == 2:
-                value = round(struct.unpack_from('<f', data, position)[0], 6); position += 4
-            elif kind == 5: value = {'parameterIndex': integer()}
-            else: value = integer()
-            entry[name] = value
-        result.append(entry)
-    return result
+from original_chunks import table
 
 result = {'tables': {}}
 for filename in ['balls', 'levelinit']:

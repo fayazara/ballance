@@ -1,3 +1,4 @@
+import { PLAYER_GROUPS } from '../src/game/original-collisions.ts'
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { existsSync, readFileSync } from 'node:fs'
@@ -11,12 +12,12 @@ import type { Material } from '../src/game/levels.ts'
 
 test('pusher collision filtering allows the ball and guide while excluding the surrounding floor', () => {
   const contact = (a: number, b: number) => !!((a >>> 16) & (b & 0xffff)) && !!((b >>> 16) & (a & 0xffff))
-  assert.equal(contact(PUSHER_GROUPS, 0x0004ffff), true)
+  assert.equal(contact(PUSHER_GROUPS, PLAYER_GROUPS), true)
   assert.equal(contact(PUSHER_GROUPS, PUSHER_GUIDE_GROUPS), true)
   assert.equal(contact(PUSHER_GROUPS, LEVEL_FLOOR_GROUPS), false)
   assert.equal(contact(PUSHER_GROUPS, LEVEL_STOPPER_GROUPS), true)
-  assert.equal(contact(0x0004ffff, PUSHER_GUIDE_GROUPS), false)
-  assert.equal(contact(0x0004ffff, LEVEL_FLOOR_GROUPS), true)
+  assert.equal(contact(PLAYER_GROUPS, PUSHER_GUIDE_GROUPS), false)
+  assert.equal(contact(PLAYER_GROUPS, LEVEL_FLOOR_GROUPS), true)
 })
 const pack = new URL('../.local/original/', import.meta.url)
 const available = existsSync(new URL('p_modul_01.json', pack))
@@ -35,17 +36,18 @@ async function trial(kind: Material) {
   }
   const material = new THREE.MeshPhongMaterial(), materials = new Map(module.materials.map(m => [m.id, material]))
   const pushers = level.objects.filter(o => o.name.startsWith('P_Modul_01_')).map(o => new OriginalPusher(world, o, module, materials, 1))
+  for (const pusher of pushers) pusher.setActive(true)
   const pusher = pushers[0]!
   const start = pusher.target.clone().addScaledVector(pusher.axis, -2.5)
   world.step()
-  const hit = world.castRay(new RAPIER.Ray({ x: start.x, y: start.y + 1.5, z: start.z }, { x: 0, y: -1, z: 0 }), 10, true, undefined, 0x0004ffff)
+  const hit = world.castRay(new RAPIER.Ray({ x: start.x, y: start.y + 1.5, z: start.z }, { x: 0, y: -1, z: 0 }), 10, true, undefined, PLAYER_GROUPS)
   assert.ok(hit, 'approach must have a floor')
   start.y += 1.5 - hit.timeOfImpact + .51
   const ball = world.createRigidBody(RAPIER.RigidBodyDesc.dynamic().setTranslation(start.x, start.y, start.z).setCcdEnabled(true))
-  world.createCollider(configureContact(RAPIER.ColliderDesc.ball(.5).setMass(PLAYER_PHYSICS[kind].mass).setCollisionGroups(0x0004ffff), PLAYER_PHYSICS[kind]), ball)
+  world.createCollider(configureContact(RAPIER.ColliderDesc.ball(.5).setMass(PLAYER_PHYSICS[kind].mass).setCollisionGroups(PLAYER_GROUPS), PLAYER_PHYSICS[kind]), ball)
   configureBody(ball, PLAYER_PHYSICS[kind])
   const run = (seconds: number, push = 0) => {
-    for (let i = 0; i < seconds / PHYSICS_STEP; i++) { if (push) driveBall(ball, kind, pusher.axis.x * push, pusher.axis.z * push, PHYSICS_STEP); world.step() }
+    for (let i = 0; i < seconds / PHYSICS_STEP; i++) { for (const p of pushers) p.update(new THREE.Vector3().copy(ball.translation()), 1); if (push) driveBall(ball, kind, pusher.axis.x * push, pusher.axis.z * push, PHYSICS_STEP); world.step() }
   }
   return { world, pusher, pushers, ball, start, run, dispose: () => { world.free(); pushers.forEach(p => p.mesh.geometry.dispose()); material.dispose() } }
 }
@@ -80,7 +82,7 @@ test('the actual Level 1 passage is blocked when closed and traversable after pu
     const t = await trial('wood')
     try {
       const place = (point: THREE.Vector3, height: number) => {
-        const hit = t.world.castRay(new RAPIER.Ray({ x: point.x, y: point.y + height, z: point.z }, { x: 0, y: -1, z: 0 }), 10, true, undefined, 0x0004ffff, undefined, t.ball)
+        const hit = t.world.castRay(new RAPIER.Ray({ x: point.x, y: point.y + height, z: point.z }, { x: 0, y: -1, z: 0 }), 10, true, undefined, PLAYER_GROUPS, undefined, t.ball)
         assert.ok(hit)
         t.ball.setTranslation({ x: point.x, y: point.y + height - hit.timeOfImpact + .51, z: point.z }, true)
         t.ball.setLinvel({ x: 0, y: 0, z: 0 }, true); t.ball.setAngvel({ x: 0, y: 0, z: 0 }, true); t.ball.setRotation({ x: 0, y: 0, z: 0, w: 1 }, true)

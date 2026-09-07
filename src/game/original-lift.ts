@@ -1,3 +1,4 @@
+import { originalCollisionGroups } from './original-collisions.ts'
 import * as THREE from 'three'
 import RAPIER from '@dimforge/rapier3d-compat'
 import recovered from './original-lift-data.json' with { type: 'json' }
@@ -6,6 +7,7 @@ import type { OriginalDocument, OriginalObject } from './original-data.ts'
 import { configureBody, configureContact } from './original-physics.ts'
 import { OriginalSpring } from './original-spring.ts'
 import { OriginalProximity } from './original-proximity.ts'
+import type { OriginalDepthTest } from './original-depth.ts'
 
 export const ORIGINAL_LIFT = recovered
 type Part = { name: string; mesh: THREE.Mesh; body: RAPIER.RigidBody; origin: THREE.Vector3; sector: number; collision: boolean }
@@ -25,9 +27,10 @@ export class OriginalLift {
   wakeOrigin: THREE.Vector3
   active = false
   activated = false
+  private depthTest?: OriginalDepthTest
   private wake = new OriginalProximity(recovered.wake)
-  constructor(world: RAPIER.World, parent: OriginalObject, document: OriginalDocument, materials: Map<number, THREE.MeshPhongMaterial>, sector: number) {
-    this.name = parent.name; this.sector = sector; this.world = world
+  constructor(world: RAPIER.World, parent: OriginalObject, document: OriginalDocument, materials: Map<number, THREE.MeshPhongMaterial>, sector: number, depthTest?: OriginalDepthTest) {
+    this.name = parent.name; this.sector = sector; this.world = world; this.depthTest = depthTest
     const parentMatrix = new THREE.Matrix4().fromArray(parent.matrix)
     for (const data of recovered.parts) {
       const object = document.objects.find(o => o.name === data.target)
@@ -44,7 +47,7 @@ export class OriginalLift {
         const hull = document.meshes.find(m => m.name === name)
         if (!hull) throw new Error(`Missing lift collision hull ${name}`)
         const geometry = originalGeometry(hull, matrix.toArray(), true)
-        colliders.push(world.createCollider(configureContact(RAPIER.ColliderDesc.convexHull(geometry.attributes.position!.array as Float32Array)!.setCollisionGroups(0x0040ffff), data), body)); geometry.dispose()
+        colliders.push(world.createCollider(configureContact(RAPIER.ColliderDesc.convexHull(geometry.attributes.position!.array as Float32Array)!.setCollisionGroups(originalCollisionGroups(data.collisionGroup)), data), body)); geometry.dispose()
       }
       const volume = colliders.reduce((sum, c) => sum + c.volume(), 0)
       for (const c of colliders) c.setMass(data.mass * c.volume() / volume)
@@ -91,6 +94,7 @@ export class OriginalLift {
     if (!this.activated && this.wake.enter(player, this.wakeOrigin)) {
       for (const part of this.walls) { part.body.setBodyType(RAPIER.RigidBodyType.Dynamic, false); part.body.sleep() }
       this.activated = true; this.platform.body.setBodyType(RAPIER.RigidBodyType.Dynamic, true); this.platform.body.wakeUp()
+      for (const part of this.walls) this.depthTest?.register(part)
     }
     if (this.activated && dt > 0) this.spring.update(dt)
   }
@@ -98,6 +102,7 @@ export class OriginalLift {
     if (this.joint) this.world.removeImpulseJoint(this.joint, false)
     this.joint = undefined
     for (const p of this.parts) {
+      this.depthTest?.restore(p)
       p.body.setEnabled(false); p.body.setTranslation(p.origin, false); p.body.setRotation({ x: 0, y: 0, z: 0, w: 1 }, false)
       p.body.setLinvel({ x: 0, y: 0, z: 0 }, false); p.body.setAngvel({ x: 0, y: 0, z: 0 }, false)
     }

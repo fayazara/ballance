@@ -1,3 +1,4 @@
+import { ORIGINAL_COLLISIONS, originalCollisionGroups } from './original-collisions.ts'
 import * as THREE from 'three'
 import RAPIER from '@dimforge/rapier3d-compat'
 import { originalGeometry, originalPosition, SCALE } from './original-data.ts'
@@ -36,8 +37,8 @@ export class OriginalDebris {
       const properties = { ...data, mass: sample(data.mass), friction: sample(data.friction) }
       const collider = RAPIER.ColliderDesc.convexHull(template.geometry.attributes.position!.array as Float32Array)
       if (!collider) { world.removeRigidBody(body); continue }
-      // Fragments hit the course and props, but cannot knock the replacement player off the pad.
-      world.createCollider(configureContact(collider.setMass(properties.mass).setCollisionGroups(0x00020001), properties), body)
+      // Creation uses Ball, excluding the player/other fragments but admitting props.
+      world.createCollider(configureContact(collider.setMass(properties.mass).setCollisionGroups(originalCollisionGroups(ORIGINAL_COLLISIONS.fragments[kind].group)), properties), body)
       configureBody(body, properties)
       const direction = template.direction.clone().applyQuaternion(rotation)
       const point = p.clone().addScaledVector(direction, SCALE)

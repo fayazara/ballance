@@ -1,3 +1,4 @@
+import { PLAYER_GROUPS } from '../src/game/original-collisions.ts'
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { existsSync, readFileSync } from 'node:fs'
@@ -44,7 +45,7 @@ test('original bridge topology has nine planks, two fixed ends, and one stone-tr
   assert.ok(ORIGINAL_CHAIN.joints.every(j => !j.limitsEnabled))
   const contact = (a: number, b: number) => !!((a >>> 16) & (b & 0xffff)) && !!((b >>> 16) & (a & 0xffff))
   assert.equal(contact(CHAIN_GROUPS, CHAIN_GROUPS), false)
-  assert.equal(contact(CHAIN_GROUPS, 0x0004ffff), true)
+  assert.equal(contact(CHAIN_GROUPS, PLAYER_GROUPS), true)
   assert.equal(contact(CHAIN_GROUPS, LEVEL_FLOOR_GROUPS), true)
 })
 test('bridge remains frozen far away, wakes, flexes under weight, and keeps its surviving anchors', { skip: !available }, async () => {
@@ -52,14 +53,14 @@ test('bridge remains frozen far away, wakes, flexes under weight, and keeps its 
   const world = new RAPIER.World({ x: 0, y: GRAVITY, z: 0 }); world.timestep = PHYSICS_STEP
   const t = make(world), c = t.chain
   try {
-    for (let i = 0; i < 132; i++) { c.update(new THREE.Vector3(1000, 0, 1000), 'wood'); world.step() }
+    for (let i = 0; i < 132; i++) { c.update(new THREE.Vector3(1000, 0, 1000), 'wood', 1); world.step() }
     for (const p of c.parts) {
       assert.equal(p.body.isDynamic(), false)
       assert.ok(new THREE.Vector3().copy(p.body.translation()).distanceTo(p.origin) < .00001)
       assert.equal(p.body.numColliders(), 1)
       assert.ok(Math.abs(p.body.mass() - ORIGINAL_CHAIN.parts.find(d => d.target === p.name)!.mass) < .00001)
     }
-    for (let i = 0; i < 132; i++) { c.update(c.wakeOrigin.clone().add(new THREE.Vector3(0, 4, 0)), 'wood'); world.step() }
+    for (let i = 0; i < 132; i++) { c.update(c.wakeOrigin.clone().add(new THREE.Vector3(0, 4, 0)), 'wood', 1); world.step() }
     assert.equal(c.activated, true)
     const center = c.parts.find(p => p.name.endsWith('04'))!
     center.body.applyImpulse({ x: 0, y: -1, z: 0 }, true)
@@ -76,7 +77,7 @@ test('stone breaks only on entering the 3D trigger; wood/paper and a material ch
     const t = make(world), c = t.chain
     try {
       const near = c.releasePosition.clone().add(new THREE.Vector3(0, .6, 0)), far = near.clone().add(new THREE.Vector3(0, 4, 0))
-      const poll = (position: THREE.Vector3, material: Material) => { let events = 0; for (let i = 0; i < 132; i++) if (c.update(position, material)) events++; return events }
+      const poll = (position: THREE.Vector3, material: Material) => { let events = 0; for (let i = 0; i < 132; i++) if (c.update(position, material, 1)) events++; return events }
       assert.equal(poll(far, kind), 0)
       assert.equal(c.broken, false, 'a stone ball above another story must not break it')
       assert.equal(poll(near, kind), kind === 'stone' ? 1 : 0)
@@ -92,6 +93,8 @@ test('stone breaks only on entering the 3D trigger; wood/paper and a material ch
       for (let reset = 0; reset < 3; reset++) {
         c.reset()
         assert.equal(c.broken, false); assert.equal(c.activated, false)
+        assert.equal(world.impulseJoints.len(), 0)
+        c.setActive(true)
         assert.equal(c.connections.filter(j => j.joint).length, 10)
         assert.equal(world.impulseJoints.len(), 10, 'reset does not leak or duplicate joints')
         assert.ok(c.anchorError < .00001)
@@ -112,7 +115,7 @@ test('all 17 bridge instances retain their connections in their actual level geo
     const trials: ReturnType<typeof make>[] = []
     try {
       floor(world, level)
-      for (const p of parents) { const t = make(world, p); trials.push(t); t.chain.update(t.chain.wakeOrigin, 'wood'); count++ }
+      for (const p of parents) { const t = make(world, p); trials.push(t); t.chain.update(t.chain.wakeOrigin, 'wood', 1); count++ }
       for (let i = 0; i < 660; i++) world.step()
       for (const { chain: c } of trials) assert.ok(c.anchorError < .025, `${levelIndex}/${c.name} drift ${c.anchorError}`)
     } finally { trials.forEach(t => t.dispose()); world.free() }
@@ -129,7 +132,7 @@ test('wood and paper cross the real Level 2 bridge; stone releases it through no
       const first = c.parts.find(p => p.name.endsWith('01'))!, last = c.parts.find(p => p.name.endsWith('09'))!
       const axis = last.origin.clone().sub(first.origin).normalize(), start = first.origin.clone().addScaledVector(axis, -1.5)
       world.step()
-      const hit = world.castRay(new RAPIER.Ray({ x: start.x, y: start.y + 3, z: start.z }, { x: 0, y: -1, z: 0 }), 10, true, undefined, 0x0004ffff)
+      const hit = world.castRay(new RAPIER.Ray({ x: start.x, y: start.y + 3, z: start.z }, { x: 0, y: -1, z: 0 }), 10, true, undefined, PLAYER_GROUPS)
       assert.ok(hit, 'bridge approach has a floor'); start.y += 3 - hit.timeOfImpact + .51
       const ball = world.createRigidBody(RAPIER.RigidBodyDesc.dynamic().setTranslation(start.x, start.y, start.z).setCcdEnabled(true))
       let shape = RAPIER.ColliderDesc.ball(.5)
@@ -138,12 +141,12 @@ test('wood and paper cross the real Level 2 bridge; stone releases it through no
         const geometry = originalGeometry(doc.meshes.find(m => m.id === object.mesh)!, object.matrix, true)
         shape = RAPIER.ColliderDesc.convexHull(geometry.attributes.position!.array as Float32Array)!; geometry.dispose()
       }
-      world.createCollider(configureContact(shape.setMass(PLAYER_PHYSICS[kind].mass).setCollisionGroups(0x0004ffff), PLAYER_PHYSICS[kind]), ball)
+      world.createCollider(configureContact(shape.setMass(PLAYER_PHYSICS[kind].mass).setCollisionGroups(PLAYER_GROUPS), PLAYER_PHYSICS[kind]), ball)
       configureBody(ball, PLAYER_PHYSICS[kind])
       let crossed = false, events = 0
       for (let i = 0; i < 6 / PHYSICS_STEP; i++) {
         const player = new THREE.Vector3().copy(ball.translation())
-        if (c.update(player, kind)) events++
+        if (c.update(player, kind, 1)) events++
         driveBall(ball, kind, axis.x, axis.z, PHYSICS_STEP); world.step()
         if (new THREE.Vector3().copy(ball.translation()).sub(last.origin).dot(axis) > 1 && ball.translation().y > last.origin.y - .1) { crossed = true; break }
       }

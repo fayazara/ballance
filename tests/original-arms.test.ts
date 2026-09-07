@@ -1,3 +1,4 @@
+import { PLAYER_GROUPS } from '../src/game/original-collisions.ts'
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { existsSync, readFileSync } from 'node:fs'
@@ -107,7 +108,7 @@ test('wood, stone and paper push through the Level 9 arm and stop on the exit fl
     try {
       a.update(PHYSICS_STEP,1);w.step()
       const start=a.origin.clone().add(new THREE.Vector3(-2.5,2,-1.5))
-      const hit=w.castShape(start,{x:0,y:0,z:0,w:1},{x:0,y:-1,z:0},new RAPIER.Ball(.5),0,8,true,undefined,0x0004ffff)
+      const hit=w.castShape(start,{x:0,y:0,z:0,w:1},{x:0,y:-1,z:0},new RAPIER.Ball(.5),0,8,true,undefined,PLAYER_GROUPS)
       assert.ok(hit,'original approach floor');start.y-=hit.time_of_impact-.01
       const ball=w.createRigidBody(RAPIER.RigidBodyDesc.dynamic().setTranslation(start.x,start.y,start.z).setCcdEnabled(true))
       let shape=RAPIER.ColliderDesc.ball(.5)
@@ -115,7 +116,7 @@ test('wood, stone and paper push through the Level 9 arm and stop on the exit fl
         const balls=load('balls'),o=balls.objects.find(o=>o.name==='Ball_Paper')!,g=originalGeometry(balls.meshes.find(m=>m.id===o.mesh)!,o.matrix,true)
         shape=RAPIER.ColliderDesc.convexHull(g.attributes.position!.array as Float32Array)!;g.dispose()
       }
-      w.createCollider(configureContact(shape.setMass(PLAYER_PHYSICS[kind].mass).setCollisionGroups(0x0004ffff),PLAYER_PHYSICS[kind]),ball);configureBody(ball,PLAYER_PHYSICS[kind])
+      w.createCollider(configureContact(shape.setMass(PLAYER_PHYSICS[kind].mass).setCollisionGroups(PLAYER_GROUPS),PLAYER_PHYSICS[kind]),ball);configureBody(ball,PLAYER_PHYSICS[kind])
       let touched=false,peak=0,passed=false
       for(let i=0;i<792;i++) {
         a.update(PHYSICS_STEP,1)

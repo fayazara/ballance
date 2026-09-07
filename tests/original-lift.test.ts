@@ -1,3 +1,4 @@
+import { PLAYER_GROUPS } from '../src/game/original-collisions.ts'
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { existsSync, readFileSync } from 'node:fs'
@@ -94,10 +95,10 @@ test('wood enters the Level 7 doorway, knocks a wall off and rides the rising pl
     const gate=l.parts.find(p=>p.name.includes('Gate'))!
     const inward=l.platform.origin.clone().sub(gate.origin);inward.y=0;inward.normalize()
     const start=l.platform.origin.clone().addScaledVector(inward,-3.5).add(new THREE.Vector3(0,2,0))
-    const hit=w.castShape(start,{x:0,y:0,z:0,w:1},{x:0,y:-1,z:0},new RAPIER.Ball(.5),0,8,true,undefined,0x0004ffff)
+    const hit=w.castShape(start,{x:0,y:0,z:0,w:1},{x:0,y:-1,z:0},new RAPIER.Ball(.5),0,8,true,undefined,PLAYER_GROUPS)
     assert.ok(hit,'original approach floor');start.y-=hit.time_of_impact-.01
     const ball=w.createRigidBody(RAPIER.RigidBodyDesc.dynamic().setTranslation(start.x,start.y,start.z).setCcdEnabled(true))
-    w.createCollider(configureContact(RAPIER.ColliderDesc.ball(.5).setMass(PLAYER_PHYSICS.wood.mass).setCollisionGroups(0x0004ffff),PLAYER_PHYSICS.wood),ball);configureBody(ball,PLAYER_PHYSICS.wood)
+    w.createCollider(configureContact(RAPIER.ColliderDesc.ball(.5).setMass(PLAYER_PHYSICS.wood.mass).setCollisionGroups(PLAYER_GROUPS),PLAYER_PHYSICS.wood),ball);configureBody(ball,PLAYER_PHYSICS.wood)
     let boarded=false
     for(let i=0;i<396;i++){
       l.update(new THREE.Vector3().copy(ball.translation()),1,PHYSICS_STEP);driveBall(ball,'wood',inward.x,inward.z,PHYSICS_STEP);w.step()
@@ -138,7 +139,7 @@ test('wood, stone and paper load the lift according to their recovered masses', 
         const d=load('balls'),o=d.objects.find(o=>o.name==='Ball_Paper')!,g=originalGeometry(d.meshes.find(m=>m.id===o.mesh)!,o.matrix,true)
         shape=RAPIER.ColliderDesc.convexHull(g.attributes.position!.array as Float32Array)!;g.dispose()
       }
-      w.createCollider(configureContact(shape.setMass(PLAYER_PHYSICS[kind].mass).setCollisionGroups(0x0004ffff),PLAYER_PHYSICS[kind]),ball);configureBody(ball,PLAYER_PHYSICS[kind])
+      w.createCollider(configureContact(shape.setMass(PLAYER_PHYSICS[kind].mass).setCollisionGroups(PLAYER_GROUPS),PLAYER_PHYSICS[kind]),ball);configureBody(ball,PLAYER_PHYSICS[kind])
       for(let i=0;i<7920;i++){l.update(new THREE.Vector3().copy(ball.translation()),1,PHYSICS_STEP);w.step()}
       heights[kind]=l.platform.body.translation().y
       assert.ok(ball.translation().y>l.platform.body.translation().y && ball.translation().y<l.platform.body.translation().y+1)

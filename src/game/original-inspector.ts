@@ -1,3 +1,4 @@
+import { PLAYER_GROUPS } from './original-collisions.ts'
 import RAPIER from '@dimforge/rapier3d-compat'
 import { OriginalEngine } from './original-engine'
 import { originalPosition } from './original-data'
@@ -29,7 +30,7 @@ export function inspectOriginal(engine: OriginalEngine) {
   const update = () => {
     const p = engine.body?.translation()
     const domes = engine.worldGroup.children.filter(o => o.name === 'P_Dome_MF') as THREE.Mesh[]
-    output.textContent = JSON.stringify({ phase: engine.state.phase, level: engine.state.level + 1, loading: engine.loading, position: p && [p.x, p.y, p.z].map(n => Number(n.toFixed(3))), speed: Number(engine.state.speed.toFixed(3)), velocity: engine.body?.linvel(), fans: { count: engine.fans.length, active: engine.fans.filter(f => f.active).map(f => f.name), selected: engine.fans[fanIndex]?.name, origin: engine.fans[fanIndex]?.origin.toArray() }, material: engine.state.material, checkpoint: engine.state.checkpoint, lives: engine.state.lives, points: engine.state.score, pendingPoints: engine.pendingPoints.length, lifts: engine.lifts.map(l => ({ name: l.name, active: l.active, awake: l.activated, travel: l.travel, lateralError: l.lateralError, fallen: l.walls.filter(p => p.body.translation().y < l.platform.body.translation().y - 1).length, platform: l.platform.body.translation() })), sliders: engine.sliders.map(s => ({ name: s.name, sector: s.sector, active: s.active, awake: s.activated, travel: s.travel, lateralError: s.lateralError, crate: s.crate.body.translation() })), armCrossed, arms: engine.arms.map(a => ({ name: a.name, sector: a.sector, active: a.active, angle: new THREE.Quaternion().copy(a.body.rotation()).angleTo(new THREE.Quaternion()), anchorError: a.anchorError })), swings: { crossed: swingCrossed, selected: engine.swings[swingIndex]?.name, instances: engine.swings.map(s => ({ name: s.name, sector: s.sector, active: s.active, stage: s.stage, cycles: s.cycles, elapsed: s.elapsed, hulls: s.body.numColliders(), anchorError: s.anchorError, position: s.body.translation(), origin: s.origin.toArray() })) }, sacks: { crossed: sackCrossed, selected: engine.sacks[sackIndex]?.name, instances: engine.sacks.map(s => ({ name: s.name, sector: s.sector, active: s.active, phase: s.phase, switches: s.switches, joints: s.connections.filter(c => c.joint).length, anchorError: s.anchorError, position: s.sack.body.translation(), origin: s.sack.origin.toArray() })) }, bridges: { crossed: bridgeCrossed, instances: engine.chains.map(c => ({ name: c.name, sector: c.sector, activated: c.activated, broken: c.broken, joints: c.connections.filter(j => j.joint).length, anchorError: c.anchorError, heights: c.parts.map(p => Number((p.body.translation().y - p.origin.y).toFixed(3))) })) }, hinges: { count: engine.hinges.length, selected: engine.hinges[hingeIndex] && { name: engine.hinges[hingeIndex]!.name, activated: engine.hinges[hingeIndex]!.activated, rotation: engine.hinges[hingeIndex]!.body.rotation(), anchorError: engine.hinges[hingeIndex]!.anchorError } }, pushers: engine.pushers.map(p => ({ name: p.name, sector: p.sector, travel: Number(p.travel.toFixed(3)), position: p.body.translation(), hulls: p.body.numColliders() })), domes: { count: domes.length, movable: engine.dynamics.filter(d => d.mesh.name === 'P_Dome_MF').length, centers: domes.map(m => new THREE.Box3().setFromObject(m).getCenter(new THREE.Vector3()).toArray()) }, debris: { count: engine.debris?.fragments.length, kinds: [...new Set(engine.debris?.fragments.map(f => f.kind))] }, transformation: { active: engine.transformation.active, age: Number(engine.transformation.age.toFixed(3)), committed: engine.transformation.committed, ballVisible: engine.ball.visible, bodyType: engine.body?.bodyType(), colliderEnabled: engine.body?.collider(0)?.isEnabled() }, audio: [...engine.audio.tracks].map(([name, audio]) => ({ name, playing: !audio.paused, ready: audio.readyState, error: audio.error?.code })) }, null, 1)
+    output.textContent = JSON.stringify({ phase: engine.state.phase, level: engine.state.level + 1, loading: engine.loading, position: p && [p.x, p.y, p.z].map(n => Number(n.toFixed(3))), speed: Number(engine.state.speed.toFixed(3)), velocity: engine.body?.linvel(), fans: { count: engine.fans.length, enabled: engine.fans.filter(f => f.inSector).map(f => f.name), running: engine.fans.filter(f => f.running).map(f => f.name), sound: engine.fans.filter(f => f.soundGain > 0).map(f => ({ name: f.name, gain: f.soundGain })), active: engine.fans.filter(f => f.active).map(f => f.name), selected: engine.fans[fanIndex]?.name, origin: engine.fans[fanIndex]?.origin.toArray() }, material: engine.state.material, checkpoint: engine.state.checkpoint, lives: engine.state.lives, points: engine.state.score, pendingPoints: engine.pendingPoints.length, sectorPhysics: { objects: engine.sectorObjects.filter(o => o.active).map(o => o.name), gates: engine.pushers.filter(p => p.active).map(p => p.name), hinges: engine.hinges.filter(h => h.active).map(h => h.name), bridges: engine.chains.filter(c => c.active).map(c => c.name), joints: engine.physics?.impulseJoints.len() }, firstCrate: engine.sectorObjects.find(o => o.name === 'P_Box_01') && { position: engine.sectorObjects.find(o => o.name === 'P_Box_01')!.body.translation(), origin: engine.sectorObjects.find(o => o.name === 'P_Box_01')!.origin.toArray() }, cleanup: { count: engine.depthTest?.count, removed: engine.depthTest?.removedCount, limit: engine.depthTest?.limit }, lifts: engine.lifts.map(l => ({ name: l.name, active: l.active, awake: l.activated, travel: l.travel, lateralError: l.lateralError, fallen: l.walls.filter(p => p.body.translation().y < l.platform.body.translation().y - 1).length, platform: l.platform.body.translation() })), sliders: engine.sliders.map(s => ({ name: s.name, sector: s.sector, active: s.active, awake: s.activated, travel: s.travel, lateralError: s.lateralError, crate: s.crate.body.translation() })), armCrossed, arms: engine.arms.map(a => ({ name: a.name, sector: a.sector, active: a.active, angle: new THREE.Quaternion().copy(a.body.rotation()).angleTo(new THREE.Quaternion()), anchorError: a.anchorError })), swings: { crossed: swingCrossed, selected: engine.swings[swingIndex]?.name, instances: engine.swings.map(s => ({ name: s.name, sector: s.sector, active: s.active, stage: s.stage, cycles: s.cycles, elapsed: s.elapsed, hulls: s.body.numColliders(), anchorError: s.anchorError, position: s.body.translation(), origin: s.origin.toArray() })) }, sacks: { crossed: sackCrossed, selected: engine.sacks[sackIndex]?.name, instances: engine.sacks.map(s => ({ name: s.name, sector: s.sector, active: s.active, phase: s.phase, switches: s.switches, joints: s.connections.filter(c => c.joint).length, anchorError: s.anchorError, position: s.sack.body.translation(), origin: s.sack.origin.toArray() })) }, bridges: { crossed: bridgeCrossed, instances: engine.chains.map(c => ({ name: c.name, sector: c.sector, activated: c.activated, broken: c.broken, joints: c.connections.filter(j => j.joint).length, anchorError: c.anchorError, heights: c.parts.map(p => Number((p.body.translation().y - p.origin.y).toFixed(3))) })) }, hinges: { count: engine.hinges.length, selected: engine.hinges[hingeIndex] && { name: engine.hinges[hingeIndex]!.name, activated: engine.hinges[hingeIndex]!.activated, rotation: engine.hinges[hingeIndex]!.body.rotation(), anchorError: engine.hinges[hingeIndex]!.anchorError } }, pushers: engine.pushers.map(p => ({ name: p.name, sector: p.sector, travel: Number(p.travel.toFixed(3)), position: p.body.translation(), hulls: p.body.numColliders() })), domes: { count: domes.length, movable: engine.dynamics.filter(d => d.mesh.name === 'P_Dome_MF').length, centers: domes.map(m => new THREE.Box3().setFromObject(m).getCenter(new THREE.Vector3()).toArray()) }, debris: { count: engine.debris?.fragments.length, kinds: [...new Set(engine.debris?.fragments.map(f => f.kind))] }, transformation: { active: engine.transformation.active, age: Number(engine.transformation.age.toFixed(3)), committed: engine.transformation.committed, ballVisible: engine.ball.visible, bodyType: engine.body?.bodyType(), colliderEnabled: engine.body?.collider(0)?.isEnabled() }, audio: [...engine.audio.tracks].map(([name, audio]) => ({ name, playing: !audio.paused, ready: audio.readyState, error: audio.error?.code })) }, null, 1)
   }
   const run = (seconds: number, direction = 0) => {
     if (engine.loading || !engine.body) return
@@ -47,16 +48,31 @@ export function inspectOriginal(engine: OriginalEngine) {
   button('Push dome 3 seconds', () => {
     const dome = engine.worldGroup.children.find(o => o.name === 'P_Dome_MF'); if (!dome || !engine.body) return
     engine.cancelTransformation()
+    const object = engine.sectorObjects.find(o => o.kind === 'P_Dome')
+    if (object) engine.state.checkpoint = object.sector - 1
     const bounds = new THREE.Box3().setFromObject(dome), center = bounds.getCenter(new THREE.Vector3())
     engine.body.setTranslation({ x: bounds.max.x + .51, y: bounds.min.y + .52, z: center.z }, true)
     engine.body.setLinvel({ x: 0, y: 0, z: 0 }, true); engine.body.setAngvel({ x: 0, y: 0, z: 0 }, true)
     engine.yaw = engine.targetYaw = Math.PI / 2; run(3, -1)
   })
+  button('Visit first crate', () => {
+    const object = engine.sectorObjects.find(o => o.name === 'P_Box_01')
+    if (!object || !engine.body || !engine.physics) return
+    engine.cancelTransformation(); engine.keys.clear()
+    engine.state.checkpoint = object.sector - 1; engine.checkpointMaterial = engine.state.material
+    const start = object.origin.clone().add(new THREE.Vector3(2.5, 2, 0))
+    const hit = engine.physics.castShape(start, { x: 0, y: 0, z: 0, w: 1 }, { x: 0, y: -1, z: 0 }, new RAPIER.Ball(.5), 0, 8, true, undefined, PLAYER_GROUPS, undefined, engine.body)
+    if (!hit) return
+    start.y -= hit.time_of_impact - .01
+    engine.body.setTranslation(start, true); engine.body.setLinvel({ x: 0, y: 0, z: 0 }, true); engine.body.setAngvel({ x: 0, y: 0, z: 0 }, true)
+    engine.follow.copy(start); engine.yaw = engine.targetYaw = -Math.PI / 2; run(0)
+  })
+  button('Push loose crate 1 second', () => run(1, 1))
   const visitPusher = () => {
     const pusher = engine.pushers[pusherIndex]; if (!pusher || !engine.body || !engine.physics) return
     engine.cancelTransformation(); engine.keys.clear()
     const start = pusher.target.clone().addScaledVector(pusher.axis, -2.5)
-    const hit = engine.physics.castRay(new RAPIER.Ray({ x: start.x, y: start.y + 1.5, z: start.z }, { x: 0, y: -1, z: 0 }), 10, true, undefined, 0x0004ffff, undefined, engine.body)
+    const hit = engine.physics.castRay(new RAPIER.Ray({ x: start.x, y: start.y + 1.5, z: start.z }, { x: 0, y: -1, z: 0 }), 10, true, undefined, PLAYER_GROUPS, undefined, engine.body)
     if (!hit) return
     start.y += 1.5 - hit.timeOfImpact + .51
     engine.state.checkpoint = pusher.sector - 1; engine.checkpointMaterial = engine.state.material
@@ -71,7 +87,7 @@ export function inspectOriginal(engine: OriginalEngine) {
   button('Cross gate passage', () => {
     const first = engine.pushers[0], last = engine.pushers[1]; if (!first || !last || !engine.body || !engine.physics) return
     const across = new THREE.Vector3(-first.axis.z, 0, first.axis.x), start = first.passage.clone().addScaledVector(across, -2)
-    const hit = engine.physics.castRay(new RAPIER.Ray({ x: start.x, y: start.y + 3, z: start.z }, { x: 0, y: -1, z: 0 }), 10, true, undefined, 0x0004ffff, undefined, engine.body)
+    const hit = engine.physics.castRay(new RAPIER.Ray({ x: start.x, y: start.y + 3, z: start.z }, { x: 0, y: -1, z: 0 }), 10, true, undefined, PLAYER_GROUPS, undefined, engine.body)
     if (!hit) return
     start.y += 3 - hit.timeOfImpact + .51
     engine.body.setTranslation(start, true); engine.body.setLinvel({ x: 0, y: 0, z: 0 }, true); engine.body.setAngvel({ x: 0, y: 0, z: 0 }, true)
@@ -107,7 +123,7 @@ export function inspectOriginal(engine: OriginalEngine) {
     const gate = lift.parts.find(p => p.name.includes('Gate'))!
     const inward = lift.platform.origin.clone().sub(gate.origin); inward.y = 0; inward.normalize()
     const start = lift.platform.origin.clone().addScaledVector(inward, -3.5).add(new THREE.Vector3(0, 2, 0))
-    const hit = engine.physics.castShape(start, { x: 0, y: 0, z: 0, w: 1 }, { x: 0, y: -1, z: 0 }, new RAPIER.Ball(.5), 0, 8, true, undefined, 0x0004ffff, undefined, engine.body)
+    const hit = engine.physics.castShape(start, { x: 0, y: 0, z: 0, w: 1 }, { x: 0, y: -1, z: 0 }, new RAPIER.Ball(.5), 0, 8, true, undefined, PLAYER_GROUPS, undefined, engine.body)
     if (!hit) return
     start.y -= hit.time_of_impact - .01
     engine.body.setTranslation(start, true); engine.body.setLinvel({ x: 0, y: 0, z: 0 }, true); engine.body.setAngvel({ x: 0, y: 0, z: 0 }, true)
@@ -139,7 +155,7 @@ export function inspectOriginal(engine: OriginalEngine) {
     const slider = engine.sliders[sliderIndex]; if (!slider || !engine.body || !engine.physics) return
     engine.cancelTransformation(); engine.keys.clear(); slider.reset(); engine.touch.x = engine.touch.z = 0
     const start = slider.crate.origin.clone().add(new THREE.Vector3(3.5, 2, 0))
-    const hit = engine.physics.castShape(start, { x: 0, y: 0, z: 0, w: 1 }, { x: 0, y: -1, z: 0 }, new RAPIER.Ball(.5), 0, 8, true, undefined, 0x0004ffff, undefined, engine.body)
+    const hit = engine.physics.castShape(start, { x: 0, y: 0, z: 0, w: 1 }, { x: 0, y: -1, z: 0 }, new RAPIER.Ball(.5), 0, 8, true, undefined, PLAYER_GROUPS, undefined, engine.body)
     if (!hit) return
     start.y -= hit.time_of_impact - .01
     engine.body.setTranslation(start, true); engine.body.setLinvel({ x: 0, y: 0, z: 0 }, true); engine.body.setAngvel({ x: 0, y: 0, z: 0 }, true)
@@ -166,7 +182,7 @@ export function inspectOriginal(engine: OriginalEngine) {
   button('Cross lowered stone bridge', () => {
     const slider = engine.sliders[sliderIndex]; if (!slider || !engine.body || !engine.physics) return
     const start = slider.stone.origin.clone().add(new THREE.Vector3(0, 2, -2.5))
-    const hit = engine.physics.castShape(start, { x: 0, y: 0, z: 0, w: 1 }, { x: 0, y: -1, z: 0 }, new RAPIER.Ball(.5), 0, 5, true, undefined, 0x0004ffff, undefined, engine.body)
+    const hit = engine.physics.castShape(start, { x: 0, y: 0, z: 0, w: 1 }, { x: 0, y: -1, z: 0 }, new RAPIER.Ball(.5), 0, 5, true, undefined, PLAYER_GROUPS, undefined, engine.body)
     if (!hit) return
     start.y -= hit.time_of_impact - .01
     engine.body.setTranslation(start, true); engine.body.setLinvel({ x: 0, y: 0, z: 0 }, true); engine.body.setAngvel({ x: 0, y: 0, z: 0 }, true)
@@ -186,7 +202,7 @@ export function inspectOriginal(engine: OriginalEngine) {
     const radial = arm.spring.fixedPoint.clone().sub(arm.origin); radial.y = 0; radial.normalize()
     const direction = new THREE.Vector3().crossVectors(new THREE.Vector3(0, 1, 0), radial)
     const start = arm.origin.clone().addScaledVector(radial, 2.5).addScaledVector(direction, -1.5)
-    const hit = engine.physics.castShape({ x: start.x, y: start.y + 2, z: start.z }, { x: 0, y: 0, z: 0, w: 1 }, { x: 0, y: -1, z: 0 }, new RAPIER.Ball(.5), 0, 8, true, undefined, 0x0004ffff, undefined, engine.body)
+    const hit = engine.physics.castShape({ x: start.x, y: start.y + 2, z: start.z }, { x: 0, y: 0, z: 0, w: 1 }, { x: 0, y: -1, z: 0 }, new RAPIER.Ball(.5), 0, 8, true, undefined, PLAYER_GROUPS, undefined, engine.body)
     if (!hit) return
     start.y += 2 - hit.time_of_impact + .01
     engine.body.setTranslation(start, true); engine.body.setLinvel({ x: 0, y: 0, z: 0 }, true); engine.body.setAngvel({ x: 0, y: 0, z: 0 }, true)
@@ -208,7 +224,7 @@ export function inspectOriginal(engine: OriginalEngine) {
       engine.touch.x = THREE.MathUtils.clamp(delta.dot(right) * 2 - velocity.dot(right) * 1.3, -1, 1)
       engine.step(PHYSICS_STEP)
     }
-    const support = engine.physics.castShape(engine.body.translation(), { x: 0, y: 0, z: 0, w: 1 }, { x: 0, y: -1, z: 0 }, new RAPIER.Ball(.48), 0, .2, true, undefined, undefined, undefined, engine.body)
+    const support = engine.physics.castShape(engine.body.translation(), { x: 0, y: 0, z: 0, w: 1 }, { x: 0, y: -1, z: 0 }, new RAPIER.Ball(.48), 0, .2, true, undefined, PLAYER_GROUPS, undefined, engine.body)
     armCrossed = !!support && !support.collider.parent() && new THREE.Vector3().copy(engine.body.translation()).sub(arm.origin).dot(forward) > 1.5
     engine.touch.x = engine.touch.z = 0; run(0)
   })
@@ -224,7 +240,7 @@ export function inspectOriginal(engine: OriginalEngine) {
       engine.state.checkpoint = swing.sector - 1; run(warmup)
     }
     const start = swing.origin.clone().addScaledVector(axis, -2)
-    const hit = engine.physics.castShape({ x: start.x, y: start.y + 2, z: start.z }, { x: 0, y: 0, z: 0, w: 1 }, { x: 0, y: -1, z: 0 }, new RAPIER.Ball(.5), 0, 8, true, undefined, 0x0004ffff, undefined, engine.body)
+    const hit = engine.physics.castShape({ x: start.x, y: start.y + 2, z: start.z }, { x: 0, y: 0, z: 0, w: 1 }, { x: 0, y: -1, z: 0 }, new RAPIER.Ball(.5), 0, 8, true, undefined, PLAYER_GROUPS, undefined, engine.body)
     if (!hit) return
     start.y += 2 - hit.time_of_impact + .01
     engine.body.setTranslation(start, true); engine.body.setLinvel({ x: 0, y: 0, z: 0 }, true); engine.body.setAngvel({ x: 0, y: 0, z: 0 }, true)
@@ -251,7 +267,7 @@ export function inspectOriginal(engine: OriginalEngine) {
         engine.touch.x = THREE.MathUtils.clamp(delta.dot(side) * 4 - velocity.dot(side) * .8, -1, 1)
         engine.step(PHYSICS_STEP)
       }
-      const support = engine.physics.castShape(engine.body.translation(), { x: 0, y: 0, z: 0, w: 1 }, { x: 0, y: -1, z: 0 }, new RAPIER.Ball(.48), 0, .15, true, undefined, undefined, undefined, engine.body)
+      const support = engine.physics.castShape(engine.body.translation(), { x: 0, y: 0, z: 0, w: 1 }, { x: 0, y: -1, z: 0 }, new RAPIER.Ball(.48), 0, .15, true, undefined, PLAYER_GROUPS, undefined, engine.body)
       swingCrossed = !!support && !support.collider.parent() && new THREE.Vector3().copy(engine.body.translation()).sub(swing.origin).dot(axis) > 2.8
     }
     engine.touch.x = engine.touch.z = 0; run(0)
@@ -263,7 +279,7 @@ export function inspectOriginal(engine: OriginalEngine) {
     for (const s of engine.sacks.filter(s => s.sector === sack.sector)) s.reset()
     const across = sack.drives[0]!.direction.clone().cross(new THREE.Vector3(0, 1, 0)).normalize()
     const point = sack.sack.origin.clone().addScaledVector(across, -2)
-    const hit = engine.physics.castShape({ x: point.x, y: point.y + 3, z: point.z }, { x: 0, y: 0, z: 0, w: 1 }, { x: 0, y: -1, z: 0 }, new RAPIER.Ball(.5), 0, 10, true, undefined, 0x0004ffff, undefined, engine.body)
+    const hit = engine.physics.castShape({ x: point.x, y: point.y + 3, z: point.z }, { x: 0, y: 0, z: 0, w: 1 }, { x: 0, y: -1, z: 0 }, new RAPIER.Ball(.5), 0, 10, true, undefined, PLAYER_GROUPS, undefined, engine.body)
     if (!hit) return
     point.y += 3 - hit.time_of_impact + .01
     engine.body.setTranslation(point, true); engine.body.setLinvel({ x: 0, y: 0, z: 0 }, true); engine.body.setAngvel({ x: 0, y: 0, z: 0 }, true)
@@ -288,7 +304,7 @@ export function inspectOriginal(engine: OriginalEngine) {
     engine.cancelTransformation(); engine.keys.clear(); chain.reset(); bridgeCrossed = false
     const first = chain.parts.find(p => p.name.endsWith('01'))!, last = chain.parts.find(p => p.name.endsWith('09'))!
     const axis = last.origin.clone().sub(first.origin).normalize(), start = first.origin.clone().addScaledVector(axis, -1.5)
-    const hit = engine.physics.castRay(new RAPIER.Ray({ x: start.x, y: start.y + 3, z: start.z }, { x: 0, y: -1, z: 0 }), 10, true, undefined, 0x0004ffff, undefined, engine.body)
+    const hit = engine.physics.castRay(new RAPIER.Ray({ x: start.x, y: start.y + 3, z: start.z }, { x: 0, y: -1, z: 0 }), 10, true, undefined, PLAYER_GROUPS, undefined, engine.body)
     if (!hit) return
     start.y += 3 - hit.timeOfImpact + .51
     engine.body.setTranslation(start, true); engine.body.setLinvel({ x: 0, y: 0, z: 0 }, true); engine.body.setAngvel({ x: 0, y: 0, z: 0 }, true)
@@ -310,6 +326,7 @@ export function inspectOriginal(engine: OriginalEngine) {
   button('Load fan course', () => { fanIndex = 0; engine.start(1) })
   const visitFan = () => {
     const fan = engine.fans[fanIndex]; if (!fan || !engine.body) return
+    engine.state.checkpoint = fan.sector - 1
     engine.cancelTransformation(); engine.keys.clear()
     engine.body.setTranslation({ x: fan.origin.x, y: fan.origin.y + .55, z: fan.origin.z }, true)
     engine.body.setLinvel({ x: 0, y: 0, z: 0 }, true); engine.body.setAngvel({ x: 0, y: 0, z: 0 }, true)

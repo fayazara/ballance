@@ -1,0 +1,77 @@
+{
+  "source": "Levelinit.nmo / Balls.nmo / P_Modul_*.nmo",
+  "floors": {
+    "Phys_FloorRails": "Floor",
+    "Phys_Floors": "Floor",
+    "Phys_FloorStopper": "Ball"
+  },
+  "players": {
+    "Ball_Paper": "Ball",
+    "Ball_Stone": "Ball",
+    "Ball_Wood": "Ball"
+  },
+  "modules": {
+    "P_Modul_01": [
+      "Ball",
+      "Floor"
+    ],
+    "P_Modul_03": [
+      ""
+    ],
+    "P_Modul_08": [
+      "Floor"
+    ],
+    "P_Modul_17": [
+      "Floor"
+    ],
+    "P_Modul_18": [],
+    "P_Modul_19": [
+      "Floor"
+    ],
+    "P_Modul_25": [
+      ""
+    ],
+    "P_Modul_26": [
+      "",
+      "Floor"
+    ],
+    "P_Modul_29": [
+      "Modul29"
+    ],
+    "P_Modul_30": [
+      "Floor"
+    ],
+    "P_Modul_34": [
+      ""
+    ],
+    "P_Modul_37": [
+      ""
+    ],
+    "P_Modul_41": [
+      "Floor"
+    ]
+  },
+  "fragments": {
+    "wood": {
+      "index": 501,
+      "group": "Ball",
+      "enabled": true
+    },
+    "stone": {
+      "index": 756,
+      "group": "Ball",
+      "enabled": true
+    },
+    "paper": {
+      "index": 627,
+      "group": "Ball",
+      "enabled": true
+    }
+  },
+  "identifiers": [
+    "",
+    "Ball",
+    "Floor",
+    "Modul29"
+  ]
+}

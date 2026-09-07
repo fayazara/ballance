@@ -1,0 +1,56 @@
+{
+  "source": "Gameplay.nmo: ActiveBall creation",
+  "bodies": [
+    {
+      "index": 233,
+      "fixed": false,
+      "startFrozen": false,
+      "enableCollision": true,
+      "automaticMassCenter": false,
+      "massCenter": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "shape": "convex"
+    },
+    {
+      "index": 262,
+      "fixed": false,
+      "startFrozen": false,
+      "enableCollision": true,
+      "automaticMassCenter": false,
+      "massCenter": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "shape": "sphere",
+      "center": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "radius": 2.0
+    },
+    {
+      "index": 291,
+      "fixed": false,
+      "startFrozen": false,
+      "enableCollision": true,
+      "automaticMassCenter": false,
+      "massCenter": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "shape": "sphere",
+      "center": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "radius": 2.0
+    }
+  ]
+}

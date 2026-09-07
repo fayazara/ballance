@@ -1,10 +1,10 @@
+import { originalCollisionGroups } from './original-collisions.ts'
 import * as THREE from 'three'
 import RAPIER from '@dimforge/rapier3d-compat'
 import recovered from './original-arms-data.json' with { type: 'json' }
 import { originalGeometry, originalPosition, SCALE } from './original-data.ts'
 import type { OriginalDocument, OriginalObject } from './original-data.ts'
 import { configureBody, configureContact } from './original-physics.ts'
-import { PUSHER_GROUPS } from './original-pusher.ts'
 
 import { OriginalSpring } from './original-spring.ts'
 
@@ -42,7 +42,7 @@ export class OriginalArms {
       const hull = document.meshes.find(m => m.name === name)
       if (!hull) throw new Error(`Missing arm collision hull ${name}`)
       const geometry = originalGeometry(hull, matrix.toArray(), true)
-      colliders.push(world.createCollider(configureContact(RAPIER.ColliderDesc.convexHull(geometry.attributes.position!.array as Float32Array)!.setCollisionGroups(PUSHER_GROUPS), data), this.body))
+      colliders.push(world.createCollider(configureContact(RAPIER.ColliderDesc.convexHull(geometry.attributes.position!.array as Float32Array)!.setCollisionGroups(originalCollisionGroups(data.collisionGroup)), data), this.body))
       geometry.dispose()
     }
     const volume = colliders.reduce((sum, c) => sum + c.volume(), 0)

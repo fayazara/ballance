@@ -2,7 +2,7 @@
 
 A React + Three.js rolling-ball game with two content modes. A local original-game asset pack loads the actual twelve Ballance courses through a new Rapier runtime. Without it, the app opens the three independently made web courses. Both modes open directly into play with a minimal HUD.
 
-See [Original content import](docs/original-import.md) for setup, implemented behavior, verification and remaining fidelity work. Original game content stays local and is excluded from production builds.
+See [Original content import](docs/original-import.md) for setup, implemented behavior, verification and remaining fidelity work. The deploy command stages the converted game pack so the hosted game uses the same twelve courses as local play.
 
 ## Play the local original courses
 
@@ -17,7 +17,7 @@ See [Original content import](docs/original-import.md) for setup, implemented be
 - Linked wooden bridges now flex and release their original connection when the stone ball enters the break trigger. Wood and paper leave it intact. [Bridge implementation notes](docs/original-chain.md).
 - Suspended sacks swing on their physical ropes with the original alternating pushes and respond to ball contact. [Sack physics and reset behavior](docs/original-sacks.md).
 - Swinging platforms use their original hinged bodies and push/coast cycle. Time your approach to board on the return stroke. [Swing behavior and validation](docs/original-swings.md).
-- Fans lift paper using the original force and wind-column dimensions. Steer while rising to reach higher fans and platforms; wood and stone remain grounded. [Fan implementation and outstanding mechanisms](docs/original-fans.md).
+- Fans lift paper using the original force and wind-column dimensions, with sector activation, proximity polling and reset behavior. Steer while rising to reach higher fans and platforms; wood and stone remain grounded. [Fan implementation and outstanding mechanisms](docs/original-fans.md).
 - The old ball breaks into its original wood, stone or paper fragments. Extra lives have iridescent bubbles; point extras have orbiting silver satellites. [Effects notes](docs/original-effects.md).
 
 All 12 layouts are imported. Level 1 is the first playable integration; later courses still need their special mechanism behaviors and are marked accordingly. Ball and crate material values now come from the original data tables; see [physics findings](docs/original-physics.md). The contact solver is still Rapier, so exact IVP parity is not claimed.
@@ -47,7 +47,7 @@ npm run lint
 npm run build
 ```
 
-The existing Cloudflare Vite plugin builds the client into `dist/client` and the Worker into `dist/ballance`. `npm run deploy` builds and deploys through the existing Wrangler configuration. No deployment has been performed as part of this implementation.
+The existing Cloudflare Vite plugin builds the client into `dist/client` and the Worker into `dist/ballance`. `pnpm run deploy` builds, stages `.local/original/` into `dist/client/original`, and deploys through the existing Wrangler configuration. The converted pack must be present; deployment fails if it is missing. Ordinary `npm run build` does not stage it.
 
 ## Source
 
@@ -67,7 +67,7 @@ The existing Cloudflare Vite plugin builds the client into `dist/client` and the
 
 The fallback mode is an original three-course fan recreation. Physics is a purpose-built surface simulation: rails use narrow support strips and blocks use simplified collision/push logic. It does not reproduce the original's full rigid-body object system, seesaws, or every obstacle type.
 
-Platform and ball textures are procedural. The sky artwork was generated specifically for this project. Geometry and sound are generated in code. No original game binaries, textures, music, or screenshots are bundled in production. The separate local importer reads user-supplied assets. See [the reference notes](docs/references.md) for research and attribution.
+Platform and ball textures are procedural. The sky artwork was generated specifically for this project. Geometry and sound are generated in code. The separate importer reads user-supplied game assets. Deployment includes the converted JSON, textures, sky images and audio; original executables and installers are not uploaded. See [the reference notes](docs/references.md) for research and attribution.
 
 Ballance was created by Cyparade and originally published by Atari. The original game is available from [its current publisher on Steam](https://store.steampowered.com/app/2000770/Ballance/).
 
@@ -76,3 +76,7 @@ Rotating target arms now use their recovered three-part collision body, hinge an
 The crate-supported stones now use their original vertical sliders and proximity activation, including the Level 1 lowering puzzle. See [slider physics and validation](docs/original-slider.md).
 
 Weighted spring lifts now have removable wall bodies, an open doorway and a vertically constrained platform whose height responds to load. See [lift physics and remaining parity work](docs/original-lift.md).
+
+Gates, passive hinges and breakable bridges now activate and reset with their sectors, including original proximity polling. See [sector lifecycle and verification](docs/original-sectors.md).
+
+Loose balls, crates and fixed domes now activate with their sectors and restore after resets, using original convex/sphere shapes and explicit mass centers. See [object physics and verification](docs/original-objects.md).

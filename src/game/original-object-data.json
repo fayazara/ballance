@@ -1,0 +1,119 @@
+{
+  "P_Box": {
+    "source": "Levelinit.nmo",
+    "activation": 2,
+    "reset": 2,
+    "shape": "convex",
+    "fixed": false,
+    "friction": 0.7,
+    "restitution": 0.3,
+    "mass": 1.0,
+    "collisionGroup": "",
+    "startFrozen": false,
+    "enableCollision": true,
+    "automaticMassCenter": false,
+    "linearDamping": 0.1,
+    "angularDamping": 0.1,
+    "massCenter": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "P_Ball_Paper": {
+    "source": "Levelinit.nmo",
+    "activation": 2,
+    "reset": 2,
+    "shape": "convex",
+    "fixed": false,
+    "friction": 0.5,
+    "restitution": 0.4,
+    "mass": 0.2,
+    "collisionGroup": "",
+    "startFrozen": false,
+    "enableCollision": true,
+    "automaticMassCenter": false,
+    "linearDamping": 1.5,
+    "angularDamping": 0.1,
+    "massCenter": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "P_Dome": {
+    "source": "Levelinit.nmo",
+    "activation": 2,
+    "reset": 2,
+    "shape": "convex",
+    "fixed": true,
+    "friction": 0.2,
+    "restitution": 0.8,
+    "mass": 0.2,
+    "collisionGroup": "",
+    "startFrozen": false,
+    "enableCollision": true,
+    "automaticMassCenter": false,
+    "linearDamping": 0.1,
+    "angularDamping": 0.1,
+    "massCenter": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "P_Ball_Wood": {
+    "source": "Levelinit.nmo",
+    "activation": 3,
+    "reset": 2,
+    "shape": "sphere",
+    "fixed": false,
+    "friction": 0.6,
+    "restitution": 0.2,
+    "mass": 2.0,
+    "collisionGroup": "",
+    "startFrozen": false,
+    "enableCollision": true,
+    "automaticMassCenter": false,
+    "linearDamping": 0.6,
+    "angularDamping": 0.1,
+    "massCenter": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 2.0,
+    "ballCenter": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "P_Ball_Stone": {
+    "source": "Levelinit.nmo",
+    "activation": 3,
+    "reset": 2,
+    "shape": "sphere",
+    "fixed": false,
+    "friction": 0.7,
+    "restitution": 0.1,
+    "mass": 10.0,
+    "collisionGroup": "",
+    "startFrozen": false,
+    "enableCollision": true,
+    "automaticMassCenter": false,
+    "linearDamping": 0.2,
+    "angularDamping": 0.1,
+    "massCenter": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 2.0,
+    "ballCenter": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  }
+}

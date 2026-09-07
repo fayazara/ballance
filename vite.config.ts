@@ -5,7 +5,7 @@ import { createReadStream } from 'node:fs'
 import { stat } from 'node:fs/promises'
 import { resolve, sep, extname } from 'node:path'
 
-// User-supplied game data is available only on the local dev server, never in dist.
+// Development serves the local pack directly; the deploy script stages it after building.
 export default defineConfig({
   plugins: [react(), {
     name: 'local-original-game-assets',

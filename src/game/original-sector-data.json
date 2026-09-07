@@ -1,0 +1,282 @@
+{
+  "source": "Levelinit.nmo / Gameplay.nmo / P_Modul_*.nmo",
+  "groups": [
+    {
+      "Group Names": "P_Extra_Life",
+      "Amount": 0,
+      "Activation": 1,
+      "Reset": 1
+    },
+    {
+      "Group Names": "P_Extra_Point",
+      "Amount": 0,
+      "Activation": 1,
+      "Reset": 1
+    },
+    {
+      "Group Names": "P_Trafo_Paper",
+      "Amount": 0,
+      "Activation": 1,
+      "Reset": 0
+    },
+    {
+      "Group Names": "P_Trafo_Stone",
+      "Amount": 0,
+      "Activation": 1,
+      "Reset": 0
+    },
+    {
+      "Group Names": "P_Trafo_Wood",
+      "Amount": 0,
+      "Activation": 1,
+      "Reset": 0
+    },
+    {
+      "Group Names": "P_Ball_Paper",
+      "Amount": 0,
+      "Activation": 2,
+      "Reset": 2
+    },
+    {
+      "Group Names": "P_Ball_Stone",
+      "Amount": 0,
+      "Activation": 3,
+      "Reset": 2
+    },
+    {
+      "Group Names": "P_Ball_Wood",
+      "Amount": 0,
+      "Activation": 3,
+      "Reset": 2
+    },
+    {
+      "Group Names": "P_Box",
+      "Amount": 0,
+      "Activation": 2,
+      "Reset": 2
+    },
+    {
+      "Group Names": "P_Dome",
+      "Amount": 0,
+      "Activation": 2,
+      "Reset": 2
+    },
+    {
+      "Group Names": "P_Modul_01",
+      "Amount": 0,
+      "Activation": 1,
+      "Reset": 1
+    },
+    {
+      "Group Names": "P_Modul_03",
+      "Amount": 0,
+      "Activation": 1,
+      "Reset": 1
+    },
+    {
+      "Group Names": "P_Modul_08",
+      "Amount": 0,
+      "Activation": 1,
+      "Reset": 1
+    },
+    {
+      "Group Names": "P_Modul_17",
+      "Amount": 0,
+      "Activation": 1,
+      "Reset": 1
+    },
+    {
+      "Group Names": "P_Modul_18",
+      "Amount": 0,
+      "Activation": 1,
+      "Reset": 1
+    },
+    {
+      "Group Names": "P_Modul_19",
+      "Amount": 0,
+      "Activation": 1,
+      "Reset": 1
+    },
+    {
+      "Group Names": "P_Modul_25",
+      "Amount": 0,
+      "Activation": 1,
+      "Reset": 1
+    },
+    {
+      "Group Names": "P_Modul_26",
+      "Amount": 0,
+      "Activation": 1,
+      "Reset": 1
+    },
+    {
+      "Group Names": "P_Modul_29",
+      "Amount": 0,
+      "Activation": 1,
+      "Reset": 1
+    },
+    {
+      "Group Names": "P_Modul_30",
+      "Amount": 0,
+      "Activation": 1,
+      "Reset": 1
+    },
+    {
+      "Group Names": "P_Modul_34",
+      "Amount": 0,
+      "Activation": 1,
+      "Reset": 1
+    },
+    {
+      "Group Names": "P_Modul_37",
+      "Amount": 0,
+      "Activation": 1,
+      "Reset": 1
+    },
+    {
+      "Group Names": "P_Modul_41",
+      "Amount": 0,
+      "Activation": 1,
+      "Reset": 1
+    }
+  ],
+  "wake": {
+    "P_Modul_01": {
+      "index": 50,
+      "distance": 50.0,
+      "object": "P_Modul_01_Pusher",
+      "barycenter": false,
+      "exactnessMin": 55.0,
+      "exactnessMax": 100.0,
+      "minFrameDelay": 10,
+      "maxFrameDelay": 60,
+      "outputFlags": 4,
+      "axes": 5,
+      "squared": true
+    },
+    "P_Modul_19": {
+      "index": 145,
+      "distance": 50.0,
+      "object": "P_Modul_19_MF",
+      "barycenter": false,
+      "exactnessMin": 55.0,
+      "exactnessMax": 100.0,
+      "minFrameDelay": 10,
+      "maxFrameDelay": 60,
+      "outputFlags": 4,
+      "axes": 5,
+      "squared": true,
+      "frame": [
+        0.9999983310699463,
+        9.999995427278918e-07,
+        9.999995427278918e-07,
+        0,
+        1.000015799945686e-06,
+        0.9999982714653015,
+        1.000015799945686e-06,
+        0,
+        9.999987469200278e-07,
+        9.999987469200278e-07,
+        0.9999982118606567,
+        0,
+        3.949029121486092e-07,
+        -1.899804966121188e-12,
+        2.54657663845137e-07,
+        1
+      ]
+    },
+    "P_Modul_25": {
+      "index": 100,
+      "distance": 50.0,
+      "object": "P_Modul_25_MF",
+      "barycenter": false,
+      "exactnessMin": 55.0,
+      "exactnessMax": 100.0,
+      "minFrameDelay": 10,
+      "maxFrameDelay": 60,
+      "outputFlags": 4,
+      "axes": 5,
+      "squared": true,
+      "frame": [
+        0.9999850988388062,
+        0.0,
+        0.0,
+        0,
+        0.0,
+        0.9999850988388062,
+        0.0,
+        0,
+        0.0,
+        0.0,
+        0.9999850988388062,
+        0,
+        0.0,
+        0.0,
+        0.0,
+        1
+      ]
+    },
+    "P_Modul_30": {
+      "index": 72,
+      "distance": 50.0,
+      "object": "P_Modul_30_MF",
+      "barycenter": false,
+      "exactnessMin": 55.0,
+      "exactnessMax": 100.0,
+      "minFrameDelay": 10,
+      "maxFrameDelay": 60,
+      "outputFlags": 4,
+      "axes": 5,
+      "squared": true,
+      "frame": [
+        1.0,
+        0.0,
+        0.0,
+        0,
+        0.0,
+        1.0,
+        0.0,
+        0,
+        0.0,
+        0.0,
+        1.0,
+        0,
+        0.0,
+        0.0,
+        2.1012498052641604e-07,
+        1
+      ]
+    },
+    "P_Modul_37": {
+      "index": 82,
+      "distance": 50.0,
+      "object": "P_Modul_37_MF",
+      "barycenter": false,
+      "exactnessMin": 55.0,
+      "exactnessMax": 100.0,
+      "minFrameDelay": 10,
+      "maxFrameDelay": 60,
+      "outputFlags": 4,
+      "axes": 5,
+      "squared": true,
+      "frame": [
+        0.9999963045120239,
+        0.0,
+        0.0,
+        0,
+        0.0,
+        0.9999963045120239,
+        0.0,
+        0,
+        0.0,
+        0.0,
+        0.9999963045120239,
+        0,
+        0.0,
+        0.0,
+        0.0,
+        1
+      ]
+    }
+  }
+}

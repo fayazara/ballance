@@ -1,3 +1,4 @@
+import { PLAYER_GROUPS } from '../src/game/original-collisions.ts'
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { existsSync, readFileSync } from 'node:fs'
@@ -84,10 +85,10 @@ test('Level 1: stone ball clears the support crate and crosses the lowered stone
   try{
     s.update(s.stone.origin,1);w.step()
     const start=s.crate.origin.clone().add(new THREE.Vector3(3.5,2,0))
-    const hit=w.castShape(start,{x:0,y:0,z:0,w:1},{x:0,y:-1,z:0},new RAPIER.Ball(.5),0,8,true,undefined,0x0004ffff)
+    const hit=w.castShape(start,{x:0,y:0,z:0,w:1},{x:0,y:-1,z:0},new RAPIER.Ball(.5),0,8,true,undefined,PLAYER_GROUPS)
     assert.ok(hit,'approach floor exists');start.y-=hit.time_of_impact-.01
     const ball=w.createRigidBody(RAPIER.RigidBodyDesc.dynamic().setTranslation(start.x,start.y,start.z).setCcdEnabled(true))
-    w.createCollider(configureContact(RAPIER.ColliderDesc.ball(.5).setMass(PLAYER_PHYSICS.stone.mass).setCollisionGroups(0x0004ffff),PLAYER_PHYSICS.stone),ball);configureBody(ball,PLAYER_PHYSICS.stone)
+    w.createCollider(configureContact(RAPIER.ColliderDesc.ball(.5).setMass(PLAYER_PHYSICS.stone.mass).setCollisionGroups(PLAYER_GROUPS),PLAYER_PHYSICS.stone),ball);configureBody(ball,PLAYER_PHYSICS.stone)
     let contact=false
     for(let i=0;i<396;i++){
       s.update(new THREE.Vector3().copy(ball.translation()),1);driveBall(ball,'stone',-1,0,PHYSICS_STEP);w.step()
@@ -110,7 +111,7 @@ test('Level 1: stone ball clears the support crate and crosses the lowered stone
     assert.ok(s.travel>.7,'stone should drop into the space vacated by the crate: '+s.travel)
     // Stage at the upper approach to verify the dropped stone now completes that path.
     const upper=s.stone.origin.clone().add(new THREE.Vector3(0,2,-2.5))
-    const upperHit=w.castShape(upper,{x:0,y:0,z:0,w:1},{x:0,y:-1,z:0},new RAPIER.Ball(.5),0,5,true,undefined,0x0004ffff,undefined,ball)
+    const upperHit=w.castShape(upper,{x:0,y:0,z:0,w:1},{x:0,y:-1,z:0},new RAPIER.Ball(.5),0,5,true,undefined,PLAYER_GROUPS,undefined,ball)
     assert.ok(upperHit);upper.y-=upperHit.time_of_impact-.01
     ball.setTranslation(upper,true);ball.setLinvel({x:0,y:0,z:0},true);ball.setAngvel({x:0,y:0,z:0},true)
     let crossedStone=false

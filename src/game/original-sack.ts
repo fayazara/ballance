@@ -1,10 +1,10 @@
+import { originalCollisionGroups } from './original-collisions.ts'
 import * as THREE from 'three'
 import RAPIER from '@dimforge/rapier3d-compat'
 import recovered from './original-sack-data.json' with { type: 'json' }
 import { originalGeometry, originalPosition, SCALE } from './original-data.ts'
 import type { OriginalDocument, OriginalObject } from './original-data.ts'
 import { configureBody, configureContact, ORIGINAL_PSI_HZ, ORIGINAL_TIME_FACTOR, PHYSICS_STEP } from './original-physics.ts'
-import { PUSHER_GROUPS } from './original-pusher.ts'
 
 export const ORIGINAL_SACK = recovered
 type Part = { name: string; mesh: THREE.Mesh; body: RAPIER.RigidBody; origin: THREE.Vector3; sector: number; collision: boolean }
@@ -47,7 +47,7 @@ export class OriginalSack {
       const hull = document.meshes.find(m => m.name === data.hulls[0])
       if (!hull) throw new Error(`Missing suspended collision hull ${data.hulls[0]}`)
       const geometry = originalGeometry(hull, matrix.toArray(), true)
-      const collider = world.createCollider(configureContact(RAPIER.ColliderDesc.convexHull(geometry.attributes.position!.array as Float32Array)!.setMass(data.mass).setCollisionGroups(data.collisionGroup === 'Floor' ? PUSHER_GROUPS : 0x0100ffff), data), body)
+      const collider = world.createCollider(configureContact(RAPIER.ColliderDesc.convexHull(geometry.attributes.position!.array as Float32Array)!.setMass(data.mass).setCollisionGroups(originalCollisionGroups(data.collisionGroup)), data), body)
       geometry.dispose(); body.recomputeMassPropertiesFromColliders()
       const inertia = body.principalInertia(), frame = body.principalInertiaLocalFrame()
       const center = new THREE.Vector3(...data.massCenter as [number, number, number]).applyMatrix4(matrix.clone().setPosition(0, 0, 0)).multiplyScalar(SCALE); center.z *= -1

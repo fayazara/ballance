@@ -1,3 +1,4 @@
+import { PLAYER_GROUPS } from '../src/game/original-collisions.ts'
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { existsSync, readFileSync } from 'node:fs'
@@ -17,6 +18,7 @@ function make(world: RAPIER.World, kind: HingeKind, parent?: OriginalObject) {
   const document = load(kind.toLowerCase()), material = new THREE.MeshPhongMaterial()
   const instance = parent || { id: 1, name: kind + '_01', mesh: 0, matrix: new THREE.Matrix4().makeRotationY(.63).setPosition(12, 8, -20).toArray(), visible: true }
   const hinge = new OriginalHinge(world, instance, document, new Map(document.materials.map(m => [m.id, material])), 1, kind)
+  hinge.setActive(true)
   return { hinge, dispose: () => { hinge.mesh.geometry.dispose(); hinge.decoration.traverse(o => { if (o instanceof THREE.Mesh) o.geometry.dispose() }); material.dispose() } }
 }
 test('recovered hinge data preserves disabled limits, compound hulls, and intentional mass offsets', () => {
@@ -39,13 +41,13 @@ test('all five mechanisms retain their pivot under forces and reset without losi
     try {
       assert.ok(Math.abs(h.body.mass() - ORIGINAL_HINGES[kind].mass) < .00001)
       assert.equal(h.body.numColliders(), ORIGINAL_HINGES[kind].hulls.length)
-      assert.equal(h.joint.limitsEnabled(), false)
+      assert.equal(h.joint!.limitsEnabled(), false)
       if (ORIGINAL_HINGES[kind].startFrozen) {
-        for (let i = 0; i < 132; i++) { h.update(new THREE.Vector3(1000, 0, 1000)); world.step() }
+        for (let i = 0; i < 132; i++) { h.update(new THREE.Vector3(1000, 0, 1000), 1); world.step() }
         assert.equal(h.body.isDynamic(), false)
         assert.ok(new THREE.Vector3().copy(h.body.translation()).distanceTo(h.origin) < .0001)
       }
-      h.update(h.wakeOrigin)
+      for (let i = 0; i < 66; i++) h.update(h.wakeOrigin, 1)
       h.body.applyTorqueImpulse(h.axis.clone().multiplyScalar(2), true)
       for (let i = 0; i < 660; i++) world.step()
       assert.ok(h.anchorError < .002, `${kind} pivot drifted ${h.anchorError}`)
@@ -56,6 +58,9 @@ test('all five mechanisms retain their pivot under forces and reset without losi
       h.reset()
       assert.ok(h.anchorError < .0001)
       assert.ok(Math.abs(h.body.rotation().w - 1) < .00001)
+      assert.equal(h.activated, false); assert.equal(world.impulseJoints.len(), 0)
+      h.setActive(true)
+      assert.equal(world.impulseJoints.len(), 1)
       assert.equal(h.activated, !ORIGINAL_HINGES[kind].startFrozen)
     } finally { t.dispose(); world.free() }
   }
@@ -84,7 +89,7 @@ test('all 118 imported passive hinges preserve their anchors in their actual lev
         const kind = (Object.keys(ORIGINAL_HINGES) as HingeKind[]).find(k => parent.name.startsWith(k + '_'))
         if (!kind) continue
         const t = make(world, kind, parent); instances.push(t); count++
-        t.hinge.update(t.hinge.wakeOrigin)
+        t.hinge.update(t.hinge.wakeOrigin, 1)
       }
       for (let i = 0; i < 396; i++) world.step()
       for (const { hinge: h } of instances) assert.ok(h.anchorError < .025, `${h.name} in level ${levelIndex}: ${h.anchorError}`)
@@ -100,7 +105,7 @@ test('a rolling stone ball moves the Level 7 pivoting plank by contact', { skip:
   try {
     const bounds = h.mesh.geometry.boundingBox!, top = bounds.max.y + h.origin.y
     const ball = world.createRigidBody(RAPIER.RigidBodyDesc.dynamic().setTranslation(h.origin.x, top + .55, h.origin.z).setCcdEnabled(true))
-    world.createCollider(configureContact(RAPIER.ColliderDesc.ball(.5).setMass(10).setCollisionGroups(0x0004ffff), PLAYER_PHYSICS.stone), ball); configureBody(ball, PLAYER_PHYSICS.stone)
+    world.createCollider(configureContact(RAPIER.ColliderDesc.ball(.5).setMass(10).setCollisionGroups(PLAYER_GROUPS), PLAYER_PHYSICS.stone), ball); configureBody(ball, PLAYER_PHYSICS.stone)
     const sideways = new THREE.Vector3(0, 1, 0).cross(h.axis).normalize()
     for (let i = 0; i < 132; i++) { driveBall(ball, 'stone', sideways.x, sideways.z, PHYSICS_STEP); world.step() }
     assert.ok(Math.hypot(h.body.rotation().x, h.body.rotation().y, h.body.rotation().z) > .05, 'plank should tilt under the moving ball')
@@ -116,10 +121,10 @@ test('wood can roll across the moving Level 2 seesaw onto its exit platform', { 
     const bounds = h.mesh.geometry.boundingBox!, point = bounds.getCenter(new THREE.Vector3()).add(h.origin)
     point.x -= .3; point.y = bounds.max.y + h.origin.y + .55
     const ball = world.createRigidBody(RAPIER.RigidBodyDesc.dynamic().setTranslation(point.x, point.y, point.z).setCcdEnabled(true))
-    world.createCollider(configureContact(RAPIER.ColliderDesc.ball(.5).setMass(1.9).setCollisionGroups(0x0004ffff), PLAYER_PHYSICS.wood), ball); configureBody(ball, PLAYER_PHYSICS.wood)
+    world.createCollider(configureContact(RAPIER.ColliderDesc.ball(.5).setMass(1.9).setCollisionGroups(PLAYER_GROUPS), PLAYER_PHYSICS.wood), ball); configureBody(ball, PLAYER_PHYSICS.wood)
     let rotation = 0
     for (let i = 0; i < 2.5 / PHYSICS_STEP; i++) {
-      h.update(new THREE.Vector3().copy(ball.translation()))
+      h.update(new THREE.Vector3().copy(ball.translation()), 1)
       if (i >= .5 / PHYSICS_STEP) driveBall(ball, 'wood', -1, 0, PHYSICS_STEP)
       world.step(); rotation = Math.max(rotation, Math.abs(h.body.rotation().z))
     }
@@ -136,13 +141,13 @@ test('stone knocks down the Level 2 short drawbridge by contact', { skip: !avail
   try {
     world.step()
     const start = h.pivot.clone().add(new THREE.Vector3(0, 0, 2.5))
-    const hit = world.castRay(new RAPIER.Ray({ x: start.x, y: start.y + 4, z: start.z }, { x: 0, y: -1, z: 0 }), 10, true, undefined, 0x0004ffff)
+    const hit = world.castRay(new RAPIER.Ray({ x: start.x, y: start.y + 4, z: start.z }, { x: 0, y: -1, z: 0 }), 10, true, undefined, PLAYER_GROUPS)
     assert.ok(hit)
     const ball = world.createRigidBody(RAPIER.RigidBodyDesc.dynamic().setTranslation(start.x, start.y + 4 - hit.timeOfImpact + .51, start.z).setCcdEnabled(true))
-    world.createCollider(configureContact(RAPIER.ColliderDesc.ball(.5).setMass(10).setCollisionGroups(0x0004ffff), PLAYER_PHYSICS.stone), ball); configureBody(ball, PLAYER_PHYSICS.stone)
+    world.createCollider(configureContact(RAPIER.ColliderDesc.ball(.5).setMass(10).setCollisionGroups(PLAYER_GROUPS), PLAYER_PHYSICS.stone), ball); configureBody(ball, PLAYER_PHYSICS.stone)
     let rotation = 0
     for (let i = 0; i < 3 / PHYSICS_STEP; i++) {
-      h.update(new THREE.Vector3().copy(ball.translation())); driveBall(ball, 'stone', 0, -1, PHYSICS_STEP); world.step()
+      h.update(new THREE.Vector3().copy(ball.translation()), 1); driveBall(ball, 'stone', 0, -1, PHYSICS_STEP); world.step()
       rotation = Math.max(rotation, Math.abs(h.body.rotation().x))
     }
     assert.ok(rotation > .6, `bridge did not lower: ${rotation}`)
