@@ -3,6 +3,7 @@ import assert from 'node:assert/strict'
 import { existsSync, readFileSync } from 'node:fs'
 import * as THREE from 'three'
 import RAPIER from '@dimforge/rapier3d-compat'
+import { GRAVITY, PHYSICS_STEP } from '../src/game/original-physics.ts'
 import { originalGeometry, originalPosition } from '../src/game/original-data.ts'
 import type { OriginalDocument, OriginalMesh } from '../src/game/original-data.ts'
 
@@ -33,7 +34,7 @@ test('all imported level reset points have a physical floor beneath them', { ski
   for (let level = 1; level <= 12; level++) {
     const document = JSON.parse(readFileSync(new URL(`level_${String(level).padStart(2, '0')}.json`, root), 'utf8')) as OriginalDocument
     const floors = new Set(document.groups.filter(g => /^Phys_Floor/.test(g.name)).flatMap(g => g.members))
-    const world = new RAPIER.World({ x: 0, y: -19.62, z: 0 }); world.timestep = 1 / 120
+    const world = new RAPIER.World({ x: 0, y: GRAVITY, z: 0 }); world.timestep = PHYSICS_STEP
     try {
       for (const object of document.objects.filter(o => floors.has(o.id))) {
         const mesh = document.meshes.find(m => m.id === object.mesh)!
@@ -57,7 +58,7 @@ test('all imported level reset points have a physical floor beneath them', { ski
 })
 test('sphere grounding detects paired rails even when a center ray misses the gap', async () => {
   await RAPIER.init()
-  const world = new RAPIER.World({ x: 0, y: -19.62, z: 0 }); world.timestep = 1 / 120
+  const world = new RAPIER.World({ x: 0, y: GRAVITY, z: 0 }); world.timestep = PHYSICS_STEP
   try {
     for (const x of [-.3, .3]) world.createCollider(RAPIER.ColliderDesc.cuboid(.035, .035, 3).setTranslation(x, 0, 0))
     const body = world.createRigidBody(RAPIER.RigidBodyDesc.dynamic().setTranslation(0, .6, 0))

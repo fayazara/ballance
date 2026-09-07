@@ -1,0 +1,221 @@
+{
+  "tables": {
+    "Physicalize_GameBall": {
+      "source": "balls.nmo",
+      "rows": [
+        {
+          "Ballname": "Ball_Paper",
+          "Friction": 0.5,
+          "Elasticity": 0.4,
+          "Mass": 0.2,
+          "CollGroup": "Ball",
+          "Linear Damp": 1.5,
+          "Rot Damp": 0.1,
+          "Force": 0.065
+        },
+        {
+          "Ballname": "Ball_Stone",
+          "Friction": 0.5,
+          "Elasticity": 0.1,
+          "Mass": 10.0,
+          "CollGroup": "Ball",
+          "Linear Damp": 0.3,
+          "Rot Damp": 0.1,
+          "Force": 0.92
+        },
+        {
+          "Ballname": "Ball_Wood",
+          "Friction": 0.8,
+          "Elasticity": 0.2,
+          "Mass": 1.9,
+          "CollGroup": "Ball",
+          "Linear Damp": 0.9,
+          "Rot Damp": 0.1,
+          "Force": 0.43
+        }
+      ]
+    },
+    "Physicalize_Floors": {
+      "source": "levelinit.nmo",
+      "rows": [
+        {
+          "Group_Name": "Phys_FloorRails",
+          "Friction": 0.7,
+          "Elasticity": 0.3,
+          "Mass": 1.0,
+          "Col Group": "Floor",
+          "Enable Col?": {
+            "parameterIndex": 3999
+          }
+        },
+        {
+          "Group_Name": "Phys_Floors",
+          "Friction": 0.7,
+          "Elasticity": 0.3,
+          "Mass": 1.0,
+          "Col Group": "Floor",
+          "Enable Col?": {
+            "parameterIndex": 4000
+          }
+        },
+        {
+          "Group_Name": "Phys_FloorStopper",
+          "Friction": 0.7,
+          "Elasticity": 0.3,
+          "Mass": 1.0,
+          "Col Group": "Ball",
+          "Enable Col?": {
+            "parameterIndex": 4001
+          }
+        }
+      ]
+    },
+    "Physicalize_Convex": {
+      "source": "levelinit.nmo",
+      "rows": [
+        {
+          "Group Name": "P_Box",
+          "Fixed?": {
+            "parameterIndex": 4003
+          },
+          "Friction": 0.7,
+          "Elasticity": 0.3,
+          "Mass": 1.0,
+          "Col Group": "",
+          "Frozen?": {
+            "parameterIndex": 4004
+          },
+          "Enable Col?": {
+            "parameterIndex": 4005
+          },
+          "autm. Mass Center?": {
+            "parameterIndex": 4006
+          },
+          "Linear Damp": 0.1,
+          "Rot Damp": 0.1
+        },
+        {
+          "Group Name": "P_Ball_Paper",
+          "Fixed?": {
+            "parameterIndex": 4007
+          },
+          "Friction": 0.5,
+          "Elasticity": 0.4,
+          "Mass": 0.2,
+          "Col Group": "",
+          "Frozen?": {
+            "parameterIndex": 4008
+          },
+          "Enable Col?": {
+            "parameterIndex": 4009
+          },
+          "autm. Mass Center?": {
+            "parameterIndex": 4010
+          },
+          "Linear Damp": 1.5,
+          "Rot Damp": 0.1
+        },
+        {
+          "Group Name": "P_Dome",
+          "Fixed?": {
+            "parameterIndex": 4011
+          },
+          "Friction": 0.2,
+          "Elasticity": 0.8,
+          "Mass": 0.2,
+          "Col Group": "",
+          "Frozen?": {
+            "parameterIndex": 4012
+          },
+          "Enable Col?": {
+            "parameterIndex": 4013
+          },
+          "autm. Mass Center?": {
+            "parameterIndex": 4014
+          },
+          "Linear Damp": 0.1,
+          "Rot Damp": 0.1
+        }
+      ]
+    },
+    "Physicalize_Balls": {
+      "source": "levelinit.nmo",
+      "rows": [
+        {
+          "Group Name": "P_Ball_Wood",
+          "Fixed?": {
+            "parameterIndex": 4016
+          },
+          "Friction": 0.6,
+          "Elasticity": 0.2,
+          "Mass": 2.0,
+          "Col Group": "",
+          "Frozen?": {
+            "parameterIndex": 4017
+          },
+          "Enable Col?": {
+            "parameterIndex": 4018
+          },
+          "autm. Mass Center?": {
+            "parameterIndex": 4019
+          },
+          "Linear Damp": 0.6,
+          "Rot Damp": 0.1,
+          "Radius": 2.0
+        },
+        {
+          "Group Name": "P_Ball_Stone",
+          "Fixed?": {
+            "parameterIndex": 4020
+          },
+          "Friction": 0.7,
+          "Elasticity": 0.1,
+          "Mass": 10.0,
+          "Col Group": "",
+          "Frozen?": {
+            "parameterIndex": 4021
+          },
+          "Enable Col?": {
+            "parameterIndex": 4022
+          },
+          "autm. Mass Center?": {
+            "parameterIndex": 4023
+          },
+          "Linear Damp": 0.2,
+          "Rot Damp": 0.1,
+          "Radius": 2.0
+        }
+      ]
+    }
+  },
+  "globals": {
+    "Gravity": [
+      0.0,
+      -20.0,
+      0.0
+    ],
+    "Physic Time Factor": [
+      2.0
+    ]
+  },
+  "flames": {
+    "Emission Delay": 20.0,
+    "Speed": 0.008,
+    "Speed Variance": 0.003,
+    "Lifespan": 1000.0,
+    "Lifespan Variance": 250.0,
+    "Initial Size": 3.0,
+    "Initial Size Variance": 0.3,
+    "Ending Size": 0.1
+  },
+  "sources": {
+    "Balls.nmo": "4539341c9c586bc89d530dba58fbbc19214100859d47f90d59b952de5268adc5",
+    "Levelinit.nmo": "ba10ebde9778d4adb197820d26487ff0d8b3bb26cd2cfe496509a90c4f4ef0be",
+    "Gameplay.nmo": "ec94be462b2d70bf5676fb7dac3b03446fa0c95a6c55f84f21f9b1387edb0646",
+    "PH/PS_FourFlames.nmo": "4335eaa8c0cb55dd0bdaa7c680b145370b9cc145555672f26bd6541ebef86793"
+  },
+  "referenceCommits": {
+    "CKBuildingBlocks": "fca1963e39e64daa480918661732b1b0e45fe7b8",
+    "ivp": "7579664996e68040dd0158081b04f612e6a2d515"
+  }
+}

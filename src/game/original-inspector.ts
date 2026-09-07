@@ -1,5 +1,6 @@
 import { OriginalEngine } from './original-engine'
 import { originalPosition } from './original-data'
+import { PHYSICS_STEP } from './original-physics'
 import type { Material } from './levels'
 
 // Explicit local test route only. No test controls are included in normal gameplay.
@@ -16,8 +17,8 @@ export function inspectOriginal(engine: OriginalEngine) {
   const run = (seconds: number, direction = 0) => {
     if (engine.loading || !engine.body) return
     engine.state.phase = 'playing'; engine.touch.z = direction
-    for (let i = 0; i < seconds * 120 && engine.state.phase === 'playing'; i++) engine.step(1 / 120)
-    engine.touch.z = 0; if (engine.state.phase === 'playing') engine.state.phase = 'paused'; engine.emit()
+    for (let i = 0; i < seconds / PHYSICS_STEP && engine.state.phase === 'playing'; i++) engine.step(PHYSICS_STEP)
+    engine.touch.z = 0; if (engine.state.phase === 'playing') engine.state.phase = 'paused'; engine.audio.paused = true; engine.audio.sync(); engine.emit()
   }
   button('Settle 2 seconds', () => run(2))
   button('Roll forward 2 seconds', () => run(2, -1))

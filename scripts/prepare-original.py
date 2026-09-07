@@ -17,6 +17,7 @@ command = [sys.executable, str(extractor), '--library', str(args.library.resolve
 subprocess.run(command, check=True)
 subprocess.run(command + ['--entities'], check=True)
 for folder in ['sky', 'audio']: (output / folder).mkdir(exist_ok=True)
+subprocess.run(['ffmpeg', '-nostdin', '-loglevel', 'error', '-y', '-i', str(args.game / 'Textures' / 'Particle_Flames.bmp'), str(output / 'textures' / 'Particle_Flames.png')], check=True)
 for file in sorted((args.game / 'Textures' / 'sky').glob('*.bmp')):
     subprocess.run(['ffmpeg', '-nostdin', '-loglevel', 'error', '-y', '-i', str(file), str(output / 'sky' / (file.stem + '.jpg'))], check=True)
 audio_names = ['Music_Theme_1_1', 'Music_Atmo_1', 'Misc_Checkpoint', 'Misc_StartLevel', 'Misc_Fall', 'Misc_Trafo', 'Misc_extraball', 'Extra_Hit', 'Music_EndCheckpoint', 'Roll_Wood_Stone', 'Roll_Stone_Stone', 'Roll_Paper']

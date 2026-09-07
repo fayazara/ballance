@@ -12,7 +12,7 @@ See [Original content import](docs/original-import.md) for setup, implemented be
 - **Escape:** pause. **R:** restart.
 - Three spare lives, original checkpoints/transformers and collectible trails.
 
-All 12 layouts are imported. Level 1 is the first playable integration; later courses still need their special mechanism behaviors and are marked accordingly. Physics is reconstructed, not identical to the original engine.
+All 12 layouts are imported. Level 1 is the first playable integration; later courses still need their special mechanism behaviors and are marked accordingly. Ball and crate material values now come from the original data tables; see [physics findings](docs/original-physics.md). The contact solver is still Rapier, so exact IVP parity is not claimed.
 
 ## Play the independent web courses
 

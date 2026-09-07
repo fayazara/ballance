@@ -5,7 +5,8 @@ The local game now reads the 12 original NMO levels, textures, ball models and s
 ## What works
 
 - Original object transforms, triangle meshes, material slots, UVs, floor/rail collision groups, and each level's five sky textures.
-- Real wood, stone and paper ball meshes with Rapier rigid-body simulation, momentum, rolling, gravity and continuous collision detection.
+- Real wood, stone and paper ball meshes with recovered material parameters, correctly scaled drive impulses, momentum, gravity and continuous collision detection. Paper uses its convex collision hull.
+- Original purple flame texture, with rising particle emitters using recovered lifetime, speed and size settings.
 - Loose balls, crates and domes; shared movable pieces for Level 1's modules 01 and 34.
 - Original reset/checkpoint, transformer, point-extra, life-extra and finish locations.
 - Three spare lives. Point extras generate 22 pursuing particles, each granting 10 time points. Life extras reappear when their section resets; point extras do not. Checkpoints discard uncollected trailing particles.
@@ -17,7 +18,7 @@ The local game now reads the 12 original NMO levels, textures, ball models and s
 
 All twelve courses load, but this is not complete behavioral parity. Levels 2–12 are explicitly marked as mechanics in progress. Their special fans, swinging/hinged mechanisms, collapsible bridges and scripted machinery currently use the imported static meshes where no behavior adapter exists. They are not guaranteed completable.
 
-Level 1 is the first playable integration, with its core interactions implemented. Its shared pushers/sliding stone use reconstructed rigid-body behavior; original physics parameters and constraints have not been recovered. The whole course has not been completed end to end in testing. Lantern/flame effects, scoring-particle motion, transformation timing and finish animation are approximations. The first original music theme is currently reused across levels, with surface-specific rolling sounds selected using the original sound groups. Original menu scripts, cutscenes, tutorials, sound scheduling and the UFO extraction sequence are not executed. The absent thirteenth bonus level is not part of this ISO.
+Level 1 is the first playable integration, with its core interactions implemented. Its shared pushers/sliding stone use reconstructed rigid-body behavior; ball/object material parameters have now been recovered, but complete constraint and solver parity is still outstanding. See [the physics findings](original-physics.md). The whole course has not been completed end to end in testing. Lantern effects, scoring-particle motion, transformation timing and finish animation are approximations. The first original music theme is currently reused across levels, with surface-specific rolling sounds selected using the original sound groups. Original menu scripts, cutscenes, tutorials, sound scheduling and the UFO extraction sequence are not executed. The absent thirteenth bonus level is not part of this ISO.
 
 ## Local asset boundary
 
