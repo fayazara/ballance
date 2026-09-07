@@ -1,0 +1,29 @@
+README.md
+  s_f2a017c1eb8a95::t_029838268533f6 14-16
+docs/original-fans.md
+  s_f2a017c1eb8a95::t_38f4fb1c473399 1-55
+docs/original-import.md
+  s_f2a017c1eb8a95::t_ba2c2207f977c4 10-11,13-14,22,24
+docs/original-transformer-evidence.json
+  s_f2a017c1eb8a95::t_c45040016161f0 1-265
+src/game/original-inspector.ts
+  s_f2a017c1eb8a95::t_ddaf79e79400a2 5,9,13,15,18-19,27-30,34-65,70-79,82
+tests/original-fan.test.ts
+  s_f2a017c1eb8a95::t_4035b8c812732a 1-133
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "036e63899b96b52cd925d28b37b98520ee313221",
+  "prompts": {},
+  "sessions": {
+    "s_f2a017c1eb8a95": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a07b89-b5da-7993-a5cd-aa6860ea5d27",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Fayaz Ahmed <fayazara@gmail.com>"
+    }
+  }
+}
