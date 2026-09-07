@@ -1,0 +1,43 @@
+README.md
+  s_f2a017c1eb8a95::t_64dee84e323ff2 15
+docs/original-import.md
+  s_f2a017c1eb8a95::t_420e27ac2d71cc 8-9,21
+docs/original-physics-evidence.json
+  s_f2a017c1eb8a95::t_acbc765b7a6626 1-221
+docs/original-physics.md
+  s_f2a017c1eb8a95::t_f01a2b81b657f8 1-46
+scripts/dump-original-chunks.cpp
+  s_f2a017c1eb8a95::t_d1f168904835b5 1-11
+scripts/prepare-original.py
+  s_f2a017c1eb8a95::t_994e66ae96b2e5 20
+scripts/read-original-physics.py
+  s_f2a017c1eb8a95::t_2c36acca5f8272 1-63
+src/game/original-engine.ts
+  s_f2a017c1eb8a95::t_d5a5dd5d9ffe2b 8-9,31-32,69-71,95,114,133,146,151-155,157,161-166,171-176,197-198,203-205,253,264,293,298
+src/game/original-flames.ts
+  s_f2a017c1eb8a95::t_fe835999e86d54 1-51
+src/game/original-inspector.ts
+  s_f2a017c1eb8a95::t_1b435487b3fbc8 3,20-21
+src/game/original-physics.ts
+  s_f2a017c1eb8a95::t_316ac9e6c6d963 1-41
+tests/original-import.test.ts
+  s_f2a017c1eb8a95::t_4b1d90e2c17772 6,37,61
+tests/original-physics.test.ts
+  s_f2a017c1eb8a95::t_60a21662eac728 1-76
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "ff89930e615fbd54f1deca346f4e733d29cf12b9",
+  "prompts": {},
+  "sessions": {
+    "s_f2a017c1eb8a95": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a07b89-b5da-7993-a5cd-aa6860ea5d27",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Fayaz Ahmed <fayazara@gmail.com>"
+    }
+  }
+}
