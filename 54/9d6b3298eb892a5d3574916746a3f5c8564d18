@@ -1,0 +1,47 @@
+.gitignore
+  s_f2a017c1eb8a95::t_56a53ffb7f8f04 32-34
+README.md
+  s_f2a017c1eb8a95::t_102a8e8125974d 3,5-17,50-52,58,60,62
+docs/original-import.md
+  s_f2a017c1eb8a95::t_86517572cd0c78 1-64
+package-lock.json
+  s_f2a017c1eb8a95::t_280063d594cfda 11,176-178,1982-1988
+package.json
+  s_f2a017c1eb8a95::t_6419a466d73330 16
+scripts/extract-original.py
+  s_f2a017c1eb8a95::t_0994f3170a68f9 1-97
+scripts/prepare-original.py
+  s_f2a017c1eb8a95::t_975353b3ee7472 1-32
+src/App.css
+  s_f2a017c1eb8a95::t_2704602139907a 5-6
+src/App.tsx
+  s_f2a017c1eb8a95::t_50d922925493f7 7-8,32-33,36,39-45,47,49-70,72-73,96,101,106-107,110-112,115-116
+src/game/original-audio.ts
+  s_f2a017c1eb8a95::t_9d67720f506d46 1-25
+src/game/original-data.ts
+  s_f2a017c1eb8a95::t_ed2438105fe7be 1-52
+src/game/original-engine.ts
+  s_f2a017c1eb8a95::t_2c2df8759e8314 1-301
+src/game/original-inspector.ts
+  s_f2a017c1eb8a95::t_898fd9b6ebf4a7 1-34
+tests/original-import.test.ts
+  s_f2a017c1eb8a95::t_68d9bb1e462084 1-71
+vite.config.ts
+  s_f2a017c1eb8a95::t_ed232139f32136 3-6,8,10-25
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "549d6b3298eb892a5d3574916746a3f5c8564d18",
+  "prompts": {},
+  "sessions": {
+    "s_f2a017c1eb8a95": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a07b89-b5da-7993-a5cd-aa6860ea5d27",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Fayaz Ahmed <fayazara@gmail.com>"
+    }
+  }
+}
