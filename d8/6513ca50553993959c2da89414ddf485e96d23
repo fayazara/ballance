@@ -1,0 +1,41 @@
+README.md
+  s_f2a017c1eb8a95::t_4d6cc1d1dda14f 15-16
+docs/original-fans.md
+  s_f2a017c1eb8a95::t_a9fe39f8661612 41,46-47,50,52-53
+docs/original-hinges.md
+  s_f2a017c1eb8a95::t_76feb954cc4db1 1-43
+docs/original-import.md
+  s_f2a017c1eb8a95::t_9c426d675a3902 10,12,23,25
+docs/original-pushers.md
+  s_f2a017c1eb8a95::t_397f8f65aed689 1-31
+scripts/read-original-hinges.py
+  s_f2a017c1eb8a95::t_b5837daf7d2369 1-82
+src/game/original-data.ts
+  s_f2a017c1eb8a95::t_4e346cdcd70278 4
+src/game/original-engine.ts
+  s_f2a017c1eb8a95::t_8182b8d4426e9d 14-16,46-47,129,145,173-181,194,205,239,263,386
+src/game/original-hinge-data.json
+  s_f2a017c1eb8a95::t_7ac9bebbf66435 1-245
+src/game/original-inspector.ts
+  s_f2a017c1eb8a95::t_5f7370df804b21 1,17-18,22,45-91
+src/game/original-pusher.ts
+  s_f2a017c1eb8a95::t_e311083addbc2c 1-74
+tests/original-pusher.test.ts
+  s_f2a017c1eb8a95::t_a1179c65df333b 1-108
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "d86513ca50553993959c2da89414ddf485e96d23",
+  "prompts": {},
+  "sessions": {
+    "s_f2a017c1eb8a95": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a07b89-b5da-7993-a5cd-aa6860ea5d27",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Fayaz Ahmed <fayazara@gmail.com>"
+    }
+  }
+}
