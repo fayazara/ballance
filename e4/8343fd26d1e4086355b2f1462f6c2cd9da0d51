@@ -1,0 +1,21 @@
+public/licenses/CKBuildingBlocks-Apache-2.0.txt
+  s_f2a017c1eb8a95::t_1622d4e3fb622b 1-201
+src/game/original-chain-data.json
+  s_f2a017c1eb8a95::t_c2f4f18f313544 1-523
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "e48343fd26d1e4086355b2f1462f6c2cd9da0d51",
+  "prompts": {},
+  "sessions": {
+    "s_f2a017c1eb8a95": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a07b89-b5da-7993-a5cd-aa6860ea5d27",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Fayaz Ahmed <fayazara@gmail.com>"
+    }
+  }
+}
