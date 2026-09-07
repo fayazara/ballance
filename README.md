@@ -15,6 +15,8 @@ See [Original content import](docs/original-import.md) for setup, implemented be
 - Seesaws, short/long drawbridges, flap assemblies and pivoting planks now use their recovered hinges and collision shapes. [Hinge implementation and validation](docs/original-hinges.md).
 - Push the round targets to slide the three-post gates out of the passage. Their original compound hulls and guide channels are restored. [Gate implementation notes](docs/original-pushers.md).
 - Linked wooden bridges now flex and release their original connection when the stone ball enters the break trigger. Wood and paper leave it intact. [Bridge implementation notes](docs/original-chain.md).
+- Suspended sacks swing on their physical ropes with the original alternating pushes and respond to ball contact. [Sack physics and reset behavior](docs/original-sacks.md).
+- Swinging platforms use their original hinged bodies and push/coast cycle. Time your approach to board on the return stroke. [Swing behavior and validation](docs/original-swings.md).
 - Fans lift paper using the original force and wind-column dimensions. Steer while rising to reach higher fans and platforms; wood and stone remain grounded. [Fan implementation and outstanding mechanisms](docs/original-fans.md).
 - The old ball breaks into its original wood, stone or paper fragments. Extra lives have iridescent bubbles; point extras have orbiting silver satellites. [Effects notes](docs/original-effects.md).
 
@@ -68,3 +70,9 @@ The fallback mode is an original three-course fan recreation. Physics is a purpo
 Platform and ball textures are procedural. The sky artwork was generated specifically for this project. Geometry and sound are generated in code. No original game binaries, textures, music, or screenshots are bundled in production. The separate local importer reads user-supplied assets. See [the reference notes](docs/references.md) for research and attribution.
 
 Ballance was created by Cyparade and originally published by Atari. The original game is available from [its current publisher on Steam](https://store.steampowered.com/app/2000770/Ballance/).
+
+Rotating target arms now use their recovered three-part collision body, hinge and offset return spring. See [arm physics and validation](docs/original-arms.md).
+
+The crate-supported stones now use their original vertical sliders and proximity activation, including the Level 1 lowering puzzle. See [slider physics and validation](docs/original-slider.md).
+
+Weighted spring lifts now have removable wall bodies, an open doorway and a vertically constrained platform whose height responds to load. See [lift physics and remaining parity work](docs/original-lift.md).

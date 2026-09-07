@@ -1,0 +1,107 @@
+{
+  "source": "P_Modul_34.nmo",
+  "parts": [
+    {
+      "index": 72,
+      "target": "P_Modul_34_Kiste",
+      "fixed": false,
+      "friction": 0.800000011920929,
+      "restitution": 0.4000000059604645,
+      "mass": 1.399999976158142,
+      "collisionGroup": "",
+      "startFrozen": true,
+      "enableCollision": true,
+      "automaticMassCenter": false,
+      "linearDamping": 0.10000000149011612,
+      "angularDamping": 0.10000000149011612,
+      "hulls": [
+        "P_Modul_34_Kiste_Mesh"
+      ],
+      "massCenter": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "index": 142,
+      "target": "P_Modul_34_Schiebestein",
+      "fixed": false,
+      "friction": 0.5,
+      "restitution": 0.4000000059604645,
+      "mass": 1.600000023841858,
+      "collisionGroup": "",
+      "startFrozen": true,
+      "enableCollision": true,
+      "automaticMassCenter": false,
+      "linearDamping": 0.10000000149011612,
+      "angularDamping": 0.10000000149011612,
+      "hulls": [
+        "P_Modul_34_Schiebestein_Mesh"
+      ],
+      "massCenter": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "slider": {
+    "index": 171,
+    "target": "P_Modul_34_Schiebestein",
+    "anchorObject": "FixCube Object",
+    "frame1": [
+      -0.9999916553497314,
+      -1.0000051133829402e-06,
+      8.742545531958967e-08,
+      0,
+      -1.0000575230151298e-06,
+      0.9999916553497314,
+      -1.0000555903388886e-06,
+      0,
+      -8.7476983878787e-08,
+      -9.999438361774082e-07,
+      -0.9999916553497314,
+      0,
+      -7.700011730194092,
+      4.9999918937683105,
+      -4.326765520090703e-06,
+      1
+    ],
+    "frame2": [
+      -0.9999879002571106,
+      -9.99907570076175e-07,
+      8.73249845767532e-08,
+      0,
+      -1.0000043175750761e-06,
+      0.9999879598617554,
+      -1.0000023848988349e-06,
+      0,
+      -8.74240271286908e-08,
+      -9.99992948891304e-07,
+      -0.9999879598617554,
+      0,
+      -7.6999969482421875,
+      -10.000028610229492,
+      0.00019377897842787206,
+      1
+    ],
+    "limitsEnabled": false,
+    "lowerLimit": -1.0,
+    "upperLimit": 1.0
+  },
+  "wake": {
+    "index": 97,
+    "distance": 50.0,
+    "object": "P_Modul_34_Schiebestein",
+    "barycenter": false,
+    "exactnessMin": 55.0,
+    "exactnessMax": 100.0,
+    "minFrameDelay": 10,
+    "maxFrameDelay": 60,
+    "outputFlags": 4,
+    "axes": 5,
+    "squared": true
+  },
+  "wakeTarget": "P_Modul_34_Schiebestein"
+}

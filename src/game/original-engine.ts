@@ -1,3 +1,6 @@
+import { OriginalLift } from './original-lift'
+import { OriginalSlider } from './original-slider'
+import { OriginalArms } from './original-arms'
 import * as THREE from 'three'
 import RAPIER from '@dimforge/rapier3d-compat'
 import type { GameState, Settings } from './engine'
@@ -14,6 +17,8 @@ import { OriginalFan } from './original-fan'
 import { OriginalHinge, ORIGINAL_HINGES } from './original-hinges'
 import type { HingeKind } from './original-hinges'
 import { OriginalChain, ORIGINAL_CHAIN } from './original-chain'
+import { OriginalSack } from './original-sack'
+import { OriginalSwing } from './original-swing'
 import { OriginalPusher, LEVEL_FLOOR_GROUPS, LEVEL_STOPPER_GROUPS } from './original-pusher'
 import { PLAYER_PHYSICS, LOOSE_BALL_PHYSICS, CRATE_PHYSICS, DOME_PHYSICS, FLOOR_PHYSICS, PHYSICS_STEP, GRAVITY, configureBody, configureContact, driveBall } from './original-physics'
 
@@ -47,6 +52,11 @@ export class OriginalEngine {
   pushers: OriginalPusher[] = []
   hinges: OriginalHinge[] = []
   chains: OriginalChain[] = []
+  sacks: OriginalSack[] = []
+  lifts: OriginalLift[] = []
+  sliders: OriginalSlider[] = []
+  arms: OriginalArms[] = []
+  swings: OriginalSwing[] = []
   flames: OriginalFlames[] = []
   flameTexture?: THREE.Texture
   smokeTexture?: THREE.Texture
@@ -172,6 +182,33 @@ export class OriginalEngine {
     this.audio.paused = false; this.audio.sync(); this.audio.effect('Misc_StartLevel'); this.emit()
   }
   addModule(parent: OriginalObject, document: OriginalDocument, materials: Map<number, THREE.MeshPhongMaterial>, sector: number) {
+    if (/^P_Modul_03_/.test(parent.name)) {
+      const lift = new OriginalLift(this.physics!, parent, document, materials, sector)
+      this.lifts.push(lift); this.dynamics.push(...lift.parts)
+      this.worldGroup.add(...lift.parts.map(p => p.mesh)); return
+    }
+    if (/^P_Modul_34_/.test(parent.name)) {
+      const slider = new OriginalSlider(this.physics!, parent, document, materials, sector)
+      this.sliders.push(slider); this.dynamics.push(...slider.parts)
+      this.worldGroup.add(...slider.parts.map(p => p.mesh)); return
+    }
+    if (/^P_Modul_17_/.test(parent.name)) {
+      const arm = new OriginalArms(this.physics!, parent, document, materials, sector)
+      this.arms.push(arm); this.dynamics.push(arm); this.worldGroup.add(arm.mesh)
+      for (let i = 0; i < arm.body.numColliders(); i++) this.surfaceSounds.set(arm.body.collider(i).handle, 'Wood')
+      return
+    }
+    if (/^P_Modul_08_/.test(parent.name)) {
+      const swing = new OriginalSwing(this.physics!, parent, document, materials, sector)
+      this.swings.push(swing); this.dynamics.push(swing); this.worldGroup.add(swing.mesh, swing.decoration)
+      for (let i = 0; i < swing.body.numColliders(); i++) this.surfaceSounds.set(swing.body.collider(i).handle, 'Wood')
+      return
+    }
+    if (/^P_Modul_26_/.test(parent.name)) {
+      const sack = new OriginalSack(this.physics!, parent, document, materials, sector)
+      this.sacks.push(sack); this.dynamics.push(...sack.parts)
+      this.worldGroup.add(sack.decoration, ...sack.parts.map(p => p.mesh)); return
+    }
     if (/^P_Modul_29_/.test(parent.name)) {
       const chain = new OriginalChain(this.physics!, parent, document, materials, sector)
       this.chains.push(chain); this.dynamics.push(...chain.parts)
@@ -199,7 +236,7 @@ export class OriginalEngine {
       const ballKind = /^P_Ball_(Wood|Stone|Paper)/.exec(object.name)?.[1]?.toLowerCase() as Material | undefined
       // Levelinit Physicalize_Convex stores Fixed? = true for P_Dome (parameter 4011).
       const dome = object.name.startsWith('P_Dome_')
-      const moving = !!ballKind || /Schiebestein|^P_Box_|P_Modul_34_Kiste/.test(object.name)
+      const moving = !!ballKind || /^P_Box_/.test(object.name)
       const geometry = originalGeometry(source, matrix, moving)
       const mesh = new THREE.Mesh(geometry, source.materials.map(id => materials.get(id) || this.fallbackMaterial)); mesh.visible = !/Kollisionsquader/.test(object.name); mesh.castShadow = moving; mesh.receiveShadow = true; this.worldGroup.add(mesh)
       mesh.name = object.name
@@ -210,7 +247,7 @@ export class OriginalEngine {
         const origin = originalPosition({ ...object, matrix }); mesh.position.copy(origin)
         const body = this.physics!.createRigidBody(RAPIER.RigidBodyDesc.dynamic().setTranslation(origin.x, origin.y, origin.z).setCcdEnabled(true))
         const collider = ballKind && ballKind !== 'paper' ? RAPIER.ColliderDesc.ball(RADIUS) : RAPIER.ColliderDesc.convexHull(geometry.attributes.position!.array as Float32Array)
-        const properties = ballKind ? LOOSE_BALL_PHYSICS[ballKind] : object.name.includes('Schiebestein') ? { ...CRATE_PHYSICS, mass: 1.6, friction: .5, restitution: .4 } : object.name.includes('P_Modul_34_Kiste') ? { ...CRATE_PHYSICS, mass: 1.4, friction: .8, restitution: .4 } : CRATE_PHYSICS
+        const properties = ballKind ? LOOSE_BALL_PHYSICS[ballKind] : CRATE_PHYSICS
         configureBody(body, properties)
         if (collider) this.physics!.createCollider(configureContact(collider.setMass(properties.mass), properties), body)
         this.dynamics.push({ mesh, body, origin, sector })
@@ -246,6 +283,11 @@ export class OriginalEngine {
     for (const item of this.dynamics.filter(d => d.sector === this.state.checkpoint + 1)) { item.body.setTranslation(item.origin, true); item.body.setRotation({ x: 0, y: 0, z: 0, w: 1 }, true); item.body.setLinvel({ x: 0, y: 0, z: 0 }, true); item.body.setAngvel({ x: 0, y: 0, z: 0 }, true) }
     for (const hinge of this.hinges.filter(h => h.sector === this.state.checkpoint + 1)) hinge.reset()
     for (const chain of this.chains.filter(c => c.sector === this.state.checkpoint + 1)) chain.reset()
+    for (const sack of this.sacks.filter(s => s.sector === this.state.checkpoint + 1)) sack.reset()
+    for (const lift of this.lifts.filter(l => l.sector === this.state.checkpoint + 1)) lift.reset()
+    for (const slider of this.sliders.filter(s => s.sector === this.state.checkpoint + 1)) slider.reset()
+    for (const arm of this.arms.filter(a => a.sector === this.state.checkpoint + 1)) arm.reset()
+    for (const swing of this.swings.filter(s => s.sector === this.state.checkpoint + 1)) swing.reset()
     for (const pickup of this.pickups) if (pickup.sector === this.state.checkpoint + 1 && pickup.object.name.includes('Life')) { pickup.taken = false; if (pickup.mesh) pickup.mesh.visible = true }
     for (const particle of this.pendingPoints) this.worldGroup.remove(particle.mesh)
     this.pendingPoints = []
@@ -271,6 +313,11 @@ export class OriginalEngine {
     const player = new THREE.Vector3().copy(this.body.translation())
     for (const hinge of this.hinges) hinge.update(player)
     for (const chain of this.chains) if (chain.update(player, this.state.material)) this.audio.effect(ORIGINAL_CHAIN.sound)
+    for (const sack of this.sacks) sack.update(dt, this.state.checkpoint + 1)
+    for (const lift of this.lifts) lift.update(player, this.state.checkpoint + 1, dt)
+    for (const slider of this.sliders) slider.update(player, this.state.checkpoint + 1)
+    for (const arm of this.arms) arm.update(dt, this.state.checkpoint + 1)
+    for (const swing of this.swings) swing.update(dt, this.state.checkpoint + 1)
     const nearestFan = this.fans.reduce((distance, fan) => Math.min(distance, fan.origin.distanceTo(player)), Infinity)
     this.audio.fan(nearestFan)
     if (this.transformation.active) {
@@ -388,6 +435,8 @@ export class OriginalEngine {
   resize = () => { const w = this.host.clientWidth, h = this.host.clientHeight; this.camera.aspect = w / Math.max(h, 1); this.camera.updateProjectionMatrix(); this.renderer.setSize(w, h) }
   clearLevel() {
     this.chains = []
+    this.sacks = []
+    this.lifts = []; this.sliders = []; this.arms = []; this.swings = []
     this.cancelTransformation(); this.transformerMeshes.clear()
     this.fans.forEach(f => f.dispose()); this.fans = []; this.audio.stop('Misc_Ventilator')
     if (this.physics) this.debris?.clear(this.physics)

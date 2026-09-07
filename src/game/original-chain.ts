@@ -1,3 +1,4 @@
+import { OriginalProximity } from './original-proximity.ts'
 import * as THREE from 'three'
 import RAPIER from '@dimforge/rapier3d-compat'
 import recovered from './original-chain-data.json' with { type: 'json' }
@@ -12,28 +13,6 @@ export const CHAIN_GROUPS = 0x0080ff7f
 type Plank = { name: string; sector: number; mesh: THREE.Mesh; body: RAPIER.RigidBody; origin: THREE.Vector3 }
 type Connection = { index: number; a: RAPIER.RigidBody; b: RAPIER.RigidBody; anchorA: THREE.Vector3; anchorB: THREE.Vector3; axis: THREE.Vector3; joint?: RAPIER.RevoluteImpulseJoint }
 
-/** Enter-range semantics and adaptive polling from TT Scaleable Proximity.
- * Adapted from CKBuildingBlocks (Apache-2.0); see THIRD_PARTY.md for source and modifications.
- * Script frames are currently mapped to fixed physics ticks; see original-chain.md.
- */
-class Proximity {
-  data: typeof recovered.wake
-  remaining = 1
-  inside = false
-  constructor(data: typeof recovered.wake) { this.data = data }
-  enter(a: THREE.Vector3, b: THREE.Vector3) {
-    if (--this.remaining > 0) return false
-    const d = this.data
-    const squared = ((d.axes & 1) ? (a.x - b.x) ** 2 : 0) + ((d.axes & 2) ? (a.y - b.y) ** 2 : 0) + ((d.axes & 4) ? (a.z - b.z) ** 2 : 0)
-    const distance = squared / SCALE ** 2
-    const min = d.exactnessMin ** 2, max = d.exactnessMax ** 2
-    this.remaining = Math.max(1, d.minFrameDelay + Math.trunc(THREE.MathUtils.clamp((distance - min) / (max - min), 0, 1) * (d.maxFrameDelay - d.minFrameDelay)))
-    const inside = distance < d.distance ** 2
-    const entered = inside && !this.inside; this.inside = inside
-    return entered
-  }
-}
-
 /** Original nine-plank bridge. The rope break removes a joint; planks remain physical. */
 export class OriginalChain {
   name: string
@@ -45,8 +24,8 @@ export class OriginalChain {
   wakeOrigin: THREE.Vector3
   activated = false
   broken = false
-  private wake = new Proximity(recovered.wake)
-  private release = new Proximity(recovered.release)
+  private wake = new OriginalProximity(recovered.wake)
+  private release = new OriginalProximity(recovered.release)
   constructor(world: RAPIER.World, parent: OriginalObject, document: OriginalDocument, materials: Map<number, THREE.MeshPhongMaterial>, sector: number) {
     this.name = parent.name; this.sector = sector; this.world = world
     const parentMatrix = new THREE.Matrix4().fromArray(parent.matrix)
@@ -114,7 +93,7 @@ export class OriginalChain {
     }
     for (const c of this.connections) this.createJoint(c)
     this.activated = false; this.broken = false
-    this.wake = new Proximity(recovered.wake); this.release = new Proximity(recovered.release)
+    this.wake = new OriginalProximity(recovered.wake); this.release = new OriginalProximity(recovered.release)
   }
   get anchorError() {
     return Math.max(...this.connections.filter(c => c.joint).map(c => c.anchorA.clone().applyQuaternion(c.a.rotation()).add(c.a.translation()).distanceTo(c.anchorB.clone().applyQuaternion(c.b.rotation()).add(c.b.translation()))))

@@ -1,0 +1,338 @@
+{
+  "source": "P_Modul_03.nmo",
+  "parts": [
+    {
+      "index": 321,
+      "target": "P_Modul_03_Wall01",
+      "fixed": false,
+      "friction": 0.4000000059604645,
+      "restitution": 0.009999999776482582,
+      "mass": 2.0,
+      "collisionGroup": "",
+      "startFrozen": true,
+      "enableCollision": true,
+      "automaticMassCenter": false,
+      "linearDamping": 0.5,
+      "angularDamping": 1.5,
+      "hulls": [
+        "P_Modul_03_Wall_Coll_Mesh"
+      ],
+      "massCenter": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "index": 251,
+      "target": "P_Modul_03_Wall02",
+      "fixed": false,
+      "friction": 0.4000000059604645,
+      "restitution": 0.009999999776482582,
+      "mass": 2.0,
+      "collisionGroup": "",
+      "startFrozen": true,
+      "enableCollision": true,
+      "automaticMassCenter": false,
+      "linearDamping": 0.5,
+      "angularDamping": 1.5,
+      "hulls": [
+        "P_Modul_03_Wall_Coll_Mesh"
+      ],
+      "massCenter": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "index": 107,
+      "target": "P_Modul_03_Wall03",
+      "fixed": false,
+      "friction": 0.4000000059604645,
+      "restitution": 0.009999999776482582,
+      "mass": 2.0,
+      "collisionGroup": "",
+      "startFrozen": true,
+      "enableCollision": true,
+      "automaticMassCenter": false,
+      "linearDamping": 0.5,
+      "angularDamping": 1.5,
+      "hulls": [
+        "P_Modul_03_Wall_Coll_Mesh"
+      ],
+      "massCenter": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "index": 216,
+      "target": "P_Modul_03_Wall04",
+      "fixed": false,
+      "friction": 0.4000000059604645,
+      "restitution": 0.009999999776482582,
+      "mass": 2.0,
+      "collisionGroup": "",
+      "startFrozen": true,
+      "enableCollision": true,
+      "automaticMassCenter": false,
+      "linearDamping": 0.5,
+      "angularDamping": 1.5,
+      "hulls": [
+        "P_Modul_03_Wall_Coll_Mesh"
+      ],
+      "massCenter": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "index": 286,
+      "target": "P_Modul_03_Wall05",
+      "fixed": false,
+      "friction": 0.4000000059604645,
+      "restitution": 0.009999999776482582,
+      "mass": 2.0,
+      "collisionGroup": "",
+      "startFrozen": true,
+      "enableCollision": true,
+      "automaticMassCenter": false,
+      "linearDamping": 0.5,
+      "angularDamping": 1.5,
+      "hulls": [
+        "P_Modul_03_Wall_Coll_Mesh"
+      ],
+      "massCenter": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "index": 72,
+      "target": "P_Modul_03_Wall06",
+      "fixed": false,
+      "friction": 0.4000000059604645,
+      "restitution": 0.009999999776482582,
+      "mass": 2.0,
+      "collisionGroup": "",
+      "startFrozen": true,
+      "enableCollision": true,
+      "automaticMassCenter": false,
+      "linearDamping": 0.5,
+      "angularDamping": 1.5,
+      "hulls": [
+        "P_Modul_03_Wall_Coll_Mesh"
+      ],
+      "massCenter": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "index": 142,
+      "target": "P_Modul_03_Wall07",
+      "fixed": false,
+      "friction": 0.4000000059604645,
+      "restitution": 0.009999999776482582,
+      "mass": 2.0,
+      "collisionGroup": "",
+      "startFrozen": true,
+      "enableCollision": true,
+      "automaticMassCenter": false,
+      "linearDamping": 0.5,
+      "angularDamping": 1.5,
+      "hulls": [
+        "P_Modul_03_Wall_Coll_Mesh"
+      ],
+      "massCenter": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "index": 181,
+      "target": "P_Modul_03_Gate",
+      "fixed": false,
+      "friction": 0.4000000059604645,
+      "restitution": 0.0,
+      "mass": 2.0,
+      "collisionGroup": "",
+      "startFrozen": true,
+      "enableCollision": true,
+      "automaticMassCenter": false,
+      "linearDamping": 0.5,
+      "angularDamping": 1.0,
+      "hulls": [
+        "P_Modul_03_Gate_Coll01_Mesh",
+        "P_Modul_03_Gate_Coll02_Mesh",
+        "P_Modul_03_Gate_Coll03_Mesh"
+      ],
+      "massCenter": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "index": 379,
+      "target": "P_Modul_03_Floor",
+      "fixed": false,
+      "friction": 0.699999988079071,
+      "restitution": 0.0,
+      "mass": 3.0,
+      "collisionGroup": "",
+      "startFrozen": true,
+      "enableCollision": true,
+      "automaticMassCenter": false,
+      "linearDamping": 1.0,
+      "angularDamping": 3.0,
+      "hulls": [
+        "P_Modul_03_Floor_Mesh"
+      ],
+      "massCenter": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "slider": {
+    "index": 468,
+    "target": "P_Modul_03_Floor",
+    "anchorObject": "FixCube Object",
+    "frame1": [
+      1.262664426349147e-07,
+      8.270717444247566e-12,
+      0.31257396936416626,
+      0,
+      -7.778261533530895e-06,
+      0.31263306736946106,
+      2.9274360713316128e-12,
+      0,
+      -0.312574565410614,
+      -8.401883860642556e-06,
+      -7.150061946958886e-07,
+      0,
+      0.00015292322495952249,
+      -6.117166996002197,
+      -3.183231456205249e-12,
+      1
+    ],
+    "frame2": [
+      1.2626684053884674e-07,
+      6.991740519879386e-12,
+      0.3125743567943573,
+      0,
+      -7.778275175951421e-06,
+      0.31263330578804016,
+      4.547473508864641e-12,
+      0,
+      -0.3125741183757782,
+      -8.401882951147854e-06,
+      -4.467233907234913e-07,
+      0,
+      -0.0004269490600563586,
+      17.078758239746094,
+      8.36735125631094e-11,
+      1
+    ],
+    "limitsEnabled": false,
+    "lowerLimit": -1.0,
+    "upperLimit": 1.0
+  },
+  "spring": {
+    "index": 410,
+    "target": "P_Modul_03_Floor",
+    "anchorObject": "FixCube Object",
+    "position1": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "frame1": [
+      1.262664426349147e-07,
+      8.270717444247566e-12,
+      0.31257396936416626,
+      0,
+      -7.778261533530895e-06,
+      0.31263306736946106,
+      2.9274360713316128e-12,
+      0,
+      -0.312574565410614,
+      -8.401883860642556e-06,
+      -7.150061946958886e-07,
+      0,
+      0.00015292322495952249,
+      -6.117166996002197,
+      -3.183231456205249e-12,
+      1
+    ],
+    "position2": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "frame2": [
+      1.2626684053884674e-07,
+      6.991740519879386e-12,
+      0.3125743567943573,
+      0,
+      -7.778275175951421e-06,
+      0.31263330578804016,
+      4.547473508864641e-12,
+      0,
+      -0.3125741183757782,
+      -8.401882951147854e-06,
+      -4.467233907234913e-07,
+      0,
+      -0.0004269490600563586,
+      17.078758239746094,
+      8.36735125631094e-11,
+      1
+    ],
+    "length": 0.0,
+    "constant": 15.0,
+    "axialDamping": 0.10000000149011612,
+    "globalDamping": 1.0
+  },
+  "wake": {
+    "index": 440,
+    "distance": 35.0,
+    "object": "P_Modul_03_MF",
+    "barycenter": false,
+    "exactnessMin": 35.0,
+    "exactnessMax": 50.0,
+    "minFrameDelay": 10,
+    "maxFrameDelay": 60,
+    "outputFlags": 4,
+    "axes": 5,
+    "squared": true
+  },
+  "wakeFrame": [
+    1.0,
+    9.999999974752427e-07,
+    9.999999974752427e-07,
+    0,
+    9.999999974752427e-07,
+    1.0,
+    9.999999974752427e-07,
+    0,
+    9.999999974752427e-07,
+    9.999999974752427e-07,
+    1.0,
+    0,
+    0.0,
+    0.0,
+    0.0,
+    1
+  ],
+  "wakeTarget": "P_Modul_03_Floor",
+  "fallingGroup": "P_Modul_03_FallingParts",
+  "depthGroup": "DepthTest"
+}

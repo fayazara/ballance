@@ -32,3 +32,6 @@ dist-ssr
 
 # Original game data supplied locally
 .local/
+
+# Python asset-reader cache
+__pycache__/

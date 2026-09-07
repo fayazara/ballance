@@ -11,6 +11,8 @@ The local game now reads the 12 original NMO levels, textures, ball models and s
 - All 113 fan instances use the recovered upward force and oriented wind volumes. Paper rises and can steer between fans; wood and stone stay grounded. Rotors, smoke and original fan audio are active. See [fan behavior and mechanism inventory](original-fans.md).
 - Passive hinges for modules 19, 25, 30, 37 and 41: original pivots, compound hulls, mass centers and activation across 118 instances. See [hinge findings and verification limits](original-hinges.md).
 - Module 29's 17 linked bridges use nine physical planks, ten hinges, the original stone-triggered connection release, tearing sound and sector reset. See [bridge behavior and limits](original-chain.md).
+- Module 26's 18 suspended sacks use physical ropes, ball joints, alternating drive and sector activation/reset. See [sack behavior and limits](original-sacks.md).
+- Module 08's six swinging platforms use an overhead hinge, six collision hulls and the recovered push/coast/reverse/coast sequence. See [swing behavior and limits](original-swings.md).
 - Original reset/checkpoint, transformer, point-extra, life-extra and finish locations.
 - Transformer capture, original animated ring/bar/flash meshes, delayed material replacement and release. See [transformer findings](original-transformer.md).
 - Material-specific debris uses the original ball fragments. Extra lives and point extras use the original bubble, silver-ball and floor textures. See [effects findings](original-effects.md).
@@ -21,7 +23,7 @@ The local game now reads the 12 original NMO levels, textures, ball models and s
 
 ## Remaining fidelity work
 
-All twelve courses load, but this is not complete behavioral parity. Levels 2–12 are explicitly marked as mechanics in progress. Their driven swinging mechanisms, suspended sacks and other scripted machinery still use imported static meshes where no behavior adapter exists. Fans, pushers, five passive hinge types and the linked breakable bridges now have behavior adapters. The [module inventory](original-fans.md#remaining-module-inventory) identifies the remaining gaps. They are not guaranteed completable.
+All twelve courses load, but this is not complete behavioral parity. Levels 2–12 are explicitly marked as mechanics in progress. Fans, pushers, five passive hinge types, linked breakable bridges, suspended sacks, swinging platforms, spring-return rotating arms, crate-supported vertical sliders and weighted spring lifts now have behavior adapters. The [module inventory](original-fans.md#remaining-module-inventory) identifies the remaining gaps. They are not guaranteed completable.
 
 Level 1 is the first playable integration, with its core interactions implemented. Its shared pushers use recovered compound hulls and a physical guide, while the sliding stone uses reconstructed rigid-body behavior; ball/object material parameters have now been recovered, but complete constraint and solver parity is still outstanding. See [the physics findings](original-physics.md). The whole course has not been completed end to end in testing. Lantern effects, scoring-particle motion and finish animation are approximations. Transformer timings and debris parameters now come from the original scripts; exact curve evaluation and the lightning effect remain incomplete. The first original music theme is currently reused across levels, with surface-specific rolling sounds selected using the original sound groups. Original menu scripts, cutscenes, tutorials, sound scheduling and the UFO extraction sequence are not executed. The absent thirteenth bonus level is not part of this ISO.
 
@@ -68,3 +70,9 @@ The converter translates no scripts. The renderer changes Virtools' left-handed 
 The in-app browser was used to visually inspect Level 1 and verify a two-second opening roll, checkpoint activation, fall/respawn, stone transformation, collectible trail scoring, the finish/results trigger, next-course navigation and loading Level 12. Audio elements reached playable state and music playback was observed in browser telemetry; this is not a listening-quality assessment. These targeted checks do not constitute full playthroughs.
 
 For repeatable local checks, `?inspect` adds an explicit developer panel. It can advance a fixed duration, place the ball at interaction markers and report position, material, points and audio state. These controls do not appear on the normal game route and are excluded from production. Inspection runs do not save records.
+
+The six Module 17 rotating arms use their original hinge and offset spring attachment points. All three ball materials can push through the tested Level 9 arm. See [recovered arm behavior and limits](original-arms.md).
+
+Module 34 now constrains the supported stone vertically and restores its original proximity wake/reset sequence. The tested Level 1 crate removal lowers the stone into a traversable upper path. See [slider findings and limits](original-slider.md).
+
+Module 03 is now a weighted spring lift: its seven walls and open doorway can be knocked off to reduce the load and raise the platform. All nine placements are simulated, and the Level 7 doorway/wall-removal interaction is verified. See [lift findings and remaining limits](original-lift.md).

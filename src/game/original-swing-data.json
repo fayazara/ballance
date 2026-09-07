@@ -1,0 +1,118 @@
+{
+  "source": "P_Modul_08.nmo",
+  "body": {
+    "index": 122,
+    "target": "P_Modul_08_Schaukel",
+    "fixed": false,
+    "friction": 0.699999988079071,
+    "restitution": 0.4000000059604645,
+    "mass": 10.0,
+    "collisionGroup": "Floor",
+    "startFrozen": true,
+    "enableCollision": true,
+    "automaticMassCenter": false,
+    "linearDamping": 0.4000000059604645,
+    "angularDamping": 0.10000000149011612,
+    "hulls": [
+      "P_Modul_08_Col1_Mesh",
+      "P_Modul_08_Col2_Mesh",
+      "P_Modul_08_Col3_Mesh",
+      "P_Modul_08_Col4_Mesh",
+      "P_Modul_08_Col5_Mesh",
+      "P_Modul_08_Col6_Mesh"
+    ],
+    "massCenter": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "hinge": {
+    "index": 156,
+    "target": "P_Modul_08_Schaukel",
+    "anchorObject": "FixCube Object",
+    "frameName": "P_Modul_08_HingeFrame",
+    "frame": [
+      -0.9999972581863403,
+      -4.3421586326530814e-08,
+      -9.82097276391869e-07,
+      0,
+      7.798122148017228e-09,
+      0.9999970197677612,
+      2.1508453755814116e-06,
+      0,
+      -1.0605397164908936e-06,
+      1.1779102493392202e-07,
+      -0.9999970197677612,
+      0,
+      -3.637978807091713e-12,
+      11.37939453125,
+      2.309792398591526e-05,
+      1
+    ],
+    "limitsEnabled": false,
+    "lowerLimit": -45.0,
+    "upperLimit": 45.0
+  },
+  "forces": [
+    {
+      "index": 139,
+      "target": "P_Modul_08_Schaukel",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "positionFrame": "P_Modul_08_Schaukel",
+      "direction": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "directionFrame": "P_Modul_08_Fix",
+      "impulse": 1.100000023841858
+    },
+    {
+      "index": 77,
+      "target": "P_Modul_08_Schaukel",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "positionFrame": "P_Modul_08_Schaukel",
+      "direction": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "directionFrame": "P_Modul_08_Fix",
+      "impulse": 1.100000023841858
+    }
+  ],
+  "stages": [
+    {
+      "timerIndex": 59,
+      "durationMs": 500.0,
+      "force": 0
+    },
+    {
+      "timerIndex": 168,
+      "durationMs": 500.0,
+      "force": null
+    },
+    {
+      "timerIndex": 162,
+      "durationMs": 500.0,
+      "force": 1
+    },
+    {
+      "timerIndex": 174,
+      "durationMs": 500.0,
+      "force": null
+    }
+  ],
+  "startupDelayFrames": 1,
+  "wakeTarget": "P_Modul_08_Schaukel",
+  "decoration": "P_Modul_08_Fix"
+}

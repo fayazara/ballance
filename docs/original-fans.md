@@ -34,22 +34,22 @@ These checks verify this fan route, not full completion of all twelve courses.
 
 ## Remaining module inventory
 
-Counts are module instances in the imported twelve-level pack. “Static” below describes the current runtime adapter, not an assertion that every component should move. Original scripts/constraints still need to be recovered and validated for those modules. Importing the meshes alone does not establish gameplay parity.
+Counts are module instances in the imported twelve-level pack. Every listed type now has a physics adapter. Shared lifecycle behavior and complete routes still require verification. Importing the meshes alone does not establish gameplay parity.
 
 | Module | Instances | Imported parts | Current behavior / outstanding work |
 | --- | ---: | --- | --- |
 | 01 | 24 | Pusher, Rinne, Filler | Original compound hulls, physical guide and collision exclusions implemented; Level 1 opening/crossing tested. See [pusher findings](original-pushers.md). |
-| 03 | 9 | Floor, walls, Gate | Static; gate behavior not ported |
-| 08 | 6 | Fix, Schaukel | Static; swinging mechanism not ported |
-| 17 | 6 | Dreharme | Static; rotating-arm mechanism not ported |
+| 03 | 9 | Floor, walls, Gate | Nine-body spring lift with removable wall weights, open doorway, proximity activation and reset implemented; see [lift validation](original-lift.md) |
+| 08 | 6 | Fix, Schaukel | Original six-hull hinged body, four-stage drive/coast sequence and sector reset implemented; see [swing validation](original-swings.md) |
+| 17 | 6 | Dreharme | Original three-hull body, hinge, offset return spring and sector reset implemented; see [arm validation](original-arms.md) |
 | 18 | 113 | Rotor, Kollisionsquader | Fan force, trigger and rotor implemented; targeted route verified |
 | 19 | 7 | Axis, Flaps | Passive hinge and original compound collision implemented; see [hinge validation](original-hinges.md) |
 | 25 | 29 | Bridge, Hinge | Passive hinge and original compound collision implemented; see [hinge validation](original-hinges.md) |
-| 26 | 18 | Sack, Halter, Rope | Static; suspended-sack constraints not ported |
+| 26 | 18 | Sack, Halter, Rope | Massive non-colliding rope, two ball joints, alternating drive and sector lifecycle implemented; see [sack validation](original-sacks.md) |
 | 29 | 17 | Nine Platte pieces | Nine physical planks, ten hinges, stone-triggered release and sector reset implemented; see [bridge validation](original-chain.md) |
 | 30 | 17 | Wippe | Passive hinge and original compound collision implemented; see [hinge validation](original-hinges.md) |
-| 34 | 19 | Schiebestein, Kiste | Dynamic bodies; original constraints and complete script flow still need verification |
+| 34 | 19 | Schiebestein, Kiste | Original crate and vertical slider, proximity activation and sector reset implemented; see [slider validation](original-slider.md) |
 | 37 | 22 | Bridge, Hinge | Passive hinge and original compound collision implemented; see [hinge validation](original-hinges.md) |
 | 41 | 43 | P_Modul_41 | Passive hinge and original compound collision implemented; see [hinge validation](original-hinges.md) |
 
-Also outstanding: full level playthroughs, exact original constraint/contact solver behavior, tutorial and cutscene flows, per-level music scheduling, transformer lightning/curve fidelity, and the complete UFO finish sequence. See `original-import.md` for the overall runtime boundary. This project is not yet a 1:1 recreation.
+Also outstanding: original DepthTest cleanup for fallen objects, complete sector lifecycle and collision filtering, full level playthroughs, exact original constraint/contact solver behavior, tutorial and cutscene flows, per-level music scheduling, transformer lightning/curve fidelity, and the complete UFO finish sequence. See `original-import.md` for the overall runtime boundary. This project is not yet a 1:1 recreation.

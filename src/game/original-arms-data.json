@@ -1,0 +1,75 @@
+{
+  "source": "P_Modul_17.nmo",
+  "body": {
+    "index": 116,
+    "target": "Modul17_Dreharme",
+    "fixed": false,
+    "friction": 0.699999988079071,
+    "restitution": 0.4000000059604645,
+    "mass": 3.0,
+    "collisionGroup": "Floor",
+    "startFrozen": false,
+    "enableCollision": true,
+    "automaticMassCenter": false,
+    "linearDamping": 3.0,
+    "angularDamping": 0.004999999888241291,
+    "hulls": [
+      "P_Modul_17_Col01_Mesh",
+      "P_Modul_17_Col02_Mesh",
+      "P_Modul_17_Col03_Mesh"
+    ],
+    "massCenter": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "hinge": {
+    "index": 67,
+    "target": "Modul17_Dreharme",
+    "anchorObject": "FixCube Object",
+    "frameName": "P_Modul_17_HingeFrame",
+    "frame": [
+      -8.742278367890322e-08,
+      2.0000004496978363e-06,
+      -2.0,
+      0,
+      -1.999998688697815,
+      -1.6423739452875452e-06,
+      8.742323132082674e-08,
+      0,
+      2.3576260446134256e-06,
+      1.999998688697815,
+      1.9999984033347573e-06,
+      0,
+      -4.702351361629553e-06,
+      -3.7486774921417236,
+      -3.7486772725969786e-06,
+      1
+    ],
+    "limitsEnabled": false,
+    "lowerLimit": -45.0,
+    "upperLimit": 45.0
+  },
+  "spring": {
+    "index": 50,
+    "target": "Modul17_Dreharme",
+    "anchorObject": "FixCube Object",
+    "position1": [
+      0.0,
+      4.0,
+      0.0
+    ],
+    "frame1": "P_Modul_17_HingeFrame",
+    "position2": [
+      0.0,
+      0.0,
+      -4.0
+    ],
+    "frame2": "Modul17_Dreharme",
+    "length": 0.0,
+    "constant": 0.3199999928474426,
+    "axialDamping": 0.10000000149011612,
+    "globalDamping": 0.10000000149011612
+  }
+}
