@@ -14,6 +14,7 @@ See [Original content import](docs/original-import.md) for setup, implemented be
 - Transformers pull the ball to the center, play the original ring animation, then replace its material and release it. [Timing and fidelity notes](docs/original-transformer.md).
 - Seesaws, short/long drawbridges, flap assemblies and pivoting planks now use their recovered hinges and collision shapes. [Hinge implementation and validation](docs/original-hinges.md).
 - Push the round targets to slide the three-post gates out of the passage. Their original compound hulls and guide channels are restored. [Gate implementation notes](docs/original-pushers.md).
+- Linked wooden bridges now flex and release their original connection when the stone ball enters the break trigger. Wood and paper leave it intact. [Bridge implementation notes](docs/original-chain.md).
 - Fans lift paper using the original force and wind-column dimensions. Steer while rising to reach higher fans and platforms; wood and stone remain grounded. [Fan implementation and outstanding mechanisms](docs/original-fans.md).
 - The old ball breaks into its original wood, stone or paper fragments. Extra lives have iridescent bubbles; point extras have orbiting silver satellites. [Effects notes](docs/original-effects.md).
 

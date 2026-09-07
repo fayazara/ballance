@@ -46,7 +46,7 @@ Counts are module instances in the imported twelve-level pack. “Static” belo
 | 19 | 7 | Axis, Flaps | Passive hinge and original compound collision implemented; see [hinge validation](original-hinges.md) |
 | 25 | 29 | Bridge, Hinge | Passive hinge and original compound collision implemented; see [hinge validation](original-hinges.md) |
 | 26 | 18 | Sack, Halter, Rope | Static; suspended-sack constraints not ported |
-| 29 | 17 | Nine Platte pieces | Static; platform script behavior not ported |
+| 29 | 17 | Nine Platte pieces | Nine physical planks, ten hinges, stone-triggered release and sector reset implemented; see [bridge validation](original-chain.md) |
 | 30 | 17 | Wippe | Passive hinge and original compound collision implemented; see [hinge validation](original-hinges.md) |
 | 34 | 19 | Schiebestein, Kiste | Dynamic bodies; original constraints and complete script flow still need verification |
 | 37 | 22 | Bridge, Hinge | Passive hinge and original compound collision implemented; see [hinge validation](original-hinges.md) |

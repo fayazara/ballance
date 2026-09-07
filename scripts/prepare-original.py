@@ -23,6 +23,7 @@ for file in sorted((args.game / 'Textures' / 'sky').glob('*.bmp')):
     subprocess.run(['ffmpeg', '-nostdin', '-loglevel', 'error', '-y', '-i', str(file), str(output / 'sky' / (file.stem + '.jpg'))], check=True)
 audio_names = ['Music_Theme_1_1', 'Music_Atmo_1', 'Misc_Checkpoint', 'Misc_StartLevel', 'Misc_Fall', 'Misc_Trafo', 'Misc_Ventilator', 'Misc_extraball', 'Extra_Hit', 'Music_EndCheckpoint', 'Roll_Wood_Stone', 'Roll_Stone_Stone', 'Roll_Paper']
 audio_names += [f'Roll_{ball}_{surface}' for ball in ['Wood', 'Stone'] for surface in ['Wood', 'Metal']]
+audio_names.append('Misc_RopeTears')
 for name in audio_names:
     subprocess.run(['ffmpeg', '-nostdin', '-loglevel', 'error', '-y', '-i', str(args.game / 'Sounds' / (name + '.wav')), '-c:a', 'libvorbis', '-q:a', '3', str(output / 'audio' / (name + '.ogg'))], check=True)
 levels = []

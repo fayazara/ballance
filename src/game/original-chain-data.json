@@ -1,0 +1,523 @@
+{
+  "source": "P_Modul_29.nmo",
+  "parts": [
+    {
+      "index": 384,
+      "target": "P_Modul_29_Platte06",
+      "fixed": false,
+      "friction": 0.699999988079071,
+      "restitution": 0.4000000059604645,
+      "mass": 0.5,
+      "collisionGroup": "Modul29",
+      "startFrozen": true,
+      "enableCollision": true,
+      "automaticMassCenter": false,
+      "linearDamping": 0.10000000149011612,
+      "angularDamping": 0.30000001192092896,
+      "hulls": [
+        "P_Modul_29_Platte06_Mesh"
+      ],
+      "massCenter": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "index": 419,
+      "target": "P_Modul_29_Platte01",
+      "fixed": false,
+      "friction": 0.699999988079071,
+      "restitution": 0.4000000059604645,
+      "mass": 0.5,
+      "collisionGroup": "Modul29",
+      "startFrozen": true,
+      "enableCollision": true,
+      "automaticMassCenter": false,
+      "linearDamping": 0.10000000149011612,
+      "angularDamping": 0.30000001192092896,
+      "hulls": [
+        "P_Modul_29_Platte01_Mesh"
+      ],
+      "massCenter": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "index": 454,
+      "target": "P_Modul_29_Platte02",
+      "fixed": false,
+      "friction": 0.699999988079071,
+      "restitution": 0.4000000059604645,
+      "mass": 0.5,
+      "collisionGroup": "Modul29",
+      "startFrozen": true,
+      "enableCollision": true,
+      "automaticMassCenter": false,
+      "linearDamping": 0.10000000149011612,
+      "angularDamping": 0.30000001192092896,
+      "hulls": [
+        "P_Modul_29_Platte02_Mesh"
+      ],
+      "massCenter": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "index": 489,
+      "target": "P_Modul_29_Platte03",
+      "fixed": false,
+      "friction": 0.699999988079071,
+      "restitution": 0.4000000059604645,
+      "mass": 0.5,
+      "collisionGroup": "Modul29",
+      "startFrozen": true,
+      "enableCollision": true,
+      "automaticMassCenter": false,
+      "linearDamping": 0.10000000149011612,
+      "angularDamping": 0.30000001192092896,
+      "hulls": [
+        "P_Modul_29_Platte03_Mesh"
+      ],
+      "massCenter": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "index": 524,
+      "target": "P_Modul_29_Platte04",
+      "fixed": false,
+      "friction": 0.699999988079071,
+      "restitution": 0.4000000059604645,
+      "mass": 0.5,
+      "collisionGroup": "Modul29",
+      "startFrozen": true,
+      "enableCollision": true,
+      "automaticMassCenter": false,
+      "linearDamping": 0.10000000149011612,
+      "angularDamping": 0.30000001192092896,
+      "hulls": [
+        "P_Modul_29_Platte04_Mesh"
+      ],
+      "massCenter": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "index": 559,
+      "target": "P_Modul_29_Platte07",
+      "fixed": false,
+      "friction": 0.699999988079071,
+      "restitution": 0.4000000059604645,
+      "mass": 0.5,
+      "collisionGroup": "Modul29",
+      "startFrozen": true,
+      "enableCollision": true,
+      "automaticMassCenter": false,
+      "linearDamping": 0.10000000149011612,
+      "angularDamping": 0.30000001192092896,
+      "hulls": [
+        "P_Modul_29_Platte07_Mesh"
+      ],
+      "massCenter": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "index": 594,
+      "target": "P_Modul_29_Platte08",
+      "fixed": false,
+      "friction": 0.699999988079071,
+      "restitution": 0.4000000059604645,
+      "mass": 0.5,
+      "collisionGroup": "Modul29",
+      "startFrozen": true,
+      "enableCollision": true,
+      "automaticMassCenter": false,
+      "linearDamping": 0.10000000149011612,
+      "angularDamping": 0.30000001192092896,
+      "hulls": [
+        "P_Modul_29_Platte08_Mesh"
+      ],
+      "massCenter": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "index": 629,
+      "target": "P_Modul_29_Platte09",
+      "fixed": false,
+      "friction": 0.699999988079071,
+      "restitution": 0.4000000059604645,
+      "mass": 1.0,
+      "collisionGroup": "Modul29",
+      "startFrozen": true,
+      "enableCollision": true,
+      "automaticMassCenter": false,
+      "linearDamping": 0.10000000149011612,
+      "angularDamping": 0.30000001192092896,
+      "hulls": [
+        "P_Modul_29_Platte09_Mesh"
+      ],
+      "massCenter": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "index": 664,
+      "target": "P_Modul_29_Platte05",
+      "fixed": false,
+      "friction": 0.699999988079071,
+      "restitution": 0.4000000059604645,
+      "mass": 0.5,
+      "collisionGroup": "Modul29",
+      "startFrozen": true,
+      "enableCollision": true,
+      "automaticMassCenter": false,
+      "linearDamping": 0.10000000149011612,
+      "angularDamping": 0.30000001192092896,
+      "hulls": [
+        "P_Modul_29_Platte05_Mesh"
+      ],
+      "massCenter": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "joints": [
+    {
+      "index": 116,
+      "target": "P_Modul_29_Platte01",
+      "anchorObject": "FixCube Object",
+      "frameName": "P_Modul_29_HingeFrame01",
+      "hingeFrame": [
+        0.9999999403953552,
+        0.0,
+        0.0,
+        0,
+        0.0,
+        0.9999999403953552,
+        0.0,
+        0,
+        0.0,
+        0.0,
+        0.9999999403953552,
+        0,
+        -6.583942890167236,
+        -7.519125233557133e-08,
+        8.34230391433266e-08,
+        1
+      ],
+      "limitsEnabled": false,
+      "lowerLimit": -45.0,
+      "upperLimit": 45.0
+    },
+    {
+      "index": 133,
+      "target": "P_Modul_29_Platte09",
+      "anchorObject": "FixCube Object",
+      "frameName": "P_Modul_29_HingeFrame10",
+      "hingeFrame": [
+        0.9999999403953552,
+        0.0,
+        0.0,
+        0,
+        0.0,
+        0.9999999403953552,
+        0.0,
+        0,
+        0.0,
+        0.0,
+        0.9999999403953552,
+        0,
+        8.22392463684082,
+        -7.519125233557133e-08,
+        8.34230391433266e-08,
+        1
+      ],
+      "limitsEnabled": false,
+      "lowerLimit": -45.0,
+      "upperLimit": 45.0
+    },
+    {
+      "index": 151,
+      "target": "P_Modul_29_Platte09",
+      "anchorObject": "P_Modul_29_Platte08",
+      "frameName": "P_Modul_29_HingeFrame09",
+      "hingeFrame": [
+        0.9999999403953552,
+        0.0,
+        0.0,
+        0,
+        0.0,
+        0.9999999403953552,
+        0.0,
+        0,
+        0.0,
+        0.0,
+        0.9999999403953552,
+        0,
+        6.591739654541016,
+        -7.519125233557133e-08,
+        8.34230391433266e-08,
+        1
+      ],
+      "limitsEnabled": false,
+      "lowerLimit": -45.0,
+      "upperLimit": 45.0
+    },
+    {
+      "index": 169,
+      "target": "P_Modul_29_Platte08",
+      "anchorObject": "P_Modul_29_Platte07",
+      "frameName": "P_Modul_29_HingeFrame08",
+      "hingeFrame": [
+        0.9999999403953552,
+        0.0,
+        0.0,
+        0,
+        0.0,
+        0.9999999403953552,
+        0.0,
+        0,
+        0.0,
+        0.0,
+        0.9999999403953552,
+        0,
+        4.935548782348633,
+        -7.519125233557133e-08,
+        8.34230391433266e-08,
+        1
+      ],
+      "limitsEnabled": false,
+      "lowerLimit": -45.0,
+      "upperLimit": 45.0
+    },
+    {
+      "index": 187,
+      "target": "P_Modul_29_Platte07",
+      "anchorObject": "P_Modul_29_Platte06",
+      "frameName": "P_Modul_29_HingeFrame07",
+      "hingeFrame": [
+        0.9999999403953552,
+        0.0,
+        0.0,
+        0,
+        0.0,
+        0.9999999403953552,
+        0.0,
+        0,
+        0.0,
+        0.0,
+        0.9999999403953552,
+        0,
+        3.3272154331207275,
+        -7.519125233557133e-08,
+        8.34230391433266e-08,
+        1
+      ],
+      "limitsEnabled": false,
+      "lowerLimit": -45.0,
+      "upperLimit": 45.0
+    },
+    {
+      "index": 205,
+      "target": "P_Modul_29_Platte06",
+      "anchorObject": "P_Modul_29_Platte05",
+      "frameName": "P_Modul_29_HingeFrame06",
+      "hingeFrame": [
+        0.9999999403953552,
+        0.0,
+        0.0,
+        0,
+        0.0,
+        0.9999999403953552,
+        0.0,
+        0,
+        0.0,
+        0.0,
+        0.9999999403953552,
+        0,
+        1.6387503147125244,
+        -7.519125233557133e-08,
+        8.34230391433266e-08,
+        1
+      ],
+      "limitsEnabled": false,
+      "lowerLimit": -45.0,
+      "upperLimit": 45.0
+    },
+    {
+      "index": 223,
+      "target": "P_Modul_29_Platte05",
+      "anchorObject": "P_Modul_29_Platte04",
+      "frameName": "P_Modul_29_HingeFrame05",
+      "hingeFrame": [
+        0.9999999403953552,
+        0.0,
+        0.0,
+        0,
+        0.0,
+        0.9999999403953552,
+        0.0,
+        0,
+        0.0,
+        0.0,
+        0.9999999403953552,
+        0,
+        0.03346666693687439,
+        -7.519125233557133e-08,
+        8.34230391433266e-08,
+        1
+      ],
+      "limitsEnabled": false,
+      "lowerLimit": -45.0,
+      "upperLimit": 45.0
+    },
+    {
+      "index": 241,
+      "target": "P_Modul_29_Platte04",
+      "anchorObject": "P_Modul_29_Platte03",
+      "frameName": "P_Modul_29_HingeFrame04",
+      "hingeFrame": [
+        0.9999999403953552,
+        0.0,
+        0.0,
+        0,
+        0.0,
+        0.9999999403953552,
+        0.0,
+        0,
+        0.0,
+        0.0,
+        0.9999999403953552,
+        0,
+        -1.6387497186660767,
+        -7.519125233557133e-08,
+        8.34230391433266e-08,
+        1
+      ],
+      "limitsEnabled": false,
+      "lowerLimit": -45.0,
+      "upperLimit": 45.0
+    },
+    {
+      "index": 259,
+      "target": "P_Modul_29_Platte03",
+      "anchorObject": "P_Modul_29_Platte02",
+      "frameName": "P_Modul_29_HingeFrame03",
+      "hingeFrame": [
+        0.9999999403953552,
+        0.0,
+        0.0,
+        0,
+        0.0,
+        0.9999999403953552,
+        0.0,
+        0,
+        0.0,
+        0.0,
+        0.9999999403953552,
+        0,
+        -3.290875196456909,
+        -7.519125233557133e-08,
+        8.34230391433266e-08,
+        1
+      ],
+      "limitsEnabled": false,
+      "lowerLimit": -45.0,
+      "upperLimit": 45.0
+    },
+    {
+      "index": 277,
+      "target": "P_Modul_29_Platte02",
+      "anchorObject": "P_Modul_29_Platte01",
+      "frameName": "P_Modul_29_HingeFrame02",
+      "hingeFrame": [
+        0.9999999403953552,
+        0.0,
+        0.0,
+        0,
+        0.0,
+        0.9999999403953552,
+        0.0,
+        0,
+        0.0,
+        0.0,
+        0.9999999403953552,
+        0,
+        -4.9162492752075195,
+        -7.519125233557133e-08,
+        8.34230391433266e-08,
+        1
+      ],
+      "limitsEnabled": false,
+      "lowerLimit": -45.0,
+      "upperLimit": 45.0
+    }
+  ],
+  "wake": {
+    "index": 99,
+    "distance": 80.0,
+    "object": "P_Modul_29_MF",
+    "barycenter": false,
+    "exactnessMin": 85.0,
+    "exactnessMax": 100.0,
+    "minFrameDelay": 10,
+    "maxFrameDelay": 60,
+    "outputFlags": 4,
+    "axes": 5,
+    "squared": true
+  },
+  "wakeFrame": [
+    1.0,
+    0.0,
+    0.0,
+    0,
+    0.0,
+    1.0,
+    0.0,
+    0,
+    0.0,
+    0.0,
+    1.0,
+    0,
+    0.0,
+    0.0,
+    0.0,
+    1
+  ],
+  "wakeTarget": "P_Modul_29_Platte04",
+  "release": {
+    "index": 344,
+    "distance": 4.0,
+    "object": "P_Modul_29_Platte06",
+    "barycenter": false,
+    "exactnessMin": 8.0,
+    "exactnessMax": 20.0,
+    "minFrameDelay": 2,
+    "maxFrameDelay": 30,
+    "outputFlags": 4,
+    "axes": 7,
+    "squared": true
+  },
+  "releaseBall": "Ball_Stone",
+  "releaseHinge": 187,
+  "sound": "Misc_RopeTears"
+}

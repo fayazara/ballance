@@ -13,6 +13,7 @@ import { OriginalCollectible, OriginalCollectibleAssets } from './original-colle
 import { OriginalFan } from './original-fan'
 import { OriginalHinge, ORIGINAL_HINGES } from './original-hinges'
 import type { HingeKind } from './original-hinges'
+import { OriginalChain, ORIGINAL_CHAIN } from './original-chain'
 import { OriginalPusher, LEVEL_FLOOR_GROUPS, LEVEL_STOPPER_GROUPS } from './original-pusher'
 import { PLAYER_PHYSICS, LOOSE_BALL_PHYSICS, CRATE_PHYSICS, DOME_PHYSICS, FLOOR_PHYSICS, PHYSICS_STEP, GRAVITY, configureBody, configureContact, driveBall } from './original-physics'
 
@@ -45,6 +46,7 @@ export class OriginalEngine {
   dynamics: Moving[] = []
   pushers: OriginalPusher[] = []
   hinges: OriginalHinge[] = []
+  chains: OriginalChain[] = []
   flames: OriginalFlames[] = []
   flameTexture?: THREE.Texture
   smokeTexture?: THREE.Texture
@@ -170,6 +172,12 @@ export class OriginalEngine {
     this.audio.paused = false; this.audio.sync(); this.audio.effect('Misc_StartLevel'); this.emit()
   }
   addModule(parent: OriginalObject, document: OriginalDocument, materials: Map<number, THREE.MeshPhongMaterial>, sector: number) {
+    if (/^P_Modul_29_/.test(parent.name)) {
+      const chain = new OriginalChain(this.physics!, parent, document, materials, sector)
+      this.chains.push(chain); this.dynamics.push(...chain.parts)
+      for (const part of chain.parts) { this.worldGroup.add(part.mesh); this.surfaceSounds.set(part.body.collider(0).handle, 'Wood') }
+      return
+    }
     const hingeKind = Object.keys(ORIGINAL_HINGES).find(name => parent.name.startsWith(name + '_')) as HingeKind | undefined
     if (hingeKind) {
       const hinge = new OriginalHinge(this.physics!, parent, document, materials, sector, hingeKind)
@@ -237,6 +245,7 @@ export class OriginalEngine {
     this.transform(this.checkpointMaterial, false); this.follow.copy(point); this.ball.position.copy(point)
     for (const item of this.dynamics.filter(d => d.sector === this.state.checkpoint + 1)) { item.body.setTranslation(item.origin, true); item.body.setRotation({ x: 0, y: 0, z: 0, w: 1 }, true); item.body.setLinvel({ x: 0, y: 0, z: 0 }, true); item.body.setAngvel({ x: 0, y: 0, z: 0 }, true) }
     for (const hinge of this.hinges.filter(h => h.sector === this.state.checkpoint + 1)) hinge.reset()
+    for (const chain of this.chains.filter(c => c.sector === this.state.checkpoint + 1)) chain.reset()
     for (const pickup of this.pickups) if (pickup.sector === this.state.checkpoint + 1 && pickup.object.name.includes('Life')) { pickup.taken = false; if (pickup.mesh) pickup.mesh.visible = true }
     for (const particle of this.pendingPoints) this.worldGroup.remove(particle.mesh)
     this.pendingPoints = []
@@ -261,6 +270,7 @@ export class OriginalEngine {
     if (!this.state.time) { this.cancelTransformation(); this.state.phase = 'lost'; this.audio.paused = true; this.audio.sync(); return }
     const player = new THREE.Vector3().copy(this.body.translation())
     for (const hinge of this.hinges) hinge.update(player)
+    for (const chain of this.chains) if (chain.update(player, this.state.material)) this.audio.effect(ORIGINAL_CHAIN.sound)
     const nearestFan = this.fans.reduce((distance, fan) => Math.min(distance, fan.origin.distanceTo(player)), Infinity)
     this.audio.fan(nearestFan)
     if (this.transformation.active) {
@@ -377,6 +387,7 @@ export class OriginalEngine {
   blur = () => { this.keys.clear(); if (this.state.phase === 'playing') this.pause() }
   resize = () => { const w = this.host.clientWidth, h = this.host.clientHeight; this.camera.aspect = w / Math.max(h, 1); this.camera.updateProjectionMatrix(); this.renderer.setSize(w, h) }
   clearLevel() {
+    this.chains = []
     this.cancelTransformation(); this.transformerMeshes.clear()
     this.fans.forEach(f => f.dispose()); this.fans = []; this.audio.stop('Misc_Ventilator')
     if (this.physics) this.debris?.clear(this.physics)

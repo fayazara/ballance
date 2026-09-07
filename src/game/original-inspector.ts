@@ -7,19 +7,21 @@ import * as THREE from 'three'
 
 // Explicit local test route only. No test controls are included in normal gameplay.
 export function inspectOriginal(engine: OriginalEngine) {
-  const style = document.createElement('style'); style.textContent = '.modal-backdrop { visibility: hidden }'; document.head.append(style)
+  const style = document.createElement('style'); style.textContent = '.modal-backdrop { visibility: hidden } .original-test-panel.collapsed > :not(:first-child) { display: none !important }'; document.head.append(style)
   const panel = document.createElement('aside')
   panel.setAttribute('aria-label', 'Original game test controls')
+  panel.className = 'original-test-panel'
   panel.style.cssText = 'position:fixed;top:100px;left:20px;z-index:30;padding:12px;background:#fffe;color:#222;max-width:420px;font:12px monospace;border-radius:8px'
   const output = document.createElement('output'); output.style.cssText = 'display:block;white-space:pre-wrap;margin-bottom:8px;max-height:360px;overflow:auto'; panel.append(output)
   const button = (label: string, action: () => void) => { const b = document.createElement('button'); b.textContent = label; b.style.cssText = 'padding:7px;border:1px solid #888;margin:3px;font:11px monospace'; b.onclick = () => { action(); update() }; panel.append(b) }
   let fanIndex = 0
   let pusherIndex = 0
   let hingeIndex = 0
+  let bridgeCrossed = false
   const update = () => {
     const p = engine.body?.translation()
     const domes = engine.worldGroup.children.filter(o => o.name === 'P_Dome_MF') as THREE.Mesh[]
-    output.textContent = JSON.stringify({ phase: engine.state.phase, level: engine.state.level + 1, loading: engine.loading, position: p && [p.x, p.y, p.z].map(n => Number(n.toFixed(3))), speed: Number(engine.state.speed.toFixed(3)), velocity: engine.body?.linvel(), fans: { count: engine.fans.length, active: engine.fans.filter(f => f.active).map(f => f.name), selected: engine.fans[fanIndex]?.name, origin: engine.fans[fanIndex]?.origin.toArray() }, material: engine.state.material, checkpoint: engine.state.checkpoint, lives: engine.state.lives, points: engine.state.score, pendingPoints: engine.pendingPoints.length, hinges: { count: engine.hinges.length, selected: engine.hinges[hingeIndex] && { name: engine.hinges[hingeIndex]!.name, activated: engine.hinges[hingeIndex]!.activated, rotation: engine.hinges[hingeIndex]!.body.rotation(), anchorError: engine.hinges[hingeIndex]!.anchorError } }, pushers: engine.pushers.map(p => ({ name: p.name, sector: p.sector, travel: Number(p.travel.toFixed(3)), position: p.body.translation(), hulls: p.body.numColliders() })), domes: { count: domes.length, movable: engine.dynamics.filter(d => d.mesh.name === 'P_Dome_MF').length, centers: domes.map(m => new THREE.Box3().setFromObject(m).getCenter(new THREE.Vector3()).toArray()) }, debris: { count: engine.debris?.fragments.length, kinds: [...new Set(engine.debris?.fragments.map(f => f.kind))] }, transformation: { active: engine.transformation.active, age: Number(engine.transformation.age.toFixed(3)), committed: engine.transformation.committed, ballVisible: engine.ball.visible, bodyType: engine.body?.bodyType(), colliderEnabled: engine.body?.collider(0)?.isEnabled() }, audio: [...engine.audio.tracks].map(([name, audio]) => ({ name, playing: !audio.paused, ready: audio.readyState, error: audio.error?.code })) }, null, 1)
+    output.textContent = JSON.stringify({ phase: engine.state.phase, level: engine.state.level + 1, loading: engine.loading, position: p && [p.x, p.y, p.z].map(n => Number(n.toFixed(3))), speed: Number(engine.state.speed.toFixed(3)), velocity: engine.body?.linvel(), fans: { count: engine.fans.length, active: engine.fans.filter(f => f.active).map(f => f.name), selected: engine.fans[fanIndex]?.name, origin: engine.fans[fanIndex]?.origin.toArray() }, material: engine.state.material, checkpoint: engine.state.checkpoint, lives: engine.state.lives, points: engine.state.score, pendingPoints: engine.pendingPoints.length, bridges: { crossed: bridgeCrossed, instances: engine.chains.map(c => ({ name: c.name, sector: c.sector, activated: c.activated, broken: c.broken, joints: c.connections.filter(j => j.joint).length, anchorError: c.anchorError, heights: c.parts.map(p => Number((p.body.translation().y - p.origin.y).toFixed(3))) })) }, hinges: { count: engine.hinges.length, selected: engine.hinges[hingeIndex] && { name: engine.hinges[hingeIndex]!.name, activated: engine.hinges[hingeIndex]!.activated, rotation: engine.hinges[hingeIndex]!.body.rotation(), anchorError: engine.hinges[hingeIndex]!.anchorError } }, pushers: engine.pushers.map(p => ({ name: p.name, sector: p.sector, travel: Number(p.travel.toFixed(3)), position: p.body.translation(), hulls: p.body.numColliders() })), domes: { count: domes.length, movable: engine.dynamics.filter(d => d.mesh.name === 'P_Dome_MF').length, centers: domes.map(m => new THREE.Box3().setFromObject(m).getCenter(new THREE.Vector3()).toArray()) }, debris: { count: engine.debris?.fragments.length, kinds: [...new Set(engine.debris?.fragments.map(f => f.kind))] }, transformation: { active: engine.transformation.active, age: Number(engine.transformation.age.toFixed(3)), committed: engine.transformation.committed, ballVisible: engine.ball.visible, bodyType: engine.body?.bodyType(), colliderEnabled: engine.body?.collider(0)?.isEnabled() }, audio: [...engine.audio.tracks].map(([name, audio]) => ({ name, playing: !audio.paused, ready: audio.readyState, error: audio.error?.code })) }, null, 1)
   }
   const run = (seconds: number, direction = 0) => {
     if (engine.loading || !engine.body) return
@@ -89,6 +91,31 @@ export function inspectOriginal(engine: OriginalEngine) {
   }
   button('Visit hinged part', visitHinge)
   button('Next hinged part', () => { hingeIndex = (hingeIndex + 1) % engine.hinges.length; visitHinge() })
+  button('Load linked bridge course', () => { bridgeCrossed = false; engine.start(1) })
+  button('Visit linked bridge', () => {
+    const chain = engine.chains[0]; if (!chain || !engine.body || !engine.physics) return
+    engine.cancelTransformation(); engine.keys.clear(); chain.reset(); bridgeCrossed = false
+    const first = chain.parts.find(p => p.name.endsWith('01'))!, last = chain.parts.find(p => p.name.endsWith('09'))!
+    const axis = last.origin.clone().sub(first.origin).normalize(), start = first.origin.clone().addScaledVector(axis, -1.5)
+    const hit = engine.physics.castRay(new RAPIER.Ray({ x: start.x, y: start.y + 3, z: start.z }, { x: 0, y: -1, z: 0 }), 10, true, undefined, 0x0004ffff, undefined, engine.body)
+    if (!hit) return
+    start.y += 3 - hit.timeOfImpact + .51
+    engine.body.setTranslation(start, true); engine.body.setLinvel({ x: 0, y: 0, z: 0 }, true); engine.body.setAngvel({ x: 0, y: 0, z: 0 }, true)
+    engine.state.checkpoint = chain.sector - 1; engine.checkpointMaterial = engine.state.material
+    engine.follow.copy(start); engine.yaw = engine.targetYaw = Math.atan2(axis.x, axis.z); run(0)
+  })
+  button('Cross linked bridge', () => {
+    const chain = engine.chains[0]; if (!chain || !engine.body) return
+    const first = chain.parts.find(p => p.name.endsWith('01'))!, last = chain.parts.find(p => p.name.endsWith('09'))!
+    const axis = last.origin.clone().sub(first.origin).normalize()
+    engine.state.phase = 'playing'; engine.touch.z = 1
+    for (let i = 0; i < 6 / PHYSICS_STEP && engine.state.phase === 'playing'; i++) {
+      engine.step(PHYSICS_STEP)
+      if (new THREE.Vector3().copy(engine.body.translation()).sub(last.origin).dot(axis) > 1 && engine.body.translation().y > last.origin.y - .1) { bridgeCrossed = true; break }
+      if (chain.broken) break
+    }
+    engine.touch.z = 0; run(0)
+  })
   button('Load fan course', () => { fanIndex = 0; engine.start(1) })
   const visitFan = () => {
     const fan = engine.fans[fanIndex]; if (!fan || !engine.body) return
@@ -128,6 +155,8 @@ export function inspectOriginal(engine: OriginalEngine) {
   button('Collect extra life', () => { const point = engine.pickups.find(p => p.object.name.includes('Life') && !p.taken)?.position; if (!point) return; engine.body!.setTranslation(point, true); engine.body!.setLinvel({ x: 0, y: 0, z: 0 }, true); run(.1) })
   for (const kind of ['wood', 'stone', 'paper'] as Material[]) button(kind, () => { engine.cancelTransformation(); engine.transform(kind, false) })
   button('Finish trigger', () => { if (!engine.finish) return; engine.state.checkpoint = engine.checkpoints.length; const p = engine.finish.position; engine.body!.setTranslation({ x: p.x, y: p.y + 1, z: p.z }, true); run(.1) })
+  button('Toggle test controls', () => panel.classList.toggle('collapsed'))
+  panel.prepend(panel.lastElementChild!)
   document.body.append(panel); const interval = window.setInterval(update, 200)
   return () => { clearInterval(interval); panel.remove(); style.remove() }
 }

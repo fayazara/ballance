@@ -1,0 +1,5 @@
+# Third-party source references
+
+The proximity polling in `src/game/original-chain.ts` adapts the behavior of `TT_Toolbox_RT/Behaviors/ScaleableProximity.cpp` from [doyaGu/CKBuildingBlocks](https://github.com/doyaGu/CKBuildingBlocks/tree/fca1963e39e64daa480918661732b1b0e45fe7b8), revision `fca1963e39e64daa480918661732b1b0e45fe7b8`, licensed under Apache-2.0. The upstream file credits Terratools/Virtools. The adaptation is written in TypeScript, uses Three.js vectors, implements the two recovered Enter Range configurations, and maps script frames to the web runtime's fixed physics ticks. The upstream license is included in [public/licenses/CKBuildingBlocks-Apache-2.0.txt](public/licenses/CKBuildingBlocks-Apache-2.0.txt) and copied into the production output.
+
+The local NMO importer uses the separately installed LibCmo21 library; its revision and setup are documented in [original-import.md](docs/original-import.md). Original Ballance game assets are user-supplied, remain outside the production bundle and have separate rights from these source references.
