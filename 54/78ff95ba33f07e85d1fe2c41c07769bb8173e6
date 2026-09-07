@@ -1,0 +1,47 @@
+README.md
+  s_f2a017c1eb8a95::t_48af04b19d1fc0 1-49
+docs/references.md
+  s_f2a017c1eb8a95::t_aa27a548615251 1-38
+index.html
+  s_f2a017c1eb8a95::t_8226e41e0c972c 1-12
+package-lock.json
+  s_f2a017c1eb8a95::t_c6b27bc6631eb7 1-2985
+package.json
+  s_f2a017c1eb8a95::t_ce0020c0ce8578 1-32
+public/favicon.svg
+  s_f2a017c1eb8a95::t_8909f26da193ab 1
+src/App.css
+  s_f2a017c1eb8a95::t_055e8b022700b8 1-4
+src/App.tsx
+  s_f2a017c1eb8a95::t_6a6109f716730f 1-97
+src/game/engine.ts
+  s_f2a017c1eb8a95::t_91d3c72279be07 1-435
+src/game/geometry.ts
+  s_f2a017c1eb8a95::t_d601e770bedeb0 1-30
+src/game/levels.ts
+  s_f2a017c1eb8a95::t_41e0868c4f691d 1-36
+src/game/physics.ts
+  s_f2a017c1eb8a95::t_641284b5394a75 1-53
+src/index.css
+  s_f2a017c1eb8a95::t_3e2ffd13f5e9db 1
+tests/geometry.test.ts
+  s_f2a017c1eb8a95::t_8ce7c6a2959ab8 1-25
+tests/physics.test.ts
+  s_f2a017c1eb8a95::t_b6d690b906425c 1-63
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "5478ff95ba33f07e85d1fe2c41c07769bb8173e6",
+  "prompts": {},
+  "sessions": {
+    "s_f2a017c1eb8a95": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a07b89-b5da-7993-a5cd-aa6860ea5d27",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Fayaz Ahmed <fayazara@gmail.com>"
+    }
+  }
+}
