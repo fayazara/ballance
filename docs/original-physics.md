@@ -13,7 +13,11 @@ Values below were read directly from the supplied game's `Balls.nmo` (`Physicali
 | Loose stone | 10 | .7 | .1 | .2 | .1 | none |
 | Loose paper | .2 | .5 | .4 | 1.5 | .1 | none |
 | Wooden crate | 1 | .7 | .3 | .1 | .1 | none |
-| Dome | .2 | .2 | .8 | .1 | .1 | none |
+| Dome (fixed) | ignored | .2 | .8 | ignored | ignored | none |
+
+Domes are anchored obstacles. `Levelinit.nmo` → `Physicalize_Convex` → `P_Dome` references boolean parameter 4011 (original object ID 4090), whose stored value is **true** for `Fixed?`. The importer previously ignored that flag and incorrectly created a dynamic dome using the otherwise-unused mass/damping columns. Domes now use stationary triangle colliders with their original friction and elasticity, without a movable rigid body.
+
+The in-app browser verified three-second pushes with wood, stone and paper: the dome stayed at exactly the same coordinates and each ball collided with its surface. The inspector's `Push dome 3 seconds` control repeats this check. All 28 existing tests, lint and the production build passed after this fix.
 
 Floors, rails and stoppers use friction .7 and elasticity .3. Shared Level 1 module values were also recovered: the pusher has mass 3, friction .6, elasticity .4 and angular damping 1; the sliding stone has mass 1.6/friction .5; its lower wooden box has mass 1.4/friction .8. Both latter bodies have elasticity .4 and linear/angular damping .1. The lower box is dynamic, rather than the static object used in the first import.
 

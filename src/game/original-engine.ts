@@ -6,11 +6,16 @@ import { loadOriginal, originalGeometry, originalPosition, OriginalMaterials, SC
 import type { OriginalDocument, OriginalObject } from './original-data'
 import { OriginalAudio } from './original-audio'
 import { OriginalFlames } from './original-flames'
+import { BallTransformation } from './original-transformation'
+import { OriginalTransformerVisual } from './original-transformer-visual'
+import { OriginalDebris } from './original-debris'
+import { OriginalCollectible, OriginalCollectibleAssets } from './original-collectibles'
+import { OriginalFan } from './original-fan'
 import { PLAYER_PHYSICS, LOOSE_BALL_PHYSICS, CRATE_PHYSICS, DOME_PHYSICS, FLOOR_PHYSICS, PHYSICS_STEP, GRAVITY, configureBody, configureContact, driveBall } from './original-physics'
 
 const RADIUS = 2 * SCALE
 type Moving = { mesh: THREE.Mesh; body: RAPIER.RigidBody; origin: THREE.Vector3; sector: number }
-type Trigger = { object: OriginalObject; position: THREE.Vector3; mesh?: THREE.Object3D; taken?: boolean; sector: number }
+type Trigger = { object: OriginalObject; position: THREE.Vector3; mesh?: THREE.Object3D; visual?: OriginalCollectible; taken?: boolean; sector: number }
 let rapierReady: Promise<void> | undefined
 export class OriginalEngine {
   state: GameState = { phase: 'paused', level: 0, lives: 3, time: 500, score: 1000, material: 'wood', checkpoint: 0, speed: 0, message: '' }
@@ -27,14 +32,21 @@ export class OriginalEngine {
   materials = new OriginalMaterials()
   ballMaterials = new OriginalMaterials()
   ballModels = new Map<Material, THREE.Mesh>()
+  transformation = new BallTransformation()
+  transformerVisual?: OriginalTransformerVisual
+  transformerMaterials = new OriginalMaterials()
+  debris?: OriginalDebris
+  collectibleAssets?: OriginalCollectibleAssets
+  collectibleMaterials = [new OriginalMaterials(), new OriginalMaterials()]
+  transformerMeshes = new Map<number, THREE.Mesh[]>()
   dynamics: Moving[] = []
   flames: OriginalFlames[] = []
   flameTexture?: THREE.Texture
+  smokeTexture?: THREE.Texture
+  fans: OriginalFan[] = []
   moduleMaterials: OriginalMaterials[] = []
-  pendingPoints: { mesh: THREE.Mesh; age: number }[] = []
+  pendingPoints: { mesh: THREE.Sprite; age: number }[] = []
   fallbackMaterial = new THREE.MeshPhongMaterial({ color: 0xbcb6a0 })
-  particleGeometry = new THREE.SphereGeometry(.055, 6, 4)
-  particleMaterial = new THREE.MeshBasicMaterial({ color: 0xdce7f3 })
   checkpoints: Trigger[] = []; resets: OriginalObject[] = []; pickups: Trigger[] = []; pads: Trigger[] = []
   finish?: Trigger
   keys = new Set<string>()
@@ -68,16 +80,29 @@ export class OriginalEngine {
     const balls = await loadOriginal('balls'), materials = await this.ballMaterials.create(balls)
     this.flameTexture = await new THREE.TextureLoader().loadAsync('/original/textures/Particle_Flames.png')
     this.flameTexture.colorSpace = THREE.SRGBColorSpace
-    if (this.disposed) { this.ballMaterials.dispose(); this.flameTexture?.dispose(); return }
+    this.smokeTexture = await new THREE.TextureLoader().loadAsync('/original/textures/Particle_Smoke.png')
+    this.smokeTexture.colorSpace = THREE.SRGBColorSpace
+    if (this.disposed) { this.ballMaterials.dispose(); this.flameTexture?.dispose(); this.smokeTexture.dispose(); return }
     for (const kind of ['wood', 'stone', 'paper'] as Material[]) {
       const object = balls.objects.find(o => o.name.toLowerCase() === `ball_${kind}`)!
       const source = balls.meshes.find(m => m.id === object.mesh)!
       const mesh = new THREE.Mesh(originalGeometry(source, object.matrix, true), source.materials.map(id => materials.get(id)!))
       mesh.castShadow = true; mesh.receiveShadow = true; this.ballModels.set(kind, mesh)
     }
+    this.debris = new OriginalDebris(balls, materials); this.scene.add(this.debris.group)
+    const animation = await loadOriginal('animtrafo')
+    const animationMaterials = await this.transformerMaterials.create(animation)
+    if (this.disposed) { this.transformerMaterials.dispose(); return }
+    this.transformerVisual = new OriginalTransformerVisual(animation, animationMaterials)
+    this.scene.add(this.transformerVisual.group)
+    const [life, points] = await Promise.all([loadOriginal('p_extra_life'), loadOriginal('p_extra_point')])
+    const [lifeMaterials, pointMaterials] = await Promise.all([this.collectibleMaterials[0]!.create(life), this.collectibleMaterials[1]!.create(points)])
+    if (this.disposed) { this.collectibleMaterials.forEach(m => m.dispose()); return }
+    this.collectibleAssets = new OriginalCollectibleAssets(life, points, lifeMaterials, pointMaterials)
   }
   start(index = this.state.level) { void this.load(index).catch(error => { if (!this.disposed) { this.loading = false; this.state.phase = 'paused'; this.message(error instanceof Error ? error.message : 'Level could not load'); this.emit() } }) }
   async load(index: number) {
+    this.cancelTransformation()
     const token = ++this.generation; this.loading = true; this.state.phase = 'paused'; this.audio.paused = true; this.audio.sync()
     this.state.message = 'Loading…'; this.emit()
     const document = await loadOriginal(`level_${String(index + 1).padStart(2, '0')}`)
@@ -123,8 +148,8 @@ export class OriginalEngine {
     for (const pickup of this.pickups) {
       if (pickup.mesh) pickup.mesh.visible = false
       const life = pickup.object.name.includes('Life')
-      const glow = new THREE.Mesh(new THREE.IcosahedronGeometry(life ? .28 : .18, 1), new THREE.MeshBasicMaterial({ color: life ? 0xc0ebff : 0xffe9a3 }))
-      glow.position.copy(pickup.position); this.worldGroup.add(glow); pickup.mesh = glow
+      pickup.visual = new OriginalCollectible(this.collectibleAssets!, life, pickup.position)
+      this.scene.add(pickup.visual.group); pickup.mesh = pickup.visual.group
     }
     for (const start of triggers('PS_Levelstart')) this.addFlames(start, true)
     // Fire emitters are behavior objects in Virtools, so add their visual effect around the imported gates.
@@ -139,22 +164,34 @@ export class OriginalEngine {
     this.audio.paused = false; this.audio.sync(); this.audio.effect('Misc_StartLevel'); this.emit()
   }
   addModule(parent: OriginalObject, document: OriginalDocument, materials: Map<number, THREE.MeshPhongMaterial>, sector: number) {
+    if (/^P_Modul_18_/.test(parent.name)) {
+      // The Kollisionsquader is an airflow detector, never a physical wall.
+      // The grille already belongs to the level's static floor mesh.
+      const fan = new OriginalFan(parent, document, materials, this.smokeTexture)
+      this.fans.push(fan); this.worldGroup.add(fan.group); return
+    }
     for (const object of document.objects) {
       const source = document.meshes.find(m => m.id === object.mesh); if (!source || /Shadow|PE_UFO|PE_Box_slide/.test(object.name)) continue
       const matrix = new THREE.Matrix4().fromArray(parent.matrix).multiply(new THREE.Matrix4().fromArray(object.matrix)).toArray()
       const ballKind = /^P_Ball_(Wood|Stone|Paper)/.exec(object.name)?.[1]?.toLowerCase() as Material | undefined
-      const moving = !!ballKind || /Pusher|Schiebestein|^P_Box_|^P_Dome_|P_Modul_34_Kiste/.test(object.name)
+      // Levelinit Physicalize_Convex stores Fixed? = true for P_Dome (parameter 4011).
+      const dome = object.name.startsWith('P_Dome_')
+      const moving = !!ballKind || /Pusher|Schiebestein|^P_Box_|P_Modul_34_Kiste/.test(object.name)
       const geometry = originalGeometry(source, matrix, moving)
       const mesh = new THREE.Mesh(geometry, source.materials.map(id => materials.get(id) || this.fallbackMaterial)); mesh.visible = !/Kollisionsquader/.test(object.name); mesh.castShadow = moving; mesh.receiveShadow = true; this.worldGroup.add(mesh)
+      mesh.name = object.name
+      if (/^P_Trafo_/.test(parent.name)) {
+        const meshes = this.transformerMeshes.get(parent.id) || []; meshes.push(mesh); this.transformerMeshes.set(parent.id, meshes)
+      }
       if (moving) {
         const origin = originalPosition({ ...object, matrix }); mesh.position.copy(origin)
         const body = this.physics!.createRigidBody(RAPIER.RigidBodyDesc.dynamic().setTranslation(origin.x, origin.y, origin.z).setCcdEnabled(true))
         const collider = ballKind && ballKind !== 'paper' ? RAPIER.ColliderDesc.ball(RADIUS) : RAPIER.ColliderDesc.convexHull(geometry.attributes.position!.array as Float32Array)
-        const properties = ballKind ? LOOSE_BALL_PHYSICS[ballKind] : object.name.startsWith('P_Dome_') ? DOME_PHYSICS : object.name.includes('Schiebestein') ? { ...CRATE_PHYSICS, mass: 1.6, friction: .5, restitution: .4 } : object.name.includes('P_Modul_34_Kiste') ? { ...CRATE_PHYSICS, mass: 1.4, friction: .8, restitution: .4 } : object.name.includes('Pusher') ? { ...CRATE_PHYSICS, mass: 3, friction: .6, restitution: .4, angularDamping: 1 } : CRATE_PHYSICS
+        const properties = ballKind ? LOOSE_BALL_PHYSICS[ballKind] : object.name.includes('Schiebestein') ? { ...CRATE_PHYSICS, mass: 1.6, friction: .5, restitution: .4 } : object.name.includes('P_Modul_34_Kiste') ? { ...CRATE_PHYSICS, mass: 1.4, friction: .8, restitution: .4 } : object.name.includes('Pusher') ? { ...CRATE_PHYSICS, mass: 3, friction: .6, restitution: .4, angularDamping: 1 } : CRATE_PHYSICS
         configureBody(body, properties)
         if (collider) this.physics!.createCollider(configureContact(collider.setMass(properties.mass), properties), body)
         this.dynamics.push({ mesh, body, origin, sector })
-      } else this.physics!.createCollider(configureContact(RAPIER.ColliderDesc.trimesh(geometry.attributes.position!.array as Float32Array, Uint32Array.from(geometry.index!.array)), FLOOR_PHYSICS))
+      } else this.physics!.createCollider(configureContact(RAPIER.ColliderDesc.trimesh(geometry.attributes.position!.array as Float32Array, Uint32Array.from(geometry.index!.array)), dome ? DOME_PHYSICS : FLOOR_PHYSICS))
     }
   }
   addFlames(trigger: Trigger, start: boolean) {
@@ -172,12 +209,14 @@ export class OriginalEngine {
     if (this.body.numColliders()) this.physics!.removeCollider(this.body.collider(0), true)
     const vertices = model?.geometry.attributes.position?.array as Float32Array | undefined
     const collider = kind === 'paper' && vertices ? RAPIER.ColliderDesc.convexHull(vertices)! : RAPIER.ColliderDesc.ball(RADIUS)
-    this.physics!.createCollider(configureContact(collider.setMass(properties.mass), properties), this.body)
+    this.physics!.createCollider(configureContact(collider.setMass(properties.mass).setCollisionGroups(0x0004ffff), properties), this.body)
     this.body.recomputeMassPropertiesFromColliders(); configureBody(this.body, properties)
     if (sound) this.audio.effect('Misc_Trafo')
   }
   respawn() {
     if (!this.body || !this.resets.length) return
+    this.cancelTransformation()
+    if (this.physics) this.debris?.clear(this.physics)
     const point = originalPosition(this.resets[this.state.checkpoint] || this.resets[0]!)
     this.body.setTranslation(point, true); this.body.setLinvel({ x: 0, y: 0, z: 0 }, true); this.body.setAngvel({ x: 0, y: 0, z: 0 }, true); this.body.setRotation({ x: 0, y: 0, z: 0, w: 1 }, true)
     this.transform(this.checkpointMaterial, false); this.follow.copy(point); this.ball.position.copy(point)
@@ -187,10 +226,38 @@ export class OriginalEngine {
     this.pendingPoints = []
     this.padCooldown = this.elapsed + 1
   }
+  beginTransformation(pad: Trigger, kind: Material) {
+    if (!this.body) return
+    // TT Set Dynamic Position subtracts its (0, -3, 0) offset in the machine's frame.
+    const center = new THREE.Vector3(0, 3, 0).applyMatrix4(new THREE.Matrix4().fromArray(pad.object.matrix)).multiplyScalar(SCALE); center.z *= -1
+    if (!this.transformation.begin(this.body, this.state.material, kind, center)) return
+    this.transformerVisual?.begin(pad.object, this.transformerMeshes.get(pad.object.id) || [])
+    this.state.speed = 0; this.audio.roll(this.state.material, 0, false)
+    this.audio.effect('Misc_Trafo')
+  }
+  cancelTransformation() {
+    this.transformation.cancel(); this.transformerVisual?.reset(); this.ball.visible = true
+    this.audio.stop('Misc_Trafo')
+  }
   step(dt: number) {
     if (!this.physics || !this.body) return
     this.elapsed += dt; this.state.time = Math.max(0, this.state.time - dt)
-    if (!this.state.time) { this.state.phase = 'lost'; this.audio.paused = true; this.audio.sync(); return }
+    if (!this.state.time) { this.cancelTransformation(); this.state.phase = 'lost'; this.audio.paused = true; this.audio.sync(); return }
+    const player = new THREE.Vector3().copy(this.body.translation())
+    const nearestFan = this.fans.reduce((distance, fan) => Math.min(distance, fan.origin.distanceTo(player)), Infinity)
+    this.audio.fan(nearestFan)
+    if (this.transformation.active) {
+      this.transformation.step(dt, kind => this.transform(kind, false), () => {
+        const p = this.body!.translation(), q = this.body!.rotation()
+        this.debris?.spawn(this.physics!, this.state.material, new THREE.Vector3(p.x, p.y, p.z), new THREE.Quaternion(q.x, q.y, q.z, q.w))
+      })
+      this.ball.visible = this.transformation.ballVisible
+      this.transformerVisual?.update(this.transformation.age)
+      this.physics.timestep = dt; this.physics.step(); this.state.speed = 0; this.state.score = Math.floor(this.state.time * 2)
+      this.debris?.step(this.physics, dt)
+      if (!this.transformation.active) { this.transformerVisual?.reset(); this.padCooldown = this.elapsed + .3 }
+      return
+    }
     let x = Number(this.keys.has('arrowright') || this.keys.has('d')) - Number(this.keys.has('arrowleft') || this.keys.has('a')) + this.touch.x
     let z = Number(this.keys.has('arrowdown') || this.keys.has('s')) - Number(this.keys.has('arrowup') || this.keys.has('w')) + this.touch.z
     if (this.keys.has('shift')) { x = 0; z = 0 }
@@ -202,14 +269,17 @@ export class OriginalEngine {
     const grounded = !!hit
     // Original force controllers remain active in the air; contact friction supplies rolling torque.
     driveBall(this.body, this.state.material, dx, dz, dt, this.settings.sensitivity)
+    const bounds = this.ballModels.get(this.state.material)?.geometry.boundingBox
+    if (bounds) for (const fan of this.fans) fan.apply(this.body, bounds, dt)
     this.physics.timestep = dt
     this.physics.step()
+    this.debris?.step(this.physics, dt)
     const position = this.body.translation(), velocity = this.body.linvel()
     this.state.speed = Math.hypot(velocity.x, velocity.z)
-    for (const pickup of this.pickups) if (!pickup.taken && pickup.position.distanceTo(new THREE.Vector3(position.x, position.y, position.z)) < 1.05) {
+    for (const pickup of this.pickups) if (!pickup.taken && pickup.position.distanceTo(new THREE.Vector3(position.x, position.y, position.z)) < (pickup.object.name.includes('Life') ? 4.5 : 3) * SCALE) {
       pickup.taken = true; if (pickup.mesh) pickup.mesh.visible = false
       if (pickup.object.name.includes('Life')) { this.state.lives++; this.audio.effect('Misc_extraball') } else {
-        for (let i = 0; i < 22; i++) { const mesh = new THREE.Mesh(this.particleGeometry, this.particleMaterial); mesh.position.copy(pickup.position).add(new THREE.Vector3(Math.sin(i * 2.4) * .9, i / 22 + .2, Math.cos(i * 2.4) * .9)); this.worldGroup.add(mesh); this.pendingPoints.push({ mesh, age: -i * .035 }) }
+        for (let i = 0; i < 22; i++) { const mesh = this.collectibleAssets!.sprite(.125); mesh.position.copy(pickup.position).add(new THREE.Vector3(Math.sin(i * 2.4) * .9, i / 22 + .2, Math.cos(i * 2.4) * .9)); this.worldGroup.add(mesh); this.pendingPoints.push({ mesh, age: -i * .035 }) }
         this.audio.effect('Extra_Hit')
       }
     }
@@ -222,10 +292,10 @@ export class OriginalEngine {
     })
     this.state.score = Math.floor(this.state.time * 2)
     for (const pad of this.pads) {
-      const distance = Math.hypot(position.x - pad.position.x, position.z - pad.position.z)
-      if (distance < 1.2 && position.y > pad.position.y && position.y - pad.position.y < 1.6 && this.elapsed > this.padCooldown) {
+      const distance = Math.hypot(position.x - pad.position.x, position.y - pad.position.y, position.z - pad.position.z)
+      if (distance < 4.3 * SCALE && position.y > pad.position.y && this.elapsed > this.padCooldown) {
         const kind = /Stone/.test(pad.object.name) ? 'stone' : /Paper/.test(pad.object.name) ? 'paper' : 'wood'
-        if (this.state.material !== kind) { this.transform(kind); this.padCooldown = this.elapsed + 1.2 }
+        if (this.state.material !== kind) { this.beginTransformation(pad, kind); return }
       }
     }
     const checkpoint = this.checkpoints[this.state.checkpoint]
@@ -262,13 +332,15 @@ export class OriginalEngine {
       this.shadowLight.position.copy(this.follow).add(new THREE.Vector3(-20, 40, 15)); this.shadowLight.target.position.copy(this.follow)
     }
     for (const flames of this.flames) flames.update(this.elapsed, this.renderer.domElement.height, this.camera.fov)
-    for (const pickup of this.pickups) if (!pickup.taken && pickup.mesh) { pickup.mesh.rotation.y = this.elapsed; pickup.mesh.position.y = pickup.position.y + Math.sin(this.elapsed * 2.5) * .1 }
+    for (const fan of this.fans) fan.update(this.elapsed, this.ball.position, this.renderer.domElement.height, this.camera.fov)
+    this.collectibleAssets?.update(this.elapsed)
+    for (const pickup of this.pickups) if (!pickup.taken) pickup.visual?.update(this.elapsed)
     if (this.state.message && now > this.messageUntil && !this.loading) this.state.message = ''
     this.renderer.render(this.scene, this.camera)
     if (now - this.emitAt > 100) { this.emitAt = now; this.emit() }
     this.frame = requestAnimationFrame(this.animate)
   }
-  pause() { if (this.loading) return; if (this.state.phase === 'playing') this.state.phase = 'paused'; else if (this.state.phase === 'paused') this.state.phase = 'playing'; this.keys.clear(); this.audio.paused = this.state.phase !== 'playing'; this.audio.sync(); this.emit() }
+  pause() { if (this.loading) return; if (this.state.phase === 'playing') this.state.phase = 'paused'; else if (this.state.phase === 'paused') this.state.phase = 'playing'; this.keys.clear(); this.audio.paused = this.state.phase !== 'playing'; this.audio.sync(); if (this.transformation.active) this.audio.resumeEffect('Misc_Trafo'); this.emit() }
   message(text: string) { this.state.message = text; this.messageUntil = performance.now() + 3000; this.emit() }
   emit() { this.onState({ ...this.state }) }
   setSettings(settings: Settings) { this.settings = settings; this.renderer.setPixelRatio(Math.min(devicePixelRatio, settings.quality ? 2 : 1)); this.renderer.shadowMap.enabled = settings.quality; this.audio.enabled = settings.sound; this.audio.sync() }
@@ -288,13 +360,17 @@ export class OriginalEngine {
   blur = () => { this.keys.clear(); if (this.state.phase === 'playing') this.pause() }
   resize = () => { const w = this.host.clientWidth, h = this.host.clientHeight; this.camera.aspect = w / Math.max(h, 1); this.camera.updateProjectionMatrix(); this.renderer.setSize(w, h) }
   clearLevel() {
+    this.cancelTransformation(); this.transformerMeshes.clear()
+    this.fans.forEach(f => f.dispose()); this.fans = []; this.audio.stop('Misc_Ventilator')
+    if (this.physics) this.debris?.clear(this.physics)
     this.body = undefined; this.surfaceSounds.clear(); this.physics?.free(); this.physics = undefined
-    this.worldGroup.traverse(object => { if (object instanceof THREE.Mesh) { if (object.geometry !== this.particleGeometry) object.geometry.dispose(); if (object.material !== this.particleMaterial && object.material instanceof THREE.MeshBasicMaterial) object.material.dispose() } })
+    this.pickups.forEach(p => p.visual?.dispose())
+    this.worldGroup.traverse(object => { if (object instanceof THREE.Mesh) { object.geometry.dispose(); if (object.material instanceof THREE.MeshBasicMaterial) object.material.dispose() } })
     this.worldGroup.clear(); this.flames.forEach(f => f.dispose()); this.flames = []; this.pendingPoints = []; this.moduleMaterials.forEach(m => m.dispose()); this.moduleMaterials = []; this.materials.dispose(); this.sky?.dispose(); this.dynamics = []; this.pickups = []; this.checkpoints = []; this.pads = []
   }
   destroy() {
     this.disposed = true; this.generation++; cancelAnimationFrame(this.frame); this.observer.disconnect()
     window.removeEventListener('keydown', this.keydown); window.removeEventListener('keyup', this.keyup); window.removeEventListener('blur', this.blur); window.removeEventListener('pointerdown', this.unlock)
-    this.clearLevel(); this.ballModels.forEach(m => m.geometry.dispose()); this.ballMaterials.dispose(); this.flameTexture?.dispose(); this.audio.dispose(); this.fallbackMaterial.dispose(); this.particleGeometry.dispose(); this.particleMaterial.dispose(); this.shadowLight.shadow.dispose(); this.renderer.dispose(); this.renderer.domElement.remove()
+    this.clearLevel(); this.collectibleAssets?.dispose(); this.collectibleMaterials.forEach(m => m.dispose()); this.debris?.dispose(); this.transformerVisual?.dispose(); this.transformerMaterials.dispose(); this.ballModels.forEach(m => m.geometry.dispose()); this.ballMaterials.dispose(); this.flameTexture?.dispose(); this.smokeTexture?.dispose(); this.audio.dispose(); this.fallbackMaterial.dispose(); this.shadowLight.shadow.dispose(); this.renderer.dispose(); this.renderer.domElement.remove()
   }
 }

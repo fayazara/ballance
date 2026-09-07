@@ -11,6 +11,9 @@ See [Original content import](docs/original-import.md) for setup, implemented be
 - **Shift + left/right**, or **Q/E:** rotate the camera.
 - **Escape:** pause. **R:** restart.
 - Three spare lives, original checkpoints/transformers and collectible trails.
+- Transformers pull the ball to the center, play the original ring animation, then replace its material and release it. [Timing and fidelity notes](docs/original-transformer.md).
+- Fans lift paper using the original force and wind-column dimensions. Steer while rising to reach higher fans and platforms; wood and stone remain grounded. [Fan implementation and outstanding mechanisms](docs/original-fans.md).
+- The old ball breaks into its original wood, stone or paper fragments. Extra lives have iridescent bubbles; point extras have orbiting silver satellites. [Effects notes](docs/original-effects.md).
 
 All 12 layouts are imported. Level 1 is the first playable integration; later courses still need their special mechanism behaviors and are marked accordingly. Ball and crate material values now come from the original data tables; see [physics findings](docs/original-physics.md). The contact solver is still Rapier, so exact IVP parity is not claimed.
 

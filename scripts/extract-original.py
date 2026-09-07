@@ -23,6 +23,7 @@ def main():
     parser.add_argument('--game', required=True)
     parser.add_argument('--output', required=True)
     parser.add_argument('--entities', action='store_true', help='Convert shared gameplay models')
+    parser.add_argument('--transformer', action='store_true', help='Convert the original transformer animation meshes')
     parser.add_argument('--level', type=int, help='Convert one level; default converts all levels and shared balls')
     args = parser.parse_args()
     game, output = Path(args.game), Path(args.output)
@@ -40,6 +41,7 @@ def main():
     assert init(), 'BMap initialization failed'
     files = [game / '3D_Entities' / 'Level' / f'Level_{args.level:02d}.NMO'] if args.level else sorted((game / '3D_Entities' / 'Level').glob('*.NMO')) + [game / '3D_Entities' / 'Balls.nmo']
     if args.entities: files = sorted((game / '3D_Entities' / 'PH').glob('*.nmo'))
+    if args.transformer: files = [game / '3D_Entities' / 'AnimTrafo.nmo']
     for file in files:
         handle = P()
         encodings = (C.c_char_p * 2)(b'windows-1252', b'utf-8')

@@ -7,8 +7,11 @@ The local game now reads the 12 original NMO levels, textures, ball models and s
 - Original object transforms, triangle meshes, material slots, UVs, floor/rail collision groups, and each level's five sky textures.
 - Real wood, stone and paper ball meshes with recovered material parameters, correctly scaled drive impulses, momentum, gravity and continuous collision detection. Paper uses its convex collision hull.
 - Original purple flame texture, with rising particle emitters using recovered lifetime, speed and size settings.
-- Loose balls, crates and domes; shared movable pieces for Level 1's modules 01 and 34.
+- Loose balls and crates, anchored steel domes, and shared movable pieces for Level 1's modules 01 and 34.
+- All 113 fan instances use the recovered upward force and oriented wind volumes. Paper rises and can steer between fans; wood and stone stay grounded. Rotors, smoke and original fan audio are active. See [fan behavior and mechanism inventory](original-fans.md).
 - Original reset/checkpoint, transformer, point-extra, life-extra and finish locations.
+- Transformer capture, original animated ring/bar/flash meshes, delayed material replacement and release. See [transformer findings](original-transformer.md).
+- Material-specific debris uses the original ball fragments. Extra lives and point extras use the original bubble, silver-ball and floor textures. See [effects findings](original-effects.md).
 - Three spare lives. Point extras generate 22 pursuing particles, each granting 10 time points. Life extras reappear when their section resets; point extras do not. Checkpoints discard uncollected trailing particles.
 - 1,000 starting time points, decreasing at two per second; final score includes remaining points, level bonus and spare lives.
 - Original music/ambience, rolling audio and selected event effects. Sound remains opt-in and obeys browser gesture restrictions.
@@ -16,9 +19,9 @@ The local game now reads the 12 original NMO levels, textures, ball models and s
 
 ## Remaining fidelity work
 
-All twelve courses load, but this is not complete behavioral parity. Levels 2–12 are explicitly marked as mechanics in progress. Their special fans, swinging/hinged mechanisms, collapsible bridges and scripted machinery currently use the imported static meshes where no behavior adapter exists. They are not guaranteed completable.
+All twelve courses load, but this is not complete behavioral parity. Levels 2–12 are explicitly marked as mechanics in progress. Their swinging/hinged mechanisms, collapsible bridges and other scripted machinery still use imported static meshes where no behavior adapter exists. Fans now have a behavior adapter. The [module inventory](original-fans.md#remaining-module-inventory) identifies the remaining gaps. They are not guaranteed completable.
 
-Level 1 is the first playable integration, with its core interactions implemented. Its shared pushers/sliding stone use reconstructed rigid-body behavior; ball/object material parameters have now been recovered, but complete constraint and solver parity is still outstanding. See [the physics findings](original-physics.md). The whole course has not been completed end to end in testing. Lantern effects, scoring-particle motion, transformation timing and finish animation are approximations. The first original music theme is currently reused across levels, with surface-specific rolling sounds selected using the original sound groups. Original menu scripts, cutscenes, tutorials, sound scheduling and the UFO extraction sequence are not executed. The absent thirteenth bonus level is not part of this ISO.
+Level 1 is the first playable integration, with its core interactions implemented. Its shared pushers/sliding stone use reconstructed rigid-body behavior; ball/object material parameters have now been recovered, but complete constraint and solver parity is still outstanding. See [the physics findings](original-physics.md). The whole course has not been completed end to end in testing. Lantern effects, scoring-particle motion and finish animation are approximations. Transformer timings and debris parameters now come from the original scripts; exact curve evaluation and the lightning effect remain incomplete. The first original music theme is currently reused across levels, with surface-specific rolling sounds selected using the original sound groups. Original menu scripts, cutscenes, tutorials, sound scheduling and the UFO extraction sequence are not executed. The absent thirteenth bonus level is not part of this ISO.
 
 ## Local asset boundary
 

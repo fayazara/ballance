@@ -16,11 +16,12 @@ extractor = Path(__file__).with_name('extract-original.py')
 command = [sys.executable, str(extractor), '--library', str(args.library.resolve()), '--game', str(args.game.resolve()), '--output', str(output)]
 subprocess.run(command, check=True)
 subprocess.run(command + ['--entities'], check=True)
+subprocess.run(command + ['--transformer'], check=True)
 for folder in ['sky', 'audio']: (output / folder).mkdir(exist_ok=True)
 subprocess.run(['ffmpeg', '-nostdin', '-loglevel', 'error', '-y', '-i', str(args.game / 'Textures' / 'Particle_Flames.bmp'), str(output / 'textures' / 'Particle_Flames.png')], check=True)
 for file in sorted((args.game / 'Textures' / 'sky').glob('*.bmp')):
     subprocess.run(['ffmpeg', '-nostdin', '-loglevel', 'error', '-y', '-i', str(file), str(output / 'sky' / (file.stem + '.jpg'))], check=True)
-audio_names = ['Music_Theme_1_1', 'Music_Atmo_1', 'Misc_Checkpoint', 'Misc_StartLevel', 'Misc_Fall', 'Misc_Trafo', 'Misc_extraball', 'Extra_Hit', 'Music_EndCheckpoint', 'Roll_Wood_Stone', 'Roll_Stone_Stone', 'Roll_Paper']
+audio_names = ['Music_Theme_1_1', 'Music_Atmo_1', 'Misc_Checkpoint', 'Misc_StartLevel', 'Misc_Fall', 'Misc_Trafo', 'Misc_Ventilator', 'Misc_extraball', 'Extra_Hit', 'Music_EndCheckpoint', 'Roll_Wood_Stone', 'Roll_Stone_Stone', 'Roll_Paper']
 audio_names += [f'Roll_{ball}_{surface}' for ball in ['Wood', 'Stone'] for surface in ['Wood', 'Metal']]
 for name in audio_names:
     subprocess.run(['ffmpeg', '-nostdin', '-loglevel', 'error', '-y', '-i', str(args.game / 'Sounds' / (name + '.wav')), '-c:a', 'libvorbis', '-q:a', '3', str(output / 'audio' / (name + '.ogg'))], check=True)

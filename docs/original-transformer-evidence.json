@@ -1,0 +1,265 @@
+{
+  "gameplay": {
+    "source": "Gameplay.nmo",
+    "parameters": {
+      "capture_radius": {
+        "fileIndex": 444,
+        "originalObjectId": 523,
+        "name": "B",
+        "value": 4.300000190734863
+      },
+      "capture_duration_ms": {
+        "fileIndex": 565,
+        "originalObjectId": 576,
+        "name": "Time to Wait",
+        "value": 1350.0
+      },
+      "explosion_delay_ms": {
+        "fileIndex": 2,
+        "originalObjectId": 81,
+        "name": "Time to Wait",
+        "value": 1000.0
+      },
+      "replacement_delay_ms": {
+        "fileIndex": 484,
+        "originalObjectId": 563,
+        "name": "Time to Wait",
+        "value": 150.0
+      },
+      "capture_force_x": {
+        "fileIndex": 500,
+        "originalObjectId": 585,
+        "name": "Force X",
+        "value": 2.0
+      },
+      "capture_force_y": {
+        "fileIndex": 502,
+        "originalObjectId": 587,
+        "name": "Force Y",
+        "value": 2.0
+      },
+      "capture_force_z": {
+        "fileIndex": 504,
+        "originalObjectId": 589,
+        "name": "Force Z",
+        "value": 2.0
+      },
+      "capture_damping_x": {
+        "fileIndex": 506,
+        "originalObjectId": 591,
+        "name": "Damping X",
+        "value": 0.699999988079071
+      },
+      "capture_damping_y": {
+        "fileIndex": 508,
+        "originalObjectId": 593,
+        "name": "Damping Y",
+        "value": 0.699999988079071
+      },
+      "capture_damping_z": {
+        "fileIndex": 510,
+        "originalObjectId": 595,
+        "name": "Damping Z",
+        "value": 0.699999988079071
+      },
+      "capture_offset_y": {
+        "fileIndex": 514,
+        "originalObjectId": 599,
+        "name": "Offset Y",
+        "value": -3.0
+      }
+    }
+  },
+  "trafo": {
+    "source": "AnimTrafo.nmo",
+    "parameters": {
+      "open_duration_ms": {
+        "fileIndex": 29,
+        "originalObjectId": 209,
+        "name": "Duration",
+        "value": 350.0
+      },
+      "travel_duration_ms": {
+        "fileIndex": 137,
+        "originalObjectId": 306,
+        "name": "Duration",
+        "value": 2000.0
+      },
+      "close_duration_ms": {
+        "fileIndex": 319,
+        "originalObjectId": 498,
+        "name": "Duration",
+        "value": 200.0
+      },
+      "ring_travel_vector": {
+        "fileIndex": 110,
+        "originalObjectId": 280,
+        "name": "B",
+        "value": [
+          0.0,
+          5.199999809265137,
+          0.0
+        ]
+      },
+      "ring_open_vector": {
+        "fileIndex": 47,
+        "originalObjectId": 227,
+        "name": "B",
+        "value": [
+          -0.5,
+          0.0,
+          -0.5
+        ]
+      },
+      "flash_interval_ms": {
+        "fileIndex": 275,
+        "originalObjectId": 453,
+        "name": "Time to Wait",
+        "value": 50.0
+      }
+    },
+    "curves": {
+      "open": {
+        "fileIndex": 35,
+        "nodes": [
+          {
+            "position": [
+              0.0,
+              0.0
+            ],
+            "incomingTangent": [
+              9.999999747378752e-05,
+              5.001492354494985e-06
+            ],
+            "outgoingTangent": [
+              0.4000000059604645,
+              0.0200059711933136
+            ]
+          },
+          {
+            "position": [
+              0.4000000059604645,
+              1.0
+            ],
+            "incomingTangent": [
+              0.4000000059604645,
+              2.15397572517395
+            ],
+            "outgoingTangent": [
+              0.6000000238418579,
+              3.230963706970215
+            ]
+          },
+          {
+            "position": [
+              1.0,
+              1.0
+            ],
+            "incomingTangent": [
+              0.6000000238418579,
+              1.0203042030334473
+            ],
+            "outgoingTangent": [
+              0.0010000000474974513,
+              0.001700506778433919
+            ]
+          }
+        ]
+      },
+      "travel": {
+        "fileIndex": 143,
+        "nodes": [
+          {
+            "position": [
+              0.0,
+              0.0
+            ],
+            "incomingTangent": [
+              9.999999747378752e-05,
+              0.0
+            ],
+            "outgoingTangent": [
+              0.4000000059604645,
+              0.0
+            ]
+          },
+          {
+            "position": [
+              0.4000000059604645,
+              1.0
+            ],
+            "incomingTangent": [
+              0.4000000059604645,
+              0.36626341938972473
+            ],
+            "outgoingTangent": [
+              0.20000001788139343,
+              0.18313172459602356
+            ]
+          },
+          {
+            "position": [
+              0.6000000238418579,
+              1.0
+            ],
+            "incomingTangent": [
+              0.20000001788139343,
+              -0.1870560646057129
+            ],
+            "outgoingTangent": [
+              0.3999999761581421,
+              -0.374112069606781
+            ]
+          },
+          {
+            "position": [
+              1.0,
+              0.0
+            ],
+            "incomingTangent": [
+              0.3999999761581421,
+              -0.07557810097932816
+            ],
+            "outgoingTangent": [
+              0.0010000000474974513,
+              -0.00018894526874646544
+            ]
+          }
+        ]
+      },
+      "close": {
+        "fileIndex": 325,
+        "nodes": [
+          {
+            "position": [
+              0.0,
+              1.0
+            ],
+            "incomingTangent": [
+              9.999999747378752e-05,
+              5.001492354494985e-06
+            ],
+            "outgoingTangent": [
+              1.0,
+              0.050014927983284
+            ]
+          },
+          {
+            "position": [
+              1.0,
+              0.0
+            ],
+            "incomingTangent": [
+              1.0,
+              -2.4799065589904785
+            ],
+            "outgoingTangent": [
+              0.0010000000474974513,
+              -0.002479906426742673
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

@@ -45,6 +45,7 @@ export class OriginalMaterials {
     return new Map(document.materials.map(m => {
       const material = new THREE.MeshPhongMaterial({ map: textures.get(m.texture) ?? null, color: new THREE.Color(m.diffuse[0], m.diffuse[1], m.diffuse[2]), emissive: new THREE.Color(m.emissive[0], m.emissive[1], m.emissive[2]), emissiveMap: textures.get(m.texture) ?? null, shininess: 8, specular: 0x222222, transparent: m.AlphaBlendEnabled, alphaTest: m.AlphaTestEnabled ? 0.4 : 0, opacity: m.diffuse[3], depthWrite: m.ZWriteEnabled, side: m.TwoSidedEnabled ? THREE.DoubleSide : THREE.FrontSide })
       if (m.name === 'Laterne_Verlauf') { material.blending = THREE.AdditiveBlending; material.depthWrite = false; material.alphaTest = 0; material.emissiveIntensity = 2 }
+      material.name = m.name
       this.materials.push(material); return [m.id, material]
     }))
   }

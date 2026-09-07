@@ -14,6 +14,15 @@ export class OriginalAudio {
     }
   }
   effect(name: string) { if (this.enabled && this.unlocked) { const a = this.get(name); a.currentTime = 0; void a.play().catch(() => {}) } }
+  stop(name: string) { const a = this.tracks.get(name); if (a) { a.pause(); a.currentTime = 0 } }
+  resumeEffect(name: string) { const a = this.tracks.get(name); if (a && !a.ended && this.enabled && this.unlocked && !this.paused) void a.play().catch(() => {}) }
+  fan(distance: number) {
+    if (!Number.isFinite(distance)) { this.stop('Misc_Ventilator'); return }
+    const a = this.get('Misc_Ventilator', true)
+    if (!this.enabled || !this.unlocked || this.paused || distance >= 20) { a.pause(); return }
+    a.volume = .35 * Math.max(0, 1 - distance / 20) ** 2
+    if (a.paused) void a.play().catch(() => {})
+  }
   roll(material: Material, speed: number, grounded: boolean, surface: 'Stone' | 'Wood' | 'Metal' = 'Stone') {
     const name = material === 'paper' ? 'Roll_Paper' : `Roll_${material === 'wood' ? 'Wood' : 'Stone'}_${surface}`
     for (const [key, a] of this.tracks) if (key.startsWith('Roll_') && key !== name) a.pause()

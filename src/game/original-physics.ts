@@ -15,7 +15,8 @@ export const LOOSE_BALL_PHYSICS: Record<Material, PhysicalMaterial> = {
   paper: PLAYER_PHYSICS.paper,
 }
 export const CRATE_PHYSICS: PhysicalMaterial = { mass: 1, friction: .7, restitution: .3, linearDamping: .1, angularDamping: .1 }
-export const DOME_PHYSICS: PhysicalMaterial = { mass: .2, friction: .2, restitution: .8, linearDamping: .1, angularDamping: .1 }
+// P_Dome is fixed. Its table's mass and damping values do not make it a dynamic body.
+export const DOME_PHYSICS = { friction: .2, restitution: .8 }
 export const FLOOR_PHYSICS = { friction: .7, restitution: .3 }
 // Gameplay.nmo runs the IVP clock at 2x. IVP's default simulation rate is 66 Hz.
 export const ORIGINAL_TIME_FACTOR = 2
