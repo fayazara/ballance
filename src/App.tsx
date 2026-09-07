@@ -4,6 +4,8 @@ import type { GameState, Settings } from './game/engine'
 import { levels } from './game/levels'
 import './App.css'
 
+type Course = { name: string; difficulty: string; checkpoints: unknown[] }
+type Engine = GameEngine | import('./game/original-engine').OriginalEngine
 type Panel = 'levels' | 'guide' | 'settings' | null
 const initial: GameState = { phase: 'playing', level: 0, lives: 5, time: 240, score: 0, material: 'wood', checkpoint: 0, speed: 0, message: '' }
 const defaults: Settings = { sound: false, quality: true, sensitivity: 1 }
@@ -27,30 +29,48 @@ function Icon({ name, size = 20 }: { name: string; size?: number }) {
   return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths[name]}</svg>
 }
 export default function App() {
-  const container = useRef<HTMLDivElement>(null), engine = useRef<GameEngine | null>(null)
+  const container = useRef<HTMLDivElement>(null), engine = useRef<Engine | null>(null)
+  const [courses, setCourses] = useState<Course[]>(levels), [original, setOriginal] = useState(false), [loading, setLoading] = useState(true)
   const [state, setState] = useState(initial), [panel, setPanel] = useState<Panel>(null), [error, setError] = useState('')
   const [settings, setSettings] = useState(() => ({ ...defaults, ...readStored<Settings>('ballance-settings', defaults) }))
+  const settingsRef = useRef(settings)
   const [records, setRecords] = useState<Record<string, number>>(() => readStored('ballance-records', {}))
   useEffect(() => {
-    let game: GameEngine, active = true, previousPhase = 'menu'
-    try {
-      game = new GameEngine(container.current!, next => {
-        if (!active) return
-        setState(next)
-        if (next.phase === 'won' && previousPhase !== 'won') setRecords(previous => {
-          const records = { ...previous, [next.level]: Math.max(previous[next.level] || 0, next.score) }
-          save('ballance-records', records); return records
-        })
-        previousPhase = next.phase
+    let game: Engine | undefined, active = true, previousPhase = 'menu', recordKey = 'ballance-records', closeInspector: (() => void) | undefined
+    const update = (next: GameState) => {
+      if (!active) return
+      setState(next)
+      if (next.phase === 'won' && previousPhase !== 'won' && !new URLSearchParams(location.search).has('inspect')) setRecords(previous => {
+        const records = { ...previous, [next.level]: Math.max(previous[next.level] || 0, next.score) }
+        save(recordKey, records); return records
       })
-      engine.current = game; game.start()
-    } catch (e) {
-      queueMicrotask(() => { if (active) setError(e instanceof Error ? e.message : 'WebGL could not start.') })
-      return () => { active = false }
+      previousPhase = next.phase
     }
-    return () => { active = false; game.destroy(); engine.current = null }
+    void (async () => {
+      const response = await fetch('/original/manifest.json').catch(() => null)
+      const manifest = response?.ok && response.headers.get('content-type')?.includes('application/json') ? await response.json() : null
+      if (!active) return
+      if (manifest) {
+        recordKey = 'ballance-original-records'; setRecords(readStored(recordKey, {}))
+        const { OriginalEngine } = await import('./game/original-engine')
+        if (!active) return
+        const imported = new OriginalEngine(container.current!, update); game = imported
+        await imported.initialize()
+        if (!active) return
+        setCourses(manifest.levels); setOriginal(true)
+        if (import.meta.env.DEV && new URLSearchParams(location.search).has('inspect')) {
+          const { inspectOriginal } = await import('./game/original-inspector')
+          if (!active) return
+          closeInspector = inspectOriginal(imported)
+        }
+      } else game = new GameEngine(container.current!, update)
+      if (!active || !game) return
+      engine.current = game; game.setSettings(settingsRef.current); game.start(); setLoading(false)
+    })().catch(e => { if (active) { setLoading(false); setError(e instanceof Error ? e.message : 'Game could not start.') } })
+    return () => { active = false; closeInspector?.(); game?.destroy(); engine.current = null }
   }, [])
-  useEffect(() => { engine.current?.setSettings(settings); save('ballance-settings', settings) }, [settings])
+  useEffect(() => { settingsRef.current = settings; engine.current?.setSettings(settings); save('ballance-settings', settings) }, [settings])
+  const busy = loading || state.message === 'Loading…'
   const modalOpen = !!panel || ['paused', 'won', 'lost'].includes(state.phase)
   useEffect(() => {
     if (!modalOpen) return
@@ -73,25 +93,26 @@ export default function App() {
   const play = (index = state.level) => { setPanel(null); engine.current?.start(index) }
   const fullScreen = async () => { try { if (document.fullscreenElement) await document.exitFullscreen(); else await document.documentElement.requestFullscreen() } catch { engine.current?.message('Fullscreen unavailable') } }
   const time = `${Math.floor(state.time / 60).toString().padStart(2, '0')}:${Math.floor(state.time % 60).toString().padStart(2, '0')}`
-  const level = levels[state.level]!
+  const level = courses[state.level]!
   return <main className="app">
     <div className="game-canvas" ref={container} />
     <div className="vignette" aria-hidden="true" />
     <header className="hud-top">
-      <div className="stats"><span className={`timer ${state.time < 30 ? 'urgent' : ''}`} aria-label={`Time remaining ${time}`}><Icon name="clock" size={16} />{time}</span><span className="score" aria-label={`${state.score} points`}><i />{state.score.toString().padStart(4, '0')}</span><div className="lives" aria-label={`${state.lives} lives remaining`}>{Array.from({ length: 5 }, (_, i) => <i key={i} className={i < state.lives ? 'alive' : ''} />)}</div></div>
+      <div className="stats"><span className={`timer ${state.time < 30 ? 'urgent' : ''}`} aria-label={`Time remaining ${time}`}><Icon name="clock" size={16} />{time}</span><span className="score" aria-label={`${state.score} points`}><i />{state.score.toString().padStart(4, '0')}</span><div className="lives" aria-label={`${state.lives} lives remaining`}>{Array.from({ length: Math.max(original ? 3 : 5, state.lives) }, (_, i) => <i key={i} className={i < state.lives ? 'alive' : ''} />)}</div></div>
       <div className="hud-buttons"><button className="icon-button" title="Sound" aria-label={settings.sound ? 'Mute sound' : 'Enable sound'} onClick={() => setSettings({ ...settings, sound: !settings.sound })}><Icon name={settings.sound ? 'sound' : 'muted'} /></button><button className="icon-button" aria-label="Pause game" title="Pause (Esc)" onClick={() => engine.current?.pause()}><Icon name="pause" /></button></div>
     </header>
     <div className="hud-bottom"><div className="ball-status" aria-label={`${state.material} ball`}><span className={`ball-swatch ${state.material}`} /><div className="speed-meter" title="Rolling speed"><div style={{ height: `${Math.min(state.speed / 5.6, 1) * 100}%` }} /></div><span className="checkpoint-count" aria-label={`${state.checkpoint} of ${level.checkpoints.length} checkpoints`}><Icon name="flag" size={15} />{state.checkpoint}/{level.checkpoints.length}</span></div><div className="hud-buttons"><button className="icon-button" aria-label="How to play" title="Controls" onClick={() => openPanel('guide')}><Icon name="help" size={19} /></button><button className="icon-button" aria-label="Choose course" title="Courses" onClick={() => openPanel('levels')}><Icon name="courses" size={17} /></button><button className="icon-button" aria-label="Toggle fullscreen" title="Fullscreen" onClick={() => void fullScreen()}><Icon name="expand" size={18} /></button></div></div>
     {state.message && state.phase === 'playing' && <div className="toast" role="status">{state.message}</div>}
-    <div className="touch-controls" aria-label="Touch controls"><div className="dpad">{[{ label: '↑', x: 0, z: -1, cls: 'up' }, { label: '←', x: -1, z: 0, cls: 'left' }, { label: '↓', x: 0, z: 1, cls: 'down' }, { label: '→', x: 1, z: 0, cls: 'right' }].map(d => <button key={d.cls} className={d.cls} aria-label={`Roll ${d.cls}`} onPointerDown={e => { e.currentTarget.setPointerCapture(e.pointerId); if (engine.current) Object.assign(engine.current.touch, { x: d.x, z: d.z }) }} onPointerUp={() => { if (engine.current) Object.assign(engine.current.touch, { x: 0, z: 0 }) }} onPointerCancel={() => { if (engine.current) Object.assign(engine.current.touch, { x: 0, z: 0 }) }}>{d.label}</button>)}</div><button className="touch-brake" onPointerDown={e => { e.currentTarget.setPointerCapture(e.pointerId); if (engine.current) engine.current.touch.brake = true }} onPointerUp={() => { if (engine.current) engine.current.touch.brake = false }} onPointerCancel={() => { if (engine.current) engine.current.touch.brake = false }}>BRAKE</button></div>
-    {modalOpen && <div className="modal-backdrop"><section className={`dialog ${panel === 'levels' ? 'courses-dialog' : ''}`} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="dialog-title">
+    <div className="touch-controls" aria-label="Touch controls"><div className="dpad">{[{ label: '↑', x: 0, z: -1, cls: 'up' }, { label: '←', x: -1, z: 0, cls: 'left' }, { label: '↓', x: 0, z: 1, cls: 'down' }, { label: '→', x: 1, z: 0, cls: 'right' }].map(d => <button key={d.cls} className={d.cls} aria-label={`Roll ${d.cls}`} onPointerDown={e => { e.currentTarget.setPointerCapture(e.pointerId); if (engine.current) Object.assign(engine.current.touch, { x: d.x, z: d.z }) }} onPointerUp={() => { if (engine.current) Object.assign(engine.current.touch, { x: 0, z: 0 }) }} onPointerCancel={() => { if (engine.current) Object.assign(engine.current.touch, { x: 0, z: 0 }) }}>{d.label}</button>)}</div><button className="touch-brake" onPointerDown={e => { e.currentTarget.setPointerCapture(e.pointerId); if (engine.current) engine.current.touch.brake = true }} onPointerUp={() => { if (engine.current) engine.current.touch.brake = false }} onPointerCancel={() => { if (engine.current) engine.current.touch.brake = false }}>{original ? 'VIEW' : 'BRAKE'}</button></div>
+    {!busy && modalOpen && <div className="modal-backdrop"><section className={`dialog ${panel === 'levels' ? 'courses-dialog' : ''}`} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="dialog-title">
       {panel && <button className="icon-button close-dialog" aria-label="Close dialog" onClick={() => setPanel(null)}><Icon name="close" /></button>}
       <h1 id="dialog-title">{panel === 'levels' ? 'Courses' : panel === 'guide' ? 'Controls' : panel === 'settings' ? 'Settings' : state.phase === 'paused' ? 'Paused' : state.phase === 'won' ? 'Course complete' : 'Game over'}</h1>
-      {!panel && <><p className="result-info">{state.phase === 'paused' ? `0${state.level + 1} · ${level.name}` : state.phase === 'won' ? `${state.score.toLocaleString()} points` : state.lives ? 'Time’s up' : 'No lives remaining'}</p><div className="menu-buttons"><button className="primary" onClick={() => state.phase === 'paused' ? engine.current?.pause() : state.phase === 'won' && state.level < levels.length - 1 ? play(state.level + 1) : play()}>{state.phase === 'paused' ? 'Resume' : state.phase === 'won' && state.level < levels.length - 1 ? 'Next course' : 'Play again'}<Icon name="arrow" /></button>{state.phase === 'paused' && <button onClick={() => play()}>Restart <Icon name="restart" size={17} /></button>}<button onClick={() => setPanel('levels')}>Courses<Icon name="courses" size={17} /></button><button onClick={() => setPanel('settings')}>Settings<Icon name="settings" size={17} /></button></div></>}
-      {panel === 'levels' && <div className="course-list">{levels.map((l, i) => <button key={l.name} onClick={() => play(i)} className="course-option"><span className="option-number">0{i + 1}</span><div><h2>{l.name}</h2><p>{l.difficulty}{records[i] ? ` · Best ${records[i]}` : ''}</p></div><Icon name="arrow" size={18} /></button>)}</div>}
-      {panel === 'guide' && <><div className="guide-controls"><span><kbd>W A S D</kbd> / <kbd>↑ ← ↓ →</kbd><b>Roll</b></span><span><kbd>SPACE</kbd><b>Brake</b></span><span><kbd>Q / E</kbd><b>Rotate camera</b></span><span><kbd>ESC</kbd> / <kbd>R</kbd><b>Pause / restart</b></span></div><div className="material-guide">{[{ name: 'wood', text: 'Balanced. Required to enter the finish portal.' }, { name: 'stone', text: 'Heavy. Pushes blocks, breaks fragile planks.' }, { name: 'paper', text: 'Light. Crosses fragile bridges and rides updrafts.' }].map(m => <div key={m.name}><span className={`ball-swatch ${m.name}`} /><p><strong>{m.name}</strong>{m.text}</p></div>)}</div><p className="guide-note">Pads transform the ball. Rings save checkpoints. Golden lights add 50 points and 10 seconds.</p></>}
+      {!panel && <><p className="result-info">{state.phase === 'paused' ? (state.message || level.name) : state.phase === 'won' ? `${state.score.toLocaleString()} points` : state.lives ? 'Time’s up' : 'No lives remaining'}</p><div className="menu-buttons"><button className="primary" onClick={() => state.phase === 'paused' ? engine.current?.pause() : state.phase === 'won' && state.level < courses.length - 1 ? play(state.level + 1) : play()}>{state.phase === 'paused' ? 'Resume' : state.phase === 'won' && state.level < courses.length - 1 ? 'Next course' : 'Play again'}<Icon name="arrow" /></button>{state.phase === 'paused' && <button onClick={() => play()}>Restart <Icon name="restart" size={17} /></button>}<button onClick={() => setPanel('levels')}>Courses<Icon name="courses" size={17} /></button><button onClick={() => setPanel('settings')}>Settings<Icon name="settings" size={17} /></button></div></>}
+      {panel === 'levels' && <div className="course-list">{courses.map((l, i) => <button key={l.name} onClick={() => play(i)} className="course-option"><span className="option-number">{String(i + 1).padStart(2, '0')}</span><div><h2>{l.name}</h2><p>{l.difficulty}{records[i] ? ` · Best ${records[i]}` : ''}</p></div><Icon name="arrow" size={18} /></button>)}</div>}
+      {panel === 'guide' && <><div className="guide-controls"><span><kbd>W A S D</kbd> / <kbd>↑ ← ↓ →</kbd><b>Roll</b></span><span><kbd>SPACE</kbd><b>{original ? 'Raise camera' : 'Brake'}</b></span><span><kbd>{original ? 'SHIFT + ← / →' : 'Q / E'}</kbd><b>Rotate camera</b></span><span><kbd>ESC</kbd> / <kbd>R</kbd><b>Pause / restart</b></span></div><div className="material-guide">{[{ name: 'wood', text: original ? 'Balanced weight and grip.' : 'Balanced. Required to enter the finish portal.' }, { name: 'stone', text: original ? 'Heavy. Pushes loose balls and crates.' : 'Heavy. Pushes blocks, breaks fragile planks.' }, { name: 'paper', text: 'Light. Crosses fragile bridges and rides updrafts.' }].map(m => <div key={m.name}><span className={`ball-swatch ${m.name}`} /><p><strong>{m.name}</strong>{m.text}</p></div>)}</div><p className="guide-note">{original ? 'Transformers change the ball. Checkpoints save progress. Collect the silver trails from golden extras for 220 time points.' : 'Pads transform the ball. Rings save checkpoints. Golden lights add 50 points and 10 seconds.'}</p></>}
       {panel === 'settings' && <><div className="setting-row"><span>Sound</span><button className={`toggle ${settings.sound ? 'on' : ''}`} role="switch" aria-checked={settings.sound} aria-label="Sound" onClick={() => setSettings({ ...settings, sound: !settings.sound })}><span /></button></div><div className="setting-row"><span>High quality</span><button className={`toggle ${settings.quality ? 'on' : ''}`} role="switch" aria-checked={settings.quality} aria-label="High quality" onClick={() => setSettings({ ...settings, quality: !settings.quality })}><span /></button></div><div className="setting-row"><label htmlFor="steering">Steering</label><input id="steering" type="range" min="0.6" max="1.4" step="0.1" value={settings.sensitivity} onChange={e => setSettings({ ...settings, sensitivity: Number(e.target.value) })} /><span>{Math.round(settings.sensitivity * 100)}%</span></div></>}
     </section></div>}
-    {error && <div className="modal-backdrop"><section className="dialog" role="alert"><h1>WebGL unavailable</h1><p>Enable hardware acceleration in your browser, then reload.</p><pre>{error}</pre><button className="primary" onClick={() => location.reload()}>Retry<Icon name="restart" /></button></section></div>}
+    {busy && <div className="loading-indicator" role="status">Loading…</div>}
+    {error && <div className="modal-backdrop"><section className="dialog" role="alert"><h1>Unable to load game</h1><pre>{error}</pre><button className="primary" onClick={() => location.reload()}>Retry<Icon name="restart" /></button></section></div>}
   </main>
 }
