@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 export const SCALE = 0.25
 export interface OriginalObject { id: number; name: string; mesh: number; matrix: number[]; visible: boolean }
-export interface OriginalMesh { id: number; positions: number[]; normals: number[]; uvs: number[]; indices: number[]; faceMaterials: number[]; materials: number[] }
+export interface OriginalMesh { id: number; name?: string; positions: number[]; normals: number[]; uvs: number[]; indices: number[]; faceMaterials: number[]; materials: number[] }
 export interface OriginalDocument {
   objects: OriginalObject[]; meshes: OriginalMesh[]
   materials: { id: number; name: string; emissive: number[]; texture: number; diffuse: number[]; AlphaBlendEnabled: boolean; AlphaTestEnabled: boolean; TwoSidedEnabled: boolean; ZWriteEnabled: boolean }[]

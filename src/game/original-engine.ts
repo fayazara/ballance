@@ -11,6 +11,9 @@ import { OriginalTransformerVisual } from './original-transformer-visual'
 import { OriginalDebris } from './original-debris'
 import { OriginalCollectible, OriginalCollectibleAssets } from './original-collectibles'
 import { OriginalFan } from './original-fan'
+import { OriginalHinge, ORIGINAL_HINGES } from './original-hinges'
+import type { HingeKind } from './original-hinges'
+import { OriginalPusher, LEVEL_FLOOR_GROUPS, LEVEL_STOPPER_GROUPS } from './original-pusher'
 import { PLAYER_PHYSICS, LOOSE_BALL_PHYSICS, CRATE_PHYSICS, DOME_PHYSICS, FLOOR_PHYSICS, PHYSICS_STEP, GRAVITY, configureBody, configureContact, driveBall } from './original-physics'
 
 const RADIUS = 2 * SCALE
@@ -40,6 +43,8 @@ export class OriginalEngine {
   collectibleMaterials = [new OriginalMaterials(), new OriginalMaterials()]
   transformerMeshes = new Map<number, THREE.Mesh[]>()
   dynamics: Moving[] = []
+  pushers: OriginalPusher[] = []
+  hinges: OriginalHinge[] = []
   flames: OriginalFlames[] = []
   flameTexture?: THREE.Texture
   smokeTexture?: THREE.Texture
@@ -121,6 +126,7 @@ export class OriginalEngine {
     const group = (name: string) => new Set(document.groups.find(g => g.name === name)?.members || [])
     const sector = (id: number) => Number(document.groups.find(g => /^Sector_/.test(g.name) && g.members.includes(id))?.name.slice(-2) || 1)
     const woodSounds = group('Sound_RollID_02'), metalSounds = group('Sound_RollID_03')
+    const floorStoppers = group('Phys_FloorStopper')
     const floors = new Set([...group('Phys_Floors'), ...group('Phys_FloorRails'), ...group('Phys_FloorStopper')])
     const invisible = new Set([...group('DepthTestCubes'), ...group('invisible')])
     const objects = new Map<number, THREE.Mesh>()
@@ -136,7 +142,7 @@ export class OriginalEngine {
       mesh.name = object.name; mesh.visible = object.visible; mesh.receiveShadow = true
       this.worldGroup.add(mesh); objects.set(object.id, mesh)
       if (floors.has(object.id)) {
-        const collider = this.physics.createCollider(configureContact(RAPIER.ColliderDesc.trimesh(geometry.attributes.position!.array as Float32Array, Uint32Array.from(geometry.index!.array)), FLOOR_PHYSICS))
+        const collider = this.physics.createCollider(configureContact(RAPIER.ColliderDesc.trimesh(geometry.attributes.position!.array as Float32Array, Uint32Array.from(geometry.index!.array)).setCollisionGroups(floorStoppers.has(object.id) ? LEVEL_STOPPER_GROUPS : LEVEL_FLOOR_GROUPS), FLOOR_PHYSICS))
         this.surfaceSounds.set(collider.handle, woodSounds.has(object.id) ? 'Wood' : metalSounds.has(object.id) ? 'Metal' : 'Stone')
       }
     }
@@ -164,6 +170,15 @@ export class OriginalEngine {
     this.audio.paused = false; this.audio.sync(); this.audio.effect('Misc_StartLevel'); this.emit()
   }
   addModule(parent: OriginalObject, document: OriginalDocument, materials: Map<number, THREE.MeshPhongMaterial>, sector: number) {
+    const hingeKind = Object.keys(ORIGINAL_HINGES).find(name => parent.name.startsWith(name + '_')) as HingeKind | undefined
+    if (hingeKind) {
+      const hinge = new OriginalHinge(this.physics!, parent, document, materials, sector, hingeKind)
+      this.hinges.push(hinge); this.dynamics.push(hinge); this.worldGroup.add(hinge.mesh, hinge.decoration); return
+    }
+    if (/^P_Modul_01_/.test(parent.name)) {
+      const pusher = new OriginalPusher(this.physics!, parent, document, materials, sector)
+      this.pushers.push(pusher); this.dynamics.push(pusher); this.worldGroup.add(pusher.mesh); return
+    }
     if (/^P_Modul_18_/.test(parent.name)) {
       // The Kollisionsquader is an airflow detector, never a physical wall.
       // The grille already belongs to the level's static floor mesh.
@@ -176,7 +191,7 @@ export class OriginalEngine {
       const ballKind = /^P_Ball_(Wood|Stone|Paper)/.exec(object.name)?.[1]?.toLowerCase() as Material | undefined
       // Levelinit Physicalize_Convex stores Fixed? = true for P_Dome (parameter 4011).
       const dome = object.name.startsWith('P_Dome_')
-      const moving = !!ballKind || /Pusher|Schiebestein|^P_Box_|P_Modul_34_Kiste/.test(object.name)
+      const moving = !!ballKind || /Schiebestein|^P_Box_|P_Modul_34_Kiste/.test(object.name)
       const geometry = originalGeometry(source, matrix, moving)
       const mesh = new THREE.Mesh(geometry, source.materials.map(id => materials.get(id) || this.fallbackMaterial)); mesh.visible = !/Kollisionsquader/.test(object.name); mesh.castShadow = moving; mesh.receiveShadow = true; this.worldGroup.add(mesh)
       mesh.name = object.name
@@ -187,7 +202,7 @@ export class OriginalEngine {
         const origin = originalPosition({ ...object, matrix }); mesh.position.copy(origin)
         const body = this.physics!.createRigidBody(RAPIER.RigidBodyDesc.dynamic().setTranslation(origin.x, origin.y, origin.z).setCcdEnabled(true))
         const collider = ballKind && ballKind !== 'paper' ? RAPIER.ColliderDesc.ball(RADIUS) : RAPIER.ColliderDesc.convexHull(geometry.attributes.position!.array as Float32Array)
-        const properties = ballKind ? LOOSE_BALL_PHYSICS[ballKind] : object.name.includes('Schiebestein') ? { ...CRATE_PHYSICS, mass: 1.6, friction: .5, restitution: .4 } : object.name.includes('P_Modul_34_Kiste') ? { ...CRATE_PHYSICS, mass: 1.4, friction: .8, restitution: .4 } : object.name.includes('Pusher') ? { ...CRATE_PHYSICS, mass: 3, friction: .6, restitution: .4, angularDamping: 1 } : CRATE_PHYSICS
+        const properties = ballKind ? LOOSE_BALL_PHYSICS[ballKind] : object.name.includes('Schiebestein') ? { ...CRATE_PHYSICS, mass: 1.6, friction: .5, restitution: .4 } : object.name.includes('P_Modul_34_Kiste') ? { ...CRATE_PHYSICS, mass: 1.4, friction: .8, restitution: .4 } : CRATE_PHYSICS
         configureBody(body, properties)
         if (collider) this.physics!.createCollider(configureContact(collider.setMass(properties.mass), properties), body)
         this.dynamics.push({ mesh, body, origin, sector })
@@ -221,6 +236,7 @@ export class OriginalEngine {
     this.body.setTranslation(point, true); this.body.setLinvel({ x: 0, y: 0, z: 0 }, true); this.body.setAngvel({ x: 0, y: 0, z: 0 }, true); this.body.setRotation({ x: 0, y: 0, z: 0, w: 1 }, true)
     this.transform(this.checkpointMaterial, false); this.follow.copy(point); this.ball.position.copy(point)
     for (const item of this.dynamics.filter(d => d.sector === this.state.checkpoint + 1)) { item.body.setTranslation(item.origin, true); item.body.setRotation({ x: 0, y: 0, z: 0, w: 1 }, true); item.body.setLinvel({ x: 0, y: 0, z: 0 }, true); item.body.setAngvel({ x: 0, y: 0, z: 0 }, true) }
+    for (const hinge of this.hinges.filter(h => h.sector === this.state.checkpoint + 1)) hinge.reset()
     for (const pickup of this.pickups) if (pickup.sector === this.state.checkpoint + 1 && pickup.object.name.includes('Life')) { pickup.taken = false; if (pickup.mesh) pickup.mesh.visible = true }
     for (const particle of this.pendingPoints) this.worldGroup.remove(particle.mesh)
     this.pendingPoints = []
@@ -244,6 +260,7 @@ export class OriginalEngine {
     this.elapsed += dt; this.state.time = Math.max(0, this.state.time - dt)
     if (!this.state.time) { this.cancelTransformation(); this.state.phase = 'lost'; this.audio.paused = true; this.audio.sync(); return }
     const player = new THREE.Vector3().copy(this.body.translation())
+    for (const hinge of this.hinges) hinge.update(player)
     const nearestFan = this.fans.reduce((distance, fan) => Math.min(distance, fan.origin.distanceTo(player)), Infinity)
     this.audio.fan(nearestFan)
     if (this.transformation.active) {
@@ -366,7 +383,7 @@ export class OriginalEngine {
     this.body = undefined; this.surfaceSounds.clear(); this.physics?.free(); this.physics = undefined
     this.pickups.forEach(p => p.visual?.dispose())
     this.worldGroup.traverse(object => { if (object instanceof THREE.Mesh) { object.geometry.dispose(); if (object.material instanceof THREE.MeshBasicMaterial) object.material.dispose() } })
-    this.worldGroup.clear(); this.flames.forEach(f => f.dispose()); this.flames = []; this.pendingPoints = []; this.moduleMaterials.forEach(m => m.dispose()); this.moduleMaterials = []; this.materials.dispose(); this.sky?.dispose(); this.dynamics = []; this.pickups = []; this.checkpoints = []; this.pads = []
+    this.worldGroup.clear(); this.flames.forEach(f => f.dispose()); this.flames = []; this.pendingPoints = []; this.moduleMaterials.forEach(m => m.dispose()); this.moduleMaterials = []; this.materials.dispose(); this.sky?.dispose(); this.dynamics = []; this.pushers = []; this.hinges = []; this.pickups = []; this.checkpoints = []; this.pads = []
   }
   destroy() {
     this.disposed = true; this.generation++; cancelAnimationFrame(this.frame); this.observer.disconnect()

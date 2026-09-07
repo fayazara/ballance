@@ -38,18 +38,18 @@ Counts are module instances in the imported twelve-level pack. “Static” belo
 
 | Module | Instances | Imported parts | Current behavior / outstanding work |
 | --- | ---: | --- | --- |
-| 01 | 24 | Pusher, Rinne, Filler | Dynamic pusher; original constraints and complete script flow still need verification |
+| 01 | 24 | Pusher, Rinne, Filler | Original compound hulls, physical guide and collision exclusions implemented; Level 1 opening/crossing tested. See [pusher findings](original-pushers.md). |
 | 03 | 9 | Floor, walls, Gate | Static; gate behavior not ported |
 | 08 | 6 | Fix, Schaukel | Static; swinging mechanism not ported |
 | 17 | 6 | Dreharme | Static; rotating-arm mechanism not ported |
 | 18 | 113 | Rotor, Kollisionsquader | Fan force, trigger and rotor implemented; targeted route verified |
-| 19 | 7 | Axis, Flaps | Static; flap constraints not ported |
-| 25 | 29 | Bridge, Hinge | Static; hinge/script behavior not ported |
+| 19 | 7 | Axis, Flaps | Passive hinge and original compound collision implemented; see [hinge validation](original-hinges.md) |
+| 25 | 29 | Bridge, Hinge | Passive hinge and original compound collision implemented; see [hinge validation](original-hinges.md) |
 | 26 | 18 | Sack, Halter, Rope | Static; suspended-sack constraints not ported |
 | 29 | 17 | Nine Platte pieces | Static; platform script behavior not ported |
-| 30 | 17 | Wippe | Static; seesaw pivot not ported |
+| 30 | 17 | Wippe | Passive hinge and original compound collision implemented; see [hinge validation](original-hinges.md) |
 | 34 | 19 | Schiebestein, Kiste | Dynamic bodies; original constraints and complete script flow still need verification |
-| 37 | 22 | Bridge, Hinge | Static; hinge/script behavior not ported |
-| 41 | 43 | P_Modul_41 | Static; behavior needs source audit |
+| 37 | 22 | Bridge, Hinge | Passive hinge and original compound collision implemented; see [hinge validation](original-hinges.md) |
+| 41 | 43 | P_Modul_41 | Passive hinge and original compound collision implemented; see [hinge validation](original-hinges.md) |
 
 Also outstanding: full level playthroughs, exact original constraint/contact solver behavior, tutorial and cutscene flows, per-level music scheduling, transformer lightning/curve fidelity, and the complete UFO finish sequence. See `original-import.md` for the overall runtime boundary. This project is not yet a 1:1 recreation.

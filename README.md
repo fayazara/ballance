@@ -12,6 +12,8 @@ See [Original content import](docs/original-import.md) for setup, implemented be
 - **Escape:** pause. **R:** restart.
 - Three spare lives, original checkpoints/transformers and collectible trails.
 - Transformers pull the ball to the center, play the original ring animation, then replace its material and release it. [Timing and fidelity notes](docs/original-transformer.md).
+- Seesaws, short/long drawbridges, flap assemblies and pivoting planks now use their recovered hinges and collision shapes. [Hinge implementation and validation](docs/original-hinges.md).
+- Push the round targets to slide the three-post gates out of the passage. Their original compound hulls and guide channels are restored. [Gate implementation notes](docs/original-pushers.md).
 - Fans lift paper using the original force and wind-column dimensions. Steer while rising to reach higher fans and platforms; wood and stone remain grounded. [Fan implementation and outstanding mechanisms](docs/original-fans.md).
 - The old ball breaks into its original wood, stone or paper fragments. Extra lives have iridescent bubbles; point extras have orbiting silver satellites. [Effects notes](docs/original-effects.md).
 
