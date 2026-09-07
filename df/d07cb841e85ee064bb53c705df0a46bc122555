@@ -1,0 +1,101 @@
+README.md
+  s_f2a017c1eb8a95::t_78a5ffc34e9051 5,20,50,70,79-82
+THIRD_PARTY.md
+  s_f2a017c1eb8a95::t_d63af0c16a6db2 3,5
+docs/original-chain.md
+  s_f2a017c1eb8a95::t_11688bb99ea269 28
+docs/original-depth.md
+  s_f2a017c1eb8a95::t_2350b2ff9fe13f 1-19
+docs/original-effects.md
+  s_f2a017c1eb8a95::t_0ad81b3b008274 17
+docs/original-fans.md
+  s_f2a017c1eb8a95::t_b7538d976cd8b3 21,25-43,47,51-55,67,77
+docs/original-hinges.md
+  s_f2a017c1eb8a95::t_11ed4ed2f7f4ef 29
+docs/original-import.md
+  s_f2a017c1eb8a95::t_471d64d6e3a9ec 7,10,30,32
+docs/original-lift.md
+  s_f2a017c1eb8a95::t_0bc348cdc2804e 42
+docs/original-objects.md
+  s_f2a017c1eb8a95::t_896072469939fe 1-21
+docs/original-physics.md
+  s_f2a017c1eb8a95::t_187a5475853310 18,51-54
+docs/original-pushers.md
+  s_f2a017c1eb8a95::t_206504a427413e 17,21
+docs/original-sectors.md
+  s_f2a017c1eb8a95::t_0c21c2b352566b 1-25
+scripts/original_chunks.py
+  s_f2a017c1eb8a95::t_34fba5ed7eca42 75-106
+scripts/read-original-physics.py
+  s_f2a017c1eb8a95::t_c52e911422c1a7 18
+src/game/original-arms.ts
+  s_f2a017c1eb8a95::t_f4aa51e4e7802d 1,45
+src/game/original-chain.ts
+  s_f2a017c1eb8a95::t_4f7223a5f07e8a 1,13,27,72-81,100,106,110
+src/game/original-collision-data.json
+  s_f2a017c1eb8a95::t_3bbfb9edd2c93e 1-77
+src/game/original-depth-data.json
+  s_f2a017c1eb8a95::t_5905d7cf3309fd 1-22
+src/game/original-engine.ts
+  s_f2a017c1eb8a95::t_df5148be3be74d 1,23-28,57-58,145,147,160,193-200,202,246,252-253,258,273,283-284,287,294-295,319-322,328,337,349,357,417,445-446,451
+src/game/original-fan-data.json
+  s_f2a017c1eb8a95::t_dd4ed388932fe4 1-111
+src/game/original-fan.ts
+  s_f2a017c1eb8a95::t_aeeac33f87172c 7-10,14,23-35,42-49,87-119,122,124-133,137,139,144
+src/game/original-hinges.ts
+  s_f2a017c1eb8a95::t_3e08d20c7f6a0b 1,8-9,23-26,32,34,42-45,58,82-88,90,93-95,97-100,105-107,110-112
+src/game/original-inspector.ts
+  s_f2a017c1eb8a95::t_24b942d6c67bef 1,33,51-52,58-70,75,90,126,158,185,205,227,243,270,282,307,329
+src/game/original-lift.ts
+  s_f2a017c1eb8a95::t_de35c4268216dd 1,10,30,32-33,50,97,105
+src/game/original-object-data.json
+  s_f2a017c1eb8a95::t_f2ac5ad25efb75 1-119
+src/game/original-objects.ts
+  s_f2a017c1eb8a95::t_31e7ca612fecd0 1-68
+src/game/original-player-data.json
+  s_f2a017c1eb8a95::t_f9b5f88fad9fcf 1-56
+src/game/original-pusher.ts
+  s_f2a017c1eb8a95::t_5253d400ef39b9 6-7,9-14,27-30,74,78-99
+src/game/original-sack.ts
+  s_f2a017c1eb8a95::t_85014bcd9a8d2e 1,50
+src/game/original-sector-data.json
+  s_f2a017c1eb8a95::t_dd4789ed451a41 1-282
+src/game/original-slider.ts
+  s_f2a017c1eb8a95::t_88ab7c66d34662 1,43
+src/game/original-swing.ts
+  s_f2a017c1eb8a95::t_68a7a867e56e53 1,49
+tests/original-arms.test.ts
+  s_f2a017c1eb8a95::t_f005e52a3269bc 1,111,119
+tests/original-chain.test.ts
+  s_f2a017c1eb8a95::t_8598079141438f 1,48,56,63,80,96-97,118,135,144,149
+tests/original-hinges.test.ts
+  s_f2a017c1eb8a95::t_2522b9e84e11e1 1,21,44,46,50,61-63,92,108,124,127,144,147,150
+tests/original-lift.test.ts
+  s_f2a017c1eb8a95::t_89b49b22ebabcc 1,98,101,142
+tests/original-objects.test.ts
+  s_f2a017c1eb8a95::t_67be74b601d1d0 1-153
+tests/original-pusher.test.ts
+  s_f2a017c1eb8a95::t_a6442746643e48 1,15,19-20,39,43,47,50,85
+tests/original-sack.test.ts
+  s_f2a017c1eb8a95::t_1313e171b62996 1,141,150
+tests/original-slider.test.ts
+  s_f2a017c1eb8a95::t_4b84b45eb0c85e 1,88,91,114
+tests/original-swing.test.ts
+  s_f2a017c1eb8a95::t_77e633163e5eec 1,128,147,150
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "dfd07cb841e85ee064bb53c705df0a46bc122555",
+  "prompts": {},
+  "sessions": {
+    "s_f2a017c1eb8a95": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a07b89-b5da-7993-a5cd-aa6860ea5d27",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Fayaz Ahmed <fayazara@gmail.com>"
+    }
+  }
+}
