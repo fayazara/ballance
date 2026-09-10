@@ -16,20 +16,29 @@ The local game now reads the 12 original NMO levels, textures, ball models and s
 - Original reset/checkpoint, transformer, point-extra, life-extra and finish locations.
 - Transformer capture, original animated ring/bar/flash meshes, delayed material replacement and release. See [transformer findings](original-transformer.md).
 - Material-specific debris uses the original ball fragments. Extra lives and point extras use the original bubble, silver-ball and floor textures. See [effects findings](original-effects.md).
-- Three spare lives. Point extras generate 22 pursuing particles, each granting 10 time points. Life extras reappear when their section resets; point extras do not. Checkpoints discard uncollected trailing particles.
+- Three spare lives. Point extras award 100 time points on activation, then six pursuing satellites grant 20 time points apiece. Life extras reappear when their section resets; point extras do not. Checkpoints discard uncollected trailing particles.
 - 1,000 starting time points, decreasing at two per second; final score includes remaining points, level bonus and spare lives.
-- Original music/ambience, rolling audio and selected event effects. Sound remains opt-in and obeys browser gesture restrictions.
-- Original camera controls: Space raises the view, Shift plus left/right rotates 90 degrees. WASD and Q/E are additional conveniences.
+- Original music/ambience, rolling audio and selected event effects. Sound unlocks on the first interaction and obeys browser gesture restrictions.
+- Original camera controls: Space raises the view, Shift plus left/right rotates 90 degrees. The original defaults can be rebound in Options; the earlier convenience shortcuts were removed. See [the desktop interface](original-ui.md).
 
 ## Remaining fidelity work
 
 All twelve courses load, but this is not complete behavioral parity. Levels 2–12 are explicitly marked as mechanics in progress. Fans, pushers, five passive hinge types, linked breakable bridges, suspended sacks, swinging platforms, spring-return rotating arms, crate-supported vertical sliders and weighted spring lifts now have behavior adapters. The [module inventory](original-fans.md#remaining-module-inventory) identifies the remaining gaps. They are not guaranteed completable.
 
-Level 1 is the first playable integration, with its core interactions implemented. Its shared pushers use recovered compound hulls and a physical guide, while the sliding stone uses reconstructed rigid-body behavior; ball/object material parameters have now been recovered, but complete constraint and solver parity is still outstanding. See [the physics findings](original-physics.md). The whole course has not been completed end to end in testing. Lantern effects, scoring-particle motion and finish animation are approximations. Transformer timings and debris parameters now come from the original scripts; exact curve evaluation and the lightning effect remain incomplete. The first original music theme is currently reused across levels, with surface-specific rolling sounds selected using the original sound groups. Original menu scripts, cutscenes, tutorials, sound scheduling and the UFO extraction sequence are not executed. The absent thirteenth bonus level is not part of this ISO.
+The playable scene now retains Level 4's three invisible collision floors:
+`A02_FloorCol_Object_invisible`, `A04_invisibleColl1` and `A04_invisibleColl2`.
+They previously disappeared from physics when the renderer skipped the invisible
+group. `originalSceneEntries` keeps their colliders and hides their meshes. The
+all-course reset test uses this same scene-selection function and asserts that
+every original collision-floor ID survives selection. The separate
+[IVP course audit](original-ivp-wasm.md) checks all 491 original floor bodies in
+the experimental native/WASM backend.
+
+Level 1 is the first playable integration, with its core interactions implemented. Its shared pushers use recovered compound hulls and a physical guide, while the sliding stone uses reconstructed rigid-body behavior; ball/object material parameters have now been recovered, but complete constraint and solver parity is still outstanding. See [the physics findings](original-physics.md). The whole course has not been completed end to end in testing. Lantern effects, scoring-particle motion and finish animation are approximations. Transformer timings and debris parameters now come from the original scripts; exact curve evaluation and the lightning effect remain incomplete. Level-specific theme sets, randomized ambient/theme sequences, and checkpoint/ending music transitions are now connected locally; see [the music findings](original-music.md). Surface-specific rolling sounds use the original sound groups. The responsive desktop menus use recovered labels, menu flow and source scene; they are not a full execution of the original menu scripts. See [interface coverage and limits](original-ui.md). Cutscenes, tutorials and remaining special-event behavior are still incomplete. The absent thirteenth bonus level is not part of this ISO.
 
 ## Asset packaging
 
-`.local/original/` is ignored by Git. The custom Vite middleware serves it under `/original/` during development. `pnpm run deploy` builds the application, then stages the converted JSON, PNG, JPG and Ogg files into `dist/client/original` before uploading through Wrangler. The staging step requires a manifest and rejects files above the Workers asset limit. It does not upload installers or executables. An ordinary build still excludes the pack; without a served pack, the app falls back to the three independently made web courses.
+`.local/original/` is ignored by Git. The custom Vite middleware serves it under `/original/` during development. `pnpm run deploy` builds the application, then stages the converted JSON, PNG, JPG and Ogg files into `dist/client/original` before uploading through Wrangler. The staging step requires a manifest and rejects files above the Workers asset limit. It does not upload installers or executables. An ordinary build still excludes the pack; the application requires the served asset pack for its original courses and menu scene.
 
 The download's presence does not grant redistribution rights to its content. Keep the imported pack local unless you have permission to publish it. A future distributable version can accept users' own game files.
 
@@ -62,6 +71,13 @@ python3 scripts/prepare-original.py \
 This runs `extract-original.py`, exports the levels and shared entities to JSON, writes PNG textures, converts sky BMPs to JPEG and selected WAVs to Ogg, and generates `.local/original/manifest.json`. Each level JSON records the SHA-256 of its source NMO. Windows/Linux BMap library names differ; pass the correct library path.
 
 The converter translates no scripts. The renderer changes Virtools' left-handed coordinates to Three.js right-handed coordinates, reverses winding, flips V and scales coordinates by 0.25. Ball radius is therefore 0.5 world units.
+
+The imported world matrices do not preserve parent relationships: the current
+LibCmo reader explicitly discards parent IDs. The serialized NMO chunks still
+contain those IDs. Exact hierarchy-dependent local scales and collision-surface
+caching therefore remain a parity boundary; see [the inertia audit](original-inertia.md).
+Broken-ball center, inertia, burst-offset and wind behavior are documented in
+[original-debris.md](original-debris.md).
 
 ## Verification
 

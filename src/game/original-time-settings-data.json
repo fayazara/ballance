@@ -1,0 +1,28 @@
+{
+  "source": "Menu.nmo: Update Settings / Time Settings",
+  "dumpSha256": "294e17dfeae7e5e7d5c9b34251f8d228ce4cf98426f9350f2070ddce39464ec7",
+  "branches": [
+    {
+      "behavior": 11538,
+      "link": 11748,
+      "frameMode": 2,
+      "frameLimit": 60,
+      "timeScale": 1.0,
+      "behaviorMode": 1,
+      "behaviorLimit": 60,
+      "minimumDeltaMs": 1.0,
+      "maximumDeltaMs": 1000.0
+    },
+    {
+      "behavior": 11565,
+      "link": 11749,
+      "frameMode": 3,
+      "frameLimit": 60,
+      "timeScale": 1.0,
+      "behaviorMode": 1,
+      "behaviorLimit": 60,
+      "minimumDeltaMs": 1.0,
+      "maximumDeltaMs": 1000.0
+    }
+  ]
+}

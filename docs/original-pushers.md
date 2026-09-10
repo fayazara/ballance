@@ -29,3 +29,12 @@ The assembly, guide channel and filler now enable only in their active sector. T
 - Local-asset tests skip explicitly if the original pack is absent.
 
 In a separate in-app browser tab, wood opened both Level 1 gates to approximately 1.25 units of travel. The ball then crossed the cleared passage and collected the extra life between them. A forced fall reset both assemblies to zero travel in the same sector. Browser error logs were empty. These tests do not constitute a full Level 1 playthrough or complete parity for the other module types.
+
+## Native IVP route verification
+
+The local IVP backend now also passes a closed-versus-open route regression.
+Two wooden-ball approaches per gate reach approximately 4.98 original units of
+travel, and the ball crosses the cleared corridor. The in-app browser repeated
+that sequence and collected the extra life. This confirms the connected native
+route without changing recovered physics parameters; see
+[the native route report](original-native-routes.md) for exact staging and limits.

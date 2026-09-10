@@ -1,3 +1,4 @@
+import { replacePlayerCollider } from '../src/game/original-player.ts'
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { existsSync, readFileSync } from 'node:fs'
@@ -201,8 +202,7 @@ test('original Level 2: paper can fly from fan 01 onto the raised fan 12', { ski
     const source = balls.objects.find(o => o.name === 'Ball_Paper')!
     const geometry = originalGeometry(balls.meshes.find(m => m.id === source.mesh)!, source.matrix, true); geometries.push(geometry)
     const ball = world.createRigidBody(RAPIER.RigidBodyDesc.dynamic().setTranslation(first.origin.x, first.origin.y + .55, first.origin.z).setCcdEnabled(true))
-    world.createCollider(RAPIER.ColliderDesc.convexHull(geometry.attributes.position!.array as Float32Array)!.setMass(.2), ball)
-    configureBody(ball, PLAYER_PHYSICS.paper)
+    replacePlayerCollider(world, ball, 'paper', geometry.attributes.position!.array as Float32Array)
     for (let i = 0; i < 6 / PHYSICS_STEP; i++) {
       if (i >= 1 / PHYSICS_STEP) {
         const p = ball.translation(), v = ball.linvel()

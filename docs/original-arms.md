@@ -43,3 +43,13 @@ The Level 9 contact test rolls each of wood, stone and the original convex paper
 In the in-app browser, `?inspect` → Load rotating arm course → Visit rotating arm → Cross rotating arm passed for all three materials, retaining three lives and stopping near `(46.3, -16.0, -83.0)`. The developer controls stage the ball at the approach; traversal itself uses normal controls. A forced fall restored the arm's zero-angle pose. Automated tests separately verify sector deactivation and removal of its hinge.
 
 These checks do not prove an identical original trajectory. Inertia, collision solving and constraint stabilization remain Rapier's; exact IVP sleep behavior and the complete original sector object-pooling system are not ported. Full route playthroughs of Levels 3, 7 and 9 remain outstanding. Weighted lifts (03) and sliding stones (34) now have separate adapters; shared lifecycle details and full-game verification remain outstanding.
+
+## Native IVP follow-up
+
+The validation above describes the earlier Rapier adapter. The local native IVP
+runtime now has separate staged passage coverage for all six placements across
+Levels 3, 7 and 9, with all three materials. Wood and stone pass and stop on the
+exit floor; paper deflects the arm but stalls under the same input controller.
+The earlier Rapier result that paper passes is not evidence of native parity.
+See [native route validation](original-native-routes.md#native-rotating-arm-follow-up)
+for scope and the connected Level 7 turn onto its outgoing path.

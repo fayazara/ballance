@@ -4,7 +4,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import * as THREE from 'three'
 import RAPIER from '@dimforge/rapier3d-compat'
 import { GRAVITY, PHYSICS_STEP } from '../src/game/original-physics.ts'
-import { originalGeometry, originalPosition } from '../src/game/original-data.ts'
+import { originalGeometry, originalPosition, originalSceneEntries } from '../src/game/original-data.ts'
 import type { OriginalDocument, OriginalMesh } from '../src/game/original-data.ts'
 
 const triangle: OriginalMesh = { id: 1, positions: [0, 0, 0, 0, 0, 4, 4, 0, 0], normals: [0, 1, 0, 0, 1, 0, 0, 1, 0], uvs: [0, 0, 0, 1, 1, 0], indices: [0, 1, 2], faceMaterials: [0], materials: [2] }
@@ -34,11 +34,17 @@ test('all imported level reset points have a physical floor beneath them', { ski
   for (let level = 1; level <= 12; level++) {
     const document = JSON.parse(readFileSync(new URL(`level_${String(level).padStart(2, '0')}.json`, root), 'utf8')) as OriginalDocument
     const floors = new Set(document.groups.filter(g => /^Phys_Floor/.test(g.name)).flatMap(g => g.members))
+    const entries=originalSceneEntries(document).filter(e=>e.floor)
+    assert.deepEqual(new Set(entries.map(e=>e.object.id)),floors,`Level ${level}: the playable scene must retain every collision floor`)
+    if(level===4) {
+      assert.deepEqual(entries.filter(e=>['A02_FloorCol_Object_invisible','A04_invisibleColl1','A04_invisibleColl2'].includes(e.object.name)).map(e=>[e.object.name,e.visible]),[
+        ['A02_FloorCol_Object_invisible',false],['A04_invisibleColl1',false],['A04_invisibleColl2',false],
+      ],'Level 4 collision-only meshes must stay hidden while retaining physics')
+    }
     const world = new RAPIER.World({ x: 0, y: GRAVITY, z: 0 }); world.timestep = PHYSICS_STEP
     try {
-      for (const object of document.objects.filter(o => floors.has(o.id))) {
-        const mesh = document.meshes.find(m => m.id === object.mesh)!
-        const geometry = originalGeometry(mesh, object.matrix)
+      for (const { object,source } of entries) {
+        const geometry = originalGeometry(source, object.matrix)
         world.createCollider(RAPIER.ColliderDesc.trimesh(geometry.attributes.position!.array as Float32Array, Uint32Array.from(geometry.index!.array)))
         geometry.dispose()
       }

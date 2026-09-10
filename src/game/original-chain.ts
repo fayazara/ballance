@@ -1,3 +1,4 @@
+import { applyOriginalConvexMass } from './original-inertia.ts'
 import { originalCollisionGroups } from './original-collisions.ts'
 import { OriginalProximity } from './original-proximity.ts'
 import * as THREE from 'three'
@@ -47,11 +48,9 @@ export class OriginalChain {
       const hull = document.meshes.find(m => m.name === data.hulls[0])
       if (!hull) throw new Error(`Missing chain collision hull ${data.hulls[0]}`)
       const geometry = originalGeometry(hull, matrix.toArray(), true)
-      const collider = world.createCollider(configureContact(RAPIER.ColliderDesc.convexHull(geometry.attributes.position!.array as Float32Array)!.setCollisionGroups(CHAIN_GROUPS).setMass(data.mass), data), body)
+      world.createCollider(configureContact(RAPIER.ColliderDesc.convexHull(geometry.attributes.position!.array as Float32Array)!.setCollisionGroups(CHAIN_GROUPS).setMass(data.mass), data), body)
       geometry.dispose(); body.recomputeMassPropertiesFromColliders()
-      const inertia = body.principalInertia(), frame = body.principalInertiaLocalFrame()
-      const center = new THREE.Vector3(...data.massCenter as [number, number, number]).applyMatrix4(matrix.clone().setPosition(0, 0, 0)).multiplyScalar(SCALE); center.z *= -1
-      collider.setMass(0); body.setAdditionalMassProperties(data.mass, center, inertia, frame, true); body.recomputeMassPropertiesFromColliders()
+      applyOriginalConvexMass(body, data.mass, data.hulls, matrix, data.massCenter)
       this.parts.push({ name: object.name, mesh, body, origin, sector })
     }
     for (const data of recovered.joints) {

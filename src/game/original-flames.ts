@@ -1,5 +1,11 @@
 import * as THREE from 'three'
 
+interface FlameSettings {
+  emissionDelay:number;lifespan:number;lifespanVariance:number
+  speed:number;speedVariance:number;initialSize:number;sizeVariance:number;endingSize:number
+}
+const startSettings:FlameSettings={emissionDelay:.02,lifespan:1,lifespanVariance:.25,
+  speed:8,speedVariance:3,initialSize:3,sizeVariance:.3,endingSize:.1}
 // PS_FourFlames.nmo: 20 ms emission, 1 ± .25 s lifetime, 8 ± 3 units/s,
 // 3 ± .3 initial size -> .1 final size, 50 particles, additive blending.
 // Original texture with a violet tint to retain the requested hue under additive overlap.
@@ -8,8 +14,10 @@ export class OriginalFlames {
   geometry = new THREE.BufferGeometry()
   material: THREE.ShaderMaterial
   origins: THREE.Vector3[]
-  constructor(origins: THREE.Vector3[], texture: THREE.Texture) {
+  settings:FlameSettings
+  constructor(origins: THREE.Vector3[], texture: THREE.Texture, settings:FlameSettings=startSettings) {
     this.origins = origins
+    this.settings=settings
     const count = origins.length * 50
     this.geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(count * 3), 3))
     this.geometry.setAttribute('size', new THREE.BufferAttribute(new Float32Array(count), 1))
@@ -36,11 +44,13 @@ export class OriginalFlames {
       const origin = this.origins[emitter]!
       for (let i = 0; i < 50; i++) {
         const index = emitter * 50 + i, seed = index + 1
-        const life = .75 + noise(seed) * .5, age = (time + i * .02) % life, progress = age / life
-        const speed = 1.25 + noise(seed + 70) * 1.5
+        const settings=this.settings
+        const life = settings.lifespan + (noise(seed)*2-1)*settings.lifespanVariance
+        const age = (time + i * settings.emissionDelay) % life, progress = age / life
+        const speed = (settings.speed + (noise(seed + 70)*2-1)*settings.speedVariance)*.25
         const drift = age * speed * .05236
         positions.setXYZ(index, origin.x + Math.sin(seed * 4.1 + age * 3) * drift, origin.y + age * speed, origin.z + Math.cos(seed * 3.7 + age * 2) * drift)
-        sizes.setX(index, THREE.MathUtils.lerp(.675 + noise(seed + 13) * .15, .025, progress))
+        sizes.setX(index, THREE.MathUtils.lerp((settings.initialSize+(noise(seed+13)*2-1)*settings.sizeVariance)*.25, settings.endingSize*.25, progress))
         opacity.setX(index, (1 - progress) * .3)
       }
     }

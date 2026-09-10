@@ -8,7 +8,7 @@ export const ORIGINAL_DEPTH = recovered
 export type DepthObject = { mesh: THREE.Object3D; body: RAPIER.RigidBody; origin: THREE.Vector3; sector: number }
 
 /** Gameplay's get maxDepth: minimum world bounding-box Y, starting at zero. */
-export function originalDepthLimit(document: OriginalDocument) {
+export function originalDepthLimit(document: OriginalDocument, coordinateScale=SCALE) {
   const members = new Set(document.groups.find(g => g.name === recovered.boundsGroup)?.members)
   let minimum = recovered.initialDepth
   for (const object of document.objects.filter(o => members.has(o.id))) {
@@ -20,7 +20,7 @@ export function originalDepthLimit(document: OriginalDocument) {
     box.applyMatrix4(new THREE.Matrix4().fromArray(object.matrix))
     minimum = Math.min(minimum, box.min.y)
   }
-  return (minimum - recovered.margin) * SCALE
+  return (minimum - recovered.margin) * coordinateScale
 }
 
 /** Global DepthTest membership is explicit; constrained modules are not swept by default. */

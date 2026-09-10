@@ -1,3 +1,4 @@
+import { applyOriginalConvexMass } from './original-inertia.ts'
 import { originalCollisionGroups } from './original-collisions.ts'
 import * as THREE from 'three'
 import RAPIER from '@dimforge/rapier3d-compat'
@@ -36,7 +37,6 @@ export class OriginalHinge {
     const object = document.objects.find(o => o.name === data.target)
     if (!object) throw new Error(`Missing ${data.target}`)
     const matrix = parentMatrix.clone().multiply(new THREE.Matrix4().fromArray(object.matrix))
-    const relative = matrix.clone().setPosition(0, 0, 0)
     this.origin = originalPosition({ ...object, matrix: matrix.toArray() })
     this.wakeOrigin = originalPosition(parent)
     if (kind !== 'P_Modul_41') {
@@ -58,13 +58,7 @@ export class OriginalHinge {
       collider.setCollisionGroups(originalCollisionGroups(data.collisionGroup))
       colliders.push(world.createCollider(configureContact(collider, data), this.body)); geometry.dispose()
     }
-    const volume = colliders.reduce((sum, c) => sum + c.volume(), 0)
-    for (const collider of colliders) collider.setMass(data.mass * collider.volume() / volume)
-    this.body.recomputeMassPropertiesFromColliders()
-    const inertia = this.body.principalInertia(), frame = this.body.principalInertiaLocalFrame()
-    const center = new THREE.Vector3(...data.massCenter as [number, number, number]).applyMatrix4(relative).multiplyScalar(SCALE); center.z *= -1
-    for (const collider of colliders) collider.setMass(0)
-    this.body.setAdditionalMassProperties(data.mass, center, inertia, frame, true); this.body.recomputeMassPropertiesFromColliders()
+    applyOriginalConvexMass(this.body, data.mass, data.hulls, matrix, data.massCenter)
 
     const hingeMatrix = parentMatrix.clone().multiply(new THREE.Matrix4().fromArray(data.hingeFrame))
     this.pivot = new THREE.Vector3().setFromMatrixPosition(hingeMatrix).multiplyScalar(SCALE); this.pivot.z *= -1

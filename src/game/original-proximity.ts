@@ -11,7 +11,8 @@ export class OriginalProximity {
   data: ProximitySettings
   remaining = 1
   inside: boolean | undefined
-  constructor(data: ProximitySettings) { this.data = data }
+  private coordinateScale:number
+  constructor(data: ProximitySettings, coordinateScale=SCALE) { this.data = data;this.coordinateScale=coordinateScale }
   enter(a: THREE.Vector3, b: THREE.Vector3) {
     return this.sample(a, b) === 4
   }
@@ -22,7 +23,7 @@ export class OriginalProximity {
     if (--this.remaining > 0) return 0
     const d = this.data
     const squared = ((d.axes & 1) ? (a.x - b.x) ** 2 : 0) + ((d.axes & 2) ? (a.y - b.y) ** 2 : 0) + ((d.axes & 4) ? (a.z - b.z) ** 2 : 0)
-    const distance = squared / SCALE ** 2
+    const distance = squared / this.coordinateScale ** 2
     const min = d.exactnessMin ** 2, max = d.exactnessMax ** 2
     this.remaining = Math.max(1, d.minFrameDelay + Math.trunc(THREE.MathUtils.clamp((distance - min) / (max - min), 0, 1) * (d.maxFrameDelay - d.minFrameDelay)))
     const inside = distance < d.distance ** 2

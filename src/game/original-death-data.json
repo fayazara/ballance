@@ -1,0 +1,60 @@
+{
+  "source": "Gameplay.nmo: BallManager / Box Box Intersection",
+  "dumpSha256": "65821ec5eab4322e5bfc1e60b58532d466c1909ab2a0f3735b6185c2a083640a",
+  "group": "DepthTestCubes",
+  "hierarchy": [
+    false,
+    false
+  ],
+  "localBoxes": [
+    true,
+    true
+  ],
+  "nextVolumeDelayFrames": 1,
+  "restartSweepDelayFrames": 1,
+  "intersectionOutput": "True",
+  "links": [
+    {
+      "index": 2940,
+      "delayFrames": 0,
+      "source": 2949,
+      "destination": 2919
+    },
+    {
+      "index": 2941,
+      "delayFrames": 1,
+      "source": 2497,
+      "destination": 2919
+    },
+    {
+      "index": 2942,
+      "delayFrames": 0,
+      "source": 2925,
+      "destination": 2930
+    },
+    {
+      "index": 2943,
+      "delayFrames": 0,
+      "source": 2931,
+      "destination": 2496
+    },
+    {
+      "index": 2944,
+      "delayFrames": 1,
+      "source": 2932,
+      "destination": 2923
+    },
+    {
+      "index": 2945,
+      "delayFrames": 1,
+      "source": 2924,
+      "destination": 2922
+    },
+    {
+      "index": 2946,
+      "delayFrames": 0,
+      "source": 2920,
+      "destination": 2922
+    }
+  ]
+}

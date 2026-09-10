@@ -6,6 +6,7 @@ import type { OriginalDocument, OriginalObject } from './original-data.ts'
 import { ORIGINAL_PSI_HZ, ORIGINAL_TIME_FACTOR } from './original-physics.ts'
 import data from './original-fan-data.json' with { type: 'json' }
 import { OriginalProximity } from './original-proximity.ts'
+import { originalBox, originalBoxesIntersect } from './original-box.ts'
 
 export const ORIGINAL_FAN = data
 
@@ -34,7 +35,6 @@ export class OriginalFan {
   private rotorTime = 0
   private particleTime = 0
   active = false
-  private ballBox = new OBB()
   private ballMatrix = new THREE.Matrix4()
   private position = new THREE.Vector3()
   private rotation = new THREE.Quaternion()
@@ -55,9 +55,7 @@ export class OriginalFan {
     const flip = new THREE.Matrix4().makeScale(1, 1, -1)
     const matrix = new THREE.Matrix4().makeScale(SCALE, SCALE, -SCALE)
       .multiply(new THREE.Matrix4().fromArray(parent.matrix)).multiply(new THREE.Matrix4().fromArray(columnObject.matrix)).multiply(flip)
-    this.column = new OBB().fromBox3(local).applyMatrix4(matrix)
-    // Three's OBB transform only translates its center; this mesh's bounds are offset from zero.
-    local.getCenter(this.column.center).applyMatrix4(matrix)
+    this.column = originalBox(local, matrix)
     const object = document.objects.find(o => o.name.endsWith('_Rotor'))!
     const source = document.meshes.find(m => m.id === object.mesh)!
     const rotorMatrix = new THREE.Matrix4().fromArray(parent.matrix).multiply(new THREE.Matrix4().fromArray(object.matrix))
@@ -126,10 +124,8 @@ export class OriginalFan {
     // executes Box Box Intersection and creates/destroys the persistent controller.
     if (event === 1) {
       this.ballMatrix.compose(this.position.set(p.x, p.y, p.z), this.rotation.set(q.x, q.y, q.z, q.w), this.unitScale)
-      this.ballBox.fromBox3(ballBounds).applyMatrix4(this.ballMatrix)
-      ballBounds.getCenter(this.ballBox.center).applyMatrix4(this.ballMatrix)
       // Virtools Box Box Intersection tests the two oriented mesh bounds, not center distance.
-      this.active = this.column.intersectsOBB(this.ballBox)
+      this.active = originalBoxesIntersect(originalBox(ballBounds, this.ballMatrix), this.column)
     }
     if (this.active) body.applyImpulse({ x: 0, y: FAN_FORCE * dt, z: 0 }, true)
     return this.active

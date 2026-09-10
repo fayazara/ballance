@@ -36,7 +36,7 @@ class ChunkDump:
         raw = data[offset + 16:offset + 16 + length]
         if guid == 'e210d06bea175611': return raw.split(b'\0')[0].decode('windows-1252')
         if guid == '8e2ad51a2019745e': return bool(struct.unpack('<I', raw)[0])
-        if guid in ['3f4c8847202c2c43', '2b42b4544f0f0f73']: return struct.unpack('<f', raw)[0]
+        if guid in ['3f4c8847202c2c43', '2b42b4544f0f0f73', 'f52c26113a23b030']: return struct.unpack('<f', raw)[0]
         if len(raw) == 4: return struct.unpack('<i', raw)[0]
         if len(raw) == 12: return list(struct.unpack('<3f', raw))
         raise ValueError((index, name, guid))
@@ -60,9 +60,41 @@ class ChunkDump:
         return result
 
     def frame(self, name):
-        data = next(row[2] for row in self.rows.values() if row[0] == 33 and row[1] == name)
+        data = next(row[2] for row in self.rows.values() if row[0] in [33, 41] and row[1] == name)
         floats = struct.unpack_from('<12f', data, chunks(data)[0x100000] + 8)
         return [c for i in range(4) for c in [*floats[i * 3:i * 3 + 3], 1 if i == 3 else 0]]
+
+    def definition(self, index):
+        """Read a behavior's graph/parameter lists, including compound scripts.
+
+        CKBEHAVIOR's primitive, execution-priority, compatible-class and
+        targetable flags determine the prefix; CK_STATESAVE flags determine
+        the following counted lists. This does not execute the graph.
+        """
+        data = self.rows[index][2]
+        offset = chunks(data)[0x20]
+        words = struct.unpack('<' + 'I' * ((len(data) - offset) // 4), data[offset:])
+        flags = words[0]
+        position = 1 + int(bool(flags & 4))
+        result = {}
+        if flags & 8:
+            result['version'] = words[3]
+            position = 4 + int(bool(flags & 4))
+            if flags & 0x10:
+                result['targetClass'] = words[position]; position += 1
+            if flags & 0x40000:
+                target = words[position]; position += 1
+                result['target'] = None if target == 0xffffffff else self.value(target)
+        mask = words[position]; position += 1
+        for flag, name in [(0x100, 'children'), (0x80000, 'links'), (0x4000, 'operations'),
+                           (0x200, 'inputs'), (0x400, 'outputs'), (0x20000, 'locals'),
+                           (0x800, 'inIO'), (0x1000, 'outIO')]:
+            if mask & flag:
+                count = words[position]
+                assert position + count < len(words), (index, name, count)
+                result[name] = list(words[position + 1:position + 1 + count])
+                position += count + 1
+        return result
 
     def physicalize(self, index):
         b = self.behavior(index, 33)

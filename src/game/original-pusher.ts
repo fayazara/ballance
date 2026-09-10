@@ -1,3 +1,4 @@
+import { applyOriginalConvexMass } from './original-inertia.ts'
 import * as THREE from 'three'
 import RAPIER from '@dimforge/rapier3d-compat'
 import { originalGeometry, originalPosition, SCALE } from './original-data.ts'
@@ -51,15 +52,7 @@ export class OriginalPusher {
       colliders.push(world.createCollider(configureContact(desc.setCollisionGroups(PUSHER_GROUPS), PUSHER_PHYSICS), this.body))
       geometry.dispose()
     }
-    const volume = colliders.reduce((sum, collider) => sum + collider.volume(), 0)
-    for (const collider of colliders) collider.setMass(PUSHER_PHYSICS.mass * collider.volume() / volume)
-    this.body.recomputeMassPropertiesFromColliders()
-    // The original disables automatic mass-center calculation and uses the entity origin.
-    // Rapier supplies the compound's inertia; full IVP inertia/solver parity remains separate.
-    const inertia = this.body.principalInertia(), frame = this.body.principalInertiaLocalFrame()
-    for (const collider of colliders) collider.setMass(0)
-    this.body.setAdditionalMassProperties(PUSHER_PHYSICS.mass, { x: 0, y: 0, z: 0 }, inertia, frame, true)
-    this.body.recomputeMassPropertiesFromColliders()
+    applyOriginalConvexMass(this.body, PUSHER_PHYSICS.mass, ['P_Modul_01_Col01_Mesh', 'P_Modul_01_Col02_Mesh', 'P_Modul_01_Col03_Mesh'], matrix)
     // Physicalize (139) uses all three channel pieces. They form the physical sliding guide;
     // there is no slider joint or scripted movement in the original module.
     for (const helperName of ['P_Modul_01_Rinne', 'P_Modul_01_Filler']) {

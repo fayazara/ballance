@@ -1,6 +1,6 @@
 # Fallen-object cleanup
 
-`Gameplay.nmo` computes the minimum world bounding-box Y of `DepthTestCubes`, starting at zero, then subtracts 200 original units (50 web units). Its `DepthTest` loop compares each registered entity's world origin Y strictly against that cutoff. Below it, the script destroys the physics body, hides the entity itself, and moves its hierarchy to world zero. This is separate from the player's death trigger.
+`Gameplay.nmo` computes the minimum world bounding-box Y of `DepthTestCubes`, starting at zero, then subtracts 200 original units (50 web units). Its `DepthTest` loop compares each registered entity's world origin Y strictly against that cutoff. Below it, the script destroys the physics body, hides the entity itself, and moves its hierarchy to world zero. This is separate from the [player death-volume trigger](original-death.md), which now uses the same authored boxes in the native path.
 
 `Levelinit.nmo` table `DepthTestGroups` registers loose paper, wood and stone balls and boxes. Module 03 adds its eight falling wall/doorway pieces after proximity activation; the lift platform is excluded. Other hinged modules are not implicitly added.
 

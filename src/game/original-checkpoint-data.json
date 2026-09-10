@@ -1,0 +1,199 @@
+{
+  "source": "PC_TwoFlames.nmo: PC_TwoFlames_MF Script",
+  "dumpSha256": "ffd7d982fb024cb14e9dacfb73d8fcb5595355c7aca29cdb67879b444f60d288",
+  "trigger": {
+    "distance": 6.5,
+    "axes": 7,
+    "exactnessMin": 20.0,
+    "exactnessMax": 30.0,
+    "minFrameDelay": 1,
+    "maxFrameDelay": 15,
+    "outputs": 4
+  },
+  "gate": {
+    "distance": 70.0,
+    "axes": 5,
+    "exactnessMin": 75.0,
+    "exactnessMax": 150.0,
+    "minFrameDelay": 10,
+    "maxFrameDelay": 100,
+    "outputs": 12
+  },
+  "smallGate": {
+    "distance": 70.0,
+    "axes": 5,
+    "exactnessMin": 75.0,
+    "exactnessMax": 150.0,
+    "minFrameDelay": 20,
+    "maxFrameDelay": 100,
+    "outputs": 12
+  },
+  "frame": [
+    1.982852609216934e-06,
+    1.0000044312619139e-06,
+    -0.9999896883964539,
+    0,
+    -0.9999849200248718,
+    -4.371126394175917e-08,
+    -1.9828339645755477e-06,
+    0,
+    -4.371126394175917e-08,
+    0.9999849200248718,
+    -8.667324941525473e-14,
+    0,
+    0.0,
+    1.4948457479476929,
+    0.0,
+    1
+  ],
+  "smallFrames": [
+    [
+      4.008014002465643e-06,
+      2.006512659136206e-06,
+      -0.9999837875366211,
+      0,
+      -0.9999744892120361,
+      -0.006816564593464136,
+      -4.014526894025039e-06,
+      0,
+      -0.006818344816565514,
+      0.9999665021896362,
+      -1.0208880212303484e-06,
+      0,
+      0.04000942409038544,
+      2.0525875091552734,
+      -6.942289352416992,
+      1
+    ],
+    [
+      4.002042260253802e-06,
+      2.006512659136206e-06,
+      -0.999977171421051,
+      0,
+      -0.9999207854270935,
+      -0.006815698463469744,
+      -4.008302312286105e-06,
+      0,
+      -0.0068185338750481606,
+      0.9999685883522034,
+      -1.0209009815298487e-06,
+      0,
+      0.0392201691865921,
+      2.052567958831787,
+      7.060462951660156,
+      1
+    ]
+  ],
+  "centerParticles": {
+    "emissionDelay": 0.02,
+    "lifespan": 1.0,
+    "lifespanVariance": 0.5,
+    "speed": 12.000000104308128,
+    "speedVariance": 4.000000189989805,
+    "initialSize": 5.0,
+    "sizeVariance": 0.30000001192092896,
+    "endingSize": 0.10000000149011612
+  },
+  "smallParticles": {
+    "emissionDelay": 0.02,
+    "lifespan": 1.0,
+    "lifespanVariance": 0.25,
+    "speed": 8.00000037997961,
+    "speedVariance": 3.000000026077032,
+    "initialSize": 3.0,
+    "sizeVariance": 0.30000001192092896,
+    "endingSize": 0.10000000149011612
+  },
+  "links": [
+    {
+      "index": 394,
+      "source": 292,
+      "destination": 277,
+      "delayFrames": 0
+    },
+    {
+      "index": 395,
+      "source": 293,
+      "destination": 316,
+      "delayFrames": 0
+    },
+    {
+      "index": 396,
+      "source": 278,
+      "destination": 252,
+      "delayFrames": 0
+    },
+    {
+      "index": 397,
+      "source": 317,
+      "destination": 253,
+      "delayFrames": 0
+    },
+    {
+      "index": 398,
+      "source": 245,
+      "destination": 346,
+      "delayFrames": 0
+    },
+    {
+      "index": 399,
+      "source": 322,
+      "destination": 244,
+      "delayFrames": 0
+    },
+    {
+      "index": 400,
+      "source": 323,
+      "destination": 354,
+      "delayFrames": 0
+    },
+    {
+      "index": 401,
+      "source": 355,
+      "destination": 358,
+      "delayFrames": 0
+    },
+    {
+      "index": 402,
+      "source": 286,
+      "destination": 362,
+      "delayFrames": 0
+    },
+    {
+      "index": 411,
+      "source": 254,
+      "destination": 285,
+      "delayFrames": 0
+    },
+    {
+      "index": 412,
+      "source": 254,
+      "destination": 253,
+      "delayFrames": 0
+    },
+    {
+      "index": 413,
+      "source": 254,
+      "destination": 291,
+      "delayFrames": 0
+    },
+    {
+      "index": 414,
+      "source": 363,
+      "destination": 388,
+      "delayFrames": 0
+    },
+    {
+      "index": 415,
+      "source": 389,
+      "destination": 320,
+      "delayFrames": 0
+    },
+    {
+      "index": 416,
+      "source": 389,
+      "destination": 244,
+      "delayFrames": 0
+    }
+  ]
+}

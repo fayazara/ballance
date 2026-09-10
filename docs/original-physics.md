@@ -31,6 +31,14 @@ With geometry scale S=.25 and time factor T=2, world-space gravity is `-20*S*T²
 
 Paper uses its imported convex hull for both player and loose objects; wood and stone use the original radius-2 spherical collision shape (radius .5 after scaling). Transformations replace the collider and update all material properties, including inertia. The visual model is not the only thing that changes.
 
+The player's mass center is explicitly the authored origin. Gameplay's ActiveBall creation nodes 233 (convex), 262 and 291 (spherical) all disable automatic mass-center calculation and use a zero shift. `scripts/read-original-player.py` reads these settings and asserts their creation links into `src/game/original-player-data.json`. The shared `replacePlayerCollider` now applies them during initial creation, transformation and respawn. Previously, the asymmetric paper hull inherited Rapier's nonzero calculated centroid. Collider replacement keeps one body and one collider, preserves the current pose, and stores the mass properties on the collider so repeated changes cannot accumulate additional body mass. Missing paper geometry is rejected before the existing collider is removed.
+
+Three additional tests verify the recovered settings, the actual paper hull's mass center and lack of torque from an impulse at the authored origin, and six wood/paper/stone replacement cycles while the body is kinematic as in the transformer. They check restored dynamic mass, positive/repeatable inertia, sphere inertia, unchanged pose and bounded collider count. The Level 2 fan integration uses this same player creation routine. The full suite passes 98 tests; lint and production build pass with the existing bundle-size warning.
+
+Browser verification after this update completed the Level 1 wood-to-stone machine sequence and the Level 2 wood-to-paper sequence, including sixteen departing wooden fragments and an enabled dynamic replacement collider. The transformed paper ball then flew from fan 01 to fan 12, ending near `(251.668, 19.943, 91.686)` with three lives. Browser errors were absent. These changes are local after deployed version `0a78e6d5-1420-451b-ad9c-de7f97645dc8`.
+
+The subsequent [native inertia correction](original-inertia.md) replaces the paper player's Rapier inertia and applies measured compact-surface inertia to 547 moving mechanism/prop bodies across the twelve courses. It preserves original object axes, mass-center overrides and the minimum-axis guard. All 102 tests, lint and production build pass; browser verification of the complete mechanism update remains pending after the local server stopped. Exact contact solving, sleep behavior and complete course traversal remain unverified.
+
 ## Flames
 
 The original asset is `Textures/Particle_Flames.bmp`: a purple/magenta flame particle with bright specks. It is now converted to PNG by the local asset importer, rather than replaced with a generated radial glow.
@@ -38,6 +46,11 @@ The original asset is `Textures/Particle_Flames.bmp`: a purple/magenta flame par
 `PS_FourFlames.nmo` stores 20 ms emissions, 50 particles, lifetime 1000 ± 250 ms, speed .008 ± .003 units/ms, initial size 3 ± .3 and ending size .1. The new effect uses those values with the geometry scale, rises from the four original burner positions and fades/shrinks over each particle's lifetime. It uses additive blending and a violet tint to preserve the user's requested purple appearance. Particle paths are deterministic reconstructions; this does not execute Virtools' particle system or reproduce every random trajectory/color evolution. The original stored initial tint is warm, so retaining the texture's purple hue is an intentional presentation choice.
 
 ## Validation and parity boundary
+
+An experimental [native/WASM IVP bridge](original-ivp-wasm.md) now runs the actual
+SDK solver in WebAssembly. Fifteen isolated material/contact scenarios match its
+native scalar build across 7,128 state samples. It is not yet integrated into the
+game; the limitations below still apply to the playable backend.
 
 A repeatable three-second push from near contact on a flat floor moves a standard crate approximately 3.65 world units with wood and 8.64 with stone; paper moves it less than .001. These are tests of the web implementation, not measurements of the original executable. Regression tests cover continuous pushing, material acceleration/coasting order, data-table agreement, impulse consistency across simulation rates, and all original reset surfaces.
 

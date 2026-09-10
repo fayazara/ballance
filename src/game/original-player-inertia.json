@@ -1,0 +1,48 @@
+{
+  "source": "IVP compact-surface builder, original-unit geometry",
+  "revision": "7579664996e68040dd0158081b04f612e6a2d515",
+  "numericBuild": {
+    "nativeMatrixKernel": "legacy scalar, pointer-width alignment mask",
+    "floatingPointContraction": false
+  },
+  "paperPositionsSha256": "f928c9a8063f0d0ebe55811d8207bb30f5d68e01ca4a2342100aeb29b92638a9",
+  "minimumAxisFactor": 0.03,
+  "measurements": {
+    "unitCube": {
+      "name": "unitCube",
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "inertiaPerMass": [
+        0.4714045227,
+        0.4714045227,
+        0.4714045227
+      ],
+      "secondMoments": [
+        0.3333333433,
+        0.3333333433,
+        0.3333333433
+      ]
+    },
+    "paper": {
+      "name": "paper",
+      "center": [
+        0.007551996037,
+        0.007511342876,
+        0.005611704662
+      ],
+      "inertiaPerMass": [
+        1.107558966,
+        1.10710144,
+        1.108973384
+      ],
+      "secondMoments": [
+        0.7838394444,
+        0.7844855923,
+        0.7818371302
+      ]
+    }
+  }
+}

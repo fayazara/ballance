@@ -1,0 +1,89 @@
+{
+  "source": "Gameplay.nmo, Camera.nmo, PE_Balloon.nmo",
+  "dumpSha256": {
+    "Gameplay": "65821ec5eab4322e5bfc1e60b58532d466c1909ab2a0f3735b6185c2a083640a",
+    "Camera": "ef1c03ada79e1b1bd9a37d4cc8a7a9660910f3c4280d9c92f10ee3b46d913a27",
+    "PE_Balloon": "d941bc5473d31ce6ad7ab248ea7c14070ce3985254a66c60406fdf01253dc0b6",
+    "Gameplay-managers": "dece18ff1c1e7a3f0dfed8a6c2b0f3fd96f061c20a811d19987b4fd80db4385b"
+  },
+  "detachMessage": "Level_Finish",
+  "detachParent": null,
+  "detachGraph": [
+    {
+      "index": 5919,
+      "source": 5309,
+      "destination": 5514,
+      "delayFrames": 0
+    },
+    {
+      "index": 5920,
+      "source": 5515,
+      "destination": 5382,
+      "delayFrames": 0
+    },
+    {
+      "index": 5932,
+      "source": 5383,
+      "destination": 5603,
+      "delayFrames": 0
+    },
+    {
+      "index": 5933,
+      "source": 5604,
+      "destination": 5414,
+      "delayFrames": 2
+    },
+    {
+      "index": 5943,
+      "source": 5415,
+      "destination": 5765,
+      "delayFrames": 0
+    },
+    {
+      "index": 5944,
+      "source": 5766,
+      "destination": 5492,
+      "delayFrames": 0
+    },
+    {
+      "index": 5959,
+      "source": 5493,
+      "destination": 5874,
+      "delayFrames": 0
+    }
+  ],
+  "detachDelayFrames": 2,
+  "position": {
+    "force": [
+      5.0,
+      0.800000011920929,
+      5.0
+    ],
+    "damping": [
+      0.5,
+      0.30000001192092896,
+      0.5
+    ]
+  },
+  "target": {
+    "force": [
+      10.0,
+      10.0,
+      10.0
+    ],
+    "damping": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "ufoPositionOffset": [
+    0.0,
+    -15.0,
+    0.0
+  ],
+  "clipping": [
+    3.0,
+    2500.0
+  ]
+}

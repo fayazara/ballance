@@ -82,7 +82,7 @@ test('all 51 actual transformation fragments participate in ordinary contact', {
   const debris = new OriginalDebris(document, new Map(document.materials.map(m => [m.id, material])))
   const world = new RAPIER.World({ x: 0, y: 0, z: 0 }); world.timestep = PHYSICS_STEP
   try {
-    for (const kind of ['wood', 'stone', 'paper'] as const) debris.spawn(world, kind, new THREE.Vector3(0, 5, 0), new THREE.Quaternion(), () => .5)
+    for (const kind of ['wood', 'stone', 'paper'] as const) debris.spawn(world, kind, new THREE.Vector3(0, 5, 0), () => .5)
     assert.equal(debris.fragments.length, 51)
     // Isolate each real hull and place an ordinary loose prop collider through its
     // bounds. Old floor-only debris masks must fail this physical contact check.

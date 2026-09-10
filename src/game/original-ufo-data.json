@@ -1,0 +1,1714 @@
+{
+  "source": "PE_Balloon.nmo",
+  "dumpSha256": "d941bc5473d31ce6ad7ab248ea7c14070ce3985254a66c60406fdf01253dc0b6",
+  "initialPosition": [
+    -500.0,
+    100.0,
+    100.0
+  ],
+  "referenceFrame": "PE_Balloon_MF",
+  "rows": [
+    {
+      "position": [
+        -500.0,
+        -30.0,
+        -50.0
+      ],
+      "force": 0.05,
+      "damping": 0.8,
+      "waitMs": 3000.0,
+      "reference": "finish",
+      "startGrab": false
+    },
+    {
+      "position": [
+        -30.0,
+        7.0,
+        -20.0
+      ],
+      "force": 0.8,
+      "damping": 0.8,
+      "waitMs": 2000.0,
+      "reference": "finish",
+      "startGrab": false
+    },
+    {
+      "position": [
+        -30.0,
+        7.0,
+        20.0
+      ],
+      "force": 0.8,
+      "damping": 0.8,
+      "waitMs": 1000.0,
+      "reference": "finish",
+      "startGrab": false
+    },
+    {
+      "position": [
+        8.0,
+        0.0,
+        3.0
+      ],
+      "force": 0.8,
+      "damping": 0.8,
+      "waitMs": 1000.0,
+      "reference": "finish",
+      "startGrab": false
+    },
+    {
+      "position": [
+        0.0,
+        6.0,
+        0.0
+      ],
+      "force": 0.8,
+      "damping": 0.8,
+      "waitMs": 1000.0,
+      "reference": "ball",
+      "startGrab": false
+    },
+    {
+      "position": [
+        0.0,
+        6.0,
+        0.0
+      ],
+      "force": 0.8,
+      "damping": 0.8,
+      "waitMs": 500.0,
+      "reference": "ball",
+      "startGrab": true
+    },
+    {
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "force": 3.0,
+      "damping": 0.7,
+      "waitMs": 500.0,
+      "reference": "ball",
+      "startGrab": false
+    },
+    {
+      "position": [
+        -25.0,
+        15.0,
+        0.0
+      ],
+      "force": 0.1,
+      "damping": 0.99,
+      "waitMs": 2000.0,
+      "reference": "finish",
+      "startGrab": false
+    },
+    {
+      "position": [
+        -20.0,
+        7.0,
+        20.0
+      ],
+      "force": 0.1,
+      "damping": 0.99,
+      "waitMs": 500.0,
+      "reference": "finish",
+      "startGrab": false
+    },
+    {
+      "position": [
+        -25.0,
+        10.0,
+        -50.0
+      ],
+      "force": 0.1,
+      "damping": 0.99,
+      "waitMs": 500.0,
+      "reference": "finish",
+      "startGrab": false
+    },
+    {
+      "position": [
+        50.0,
+        -10.0,
+        -50.0
+      ],
+      "force": 0.1,
+      "damping": 0.99,
+      "waitMs": 3000.0,
+      "reference": "finish",
+      "startGrab": false
+    },
+    {
+      "position": [
+        -500.0,
+        30.0,
+        250.0
+      ],
+      "force": 0.1,
+      "damping": 0.9,
+      "waitMs": 2000.0,
+      "reference": "finish",
+      "startGrab": false
+    },
+    {
+      "position": [
+        -2000.0,
+        0.0,
+        0.0
+      ],
+      "force": 0.1,
+      "damping": 0.9,
+      "waitMs": 1800.0,
+      "reference": "finish",
+      "startGrab": false
+    }
+  ],
+  "dynamicPosition": {
+    "guid": [
+      "0xfd4755f",
+      "0x7de22dc8"
+    ],
+    "offset": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "distanceLimit": 0.0
+  },
+  "spin": {
+    "radiansPerSecond": 2.6179938316345215,
+    "bodyAxis": [
+      0.05000000074505806,
+      1.0,
+      0.05000000074505806
+    ],
+    "topAxis": [
+      0.0,
+      1.0,
+      0.0
+    ],
+    "topMultiplier": -1.0
+  },
+  "grab": {
+    "animation": "UFO_Animation",
+    "durationMs": 1000.0,
+    "loop": false,
+    "parent": "PE_UFO_Body",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "curve": [
+      {
+        "flags": 2,
+        "position": [
+          0.0,
+          0.0
+        ],
+        "incoming": [
+          9.999999747378752e-05,
+          9.999999747378752e-05
+        ],
+        "outgoing": [
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "flags": 2,
+        "position": [
+          1.0,
+          1.0
+        ],
+        "incoming": [
+          1.0,
+          1.0
+        ],
+        "outgoing": [
+          0.0010000000474974513,
+          0.0010000000474974513
+        ]
+      }
+    ],
+    "tracks": [
+      {
+        "name": "PE_UFO_Arm_A_01",
+        "length": 100.0,
+        "keys": [
+          {
+            "time": 0.0,
+            "rotation": [
+              -0.0,
+              -0.0,
+              0.9975640773773193,
+              0.06975650787353516
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 35.0,
+            "rotation": [
+              -0.0,
+              -0.0,
+              0.48480963706970215,
+              -0.874619722366333
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 59.0,
+            "rotation": [
+              -0.0,
+              -0.0,
+              -0.27752208709716797,
+              -0.9607192873954773
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 70.0,
+            "rotation": [
+              -0.0,
+              -0.0,
+              -0.4617486000061035,
+              -0.8870108723640442
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 75.0,
+            "rotation": [
+              -0.0,
+              -0.0,
+              -0.41734686493873596,
+              -0.9087472558021545
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 100.0,
+            "rotation": [
+              -0.0,
+              -0.0,
+              0.00872659869492054,
+              -0.9999619126319885
+            ],
+            "tension": 0.0
+          }
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "PE_UFO_Arm_B_01",
+        "length": 100.0,
+        "keys": [
+          {
+            "time": 0.0,
+            "rotation": [
+              1.7378347649810166e-08,
+              1.5626424954007234e-07,
+              0.8724959492683411,
+              -0.4886213541030884
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 35.0,
+            "rotation": [
+              1.5207600512212593e-08,
+              1.5705531097864878e-07,
+              0.8669958114624023,
+              -0.4983154833316803
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 59.0,
+            "rotation": [
+              -3.2885164813478696e-08,
+              1.8618153774241364e-07,
+              0.8362860679626465,
+              -0.54829341173172
+            ],
+            "tension": -2.2351741790771484e-08
+          },
+          {
+            "time": 70.0,
+            "rotation": [
+              -1.558426987458006e-07,
+              1.8735219953214255e-07,
+              0.0859755426645279,
+              -0.996297299861908
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 75.0,
+            "rotation": [
+              -1.7428710918920842e-07,
+              1.5107467277175601e-07,
+              -0.23344571888446808,
+              -0.9723698496818542
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 100.0,
+            "rotation": [
+              -1.6089123278106854e-07,
+              1.8154914016577095e-07,
+              0.02181452512741089,
+              -0.9997620582580566
+            ],
+            "tension": 0.0
+          }
+        ],
+        "scale": [
+          1.000000238418579,
+          0.9999996423721313,
+          0.9999991655349731
+        ]
+      },
+      {
+        "name": "PE_UFO_Arm_A_02",
+        "length": 100.0,
+        "keys": [
+          {
+            "time": 0.0,
+            "rotation": [
+              -0.7053843140602112,
+              0.04932529106736183,
+              0.7053843140602112,
+              0.049325305968523026
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 35.0,
+            "rotation": [
+              -0.342812180519104,
+              -0.6184495687484741,
+              0.342812180519104,
+              -0.6184495687484741
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 59.0,
+            "rotation": [
+              0.19623775780200958,
+              -0.6793311238288879,
+              -0.19623775780200958,
+              -0.6793311238288879
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 70.0,
+            "rotation": [
+              0.326505571603775,
+              -0.6272113919258118,
+              -0.326505571603775,
+              -0.6272113919258118
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 75.0,
+            "rotation": [
+              0.2951087951660156,
+              -0.6425813436508179,
+              -0.2951087951660156,
+              -0.6425813436508179
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 100.0,
+            "rotation": [
+              -0.006170638371258974,
+              -0.7070798873901367,
+              0.006170638371258974,
+              -0.7070798873901367
+            ],
+            "tension": 0.0
+          }
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "PE_UFO_Arm_B_02",
+        "length": 100.0,
+        "keys": [
+          {
+            "time": 0.0,
+            "rotation": [
+              1.7378347649810166e-08,
+              1.5626424954007234e-07,
+              0.8724959492683411,
+              -0.4886213541030884
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 35.0,
+            "rotation": [
+              1.5207600512212593e-08,
+              1.5705531097864878e-07,
+              0.8669958114624023,
+              -0.4983154833316803
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 59.0,
+            "rotation": [
+              -3.2885164813478696e-08,
+              1.8618153774241364e-07,
+              0.8362860679626465,
+              -0.54829341173172
+            ],
+            "tension": -2.2351741790771484e-08
+          },
+          {
+            "time": 70.0,
+            "rotation": [
+              -1.558426987458006e-07,
+              1.8735219953214255e-07,
+              0.0859755426645279,
+              -0.996297299861908
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 75.0,
+            "rotation": [
+              -1.7428710918920842e-07,
+              1.5107467277175601e-07,
+              -0.23344571888446808,
+              -0.9723698496818542
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 100.0,
+            "rotation": [
+              -1.6089123278106854e-07,
+              1.8154914016577095e-07,
+              0.02181452512741089,
+              -0.9997620582580566
+            ],
+            "tension": 0.0
+          }
+        ],
+        "scale": [
+          1.000000238418579,
+          0.9999996423721313,
+          0.9999991655349731
+        ]
+      },
+      {
+        "name": "PE_UFO_Arm_A_03",
+        "length": 100.0,
+        "keys": [
+          {
+            "time": 0.0,
+            "rotation": [
+              -0.9975640773773193,
+              0.06975650042295456,
+              -5.551115123125783e-17,
+              -4.371138828673793e-08
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 35.0,
+            "rotation": [
+              -0.48480963706970215,
+              -0.874619722366333,
+              3.96159727245049e-08,
+              -1.8473230056770262e-08
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 59.0,
+            "rotation": [
+              0.27752208709716797,
+              -0.9607192873954773,
+              4.1045868925948525e-08,
+              1.503070379271776e-08
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 70.0,
+            "rotation": [
+              0.4617486000061035,
+              -0.8870108723640442,
+              3.72700874606835e-08,
+              2.2839138580366125e-08
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 75.0,
+            "rotation": [
+              0.41734686493873596,
+              -0.9087472558021545,
+              3.83532885450677e-08,
+              2.0969281422367203e-08
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 100.0,
+            "rotation": [
+              -0.00872659869492054,
+              -0.9999619126319885,
+              4.3629857060523136e-08,
+              2.668514964554447e-09
+            ],
+            "tension": 0.0
+          }
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "PE_UFO_Arm_B_03",
+        "length": 100.0,
+        "keys": [
+          {
+            "time": 0.0,
+            "rotation": [
+              1.7378347649810166e-08,
+              1.5626424954007234e-07,
+              0.8724959492683411,
+              -0.4886213541030884
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 35.0,
+            "rotation": [
+              1.5207600512212593e-08,
+              1.5705531097864878e-07,
+              0.8669958114624023,
+              -0.4983154833316803
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 59.0,
+            "rotation": [
+              -3.2885164813478696e-08,
+              1.8618153774241364e-07,
+              0.8362860679626465,
+              -0.54829341173172
+            ],
+            "tension": -2.2351741790771484e-08
+          },
+          {
+            "time": 70.0,
+            "rotation": [
+              -1.558426987458006e-07,
+              1.8735219953214255e-07,
+              0.0859755426645279,
+              -0.996297299861908
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 75.0,
+            "rotation": [
+              -1.7428710918920842e-07,
+              1.5107467277175601e-07,
+              -0.23344571888446808,
+              -0.9723698496818542
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 100.0,
+            "rotation": [
+              -1.6089123278106854e-07,
+              1.8154914016577095e-07,
+              0.02181452512741089,
+              -0.9997620582580566
+            ],
+            "tension": 0.0
+          }
+        ],
+        "scale": [
+          1.000000238418579,
+          0.9999997019767761,
+          0.9999991655349731
+        ]
+      },
+      {
+        "name": "PE_UFO_Arm_A_04",
+        "length": 100.0,
+        "keys": [
+          {
+            "time": 0.0,
+            "rotation": [
+              -0.7053843140602112,
+              0.049325257539749146,
+              -0.7053843140602112,
+              -0.04932527616620064
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 35.0,
+            "rotation": [
+              -0.3428121507167816,
+              -0.6184495687484741,
+              -0.3428121507167816,
+              0.6184495687484741
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 59.0,
+            "rotation": [
+              0.19623778760433197,
+              -0.6793311238288879,
+              0.19623778760433197,
+              0.6793311238288879
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 70.0,
+            "rotation": [
+              0.3265056014060974,
+              -0.6272113919258118,
+              0.3265056014060974,
+              0.6272113919258118
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 75.0,
+            "rotation": [
+              0.295108824968338,
+              -0.6425813436508179,
+              0.295108824968338,
+              0.6425813436508179
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 100.0,
+            "rotation": [
+              -0.00617061136290431,
+              -0.7070798873901367,
+              -0.00617061136290431,
+              0.7070798873901367
+            ],
+            "tension": 0.0
+          }
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "PE_UFO_Arm_B_04",
+        "length": 100.0,
+        "keys": [
+          {
+            "time": 0.0,
+            "rotation": [
+              1.7378347649810166e-08,
+              1.5626424954007234e-07,
+              0.8724959492683411,
+              -0.4886213541030884
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 35.0,
+            "rotation": [
+              1.5207600512212593e-08,
+              1.5705531097864878e-07,
+              0.8669958114624023,
+              -0.4983154833316803
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 59.0,
+            "rotation": [
+              -3.2885164813478696e-08,
+              1.8618153774241364e-07,
+              0.8362860679626465,
+              -0.54829341173172
+            ],
+            "tension": -2.2351741790771484e-08
+          },
+          {
+            "time": 70.0,
+            "rotation": [
+              -1.558426987458006e-07,
+              1.8735219953214255e-07,
+              0.0859755426645279,
+              -0.996297299861908
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 75.0,
+            "rotation": [
+              -1.7428710918920842e-07,
+              1.5107467277175601e-07,
+              -0.23344571888446808,
+              -0.9723698496818542
+            ],
+            "tension": 0.0
+          },
+          {
+            "time": 100.0,
+            "rotation": [
+              -1.6089123278106854e-07,
+              1.8154914016577095e-07,
+              0.02181452512741089,
+              -0.9997620582580566
+            ],
+            "tension": 0.0
+          }
+        ],
+        "scale": [
+          1.000000238418579,
+          0.9999995827674866,
+          0.9999991655349731
+        ]
+      }
+    ]
+  },
+  "flash": {
+    "durationMs": 800.0,
+    "position": [
+      -1000.0,
+      0.0,
+      0.0
+    ],
+    "scaleFrom": [
+      0.009999999776482582,
+      0.009999999776482582,
+      0.009999999776482582
+    ],
+    "scaleTo": [
+      20.0,
+      20.0,
+      20.0
+    ],
+    "curve": [
+      {
+        "flags": 0,
+        "position": [
+          0.0,
+          0.5845410823822021
+        ],
+        "incoming": [
+          9.999999747378752e-05,
+          0.00028458936139941216
+        ],
+        "outgoing": [
+          0.14598539471626282,
+          0.41545891761779785
+        ]
+      },
+      {
+        "flags": 1,
+        "position": [
+          0.14598539471626282,
+          1.0
+        ],
+        "incoming": [
+          0.14598539471626282,
+          -0.43800318241119385
+        ],
+        "outgoing": [
+          0.8540146350860596,
+          -2.562318801879883
+        ]
+      },
+      {
+        "flags": 1,
+        "position": [
+          1.0,
+          0.0
+        ],
+        "incoming": [
+          0.8540146350860596,
+          -0.15415018796920776
+        ],
+        "outgoing": [
+          0.0010000000474974513,
+          -0.0001805006613722071
+        ]
+      }
+    ],
+    "matrix": [
+      -4.3711387287537207e-10,
+      -0.009999999776482582,
+      9.99999993922529e-09,
+      0,
+      0.009999999776482582,
+      -4.3711387287537207e-10,
+      9.99999993922529e-09,
+      0,
+      9.99999993922529e-09,
+      9.99999993922529e-09,
+      0.009999999776482582,
+      0,
+      10.0,
+      -10.0,
+      0.0,
+      1
+    ],
+    "sourceBlend": 2,
+    "destinationBlend": 2
+  },
+  "hierarchy": [
+    {
+      "name": "PE_UFO_Top",
+      "parent": "PE_UFO_Body",
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0,
+        0.0,
+        1.0,
+        0.0,
+        0,
+        0.0,
+        0.0,
+        1.0,
+        0,
+        0.0,
+        7.708646774291992,
+        0.0,
+        1
+      ]
+    },
+    {
+      "name": "PE_UFO_Arm_B_03",
+      "parent": "PE_UFO_Arm_A_03",
+      "matrix": [
+        -0.6360782384872437,
+        -0.7716250419616699,
+        9.911116904959272e-08,
+        0,
+        -0.7716244459152222,
+        0.6360779404640198,
+        -1.1509501973705483e-07,
+        0,
+        2.840399702108698e-07,
+        -2.5497703859400644e-07,
+        -0.9999991655349731,
+        0,
+        2.512303113937378,
+        6.138092041015625,
+        0.0011540077393874526,
+        1
+      ]
+    },
+    {
+      "name": "PE_UFO_Arm_A_03",
+      "parent": "PE_UFO_Body",
+      "matrix": [
+        0.9902680516242981,
+        -0.13917313516139984,
+        -6.098305860291475e-09,
+        0,
+        -0.13917313516139984,
+        -0.9902681112289429,
+        -8.720981270471384e-08,
+        0,
+        6.098305860291475e-09,
+        8.720981270471384e-08,
+        -1.0,
+        0,
+        2.0,
+        2.692190170288086,
+        0.0,
+        1
+      ]
+    },
+    {
+      "name": "PE_UFO_Arm_B_04",
+      "parent": "PE_UFO_Arm_A_04",
+      "matrix": [
+        -1.348617360008575e-07,
+        -0.7716248035430908,
+        -0.6360782384872437,
+        0,
+        1.459613940824056e-07,
+        0.636077880859375,
+        -0.7716244459152222,
+        0,
+        0.9999991655349731,
+        -3.1038274528327747e-07,
+        2.4105824536491127e-07,
+        0,
+        -0.001159772276878357,
+        6.138091087341309,
+        2.5122299194335938,
+        1
+      ]
+    },
+    {
+      "name": "PE_UFO_Arm_A_04",
+      "parent": "PE_UFO_Body",
+      "matrix": [
+        -1.7555816356207288e-08,
+        -0.13917307555675507,
+        0.9902681112289429,
+        0,
+        2.9802322387695312e-08,
+        -0.9902681112289429,
+        -0.13917307555675507,
+        0,
+        1.0,
+        2.9802322387695312e-08,
+        -1.7555816356207288e-08,
+        0,
+        0.0,
+        2.692190170288086,
+        2.0,
+        1
+      ]
+    },
+    {
+      "name": "PE_UFO_Arm_B_01",
+      "parent": "PE_UFO_Arm_A_01",
+      "matrix": [
+        0.6360783576965332,
+        -0.7716248035430908,
+        -1.6830583149385347e-07,
+        0,
+        0.7716243863105774,
+        0.6360780000686646,
+        1.479637461443417e-07,
+        0,
+        -2.7385226530896034e-07,
+        -3.266129056100908e-07,
+        0.9999991655349731,
+        0,
+        -2.5123324394226074,
+        6.138080596923828,
+        -0.00115966796875,
+        1
+      ]
+    },
+    {
+      "name": "PE_UFO_Arm_A_01",
+      "parent": "PE_UFO_Body",
+      "matrix": [
+        -0.9902681112289429,
+        -0.13917315006256104,
+        0.0,
+        0,
+        0.13917315006256104,
+        -0.9902681112289429,
+        0.0,
+        0,
+        0.0,
+        0.0,
+        1.0,
+        0,
+        -2.0,
+        2.692190170288086,
+        0.0,
+        1
+      ]
+    },
+    {
+      "name": "PE_UFO_Arm_B_02",
+      "parent": "PE_UFO_Arm_A_02",
+      "matrix": [
+        2.0918197662922466e-07,
+        -0.7716248035430908,
+        0.636078417301178,
+        0,
+        -1.5041106848912023e-07,
+        0.6360780000686646,
+        0.7716243863105774,
+        0,
+        -0.9999991655349731,
+        -3.5526730357560155e-07,
+        -2.881793648157327e-07,
+        0,
+        0.0011595634277909994,
+        6.138087272644043,
+        -2.51223087310791,
+        1
+      ]
+    },
+    {
+      "name": "PE_UFO_Arm_A_02",
+      "parent": "PE_UFO_Body",
+      "matrix": [
+        -2.4140451415632924e-08,
+        -0.13917316496372223,
+        -0.9902681112289429,
+        0,
+        2.9802322387695312e-08,
+        -0.9902681112289429,
+        0.13917316496372223,
+        0,
+        -1.0,
+        -2.9802322387695312e-08,
+        -2.4140451415632924e-08,
+        0,
+        0.0,
+        2.692190170288086,
+        -2.0,
+        1
+      ]
+    },
+    {
+      "name": "PE_UFO_Body",
+      "parent": null,
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0,
+        0.0,
+        1.0,
+        0.0,
+        0,
+        0.0,
+        0.0,
+        1.0,
+        0,
+        0.0,
+        0.0,
+        0.0,
+        1
+      ]
+    }
+  ],
+  "graph": {
+    "PE_Balloon Script": [
+      {
+        "index": 1728,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 984,
+        "destination": 783
+      },
+      {
+        "index": 1729,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 670,
+        "destination": 377
+      },
+      {
+        "index": 1730,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 379,
+        "destination": 571
+      },
+      {
+        "index": 1731,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1205,
+        "destination": 1204
+      },
+      {
+        "index": 1732,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1205,
+        "destination": 1167
+      },
+      {
+        "index": 1733,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1146,
+        "destination": 1155
+      },
+      {
+        "index": 1734,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 575,
+        "destination": 1141
+      },
+      {
+        "index": 1735,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1142,
+        "destination": 1172
+      },
+      {
+        "index": 1736,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1174,
+        "destination": 1173
+      },
+      {
+        "index": 1737,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1174,
+        "destination": 577
+      },
+      {
+        "index": 1738,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1143,
+        "destination": 578
+      },
+      {
+        "index": 1739,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1156,
+        "destination": 982
+      },
+      {
+        "index": 1740,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 985,
+        "destination": 784
+      },
+      {
+        "index": 1741,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 671,
+        "destination": 378
+      },
+      {
+        "index": 1742,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 380,
+        "destination": 572
+      },
+      {
+        "index": 1743,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 785,
+        "destination": 668
+      },
+      {
+        "index": 1744,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1157,
+        "destination": 669
+      },
+      {
+        "index": 1745,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 574,
+        "destination": 1203
+      },
+      {
+        "index": 1746,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1143,
+        "destination": 1173
+      },
+      {
+        "index": 1747,
+        "initialDelayFrames": 1,
+        "currentDelayFrames": 1,
+        "source": 786,
+        "destination": 1268
+      },
+      {
+        "index": 1748,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 575,
+        "destination": 1204
+      },
+      {
+        "index": 1749,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1761,
+        "destination": 1145
+      },
+      {
+        "index": 1750,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 580,
+        "destination": 983
+      },
+      {
+        "index": 1751,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1198,
+        "destination": 573
+      },
+      {
+        "index": 1752,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1229,
+        "destination": 1197
+      },
+      {
+        "index": 1753,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 579,
+        "destination": 1228
+      },
+      {
+        "index": 1754,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1269,
+        "destination": 1160
+      },
+      {
+        "index": 1755,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1161,
+        "destination": 1273
+      },
+      {
+        "index": 1756,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1168,
+        "destination": 1140
+      },
+      {
+        "index": 1757,
+        "initialDelayFrames": 1,
+        "currentDelayFrames": 1,
+        "source": 1198,
+        "destination": 1265
+      },
+      {
+        "index": 1758,
+        "initialDelayFrames": 1,
+        "currentDelayFrames": 1,
+        "source": 1266,
+        "destination": 1640
+      },
+      {
+        "index": 1759,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1274,
+        "destination": 1643
+      },
+      {
+        "index": 1760,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1641,
+        "destination": 1726
+      }
+    ],
+    "Last Level?": [
+      {
+        "index": 1261,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1254,
+        "destination": 1244
+      },
+      {
+        "index": 1262,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1235,
+        "destination": 1253
+      },
+      {
+        "index": 1263,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1265,
+        "destination": 1234
+      },
+      {
+        "index": 1264,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1245,
+        "destination": 1266
+      }
+    ],
+    "UFO": [
+      {
+        "index": 1607,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1317,
+        "destination": 1284
+      },
+      {
+        "index": 1608,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1285,
+        "destination": 1365
+      },
+      {
+        "index": 1609,
+        "initialDelayFrames": 1,
+        "currentDelayFrames": 1,
+        "source": 1285,
+        "destination": 1390
+      },
+      {
+        "index": 1610,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1386,
+        "destination": 1291
+      },
+      {
+        "index": 1611,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1387,
+        "destination": 1292
+      },
+      {
+        "index": 1612,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1293,
+        "destination": 1359
+      },
+      {
+        "index": 1613,
+        "initialDelayFrames": 1,
+        "currentDelayFrames": 1,
+        "source": 1279,
+        "destination": 1366
+      },
+      {
+        "index": 1614,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1368,
+        "destination": 1385
+      },
+      {
+        "index": 1615,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1311,
+        "destination": 1347
+      },
+      {
+        "index": 1616,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1328,
+        "destination": 1310
+      },
+      {
+        "index": 1617,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1392,
+        "destination": 1337
+      },
+      {
+        "index": 1618,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1640,
+        "destination": 1301
+      },
+      {
+        "index": 1619,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1360,
+        "destination": 1504
+      },
+      {
+        "index": 1620,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1302,
+        "destination": 1316
+      },
+      {
+        "index": 1621,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1640,
+        "destination": 1506
+      },
+      {
+        "index": 1622,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1640,
+        "destination": 1534
+      },
+      {
+        "index": 1623,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1535,
+        "destination": 1554
+      },
+      {
+        "index": 1624,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1555,
+        "destination": 1548
+      },
+      {
+        "index": 1625,
+        "initialDelayFrames": 1,
+        "currentDelayFrames": 1,
+        "source": 1549,
+        "destination": 1534
+      },
+      {
+        "index": 1626,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1367,
+        "destination": 1521
+      },
+      {
+        "index": 1627,
+        "initialDelayFrames": 1,
+        "currentDelayFrames": 1,
+        "source": 1508,
+        "destination": 1520
+      },
+      {
+        "index": 1628,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1508,
+        "destination": 1521
+      },
+      {
+        "index": 1629,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1360,
+        "destination": 1562
+      },
+      {
+        "index": 1630,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1361,
+        "destination": 1562
+      },
+      {
+        "index": 1631,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1563,
+        "destination": 1278
+      },
+      {
+        "index": 1632,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1564,
+        "destination": 1278
+      },
+      {
+        "index": 1633,
+        "initialDelayFrames": 1,
+        "currentDelayFrames": 1,
+        "source": 1563,
+        "destination": 1571
+      },
+      {
+        "index": 1634,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1348,
+        "destination": 1598
+      },
+      {
+        "index": 1635,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1599,
+        "destination": 1585
+      },
+      {
+        "index": 1636,
+        "initialDelayFrames": 1,
+        "currentDelayFrames": 1,
+        "source": 1586,
+        "destination": 1337
+      },
+      {
+        "index": 1637,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1338,
+        "destination": 1327
+      },
+      {
+        "index": 1638,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1367,
+        "destination": 1641
+      },
+      {
+        "index": 1639,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1563,
+        "destination": 1572
+      }
+    ],
+    "Greif Anim": [
+      {
+        "index": 1499,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1477,
+        "destination": 1436
+      },
+      {
+        "index": 1500,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1438,
+        "destination": 1469
+      },
+      {
+        "index": 1501,
+        "initialDelayFrames": 1,
+        "currentDelayFrames": 1,
+        "source": 1470,
+        "destination": 1489
+      },
+      {
+        "index": 1502,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1504,
+        "destination": 1421
+      },
+      {
+        "index": 1503,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1504,
+        "destination": 1475
+      }
+    ],
+    "Hyperspace": [
+      {
+        "index": 1717,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1707,
+        "destination": 1679
+      },
+      {
+        "index": 1718,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1680,
+        "destination": 1666
+      },
+      {
+        "index": 1719,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1667,
+        "destination": 1648
+      },
+      {
+        "index": 1720,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1698,
+        "destination": 1686
+      },
+      {
+        "index": 1721,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1651,
+        "destination": 1697
+      },
+      {
+        "index": 1722,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1650,
+        "destination": 1697
+      },
+      {
+        "index": 1723,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1650,
+        "destination": 1672
+      },
+      {
+        "index": 1724,
+        "initialDelayFrames": 1,
+        "currentDelayFrames": 1,
+        "source": 1651,
+        "destination": 1649
+      },
+      {
+        "index": 1725,
+        "initialDelayFrames": 0,
+        "currentDelayFrames": 0,
+        "source": 1726,
+        "destination": 1706
+      }
+    ]
+  }
+}

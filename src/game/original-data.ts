@@ -7,6 +7,17 @@ export interface OriginalDocument {
   materials: { id: number; name: string; emissive: number[]; texture: number; diffuse: number[]; AlphaBlendEnabled: boolean; AlphaTestEnabled: boolean; TwoSidedEnabled: boolean; ZWriteEnabled: boolean }[]
   textures: { id: number; file: string }[]; groups: { name: string; members: number[] }[]
 }
+/** Invisible collision-only floors still participate in physics. */
+export function originalSceneEntries(document: OriginalDocument) {
+  const floors=new Set(document.groups.filter(g=>/^Phys_Floor/.test(g.name)).flatMap(g=>g.members))
+  const hidden=new Set(document.groups.filter(g=>g.name==='invisible' || g.name==='DepthTestCubes').flatMap(g=>g.members))
+  const meshes=new Map(document.meshes.map(m=>[m.id,m]))
+  return document.objects.flatMap(object=> {
+    const source=meshes.get(object.mesh), floor=floors.has(object.id)
+    if(!source?.indices.length || /^(PR_|PS_|PC_|P_Extra_|SkyLayer)/.test(object.name) || hidden.has(object.id) && !floor) return []
+    return [{ object, source, floor, visible:object.visible && !hidden.has(object.id) }]
+  })
+}
 export const originalPosition = (o: OriginalObject) => new THREE.Vector3(o.matrix[12]! * SCALE, o.matrix[13]! * SCALE, -o.matrix[14]! * SCALE)
 export function originalGeometry(mesh: OriginalMesh, matrix: number[], relative = false) {
   const transform = new THREE.Matrix4().fromArray(matrix)

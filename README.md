@@ -1,82 +1,57 @@
 # Ballance
 
-A React + Three.js rolling-ball game with two content modes. A local original-game asset pack loads the actual twelve Ballance courses through a new Rapier runtime. Without it, the app opens the three independently made web courses. Both modes open directly into play with a minimal HUD.
+A React + Three.js port using the twelve original Ballance courses and a WebAssembly build of the IVP physics SDK reference. Development and production builds now select IVP by default. `?physics=rapier` selects the earlier comparison adapter. The source game pack and SDK are supplied separately.
 
-See [Original content import](docs/original-import.md) for setup, implemented behavior, verification and remaining fidelity work. The deploy command stages the converted game pack so the hosted game uses the same twelve courses as local play.
+The full 1:1 port is **in progress**. All twelve layouts and their mechanism types are connected, but uninterrupted complete playthroughs and original-executable equivalence remain unverified. See [native runtime coverage](docs/original-ivp-wasm.md), [route verification](docs/original-native-routes.md), and [original content import](docs/original-import.md) for concrete evidence and limitations.
 
-## Play the local original courses
+## Controls
 
-- **WASD / arrows:** roll relative to the camera.
+- **Arrow keys:** roll relative to the camera.
+- **Left Shift + left/right:** rotate the camera by 90 degrees.
 - **Space:** raise the camera.
-- **Shift + left/right**, or **Q/E:** rotate the camera.
-- **Escape:** pause. **R:** restart.
-- Three spare lives, original checkpoints/transformers and collectible trails.
-- Transformers pull the ball to the center, play the original ring animation, then replace its material and release it. [Timing and fidelity notes](docs/original-transformer.md).
-- Seesaws, short/long drawbridges, flap assemblies and pivoting planks now use their recovered hinges and collision shapes. [Hinge implementation and validation](docs/original-hinges.md).
-- Push the round targets to slide the three-post gates out of the passage. Their original compound hulls and guide channels are restored. [Gate implementation notes](docs/original-pushers.md).
-- Linked wooden bridges now flex and release their original connection when the stone ball enters the break trigger. Wood and paper leave it intact. [Bridge implementation notes](docs/original-chain.md).
-- Suspended sacks swing on their physical ropes with the original alternating pushes and respond to ball contact. [Sack physics and reset behavior](docs/original-sacks.md).
-- Swinging platforms use their original hinged bodies and push/coast cycle. Time your approach to board on the return stroke. [Swing behavior and validation](docs/original-swings.md).
-- Fans lift paper using the original force and wind-column dimensions, with sector activation, proximity polling and reset behavior. Steer while rising to reach higher fans and platforms; wood and stone remain grounded. [Fan implementation and outstanding mechanisms](docs/original-fans.md).
-- The old ball breaks into its original wood, stone or paper fragments. Extra lives have iridescent bubbles; point extras have orbiting silver satellites. [Effects notes](docs/original-effects.md).
+- **Escape:** pause or return from a menu.
 
-All 12 layouts are imported. Level 1 is the first playable integration; later courses still need their special mechanism behaviors and are marked accordingly. Ball and crate material values now come from the original data tables; see [physics findings](docs/original-physics.md). The contact solver is still Rapier, so exact IVP parity is not claimed.
+Controls can be rebound in Options. The responsive interface follows the original menu flow and shows only time points and extra lives during play. It uses browser-rendered text and custom responsive artwork; it is not a pixel-perfect execution of the original interface scripts. See [interface coverage](docs/original-ui.md).
 
-## Play the independent web courses
+## Development and build
 
-- **WASD / arrow keys:** roll, relative to the camera.
-- **Space:** brake.
-- **Q / E:** rotate the camera.
-- **Escape / P:** pause or resume.
-- **R:** restart the whole course.
-- Touch devices show directional controls and a brake button.
-
-Roll over transformation pads to become wood, stone, or paper. Stone pushes the block on course 2. Paper can cross fragile bridges and ride fans over gaps. Wood is required to finish. Brass rings save checkpoints and the current material. Falling costs one of five lives and restores the last checkpoint. Golden collectibles award 50 points and 10 seconds; checkpoints award 100 points. Completing a course adds five points per remaining second.
-
-The pause menu contains course selection and settings. Sound starts muted. Sound, rendering quality, steering strength, and per-course high scores persist in localStorage. The game still works when storage is unavailable. Hidden or unfocused windows pause automatically.
-
-## Development
-
-Requires Node 22.18+ (Node 24 recommended for the TypeScript test runner).
+Requires Node 22.18+ (Node 24 recommended), the converted original pack at `.local/original`, and the separately built IVP runtime at `.local/ivp-simulation`.
 
 ```sh
-npm install
-npm run dev
-npm test
-npm run lint
-npm run build
+pnpm install
+# One-time native runtime build; requires the supplied SDK and Emscripten:
+python3 scripts/build-ivp-simulation.py .local/reference/ivp .local/ivp-simulation
+pnpm dev
+pnpm test
+pnpm lint
+pnpm build
 ```
 
-The existing Cloudflare Vite plugin builds the client into `dist/client` and the Worker into `dist/ballance`. `pnpm run deploy` builds, stages `.local/original/` into `dist/client/original`, and deploys through the existing Wrangler configuration. The converted pack must be present; deployment fails if it is missing. Ordinary `npm run build` does not stage it.
+The import and SDK setup are documented in [original-import.md](docs/original-import.md) and [original-ivp-wasm.md](docs/original-ivp-wasm.md). The build fails when the generated runtime is missing or its metadata does not match the verified SDK settings. Development inspection controls are available at `/?inspect=tools`; they are absent from production.
 
-## Source
+The Cloudflare Vite plugin writes the client into `dist/client` and Worker into `dist/ballance`. The production client includes the IVP loader and WASM in one content-hashed directory. To preview the complete production game locally:
 
-- `src/game/levels.ts`: course geometry, checkpoints, collectibles, transformers, blocks, and fans.
-- `src/game/geometry.ts`: trims coplanar bridge/platform overlaps to prevent flickering seams.
-- `src/game/physics.ts`: deterministic rolling simulation, surface heights, acceleration, drag, brakes, gravity, and landing.
-- `src/game/engine.ts`: Three.js rendering, fixed 120 Hz simulation, game rules, camera, sound, atmosphere, and cleanup.
-- `src/game/original-data.ts`, `original-engine.ts`, `original-audio.ts`: original content conversion, rendering, Rapier physics and audio playback.
-- `scripts/prepare-original.py`: creates a local original asset pack.
-- `tests/original-import.test.ts`: coordinate conversion, rail support and original reset-point integration checks.
-- `src/App.tsx`: minimal HUD, menus, touch controls, and preferences.
-- `public/textures/cloudscape.jpg`: generated sky artwork, served locally.
-- `tests/physics.test.ts`: ten physics tests, including ramp traversal, both fan-gap landings, frame-step consistency, and braking.
-- `tests/geometry.test.ts`: three regression tests for bridge seams and ramp preservation.
+```sh
+pnpm build
+node scripts/stage-original-assets.mjs
+pnpm exec vite preview
+```
 
-## Independent course scope and assets
+`pnpm run deploy` builds, stages the converted game pack and offline manifest, then deploys through the existing Wrangler configuration. Both native runtime files are included in the offline manifest. Ordinary `pnpm build` includes the solver but does not copy the original game pack. The live deployment is not changed by building or previewing locally.
 
-The fallback mode is an original three-course fan recreation. Physics is a purpose-built surface simulation: rails use narrow support strips and blocks use simplified collision/push logic. It does not reproduce the original's full rigid-body object system, seesaws, or every obstacle type.
+## Source and verification
 
-Platform and ball textures are procedural. The sky artwork was generated specifically for this project. Geometry and sound are generated in code. The separate importer reads user-supplied game assets. Deployment includes the converted JSON, textures, sky images and audio; original executables and installers are not uploaded. See [the reference notes](docs/references.md) for research and attribution.
+- `src/game/original-engine.ts`: game lifecycle, rendering, original behaviors, audio and native-runtime integration.
+- `src/game/original-ivp-runtime.ts`: native course bodies, player, sector lifecycle and mechanisms.
+- `src/game/ivp-bridge.ts`, `scripts/ivp-simulation-bridge.cpp`: typed ownership boundary and compiled SDK bridge.
+- `src/game/original-ivp-player.ts`: original ball shapes, material properties and input force controllers.
+- `src/game/original-camera.ts`: recovered camera rig and navigation behavior.
+- `src/App.tsx`, `src/ui/`: responsive menu flow and HUD.
+- `scripts/prepare-original.py`: conversion of the separately supplied game assets.
+- `scripts/read-original-*.py`: extraction of original settings and behavior data.
+- `scripts/verify-ivp-*.ts`: native/WASM replay comparisons.
+- `tests/original-ivp-runtime.test.ts`: actual-course native interaction and lifecycle checks.
 
-Ballance was created by Cyparade and originally published by Atari. The original game is available from [its current publisher on Steam](https://store.steampowered.com/app/2000770/Ballance/).
+The earlier independent-course engine and Rapier adapters remain in the repository for comparison; the current app opens the original-game interface. Test coverage of a staged route or a successfully constructed sector does not establish full-level completion.
 
-Rotating target arms now use their recovered three-part collision body, hinge and offset return spring. See [arm physics and validation](docs/original-arms.md).
-
-The crate-supported stones now use their original vertical sliders and proximity activation, including the Level 1 lowering puzzle. See [slider physics and validation](docs/original-slider.md).
-
-Weighted spring lifts now have removable wall bodies, an open doorway and a vertically constrained platform whose height responds to load. See [lift physics and remaining parity work](docs/original-lift.md).
-
-Gates, passive hinges and breakable bridges now activate and reset with their sectors, including original proximity polling. See [sector lifecycle and verification](docs/original-sectors.md).
-
-Loose balls, crates and fixed domes now activate with their sectors and restore after resets, using original convex/sphere shapes and explicit mass centers. See [object physics and verification](docs/original-objects.md).
+Ballance was created by Cyparade and originally published by Atari. Original game assets and the separately supplied SDK have their own provenance. See [third-party references](THIRD_PARTY.md) and [research notes](docs/references.md). Production packaging includes converted game assets and the generated browser solver, not the original installer, EXE or DLLs.

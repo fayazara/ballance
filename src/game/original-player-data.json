@@ -52,5 +52,62 @@
       ],
       "radius": 2.0
     }
-  ]
+  ],
+  "input": {
+    "wakeBehavior": 1653,
+    "keys": [
+      {
+        "name": "right",
+        "keyBehavior": 1613,
+        "forceBehavior": 1589,
+        "direction": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "directionReference": "Cam_OrientRef Frame",
+        "wakeOnCreate": true,
+        "wakeOnShutdown": true
+      },
+      {
+        "name": "left",
+        "keyBehavior": 1635,
+        "forceBehavior": 1627,
+        "direction": [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        "directionReference": "Cam_OrientRef Frame",
+        "wakeOnCreate": true,
+        "wakeOnShutdown": true
+      },
+      {
+        "name": "backward",
+        "keyBehavior": 1605,
+        "forceBehavior": 1649,
+        "direction": [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        "directionReference": "Cam_OrientRef Frame",
+        "wakeOnCreate": true,
+        "wakeOnShutdown": true
+      },
+      {
+        "name": "forward",
+        "keyBehavior": 1597,
+        "forceBehavior": 1667,
+        "direction": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "directionReference": "Cam_OrientRef Frame",
+        "wakeOnCreate": true,
+        "wakeOnShutdown": true
+      }
+    ]
+  }
 }

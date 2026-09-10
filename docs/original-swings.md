@@ -40,3 +40,15 @@ The Level 9 traversal test approaches during the platform's return stroke, rolls
 The in-app browser check uses `?inspect` → Load swinging platform course → Stage return-stroke approach → Cross swinging platform. The staging control advances two seconds with the ball away from the swept path, then places it at the approach; traversal itself uses normal roll and counter-steering forces. The Level 9 wood ball landed on the exit floor at approximately `(62.961, -15.990, -99.986)` with near-zero speed. Waiting at the edge instead lets the returning platform strike the ball before departure, so these are distinct initial conditions. A forced fall restored the initial pose and drive cycle; advancing to the next checkpoint disabled the platform and removed its active hinge. No browser console errors were reported. All 60 automated tests, lint and the production build passed; the existing bundle-size warning remains.
 
 The contact solver and compound inertia remain Rapier's, so exact original trajectories are not proven. Timers use real milliseconds independently of the physics clock's factor of two. The initial script-frame delay currently maps to one fixed physics tick; exact Virtools scheduling remains outstanding. Full playthroughs of the affected levels and other module behaviors are separate remaining work.
+
+## Native route follow-up (2026-09-09)
+
+All six placements now have native-runtime forward route coverage. Wood crosses
+all four Levels 8–10 placements, with actual deck contact and a stable landing on
+the authored exit floor. Mistimed control departures fail. Level 11 uses paper
+and its intervening `P_Modul_18_09` fan to cross both rising decks in one continuous
+sequence after the initial approach placement. Wood does not complete the same
+fan-dependent sequence. No bodies are teleported or forces retuned during these
+routes. See [native route verification](original-native-routes.md) for measured
+positions and explicit limits. These follow-up checks are headless; the earlier
+browser observations above were for Rapier, not these native routes.

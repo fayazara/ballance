@@ -1,3 +1,4 @@
+import { applyOriginalConvexMass } from './original-inertia.ts'
 import { originalCollisionGroups } from './original-collisions.ts'
 import * as THREE from 'three'
 import RAPIER from '@dimforge/rapier3d-compat'
@@ -40,11 +41,12 @@ export class OriginalSectorObject {
     const collider = world.createCollider(configureContact(desc.setMass(data.mass).setCollisionGroups(originalCollisionGroups(data.collisionGroup)), data), this.body)
     collider.setEnabled(data.enableCollision)
     this.body.recomputeMassPropertiesFromColliders()
-    if (!data.fixed) {
-      // Automatic Calculate Mass Center=false, Shift Mass Center=(0,0,0).
-      const inertia = this.body.principalInertia(), frame = this.body.principalInertiaLocalFrame()
+    if (!data.fixed && !('radius' in data)) {
+      applyOriginalConvexMass(this.body, data.mass, [source.name!], matrix, data.massCenter)
+    } else if ('radius' in data) {
+      const inertia = new THREE.Vector3(1, 1, 1).multiplyScalar(.4 * data.mass * (data.radius * SCALE) ** 2)
       collider.setMass(0)
-      this.body.setAdditionalMassProperties(data.mass, { x: 0, y: 0, z: 0 }, inertia, frame, false)
+      this.body.setAdditionalMassProperties(data.mass, { x: 0, y: 0, z: 0 }, inertia, { x: 0, y: 0, z: 0, w: 1 }, false)
       this.body.recomputeMassPropertiesFromColliders()
     }
     this.depthTest?.register(this)

@@ -37,19 +37,19 @@ test('all original materials shatter into bounded, simulated fragments that expi
   try {
     const expected = { wood: 16, stone: 17, paper: 18 }
     for (const kind of ['wood', 'stone', 'paper'] as Material[]) {
-      debris.spawn(world, kind, new THREE.Vector3(0, .75, 0), new THREE.Quaternion(), () => .5)
+      debris.spawn(world, kind, new THREE.Vector3(0, .75, 0), () => .5)
       assert.equal(debris.fragments.filter(f => f.kind === kind).length, expected[kind])
       const starting = debris.fragments.filter(f => f.kind === kind).map(f => f.body.translation())
-      for (let i = 0; i < 66; i++) { world.step(); debris.step(world, PHYSICS_STEP) }
+      for (let i = 0; i < 66; i++) { debris.beforeStep(PHYSICS_STEP); world.step(); debris.step(world, PHYSICS_STEP) }
       assert.ok(debris.fragments.filter(f => f.kind === kind).some((f, i) => f.mesh.position.distanceTo(new THREE.Vector3(starting[i]!.x, starting[i]!.y, starting[i]!.z)) > .1))
       assert.ok(debris.fragments.every(f => Number.isFinite(f.body.translation().y)))
     }
     assert.equal(debris.fragments.length, 51)
-    debris.spawn(world, 'wood', new THREE.Vector3(0, .75, 0), new THREE.Quaternion(), () => .5)
+    debris.spawn(world, 'wood', new THREE.Vector3(0, .75, 0), () => .5)
     assert.equal(debris.fragments.length, 51, 'repeated transformations replace the old material pool')
     debris.step(world, 23)
     assert.equal(debris.fragments.length, 0); assert.equal(world.bodies.len(), 0)
-    debris.spawn(world, 'paper', new THREE.Vector3(0, .75, 0), new THREE.Quaternion())
+    debris.spawn(world, 'paper', new THREE.Vector3(0, .75, 0))
     debris.clear(world)
     assert.equal(debris.group.children.length, 0); assert.equal(world.bodies.len(), 0)
   } finally { debris.clear(world); world.free(); debris.dispose(); materials.forEach(m => m.dispose()) }

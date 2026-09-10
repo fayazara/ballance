@@ -1,3 +1,4 @@
+import { applyOriginalConvexMass } from './original-inertia.ts'
 import { originalCollisionGroups } from './original-collisions.ts'
 import * as THREE from 'three'
 import RAPIER from '@dimforge/rapier3d-compat'
@@ -49,13 +50,7 @@ export class OriginalLift {
         const geometry = originalGeometry(hull, matrix.toArray(), true)
         colliders.push(world.createCollider(configureContact(RAPIER.ColliderDesc.convexHull(geometry.attributes.position!.array as Float32Array)!.setCollisionGroups(originalCollisionGroups(data.collisionGroup)), data), body)); geometry.dispose()
       }
-      const volume = colliders.reduce((sum, c) => sum + c.volume(), 0)
-      for (const c of colliders) c.setMass(data.mass * c.volume() / volume)
-      body.recomputeMassPropertiesFromColliders()
-      const inertia = body.principalInertia(), frame = body.principalInertiaLocalFrame()
-      const center = new THREE.Vector3(...data.massCenter as [number, number, number]).applyMatrix4(matrix.clone().setPosition(0, 0, 0)).multiplyScalar(SCALE); center.z *= -1
-      for (const c of colliders) c.setMass(0)
-      body.setAdditionalMassProperties(data.mass, center, inertia, frame, true); body.recomputeMassPropertiesFromColliders()
+      applyOriginalConvexMass(body, data.mass, data.hulls, matrix, data.massCenter)
       this.parts.push({ name: object.name, mesh, body, origin, sector, collision: data.enableCollision })
     }
     const frame1 = parentMatrix.clone().multiply(new THREE.Matrix4().fromArray(recovered.slider.frame1))

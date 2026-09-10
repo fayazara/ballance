@@ -1,0 +1,884 @@
+{
+  "dllSha256": "e72e4afcfa5c33a7d3d27776137f8c997b3c52d89d8a8a4745f1ca21e45893ec",
+  "instructionRange": [
+    "0x10007cef",
+    "0x10007d1a"
+  ],
+  "cases": [
+    {
+      "previousMs": 0.0,
+      "deltaMs": 33.333333333333336,
+      "timeFactor": 2,
+      "filteredMs": 8.333333015441895,
+      "physicsSeconds": 0.01666666753590107
+    },
+    {
+      "previousMs": 8.333333015441895,
+      "deltaMs": 33.333333333333336,
+      "timeFactor": 2,
+      "filteredMs": 14.583333015441895,
+      "physicsSeconds": 0.02916666679084301
+    },
+    {
+      "previousMs": 14.583333015441895,
+      "deltaMs": 33.333333333333336,
+      "timeFactor": 2,
+      "filteredMs": 19.270832061767578,
+      "physicsSeconds": 0.03854166716337204
+    },
+    {
+      "previousMs": 19.270832061767578,
+      "deltaMs": 33.333333333333336,
+      "timeFactor": 2,
+      "filteredMs": 22.786457061767578,
+      "physicsSeconds": 0.0455729179084301
+    },
+    {
+      "previousMs": 22.786457061767578,
+      "deltaMs": 33.333333333333336,
+      "timeFactor": 2,
+      "filteredMs": 25.423175811767578,
+      "physicsSeconds": 0.05084635317325592
+    },
+    {
+      "previousMs": 25.423175811767578,
+      "deltaMs": 33.333333333333336,
+      "timeFactor": 2,
+      "filteredMs": 27.400714874267578,
+      "physicsSeconds": 0.05480143055319786
+    },
+    {
+      "previousMs": 27.400714874267578,
+      "deltaMs": 33.333333333333336,
+      "timeFactor": 2,
+      "filteredMs": 28.883869171142578,
+      "physicsSeconds": 0.05776774138212204
+    },
+    {
+      "previousMs": 28.883869171142578,
+      "deltaMs": 33.333333333333336,
+      "timeFactor": 2,
+      "filteredMs": 29.996234893798828,
+      "physicsSeconds": 0.0599924735724926
+    },
+    {
+      "previousMs": 29.996234893798828,
+      "deltaMs": 33.333333333333336,
+      "timeFactor": 2,
+      "filteredMs": 30.830509185791016,
+      "physicsSeconds": 0.061661019921302795
+    },
+    {
+      "previousMs": 30.830509185791016,
+      "deltaMs": 33.333333333333336,
+      "timeFactor": 2,
+      "filteredMs": 31.456214904785156,
+      "physicsSeconds": 0.06291243433952332
+    },
+    {
+      "previousMs": 31.456214904785156,
+      "deltaMs": 33.333333333333336,
+      "timeFactor": 2,
+      "filteredMs": 31.925495147705078,
+      "physicsSeconds": 0.06385099142789841
+    },
+    {
+      "previousMs": 31.925495147705078,
+      "deltaMs": 33.333333333333336,
+      "timeFactor": 2,
+      "filteredMs": 32.2774543762207,
+      "physicsSeconds": 0.06455491483211517
+    },
+    {
+      "previousMs": 32.2774543762207,
+      "deltaMs": 50,
+      "timeFactor": 2,
+      "filteredMs": 36.708091735839844,
+      "physicsSeconds": 0.07341618835926056
+    },
+    {
+      "previousMs": 36.708091735839844,
+      "deltaMs": 4,
+      "timeFactor": 2,
+      "filteredMs": 28.531068801879883,
+      "physicsSeconds": 0.057062141597270966
+    },
+    {
+      "previousMs": 28.531068801879883,
+      "deltaMs": 33,
+      "timeFactor": 2,
+      "filteredMs": 29.64830207824707,
+      "physicsSeconds": 0.05929660424590111
+    },
+    {
+      "previousMs": 29.64830207824707,
+      "deltaMs": 0,
+      "timeFactor": 2,
+      "filteredMs": 22.23622703552246,
+      "physicsSeconds": 0.044472455978393555
+    },
+    {
+      "previousMs": 22.23622703552246,
+      "deltaMs": 16,
+      "timeFactor": 2,
+      "filteredMs": 20.677169799804688,
+      "physicsSeconds": 0.04135434329509735
+    },
+    {
+      "previousMs": 20.677169799804688,
+      "deltaMs": 8,
+      "timeFactor": 2,
+      "filteredMs": 17.507877349853516,
+      "physicsSeconds": 0.035015758126974106
+    },
+    {
+      "previousMs": 17.507877349853516,
+      "deltaMs": 20,
+      "timeFactor": 2,
+      "filteredMs": 18.130908966064453,
+      "physicsSeconds": 0.036261819303035736
+    },
+    {
+      "previousMs": 18.130908966064453,
+      "deltaMs": 10,
+      "timeFactor": 2,
+      "filteredMs": 16.098182678222656,
+      "physicsSeconds": 0.03219636529684067
+    },
+    {
+      "previousMs": 0.0,
+      "deltaMs": 16.666666666666668,
+      "timeFactor": 2,
+      "filteredMs": 4.166666507720947,
+      "physicsSeconds": 0.008333333767950535
+    },
+    {
+      "previousMs": 4.166666507720947,
+      "deltaMs": 16.666666666666668,
+      "timeFactor": 2,
+      "filteredMs": 7.291666507720947,
+      "physicsSeconds": 0.014583333395421505
+    },
+    {
+      "previousMs": 7.291666507720947,
+      "deltaMs": 16.666666666666668,
+      "timeFactor": 2,
+      "filteredMs": 9.635416030883789,
+      "physicsSeconds": 0.01927083358168602
+    },
+    {
+      "previousMs": 9.635416030883789,
+      "deltaMs": 16.666666666666668,
+      "timeFactor": 2,
+      "filteredMs": 11.393228530883789,
+      "physicsSeconds": 0.02278645895421505
+    },
+    {
+      "previousMs": 11.393228530883789,
+      "deltaMs": 16.666666666666668,
+      "timeFactor": 2,
+      "filteredMs": 12.711587905883789,
+      "physicsSeconds": 0.02542317658662796
+    },
+    {
+      "previousMs": 12.711587905883789,
+      "deltaMs": 16.666666666666668,
+      "timeFactor": 2,
+      "filteredMs": 13.700357437133789,
+      "physicsSeconds": 0.02740071527659893
+    },
+    {
+      "previousMs": 13.700357437133789,
+      "deltaMs": 16.666666666666668,
+      "timeFactor": 2,
+      "filteredMs": 14.441934585571289,
+      "physicsSeconds": 0.02888387069106102
+    },
+    {
+      "previousMs": 14.441934585571289,
+      "deltaMs": 16.666666666666668,
+      "timeFactor": 2,
+      "filteredMs": 14.998117446899414,
+      "physicsSeconds": 0.0299962367862463
+    },
+    {
+      "previousMs": 14.998117446899414,
+      "deltaMs": 16.666666666666668,
+      "timeFactor": 2,
+      "filteredMs": 15.415254592895508,
+      "physicsSeconds": 0.030830509960651398
+    },
+    {
+      "previousMs": 15.415254592895508,
+      "deltaMs": 16.666666666666668,
+      "timeFactor": 2,
+      "filteredMs": 15.728107452392578,
+      "physicsSeconds": 0.03145621716976166
+    },
+    {
+      "previousMs": 15.728107452392578,
+      "deltaMs": 16.666666666666668,
+      "timeFactor": 2,
+      "filteredMs": 15.962747573852539,
+      "physicsSeconds": 0.031925495713949203
+    },
+    {
+      "previousMs": 15.962747573852539,
+      "deltaMs": 16.666666666666668,
+      "timeFactor": 2,
+      "filteredMs": 16.13872718811035,
+      "physicsSeconds": 0.03227745741605759
+    },
+    {
+      "previousMs": 16.13872718811035,
+      "deltaMs": 50,
+      "timeFactor": 2,
+      "filteredMs": 24.604045867919922,
+      "physicsSeconds": 0.04920809343457222
+    },
+    {
+      "previousMs": 24.604045867919922,
+      "deltaMs": 4,
+      "timeFactor": 2,
+      "filteredMs": 19.453033447265625,
+      "physicsSeconds": 0.038906071335077286
+    },
+    {
+      "previousMs": 19.453033447265625,
+      "deltaMs": 33,
+      "timeFactor": 2,
+      "filteredMs": 22.83977508544922,
+      "physicsSeconds": 0.04567955061793327
+    },
+    {
+      "previousMs": 22.83977508544922,
+      "deltaMs": 0,
+      "timeFactor": 2,
+      "filteredMs": 17.129831314086914,
+      "physicsSeconds": 0.03425966575741768
+    },
+    {
+      "previousMs": 17.129831314086914,
+      "deltaMs": 16,
+      "timeFactor": 2,
+      "filteredMs": 16.847373962402344,
+      "physicsSeconds": 0.03369474783539772
+    },
+    {
+      "previousMs": 16.847373962402344,
+      "deltaMs": 8,
+      "timeFactor": 2,
+      "filteredMs": 14.635530471801758,
+      "physicsSeconds": 0.029271062463521957
+    },
+    {
+      "previousMs": 14.635530471801758,
+      "deltaMs": 20,
+      "timeFactor": 2,
+      "filteredMs": 15.976648330688477,
+      "physicsSeconds": 0.031953297555446625
+    },
+    {
+      "previousMs": 15.976648330688477,
+      "deltaMs": 10,
+      "timeFactor": 2,
+      "filteredMs": 14.482486724853516,
+      "physicsSeconds": 0.028964973986148834
+    },
+    {
+      "previousMs": 0.0,
+      "deltaMs": 11.11111111111111,
+      "timeFactor": 2,
+      "filteredMs": 2.777777671813965,
+      "physicsSeconds": 0.0055555556900799274
+    },
+    {
+      "previousMs": 2.777777671813965,
+      "deltaMs": 11.11111111111111,
+      "timeFactor": 2,
+      "filteredMs": 4.861110687255859,
+      "physicsSeconds": 0.009722222574055195
+    },
+    {
+      "previousMs": 4.861110687255859,
+      "deltaMs": 11.11111111111111,
+      "timeFactor": 2,
+      "filteredMs": 6.423610687255859,
+      "physicsSeconds": 0.01284722238779068
+    },
+    {
+      "previousMs": 6.423610687255859,
+      "deltaMs": 11.11111111111111,
+      "timeFactor": 2,
+      "filteredMs": 7.595485687255859,
+      "physicsSeconds": 0.01519097201526165
+    },
+    {
+      "previousMs": 7.595485687255859,
+      "deltaMs": 11.11111111111111,
+      "timeFactor": 2,
+      "filteredMs": 8.47439193725586,
+      "physicsSeconds": 0.01694878377020359
+    },
+    {
+      "previousMs": 8.47439193725586,
+      "deltaMs": 11.11111111111111,
+      "timeFactor": 2,
+      "filteredMs": 9.13357162475586,
+      "physicsSeconds": 0.01826714351773262
+    },
+    {
+      "previousMs": 9.13357162475586,
+      "deltaMs": 11.11111111111111,
+      "timeFactor": 2,
+      "filteredMs": 9.62795639038086,
+      "physicsSeconds": 0.01925591379404068
+    },
+    {
+      "previousMs": 9.62795639038086,
+      "deltaMs": 11.11111111111111,
+      "timeFactor": 2,
+      "filteredMs": 9.99874496459961,
+      "physicsSeconds": 0.01999749056994915
+    },
+    {
+      "previousMs": 9.99874496459961,
+      "deltaMs": 11.11111111111111,
+      "timeFactor": 2,
+      "filteredMs": 10.276836395263672,
+      "physicsSeconds": 0.020553674548864365
+    },
+    {
+      "previousMs": 10.276836395263672,
+      "deltaMs": 11.11111111111111,
+      "timeFactor": 2,
+      "filteredMs": 10.485404968261719,
+      "physicsSeconds": 0.02097081020474434
+    },
+    {
+      "previousMs": 10.485404968261719,
+      "deltaMs": 11.11111111111111,
+      "timeFactor": 2,
+      "filteredMs": 10.641831398010254,
+      "physicsSeconds": 0.02128366380929947
+    },
+    {
+      "previousMs": 10.641831398010254,
+      "deltaMs": 11.11111111111111,
+      "timeFactor": 2,
+      "filteredMs": 10.759151458740234,
+      "physicsSeconds": 0.021518303081393242
+    },
+    {
+      "previousMs": 10.759151458740234,
+      "deltaMs": 50,
+      "timeFactor": 2,
+      "filteredMs": 20.56936264038086,
+      "physicsSeconds": 0.04113873094320297
+    },
+    {
+      "previousMs": 20.56936264038086,
+      "deltaMs": 4,
+      "timeFactor": 2,
+      "filteredMs": 16.427021026611328,
+      "physicsSeconds": 0.032854046672582626
+    },
+    {
+      "previousMs": 16.427021026611328,
+      "deltaMs": 33,
+      "timeFactor": 2,
+      "filteredMs": 20.570266723632812,
+      "physicsSeconds": 0.04114053398370743
+    },
+    {
+      "previousMs": 20.570266723632812,
+      "deltaMs": 0,
+      "timeFactor": 2,
+      "filteredMs": 15.42770004272461,
+      "physicsSeconds": 0.03085540235042572
+    },
+    {
+      "previousMs": 15.42770004272461,
+      "deltaMs": 16,
+      "timeFactor": 2,
+      "filteredMs": 15.570775032043457,
+      "physicsSeconds": 0.031141551211476326
+    },
+    {
+      "previousMs": 15.570775032043457,
+      "deltaMs": 8,
+      "timeFactor": 2,
+      "filteredMs": 13.678081512451172,
+      "physicsSeconds": 0.027356164529919624
+    },
+    {
+      "previousMs": 13.678081512451172,
+      "deltaMs": 20,
+      "timeFactor": 2,
+      "filteredMs": 15.258561134338379,
+      "physicsSeconds": 0.030517123639583588
+    },
+    {
+      "previousMs": 15.258561134338379,
+      "deltaMs": 10,
+      "timeFactor": 2,
+      "filteredMs": 13.943921089172363,
+      "physicsSeconds": 0.027887843549251556
+    },
+    {
+      "previousMs": 0.0,
+      "deltaMs": 8.333333333333334,
+      "timeFactor": 2,
+      "filteredMs": 2.0833332538604736,
+      "physicsSeconds": 0.004166666883975267
+    },
+    {
+      "previousMs": 2.0833332538604736,
+      "deltaMs": 8.333333333333334,
+      "timeFactor": 2,
+      "filteredMs": 3.6458332538604736,
+      "physicsSeconds": 0.0072916666977107525
+    },
+    {
+      "previousMs": 3.6458332538604736,
+      "deltaMs": 8.333333333333334,
+      "timeFactor": 2,
+      "filteredMs": 4.8177080154418945,
+      "physicsSeconds": 0.00963541679084301
+    },
+    {
+      "previousMs": 4.8177080154418945,
+      "deltaMs": 8.333333333333334,
+      "timeFactor": 2,
+      "filteredMs": 5.6966142654418945,
+      "physicsSeconds": 0.011393229477107525
+    },
+    {
+      "previousMs": 5.6966142654418945,
+      "deltaMs": 8.333333333333334,
+      "timeFactor": 2,
+      "filteredMs": 6.3557939529418945,
+      "physicsSeconds": 0.01271158829331398
+    },
+    {
+      "previousMs": 6.3557939529418945,
+      "deltaMs": 8.333333333333334,
+      "timeFactor": 2,
+      "filteredMs": 6.8501787185668945,
+      "physicsSeconds": 0.013700357638299465
+    },
+    {
+      "previousMs": 6.8501787185668945,
+      "deltaMs": 8.333333333333334,
+      "timeFactor": 2,
+      "filteredMs": 7.2209672927856445,
+      "physicsSeconds": 0.01444193534553051
+    },
+    {
+      "previousMs": 7.2209672927856445,
+      "deltaMs": 8.333333333333334,
+      "timeFactor": 2,
+      "filteredMs": 7.499058723449707,
+      "physicsSeconds": 0.01499811839312315
+    },
+    {
+      "previousMs": 7.499058723449707,
+      "deltaMs": 8.333333333333334,
+      "timeFactor": 2,
+      "filteredMs": 7.707627296447754,
+      "physicsSeconds": 0.015415254980325699
+    },
+    {
+      "previousMs": 7.707627296447754,
+      "deltaMs": 8.333333333333334,
+      "timeFactor": 2,
+      "filteredMs": 7.864053726196289,
+      "physicsSeconds": 0.01572810858488083
+    },
+    {
+      "previousMs": 7.864053726196289,
+      "deltaMs": 8.333333333333334,
+      "timeFactor": 2,
+      "filteredMs": 7.9813737869262695,
+      "physicsSeconds": 0.015962747856974602
+    },
+    {
+      "previousMs": 7.9813737869262695,
+      "deltaMs": 8.333333333333334,
+      "timeFactor": 2,
+      "filteredMs": 8.069363594055176,
+      "physicsSeconds": 0.016138728708028793
+    },
+    {
+      "previousMs": 8.069363594055176,
+      "deltaMs": 50,
+      "timeFactor": 2,
+      "filteredMs": 18.55202293395996,
+      "physicsSeconds": 0.0371040478348732
+    },
+    {
+      "previousMs": 18.55202293395996,
+      "deltaMs": 4,
+      "timeFactor": 2,
+      "filteredMs": 14.914016723632812,
+      "physicsSeconds": 0.029828036203980446
+    },
+    {
+      "previousMs": 14.914016723632812,
+      "deltaMs": 33,
+      "timeFactor": 2,
+      "filteredMs": 19.43551254272461,
+      "physicsSeconds": 0.038871027529239655
+    },
+    {
+      "previousMs": 19.43551254272461,
+      "deltaMs": 0,
+      "timeFactor": 2,
+      "filteredMs": 14.576634407043457,
+      "physicsSeconds": 0.02915327064692974
+    },
+    {
+      "previousMs": 14.576634407043457,
+      "deltaMs": 16,
+      "timeFactor": 2,
+      "filteredMs": 14.932476043701172,
+      "physicsSeconds": 0.029864953830838203
+    },
+    {
+      "previousMs": 14.932476043701172,
+      "deltaMs": 8,
+      "timeFactor": 2,
+      "filteredMs": 13.199357032775879,
+      "physicsSeconds": 0.026398714631795883
+    },
+    {
+      "previousMs": 13.199357032775879,
+      "deltaMs": 20,
+      "timeFactor": 2,
+      "filteredMs": 14.899518013000488,
+      "physicsSeconds": 0.02979903668165207
+    },
+    {
+      "previousMs": 14.899518013000488,
+      "deltaMs": 10,
+      "timeFactor": 2,
+      "filteredMs": 13.674638748168945,
+      "physicsSeconds": 0.027349278330802917
+    },
+    {
+      "previousMs": 0.0,
+      "deltaMs": 7.575757575757576,
+      "timeFactor": 2,
+      "filteredMs": 1.8939393758773804,
+      "physicsSeconds": 0.0037878789007663727
+    },
+    {
+      "previousMs": 1.8939393758773804,
+      "deltaMs": 7.575757575757576,
+      "timeFactor": 2,
+      "filteredMs": 3.314393997192383,
+      "physicsSeconds": 0.006628788076341152
+    },
+    {
+      "previousMs": 3.314393997192383,
+      "deltaMs": 7.575757575757576,
+      "timeFactor": 2,
+      "filteredMs": 4.379734992980957,
+      "physicsSeconds": 0.008759469725191593
+    },
+    {
+      "previousMs": 4.379734992980957,
+      "deltaMs": 7.575757575757576,
+      "timeFactor": 2,
+      "filteredMs": 5.178740501403809,
+      "physicsSeconds": 0.010357481427490711
+    },
+    {
+      "previousMs": 5.178740501403809,
+      "deltaMs": 7.575757575757576,
+      "timeFactor": 2,
+      "filteredMs": 5.777994632720947,
+      "physicsSeconds": 0.01155599020421505
+    },
+    {
+      "previousMs": 5.777994632720947,
+      "deltaMs": 7.575757575757576,
+      "timeFactor": 2,
+      "filteredMs": 6.227435111999512,
+      "physicsSeconds": 0.012454871088266373
+    },
+    {
+      "previousMs": 6.227435111999512,
+      "deltaMs": 7.575757575757576,
+      "timeFactor": 2,
+      "filteredMs": 6.564515590667725,
+      "physicsSeconds": 0.013129032216966152
+    },
+    {
+      "previousMs": 6.564515590667725,
+      "deltaMs": 7.575757575757576,
+      "timeFactor": 2,
+      "filteredMs": 6.817326068878174,
+      "physicsSeconds": 0.013634652830660343
+    },
+    {
+      "previousMs": 6.817326068878174,
+      "deltaMs": 7.575757575757576,
+      "timeFactor": 2,
+      "filteredMs": 7.00693416595459,
+      "physicsSeconds": 0.014013868756592274
+    },
+    {
+      "previousMs": 7.00693416595459,
+      "deltaMs": 7.575757575757576,
+      "timeFactor": 2,
+      "filteredMs": 7.149139881134033,
+      "physicsSeconds": 0.014298280701041222
+    },
+    {
+      "previousMs": 7.149139881134033,
+      "deltaMs": 7.575757575757576,
+      "timeFactor": 2,
+      "filteredMs": 7.255794525146484,
+      "physicsSeconds": 0.014511588960886002
+    },
+    {
+      "previousMs": 7.255794525146484,
+      "deltaMs": 7.575757575757576,
+      "timeFactor": 2,
+      "filteredMs": 7.335785388946533,
+      "physicsSeconds": 0.014671571552753448
+    },
+    {
+      "previousMs": 7.335785388946533,
+      "deltaMs": 50,
+      "timeFactor": 2,
+      "filteredMs": 18.00183868408203,
+      "physicsSeconds": 0.036003679037094116
+    },
+    {
+      "previousMs": 18.00183868408203,
+      "deltaMs": 4,
+      "timeFactor": 2,
+      "filteredMs": 14.501379013061523,
+      "physicsSeconds": 0.029002759605646133
+    },
+    {
+      "previousMs": 14.501379013061523,
+      "deltaMs": 33,
+      "timeFactor": 2,
+      "filteredMs": 19.126033782958984,
+      "physicsSeconds": 0.03825207054615021
+    },
+    {
+      "previousMs": 19.126033782958984,
+      "deltaMs": 0,
+      "timeFactor": 2,
+      "filteredMs": 14.344525337219238,
+      "physicsSeconds": 0.028689052909612656
+    },
+    {
+      "previousMs": 14.344525337219238,
+      "deltaMs": 16,
+      "timeFactor": 2,
+      "filteredMs": 14.758394241333008,
+      "physicsSeconds": 0.029516790062189102
+    },
+    {
+      "previousMs": 14.758394241333008,
+      "deltaMs": 8,
+      "timeFactor": 2,
+      "filteredMs": 13.068796157836914,
+      "physicsSeconds": 0.026137592270970345
+    },
+    {
+      "previousMs": 13.068796157836914,
+      "deltaMs": 20,
+      "timeFactor": 2,
+      "filteredMs": 14.801597595214844,
+      "physicsSeconds": 0.029603196308016777
+    },
+    {
+      "previousMs": 14.801597595214844,
+      "deltaMs": 10,
+      "timeFactor": 2,
+      "filteredMs": 13.601198196411133,
+      "physicsSeconds": 0.02720239758491516
+    },
+    {
+      "previousMs": 0.0,
+      "deltaMs": 6.944444444444445,
+      "timeFactor": 2,
+      "filteredMs": 1.7361111640930176,
+      "physicsSeconds": 0.0034722224809229374
+    },
+    {
+      "previousMs": 1.7361111640930176,
+      "deltaMs": 6.944444444444445,
+      "timeFactor": 2,
+      "filteredMs": 3.0381946563720703,
+      "physicsSeconds": 0.006076389458030462
+    },
+    {
+      "previousMs": 3.0381946563720703,
+      "deltaMs": 6.944444444444445,
+      "timeFactor": 2,
+      "filteredMs": 4.01475715637207,
+      "physicsSeconds": 0.00802951492369175
+    },
+    {
+      "previousMs": 4.01475715637207,
+      "deltaMs": 6.944444444444445,
+      "timeFactor": 2,
+      "filteredMs": 4.74717903137207,
+      "physicsSeconds": 0.00949435867369175
+    },
+    {
+      "previousMs": 4.74717903137207,
+      "deltaMs": 6.944444444444445,
+      "timeFactor": 2,
+      "filteredMs": 5.29649543762207,
+      "physicsSeconds": 0.01059299148619175
+    },
+    {
+      "previousMs": 5.29649543762207,
+      "deltaMs": 6.944444444444445,
+      "timeFactor": 2,
+      "filteredMs": 5.70848274230957,
+      "physicsSeconds": 0.01141696609556675
+    },
+    {
+      "previousMs": 5.70848274230957,
+      "deltaMs": 6.944444444444445,
+      "timeFactor": 2,
+      "filteredMs": 6.017473220825195,
+      "physicsSeconds": 0.012034947052598
+    },
+    {
+      "previousMs": 6.017473220825195,
+      "deltaMs": 6.944444444444445,
+      "timeFactor": 2,
+      "filteredMs": 6.249216079711914,
+      "physicsSeconds": 0.012498432770371437
+    },
+    {
+      "previousMs": 6.249216079711914,
+      "deltaMs": 6.944444444444445,
+      "timeFactor": 2,
+      "filteredMs": 6.423023223876953,
+      "physicsSeconds": 0.012846047058701515
+    },
+    {
+      "previousMs": 6.423023223876953,
+      "deltaMs": 6.944444444444445,
+      "timeFactor": 2,
+      "filteredMs": 6.553378582000732,
+      "physicsSeconds": 0.013106757774949074
+    },
+    {
+      "previousMs": 6.553378582000732,
+      "deltaMs": 6.944444444444445,
+      "timeFactor": 2,
+      "filteredMs": 6.651144981384277,
+      "physicsSeconds": 0.013302290812134743
+    },
+    {
+      "previousMs": 6.651144981384277,
+      "deltaMs": 6.944444444444445,
+      "timeFactor": 2,
+      "filteredMs": 6.724470138549805,
+      "physicsSeconds": 0.013448940590023994
+    },
+    {
+      "previousMs": 6.724470138549805,
+      "deltaMs": 50,
+      "timeFactor": 2,
+      "filteredMs": 17.543352127075195,
+      "physicsSeconds": 0.03508670628070831
+    },
+    {
+      "previousMs": 17.543352127075195,
+      "deltaMs": 4,
+      "timeFactor": 2,
+      "filteredMs": 14.157514572143555,
+      "physicsSeconds": 0.02831503003835678
+    },
+    {
+      "previousMs": 14.157514572143555,
+      "deltaMs": 33,
+      "timeFactor": 2,
+      "filteredMs": 18.868135452270508,
+      "physicsSeconds": 0.03773627430200577
+    },
+    {
+      "previousMs": 18.868135452270508,
+      "deltaMs": 0,
+      "timeFactor": 2,
+      "filteredMs": 14.151102066040039,
+      "physicsSeconds": 0.028302203863859177
+    },
+    {
+      "previousMs": 14.151102066040039,
+      "deltaMs": 16,
+      "timeFactor": 2,
+      "filteredMs": 14.613327026367188,
+      "physicsSeconds": 0.029226655140519142
+    },
+    {
+      "previousMs": 14.613327026367188,
+      "deltaMs": 8,
+      "timeFactor": 2,
+      "filteredMs": 12.95999526977539,
+      "physicsSeconds": 0.025919992476701736
+    },
+    {
+      "previousMs": 12.95999526977539,
+      "deltaMs": 20,
+      "timeFactor": 2,
+      "filteredMs": 14.719996452331543,
+      "physicsSeconds": 0.02943999506533146
+    },
+    {
+      "previousMs": 14.719996452331543,
+      "deltaMs": 10,
+      "timeFactor": 2,
+      "filteredMs": 13.539997100830078,
+      "physicsSeconds": 0.027079995721578598
+    },
+    {
+      "previousMs": 0.0,
+      "deltaMs": 1000,
+      "timeFactor": 2,
+      "filteredMs": 250.0,
+      "physicsSeconds": 0.5
+    },
+    {
+      "previousMs": 250.0,
+      "deltaMs": 1000,
+      "timeFactor": 2,
+      "filteredMs": 437.5,
+      "physicsSeconds": 0.8750000596046448
+    },
+    {
+      "previousMs": 437.5,
+      "deltaMs": 1000,
+      "timeFactor": 2,
+      "filteredMs": 578.125,
+      "physicsSeconds": 1.15625
+    },
+    {
+      "previousMs": 578.125,
+      "deltaMs": 1000,
+      "timeFactor": 2,
+      "filteredMs": 683.59375,
+      "physicsSeconds": 1.3671876192092896
+    },
+    {
+      "previousMs": 683.59375,
+      "deltaMs": 16.666666666666668,
+      "timeFactor": 2,
+      "filteredMs": 516.8619995117188,
+      "physicsSeconds": 1.0337239503860474
+    }
+  ]
+}

@@ -1,0 +1,515 @@
+{
+  "source": "Balls.nmo: fragment creation and Ball_PaperWind",
+  "materials": {
+    "wood": {
+      "index": 501,
+      "fixed": false,
+      "friction": [
+        2.0,
+        2.0
+      ],
+      "restitution": 1.0,
+      "mass": [
+        0.20000000298023224,
+        0.20000000298023224
+      ],
+      "collisionGroup": "Ball",
+      "startFrozen": false,
+      "enableCollision": true,
+      "automaticMassCenter": false,
+      "linearDamping": 0.30000001192092896,
+      "angularDamping": 0.20000000298023224,
+      "massCenter": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "impulse": [
+        1.5,
+        3.0
+      ],
+      "impulseIndex": 452,
+      "impulsePosition": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "impulseDirection": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "positionFrame": "Ball_WoodPieces_Frame"
+    },
+    "stone": {
+      "index": 756,
+      "fixed": false,
+      "friction": [
+        2.0,
+        2.0
+      ],
+      "restitution": 1.0,
+      "mass": [
+        0.800000011920929,
+        0.800000011920929
+      ],
+      "collisionGroup": "Ball",
+      "startFrozen": false,
+      "enableCollision": true,
+      "automaticMassCenter": false,
+      "linearDamping": 0.30000001192092896,
+      "angularDamping": 0.20000000298023224,
+      "massCenter": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "impulse": [
+        4.0,
+        9.0
+      ],
+      "impulseIndex": 769,
+      "impulsePosition": [
+        -0.05000000074505806,
+        1.0,
+        0.05000000074505806
+      ],
+      "impulseDirection": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "positionFrame": "Ball_StonePieces_Frame"
+    },
+    "paper": {
+      "index": 627,
+      "fixed": false,
+      "friction": [
+        1.0,
+        5.0
+      ],
+      "restitution": 1.0,
+      "mass": [
+        0.019999999552965164,
+        0.09000000357627869
+      ],
+      "collisionGroup": "Ball",
+      "startFrozen": false,
+      "enableCollision": true,
+      "automaticMassCenter": false,
+      "linearDamping": 6.0,
+      "angularDamping": 0.5,
+      "massCenter": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "impulse": [
+        0.5,
+        1.2999999523162842
+      ],
+      "impulseIndex": 586,
+      "impulsePosition": [
+        -0.029999999329447746,
+        1.0,
+        0.019999999552965164
+      ],
+      "impulseDirection": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "positionFrame": "Ball_PaperPieces_Frame"
+    }
+  },
+  "wind": [
+    {
+      "index": 1225,
+      "target": "Ball_Paper_piece10",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "direction": [
+        -1.0,
+        0.0,
+        1.0
+      ],
+      "impulse": 0.029999999329447746
+    },
+    {
+      "index": 1241,
+      "target": "Ball_Paper_piece02",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "direction": [
+        -1.0,
+        0.0,
+        1.0
+      ],
+      "impulse": 0.029999999329447746
+    },
+    {
+      "index": 1257,
+      "target": "Ball_Paper_piece01",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "direction": [
+        -1.0,
+        0.0,
+        1.0
+      ],
+      "impulse": 0.029999999329447746
+    },
+    {
+      "index": 1273,
+      "target": "Ball_Paper_piece04",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "direction": [
+        -1.0,
+        0.0,
+        1.0
+      ],
+      "impulse": 0.029999999329447746
+    },
+    {
+      "index": 1289,
+      "target": "Ball_Paper_piece05",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "direction": [
+        -1.0,
+        0.0,
+        1.0
+      ],
+      "impulse": 0.029999999329447746
+    },
+    {
+      "index": 1305,
+      "target": "Ball_Paper_piece06",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "direction": [
+        -1.0,
+        0.0,
+        1.0
+      ],
+      "impulse": 0.029999999329447746
+    },
+    {
+      "index": 1321,
+      "target": "Ball_Paper_piece07",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "direction": [
+        -1.0,
+        0.0,
+        1.0
+      ],
+      "impulse": 0.029999999329447746
+    },
+    {
+      "index": 1337,
+      "target": "Ball_Paper_piece08",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "direction": [
+        -1.0,
+        0.0,
+        1.0
+      ],
+      "impulse": 0.029999999329447746
+    },
+    {
+      "index": 1353,
+      "target": "Ball_Paper_piece09",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "direction": [
+        -1.0,
+        0.0,
+        1.0
+      ],
+      "impulse": 0.029999999329447746
+    },
+    {
+      "index": 1369,
+      "target": "Ball_Paper_piece03",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "direction": [
+        -1.0,
+        0.0,
+        1.0
+      ],
+      "impulse": 0.029999999329447746
+    },
+    {
+      "index": 1385,
+      "target": "Ball_Paper_piece11",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "direction": [
+        -1.0,
+        0.0,
+        1.0
+      ],
+      "impulse": 0.029999999329447746
+    },
+    {
+      "index": 1401,
+      "target": "Ball_Paper_piece12",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "direction": [
+        -1.0,
+        0.0,
+        1.0
+      ],
+      "impulse": 0.029999999329447746
+    },
+    {
+      "index": 1417,
+      "target": "Ball_Paper_piece13",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "direction": [
+        -1.0,
+        0.0,
+        1.0
+      ],
+      "impulse": 0.029999999329447746
+    },
+    {
+      "index": 1433,
+      "target": "Ball_Paper_piece14",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "direction": [
+        -1.0,
+        0.0,
+        1.0
+      ],
+      "impulse": 0.029999999329447746
+    },
+    {
+      "index": 1449,
+      "target": "Ball_Paper_piece15",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "direction": [
+        -1.0,
+        0.0,
+        1.0
+      ],
+      "impulse": 0.029999999329447746
+    },
+    {
+      "index": 1465,
+      "target": "Ball_Paper_piece16",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "direction": [
+        -1.0,
+        0.0,
+        1.0
+      ],
+      "impulse": 0.029999999329447746
+    },
+    {
+      "index": 1481,
+      "target": "Ball_Paper_piece17",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "direction": [
+        -1.0,
+        0.0,
+        1.0
+      ],
+      "impulse": 0.029999999329447746
+    },
+    {
+      "index": 1497,
+      "target": "Ball_Paper_piece18",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "direction": [
+        -1.0,
+        0.0,
+        1.0
+      ],
+      "impulse": 0.029999999329447746
+    }
+  ],
+  "lifecycle": {
+    "wood": {
+      "timer": 665,
+      "waitMs": 20000.0,
+      "fadeMs": 2000.0,
+      "curve": {
+        "linear": true,
+        "points": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            1.0,
+            1.0
+          ]
+        ]
+      },
+      "materials": {
+        "Ball_Wood_Pieces": {
+          "from": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "to": [
+            1.0,
+            1.0,
+            1.0,
+            0.0
+          ]
+        }
+      }
+    },
+    "paper": {
+      "timer": 592,
+      "waitMs": 20000.0,
+      "fadeMs": 2000.0,
+      "curve": {
+        "linear": true,
+        "points": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            1.0,
+            1.0
+          ]
+        ]
+      },
+      "materials": {
+        "Ball_Paper_Pieces": {
+          "from": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "to": [
+            1.0,
+            1.0,
+            1.0,
+            0.0
+          ]
+        }
+      }
+    },
+    "stone": {
+      "timer": 708,
+      "waitMs": 20000.0,
+      "fadeMs": 2000.0,
+      "curve": {
+        "linear": true,
+        "points": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            1.0,
+            1.0
+          ]
+        ]
+      },
+      "materials": {
+        "Ball_Stone_Pieces_Inside": {
+          "from": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "to": [
+            1.0,
+            1.0,
+            1.0,
+            0.0
+          ]
+        },
+        "Ball_Stone_Pieces_Outside": {
+          "from": [
+            0.5882353186607361,
+            0.5882353186607361,
+            0.5882353186607361,
+            1.0
+          ],
+          "to": [
+            0.5882353186607361,
+            0.5882353186607361,
+            0.5882353186607361,
+            0.0
+          ]
+        }
+      }
+    }
+  }
+}

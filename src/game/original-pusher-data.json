@@ -1,0 +1,75 @@
+{
+  "source": "P_Modul_01.nmo",
+  "parts": [
+    {
+      "index": 95,
+      "target": "P_Modul_01_Filler",
+      "fixed": true,
+      "friction": 0.699999988079071,
+      "restitution": 0.4000000059604645,
+      "mass": 1.0,
+      "collisionGroup": "Floor",
+      "startFrozen": false,
+      "enableCollision": true,
+      "automaticMassCenter": false,
+      "linearDamping": 0.10000000149011612,
+      "angularDamping": 0.10000000149011612,
+      "hulls": [
+        "P_Modul_01_Filler_Mesh"
+      ],
+      "massCenter": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "index": 139,
+      "target": "P_Modul_01_Rinne",
+      "fixed": true,
+      "friction": 0.699999988079071,
+      "restitution": 0.4000000059604645,
+      "mass": 1.0,
+      "collisionGroup": "Ball",
+      "startFrozen": false,
+      "enableCollision": true,
+      "automaticMassCenter": false,
+      "linearDamping": 0.10000000149011612,
+      "angularDamping": 0.10000000149011612,
+      "hulls": [
+        "P_Modul_01_Rinne_01_Mesh",
+        "P_Modul_01_Rinne_02_Mesh",
+        "P_Modul_01_Rinne_03_Mesh"
+      ],
+      "massCenter": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "index": 178,
+      "target": "P_Modul_01_Pusher",
+      "fixed": false,
+      "friction": 0.6000000238418579,
+      "restitution": 0.4000000059604645,
+      "mass": 3.0,
+      "collisionGroup": "Floor",
+      "startFrozen": true,
+      "enableCollision": true,
+      "automaticMassCenter": false,
+      "linearDamping": 0.10000000149011612,
+      "angularDamping": 1.0,
+      "hulls": [
+        "P_Modul_01_Col01_Mesh",
+        "P_Modul_01_Col02_Mesh",
+        "P_Modul_01_Col03_Mesh"
+      ],
+      "massCenter": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ]
+}

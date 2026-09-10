@@ -1,0 +1,2342 @@
+{
+  "revision": "7579664996e68040dd0158081b04f612e6a2d515",
+  "numericBuild": {
+    "nativeMatrixKernel": "legacy scalar, pointer-width alignment mask",
+    "floatingPointContraction": false
+  },
+  "minimumAxisFactor": 0.03,
+  "controls": {
+    "unitCube": {
+      "name": "unitCube",
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "inertiaPerMass": [
+        0.4714045227,
+        0.4714045227,
+        0.4714045227
+      ],
+      "secondMoments": [
+        0.3333333433,
+        0.3333333433,
+        0.3333333433
+      ]
+    },
+    "rectangularControl": {
+      "name": "rectangularControl",
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "inertiaPerMass": [
+        6.119186878,
+        5.497474194,
+        3.282952785
+      ],
+      "secondMoments": [
+        1.333333373,
+        3.000000089,
+        5.333333492
+      ]
+    }
+  },
+  "measurements": {
+    "P_Modul_19_Col1_Mesh|P_Modul_19_Col2_Mesh|P_Modul_19_Col3_Mesh|P_Modul_19_Col4_Mesh@1.00000002159,0.999999125078,0.999999105930": {
+      "center": [
+        1.043173432,
+        1.030212998,
+        -0.01224555448
+      ],
+      "inertiaPerMass": [
+        53.11312866,
+        53.1384697,
+        4.734289169
+      ],
+      "secondMoments": [
+        3.549321871,
+        3.140435487,
+        53.02022193
+      ],
+      "scale": [
+        1.0000000215896772,
+        0.9999991250779685,
+        0.9999991059303343
+      ],
+      "positionsSha256": [
+        "5ac366a0cebbc6a3551be434219cd4e14f4093f5d2385b238d2558a6c2ea60fc",
+        "2308b1ff1df65b2ac49e368d25b0f42bd5d42194978df37a2bef349e897b2447",
+        "e43f8ea75bd5146eeaf37bd7ea314f4f4fd35a9c1bf4725f33d570887a74cf3b",
+        "b72ac7b198049a0cd735cdbf9c38e2cf95965d18fc1c2045467497fb59ff72d2"
+      ],
+      "placements": [
+        "9:P_Modul_19_01:P_Modul_19_Flaps",
+        "9:P_Modul_19_02:P_Modul_19_Flaps",
+        "10:P_Modul_19_01:P_Modul_19_Flaps",
+        "11:P_Modul_19_04:P_Modul_19_Flaps",
+        "11:P_Modul_19_02:P_Modul_19_Flaps",
+        "11:P_Modul_19_01:P_Modul_19_Flaps",
+        "11:P_Modul_19_03:P_Modul_19_Flaps"
+      ]
+    },
+    "P_Modul_25_Col01_Mesh|P_Modul_25_Col02_Mesh@0.999999761581,0.999999165535,0.999999403954": {
+      "center": [
+        -4.407894135,
+        -0.02634916268,
+        -0.01067548525
+      ],
+      "inertiaPerMass": [
+        2.118110895,
+        4.169999123,
+        3.592138767
+      ],
+      "secondMoments": [
+        8.639594395,
+        0.02192057006,
+        2.117997428
+      ],
+      "scale": [
+        0.9999997615814556,
+        0.9999991655350335,
+        0.9999994039536154
+      ],
+      "positionsSha256": [
+        "65b9b55a47f90a33d5a0d17e1b4b21a0bdd7193727592734af3af599fcd2692b",
+        "ee2fd7b3c22d2347b0b470faf2832c0a16f1e1b8a27b194b8e3133110bc93ca7"
+      ],
+      "placements": [
+        "2:P_Modul_25_01:P_Modul_25_Bridge",
+        "3:P_Modul_25_03:P_Modul_25_Bridge",
+        "3:P_Modul_25_04:P_Modul_25_Bridge",
+        "3:P_Modul_25_05:P_Modul_25_Bridge",
+        "4:P_Modul_25_02:P_Modul_25_Bridge",
+        "5:P_Modul_25_01:P_Modul_25_Bridge",
+        "6:P_Modul_25_01:P_Modul_25_Bridge",
+        "7:P_Modul_25_02:P_Modul_25_Bridge",
+        "7:P_Modul_25_01:P_Modul_25_Bridge",
+        "8:P_Modul_25_04:P_Modul_25_Bridge",
+        "8:P_Modul_25_01:P_Modul_25_Bridge",
+        "8:P_Modul_25_02:P_Modul_25_Bridge",
+        "8:P_Modul_25_03:P_Modul_25_Bridge",
+        "9:P_Modul_25_01:P_Modul_25_Bridge",
+        "9:P_Modul_25_02:P_Modul_25_Bridge",
+        "10:P_Modul_25_01:P_Modul_25_Bridge",
+        "10:P_Modul_25_02:P_Modul_25_Bridge",
+        "10:P_Modul_25_03:P_Modul_25_Bridge",
+        "10:P_Modul_25_04:P_Modul_25_Bridge",
+        "11:P_Modul_25_06:P_Modul_25_Bridge",
+        "11:P_Modul_25_07:P_Modul_25_Bridge",
+        "11:P_Modul_25_01:P_Modul_25_Bridge",
+        "11:P_Modul_25_02:P_Modul_25_Bridge",
+        "11:P_Modul_25_03:P_Modul_25_Bridge",
+        "11:P_Modul_25_04:P_Modul_25_Bridge",
+        "11:P_Modul_25_05:P_Modul_25_Bridge",
+        "12:P_Modul_25_01:P_Modul_25_Bridge",
+        "12:P_Modul_25_03:P_Modul_25_Bridge",
+        "12:P_Modul_25_02:P_Modul_25_Bridge"
+      ]
+    },
+    "P_Modul_30_Col1_Mesh|P_Modul_30_Col2_Mesh@0.999999974633,0.999999974633,1.00000000000": {
+      "center": [
+        -0.001930874074,
+        -1.859110951,
+        -0.1003261507
+      ],
+      "inertiaPerMass": [
+        2.463484287,
+        17.23240662,
+        17.05544281
+      ],
+      "secondMoments": [
+        17.05542772,
+        0.02242220664,
+        2.463382174
+      ],
+      "scale": [
+        0.999999974633252,
+        0.999999974633252,
+        1
+      ],
+      "positionsSha256": [
+        "1fefbbf33c6095d169fd2b69822eb586cb2dc86a2f2e954f8534131eaa3838f0",
+        "e962b4df46eaf906809da52db21b740ba05d06a451f9217e375fcb3bf699309a"
+      ],
+      "placements": [
+        "2:P_Modul_30_01:P_Modul_30_Wippe",
+        "3:P_Modul_30_01:P_Modul_30_Wippe",
+        "5:P_Modul_30_03:P_Modul_30_Wippe",
+        "7:P_Modul_30_02:P_Modul_30_Wippe",
+        "7:P_Modul_30_01:P_Modul_30_Wippe",
+        "8:P_Modul_30_01:P_Modul_30_Wippe",
+        "8:P_Modul_30_02:P_Modul_30_Wippe",
+        "8:P_Modul_30_03:P_Modul_30_Wippe",
+        "9:P_Modul_30_01:P_Modul_30_Wippe",
+        "9:P_Modul_30_02:P_Modul_30_Wippe",
+        "10:P_Modul_30_01:P_Modul_30_Wippe",
+        "10:P_Modul_30_02:P_Modul_30_Wippe",
+        "10:P_Modul_30_03:P_Modul_30_Wippe",
+        "11:P_Modul_30_04:P_Modul_30_Wippe",
+        "11:P_Modul_30_03:P_Modul_30_Wippe",
+        "11:P_Modul_30_01:P_Modul_30_Wippe",
+        "11:P_Modul_30_02:P_Modul_30_Wippe"
+      ]
+    },
+    "P_Modul_37_Col1_Mesh|P_Modul_37_Col2_Mesh|P_Modul_37_Col3_Mesh@1.00000001834,1.00000001834,1.00000000000": {
+      "center": [
+        -6.497393608,
+        1.184036255,
+        0.01490489114
+      ],
+      "inertiaPerMass": [
+        3.423726797,
+        19.78863716,
+        19.55813789
+      ],
+      "secondMoments": [
+        19.52420498,
+        1.159582994,
+        3.224230706
+      ],
+      "scale": [
+        1.0000000183428737,
+        1.0000000183428737,
+        1
+      ],
+      "positionsSha256": [
+        "4846a625eb089748b2c9011636e6434b1ad3e648287bb0e9268196f36bd91feb",
+        "7efbbba288fca0cd3e69d2be0601c451cb7f7407824bd1785be1968d33c1c864",
+        "a354d3ce73fc560a58d60ef176a834df2af7a6b50ea3900fc5c569bf444f2185"
+      ],
+      "placements": [
+        "3:P_Modul_37_01:P_Modul_37_Bridge",
+        "5:P_Modul_37_03:P_Modul_37_Bridge",
+        "5:P_Modul_37_01:P_Modul_37_Bridge",
+        "5:P_Modul_37_02:P_Modul_37_Bridge",
+        "7:P_Modul_37_01:P_Modul_37_Bridge",
+        "8:P_Modul_37_03:P_Modul_37_Bridge",
+        "8:P_Modul_37_01:P_Modul_37_Bridge",
+        "8:P_Modul_37_02:P_Modul_37_Bridge",
+        "9:P_Modul_37_02:P_Modul_37_Bridge",
+        "9:P_Modul_37_01:P_Modul_37_Bridge",
+        "10:P_Modul_37_03:P_Modul_37_Bridge",
+        "10:P_Modul_37_04:P_Modul_37_Bridge",
+        "10:P_Modul_37_01:P_Modul_37_Bridge",
+        "10:P_Modul_37_02:P_Modul_37_Bridge",
+        "11:P_Modul_37_04:P_Modul_37_Bridge",
+        "11:P_Modul_37_01:P_Modul_37_Bridge",
+        "11:P_Modul_37_02:P_Modul_37_Bridge",
+        "11:P_Modul_37_03:P_Modul_37_Bridge",
+        "12:P_Modul_37_02:P_Modul_37_Bridge",
+        "12:P_Modul_37_03:P_Modul_37_Bridge",
+        "12:P_Modul_37_04:P_Modul_37_Bridge",
+        "12:P_Modul_37_01:P_Modul_37_Bridge"
+      ]
+    },
+    "P_Modul_41_Col1_Mesh|P_Modul_41_Col2_Mesh@1.00000000000,0.999999940395,0.999999940395": {
+      "center": [
+        0.0201011952,
+        0.5335241556,
+        -0.007790490054
+      ],
+      "inertiaPerMass": [
+        2.86403966,
+        3.222624779,
+        1.509251595
+      ],
+      "secondMoments": [
+        1.493390151,
+        0.2182340588,
+        2.855713053
+      ],
+      "scale": [
+        1,
+        0.9999999403953552,
+        0.9999999403953552
+      ],
+      "positionsSha256": [
+        "cca0a80f4961695dfe0c3bf00ddaae761837d70632a7e121a315941de6798c5b",
+        "caa30702afd4c7fdbe6af3ae06b716f3fd2ec0916448c3c358a3ce6af03634aa"
+      ],
+      "placements": [
+        "7:P_Modul_41_01:P_Modul_41",
+        "7:P_Modul_41_02:P_Modul_41",
+        "7:P_Modul_41_03:P_Modul_41",
+        "7:P_Modul_41_04:P_Modul_41",
+        "7:P_Modul_41_05:P_Modul_41",
+        "7:P_Modul_41_06:P_Modul_41",
+        "7:P_Modul_41_07:P_Modul_41",
+        "7:P_Modul_41_08:P_Modul_41",
+        "7:P_Modul_41_09:P_Modul_41",
+        "8:P_Modul_41_01:P_Modul_41",
+        "8:P_Modul_41_02:P_Modul_41",
+        "8:P_Modul_41_03:P_Modul_41",
+        "8:P_Modul_41_04:P_Modul_41",
+        "8:P_Modul_41_05:P_Modul_41",
+        "8:P_Modul_41_06:P_Modul_41",
+        "8:P_Modul_41_07:P_Modul_41",
+        "9:P_Modul_41_05:P_Modul_41",
+        "9:P_Modul_41_06:P_Modul_41",
+        "9:P_Modul_41_07:P_Modul_41",
+        "9:P_Modul_41_08:P_Modul_41",
+        "9:P_Modul_41_09:P_Modul_41",
+        "9:P_Modul_41_10:P_Modul_41",
+        "9:P_Modul_41_11:P_Modul_41",
+        "9:P_Modul_41_01:P_Modul_41",
+        "9:P_Modul_41_02:P_Modul_41",
+        "9:P_Modul_41_03:P_Modul_41",
+        "9:P_Modul_41_04:P_Modul_41",
+        "10:P_Modul_41_21:P_Modul_41",
+        "10:P_Modul_41_22:P_Modul_41",
+        "10:P_Modul_41_01:P_Modul_41",
+        "10:P_Modul_41_02:P_Modul_41",
+        "10:P_Modul_41_03:P_Modul_41",
+        "10:P_Modul_41_04:P_Modul_41",
+        "10:P_Modul_41_05:P_Modul_41",
+        "10:P_Modul_41_06:P_Modul_41",
+        "10:P_Modul_41_07:P_Modul_41",
+        "10:P_Modul_41_08:P_Modul_41",
+        "11:P_Modul_41_01:P_Modul_41",
+        "11:P_Modul_41_02:P_Modul_41",
+        "11:P_Modul_41_04:P_Modul_41",
+        "11:P_Modul_41_03:P_Modul_41",
+        "11:P_Modul_41_05:P_Modul_41",
+        "11:P_Modul_41_06:P_Modul_41"
+      ]
+    },
+    "P_Modul_03_Wall_Coll_Mesh@0.999625761018,0.999447345736,0.999628753445": {
+      "center": [
+        -0.001422982547,
+        0.9215428233,
+        -0.007731202524
+      ],
+      "inertiaPerMass": [
+        4.40819931,
+        3.943014145,
+        5.913666248
+      ],
+      "secondMoments": [
+        3.942498544,
+        4.407738238,
+        0.0637629791
+      ],
+      "scale": [
+        0.9996257610182375,
+        0.9994473457355514,
+        0.999628753444672
+      ],
+      "positionsSha256": [
+        "ef66fdfb0f9e4ff35eb7a2e27a3c71480dc30076bfee337358da3ebeda7805d4"
+      ],
+      "placements": [
+        "7:P_Modul_03_01:P_Modul_03_Wall01",
+        "9:P_Modul_03_01:P_Modul_03_Wall01",
+        "9:P_Modul_03_02:P_Modul_03_Wall01",
+        "9:P_Modul_03_03:P_Modul_03_Wall01",
+        "10:P_Modul_03_01:P_Modul_03_Wall01",
+        "12:P_Modul_03_01:P_Modul_03_Wall01",
+        "12:P_Modul_03_02:P_Modul_03_Wall01",
+        "12:P_Modul_03_03:P_Modul_03_Wall01",
+        "12:P_Modul_03_04:P_Modul_03_Wall01"
+      ]
+    },
+    "P_Modul_03_Wall_Coll_Mesh@0.999626994135,0.999447345736,0.999626994133": {
+      "center": [
+        -0.001422988134,
+        0.9215428233,
+        -0.007731186226
+      ],
+      "inertiaPerMass": [
+        4.40819931,
+        3.943023682,
+        5.913672924
+      ],
+      "secondMoments": [
+        3.94250811,
+        4.407738237,
+        0.06376286904
+      ],
+      "scale": [
+        0.9996269941351281,
+        0.9994473457355514,
+        0.9996269941334952
+      ],
+      "positionsSha256": [
+        "ef66fdfb0f9e4ff35eb7a2e27a3c71480dc30076bfee337358da3ebeda7805d4"
+      ],
+      "placements": [
+        "7:P_Modul_03_01:P_Modul_03_Wall02",
+        "9:P_Modul_03_01:P_Modul_03_Wall02",
+        "9:P_Modul_03_02:P_Modul_03_Wall02",
+        "9:P_Modul_03_03:P_Modul_03_Wall02",
+        "12:P_Modul_03_01:P_Modul_03_Wall02",
+        "12:P_Modul_03_02:P_Modul_03_Wall02",
+        "12:P_Modul_03_03:P_Modul_03_Wall02",
+        "12:P_Modul_03_04:P_Modul_03_Wall02"
+      ]
+    },
+    "P_Modul_03_Wall_Coll_Mesh@0.999628584857,0.999447345736,0.999625761018": {
+      "center": [
+        -0.001423000242,
+        0.9215428829,
+        -0.007731183432
+      ],
+      "inertiaPerMass": [
+        4.40819931,
+        3.943036318,
+        5.913681507
+      ],
+      "secondMoments": [
+        3.942520846,
+        4.407738242,
+        0.06375831397
+      ],
+      "scale": [
+        0.999628584856855,
+        0.9994473457355514,
+        0.9996257610182375
+      ],
+      "positionsSha256": [
+        "ef66fdfb0f9e4ff35eb7a2e27a3c71480dc30076bfee337358da3ebeda7805d4"
+      ],
+      "placements": [
+        "7:P_Modul_03_01:P_Modul_03_Wall03",
+        "9:P_Modul_03_01:P_Modul_03_Wall03",
+        "9:P_Modul_03_02:P_Modul_03_Wall03",
+        "9:P_Modul_03_03:P_Modul_03_Wall03",
+        "10:P_Modul_03_01:P_Modul_03_Wall03",
+        "12:P_Modul_03_01:P_Modul_03_Wall03",
+        "12:P_Modul_03_02:P_Modul_03_Wall03",
+        "12:P_Modul_03_03:P_Modul_03_Wall03",
+        "12:P_Modul_03_04:P_Modul_03_Wall03"
+      ]
+    },
+    "P_Modul_03_Wall_Coll_Mesh@0.999627530576,0.999447345736,0.999628663065": {
+      "center": [
+        -0.001423021196,
+        0.9215427041,
+        -0.007731198333
+      ],
+      "inertiaPerMass": [
+        4.40819931,
+        3.943027973,
+        5.913675785
+      ],
+      "secondMoments": [
+        3.942512365,
+        4.407738246,
+        0.06376464811
+      ],
+      "scale": [
+        0.9996275305757396,
+        0.9994473457355514,
+        0.9996286630646444
+      ],
+      "positionsSha256": [
+        "ef66fdfb0f9e4ff35eb7a2e27a3c71480dc30076bfee337358da3ebeda7805d4"
+      ],
+      "placements": [
+        "7:P_Modul_03_01:P_Modul_03_Wall04",
+        "9:P_Modul_03_01:P_Modul_03_Wall04",
+        "9:P_Modul_03_02:P_Modul_03_Wall04",
+        "9:P_Modul_03_03:P_Modul_03_Wall04",
+        "10:P_Modul_03_01:P_Modul_03_Wall04",
+        "12:P_Modul_03_01:P_Modul_03_Wall04",
+        "12:P_Modul_03_02:P_Modul_03_Wall04",
+        "12:P_Modul_03_03:P_Modul_03_Wall04",
+        "12:P_Modul_03_04:P_Modul_03_Wall04"
+      ]
+    },
+    "P_Modul_03_Wall_Coll_Mesh@0.999625761018,0.999447345736,0.999628584857": {
+      "center": [
+        -0.001422984176,
+        0.9215428829,
+        -0.007731196936
+      ],
+      "inertiaPerMass": [
+        4.40819931,
+        3.943014145,
+        5.913666248
+      ],
+      "secondMoments": [
+        3.94249855,
+        4.407738243,
+        0.06376458013
+      ],
+      "scale": [
+        0.9996257610182375,
+        0.9994473457355514,
+        0.999628584856855
+      ],
+      "positionsSha256": [
+        "ef66fdfb0f9e4ff35eb7a2e27a3c71480dc30076bfee337358da3ebeda7805d4"
+      ],
+      "placements": [
+        "7:P_Modul_03_01:P_Modul_03_Wall05",
+        "9:P_Modul_03_01:P_Modul_03_Wall05",
+        "9:P_Modul_03_02:P_Modul_03_Wall05",
+        "9:P_Modul_03_03:P_Modul_03_Wall05",
+        "10:P_Modul_03_01:P_Modul_03_Wall05",
+        "12:P_Modul_03_01:P_Modul_03_Wall05",
+        "12:P_Modul_03_02:P_Modul_03_Wall05",
+        "12:P_Modul_03_03:P_Modul_03_Wall05",
+        "12:P_Modul_03_04:P_Modul_03_Wall05"
+      ]
+    },
+    "P_Modul_03_Wall_Coll_Mesh@0.999626994135,0.999447345736,0.999627768994": {
+      "center": [
+        -0.001422987902,
+        0.9215427637,
+        -0.007731191348
+      ],
+      "inertiaPerMass": [
+        4.40819931,
+        3.943023682,
+        5.913672924
+      ],
+      "secondMoments": [
+        3.942508116,
+        4.407738246,
+        0.06376439427
+      ],
+      "scale": [
+        0.9996269941351281,
+        0.9994473457355514,
+        0.999627768993922
+      ],
+      "positionsSha256": [
+        "ef66fdfb0f9e4ff35eb7a2e27a3c71480dc30076bfee337358da3ebeda7805d4"
+      ],
+      "placements": [
+        "7:P_Modul_03_01:P_Modul_03_Wall06",
+        "9:P_Modul_03_01:P_Modul_03_Wall06",
+        "9:P_Modul_03_02:P_Modul_03_Wall06",
+        "9:P_Modul_03_03:P_Modul_03_Wall06",
+        "10:P_Modul_03_01:P_Modul_03_Wall06",
+        "12:P_Modul_03_01:P_Modul_03_Wall06",
+        "12:P_Modul_03_02:P_Modul_03_Wall06",
+        "12:P_Modul_03_03:P_Modul_03_Wall06",
+        "12:P_Modul_03_04:P_Modul_03_Wall06"
+      ]
+    },
+    "P_Modul_03_Wall_Coll_Mesh@0.999628753445,0.999447345736,0.999625803165": {
+      "center": [
+        -0.001422992907,
+        0.9215428233,
+        -0.007731174584
+      ],
+      "inertiaPerMass": [
+        4.40819931,
+        3.943037748,
+        5.913681984
+      ],
+      "secondMoments": [
+        3.942522064,
+        4.407738243,
+        0.06376437157
+      ],
+      "scale": [
+        0.999628753444672,
+        0.9994473457355514,
+        0.9996258031650994
+      ],
+      "positionsSha256": [
+        "ef66fdfb0f9e4ff35eb7a2e27a3c71480dc30076bfee337358da3ebeda7805d4"
+      ],
+      "placements": [
+        "7:P_Modul_03_01:P_Modul_03_Wall07",
+        "9:P_Modul_03_01:P_Modul_03_Wall07",
+        "9:P_Modul_03_02:P_Modul_03_Wall07",
+        "9:P_Modul_03_03:P_Modul_03_Wall07",
+        "10:P_Modul_03_01:P_Modul_03_Wall07",
+        "12:P_Modul_03_01:P_Modul_03_Wall07",
+        "12:P_Modul_03_02:P_Modul_03_Wall07",
+        "12:P_Modul_03_03:P_Modul_03_Wall07",
+        "12:P_Modul_03_04:P_Modul_03_Wall07"
+      ]
+    },
+    "P_Modul_03_Gate_Coll01_Mesh|P_Modul_03_Gate_Coll02_Mesh|P_Modul_03_Gate_Coll03_Mesh@0.999626517298,0.999447345736,0.999628543855": {
+      "center": [
+        -0.0101729827,
+        2.215417624,
+        -0.1562325805
+      ],
+      "inertiaPerMass": [
+        6.277988911,
+        7.256037712,
+        9.59401226
+      ],
+      "secondMoments": [
+        7.255412087,
+        6.277265881,
+        0.09527870095
+      ],
+      "scale": [
+        0.9996265172978321,
+        0.9994473457355514,
+        0.9996285438549644
+      ],
+      "positionsSha256": [
+        "1fe83cd08308f484d650dc4e18fdd6c1bfd1a63c9001937425e9ee9607d9bbc4",
+        "1562cf6ed50edaacdb2d1d52d39d615a99bdfd7d09aef31fcb2b8fd3d2773aab",
+        "c4d3beb45ee8b89f229566d32ba72723b661025e0d29ba5ec9b94dfa617c1aed"
+      ],
+      "placements": [
+        "7:P_Modul_03_01:P_Modul_03_Gate",
+        "9:P_Modul_03_01:P_Modul_03_Gate",
+        "9:P_Modul_03_02:P_Modul_03_Gate",
+        "9:P_Modul_03_03:P_Modul_03_Gate",
+        "10:P_Modul_03_01:P_Modul_03_Gate",
+        "12:P_Modul_03_01:P_Modul_03_Gate",
+        "12:P_Modul_03_02:P_Modul_03_Gate",
+        "12:P_Modul_03_03:P_Modul_03_Gate",
+        "12:P_Modul_03_04:P_Modul_03_Gate"
+      ]
+    },
+    "P_Modul_03_Floor_Mesh@1.00024578349,1.00043690235,1.00024784868": {
+      "center": [
+        -2.683371179e-07,
+        1.645516704e-06,
+        -2.21280172e-09
+      ],
+      "inertiaPerMass": [
+        24.60448456,
+        34.79569626,
+        24.60439491
+      ],
+      "secondMoments": [
+        24.60422947,
+        0.09025969493,
+        24.60431817
+      ],
+      "scale": [
+        1.0002457834870897,
+        1.000436902354363,
+        1.000247848681698
+      ],
+      "positionsSha256": [
+        "30455dcc38211670713fa48d8a0bce8544da20312b581854939881460a3b0969"
+      ],
+      "placements": [
+        "7:P_Modul_03_01:P_Modul_03_Floor",
+        "9:P_Modul_03_01:P_Modul_03_Floor",
+        "9:P_Modul_03_02:P_Modul_03_Floor",
+        "9:P_Modul_03_03:P_Modul_03_Floor",
+        "10:P_Modul_03_01:P_Modul_03_Floor",
+        "12:P_Modul_03_01:P_Modul_03_Floor",
+        "12:P_Modul_03_02:P_Modul_03_Floor",
+        "12:P_Modul_03_03:P_Modul_03_Floor",
+        "12:P_Modul_03_04:P_Modul_03_Floor"
+      ]
+    },
+    "P_Modul_17_Col01_Mesh|P_Modul_17_Col02_Mesh|P_Modul_17_Col03_Mesh@1.00000000000,1.00000000000,1.00000000000": {
+      "center": [
+        -1.421743605e-06,
+        -0.001567588188,
+        5.213829724e-08
+      ],
+      "inertiaPerMass": [
+        43.34640503,
+        43.34557343,
+        0.2753436267
+      ],
+      "secondMoments": [
+        0.04439730183,
+        0.2717406773,
+        43.34555154
+      ],
+      "scale": [
+        1.0000000000005014,
+        1.000000000001,
+        1.0000000000005014
+      ],
+      "positionsSha256": [
+        "3f4ec1206608b1ce33eea25f3b59cb2cc9be79e9dac5b609ad6dc889c7abaadf",
+        "8d0a4963b853a05088b697f1a27e6132f7011cf71a7ebb2ebfe943b26f831668",
+        "a4af96d111cb1aea05f1f8e662296840940b6786b0783b0f2d606b760a631663"
+      ],
+      "placements": [
+        "3:P_Modul_17_01:Modul17_Dreharme",
+        "3:P_Modul_17_02:Modul17_Dreharme",
+        "7:P_Modul_17_01:Modul17_Dreharme",
+        "9:P_Modul_17_01:Modul17_Dreharme",
+        "9:P_Modul_17_02:Modul17_Dreharme",
+        "9:P_Modul_17_03:Modul17_Dreharme"
+      ]
+    },
+    "P_Modul_08_Col1_Mesh|P_Modul_08_Col2_Mesh|P_Modul_08_Col3_Mesh|P_Modul_08_Col4_Mesh|P_Modul_08_Col5_Mesh|P_Modul_08_Col6_Mesh@1.00000000000,1.00000000000,1.00000000000": {
+      "center": [
+        -0.003016839968,
+        2.153939724,
+        -9.850633796e-05
+      ],
+      "inertiaPerMass": [
+        13.78041458,
+        6.734873295,
+        14.7972393
+      ],
+      "secondMoments": [
+        6.099876754,
+        11.32440308,
+        2.854824104
+      ],
+      "scale": [
+        1.0000000000005762,
+        1.0000000000020601,
+        1.0000000000004434
+      ],
+      "positionsSha256": [
+        "7d2bc57c6ac8020f3a9cdac9f1774cf63222a5246f6e9006131d3d42d2243a56",
+        "f3818449882a1760b7811c6eae22a2544231aaba20bc14e4ea5bc6fb298f7cc1",
+        "9b2778b15680a190179e3c2ab318f93358485f80a8e7e43928e5923b3cb14b92",
+        "5a86aaf7dfe324b74eddae012f671c113567cba196fe02f2c18bbdd1c495a2ea",
+        "2db71ca45802dd6826af6d2b3a3f2d4ed48dc50a756e266bfe8f1bc2130ad9ad",
+        "db0eb83cf4209d76e9bbcda2c153796183e99027b6de32bd50f72756e00e81d0"
+      ],
+      "placements": [
+        "8:P_Modul_08_01:P_Modul_08_Schaukel",
+        "9:P_Modul_08_01:P_Modul_08_Schaukel",
+        "10:P_Modul_08_01:P_Modul_08_Schaukel",
+        "10:P_Modul_08_02:P_Modul_08_Schaukel",
+        "11:P_Modul_08_01:P_Modul_08_Schaukel",
+        "11:P_Modul_08_02:P_Modul_08_Schaukel"
+      ]
+    },
+    "P_Modul_26_Rope_Mesh@1.00000000000,1.00000000000,1.00000000000": {
+      "center": [
+        1.327984567e-08,
+        -3.977648362e-07,
+        9.074633489e-09
+      ],
+      "inertiaPerMass": [
+        13.02083492,
+        0.007448534016,
+        13.02083492
+      ],
+      "secondMoments": [
+        0.005266908654,
+        13.02083372,
+        0.005266909109
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "positionsSha256": [
+        "b2575d55ce187f44db4bccb2bd2e68918dc20fd9f2a9945b864b6a02f4758d35"
+      ],
+      "placements": [
+        "8:P_Modul_26_01:P_Modul_26_Rope",
+        "8:P_Modul_26_02:P_Modul_26_Rope",
+        "8:P_Modul_26_03:P_Modul_26_Rope",
+        "9:P_Modul_26_04:P_Modul_26_Rope",
+        "9:P_Modul_26_05:P_Modul_26_Rope",
+        "9:P_Modul_26_06:P_Modul_26_Rope",
+        "9:P_Modul_26_01:P_Modul_26_Rope",
+        "9:P_Modul_26_02:P_Modul_26_Rope",
+        "9:P_Modul_26_03:P_Modul_26_Rope",
+        "10:P_Modul_26_01:P_Modul_26_Rope",
+        "10:P_Modul_26_02:P_Modul_26_Rope",
+        "11:P_Modul_26_01:P_Modul_26_Rope",
+        "11:P_Modul_26_02:P_Modul_26_Rope",
+        "11:P_Modul_26_03:P_Modul_26_Rope",
+        "12:P_Modul_26_01:P_Modul_26_Rope",
+        "12:P_Modul_26_02:P_Modul_26_Rope",
+        "12:P_Modul_26_03:P_Modul_26_Rope",
+        "12:P_Modul_26_04:P_Modul_26_Rope"
+      ]
+    },
+    "P_Modul_26_Sack_Mesh@1.00000000000,1.00000000000,1.00000000000": {
+      "center": [
+        0.001169977244,
+        -0.3693827093,
+        0.06682447344
+      ],
+      "inertiaPerMass": [
+        1.912363172,
+        0.7889238,
+        1.795148373
+      ],
+      "secondMoments": [
+        0.3064520711,
+        1.76879758,
+        0.7269717311
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "positionsSha256": [
+        "6538dff46dc77b7247d9836638d414dd681ed048a47a436d936e2b5d7bbc05c7"
+      ],
+      "placements": [
+        "8:P_Modul_26_01:P_Modul_26_Sack",
+        "8:P_Modul_26_02:P_Modul_26_Sack",
+        "8:P_Modul_26_03:P_Modul_26_Sack",
+        "9:P_Modul_26_04:P_Modul_26_Sack",
+        "9:P_Modul_26_05:P_Modul_26_Sack",
+        "9:P_Modul_26_06:P_Modul_26_Sack",
+        "9:P_Modul_26_01:P_Modul_26_Sack",
+        "9:P_Modul_26_02:P_Modul_26_Sack",
+        "9:P_Modul_26_03:P_Modul_26_Sack",
+        "10:P_Modul_26_01:P_Modul_26_Sack",
+        "10:P_Modul_26_02:P_Modul_26_Sack",
+        "11:P_Modul_26_01:P_Modul_26_Sack",
+        "11:P_Modul_26_02:P_Modul_26_Sack",
+        "11:P_Modul_26_03:P_Modul_26_Sack",
+        "12:P_Modul_26_01:P_Modul_26_Sack",
+        "12:P_Modul_26_02:P_Modul_26_Sack",
+        "12:P_Modul_26_03:P_Modul_26_Sack",
+        "12:P_Modul_26_04:P_Modul_26_Sack"
+      ]
+    },
+    "P_Modul_29_Platte06_Mesh@1.00000000000,1.00000000000,1.00000000000": {
+      "center": [
+        0.002731824992,
+        0.3010602593,
+        -0.08354577422
+      ],
+      "inertiaPerMass": [
+        2.081430435,
+        2.089596987,
+        0.1892995238
+      ],
+      "secondMoments": [
+        0.1869455929,
+        0.02975998154,
+        2.081217665
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "positionsSha256": [
+        "20dab865c6d4250de758e4f6afdda434efd07623a165980a88358c434056946a"
+      ],
+      "placements": [
+        "2:P_Modul_29_01:P_Modul_29_Platte06",
+        "3:P_Modul_29_01:P_Modul_29_Platte06",
+        "4:P_Modul_29_02:P_Modul_29_Platte06",
+        "6:P_Modul_29_01:P_Modul_29_Platte06",
+        "6:P_Modul_29_02:P_Modul_29_Platte06",
+        "7:P_Modul_29_03:P_Modul_29_Platte06",
+        "7:P_Modul_29_01:P_Modul_29_Platte06",
+        "7:P_Modul_29_02:P_Modul_29_Platte06",
+        "8:P_Modul_29_03:P_Modul_29_Platte06",
+        "8:P_Modul_29_01:P_Modul_29_Platte06",
+        "8:P_Modul_29_02:P_Modul_29_Platte06",
+        "9:P_Modul_29_01:P_Modul_29_Platte06",
+        "9:P_Modul_29_02:P_Modul_29_Platte06",
+        "10:P_Modul_29_03:P_Modul_29_Platte06",
+        "10:P_Modul_29_02:P_Modul_29_Platte06",
+        "11:P_Modul_29_01:P_Modul_29_Platte06"
+      ]
+    },
+    "P_Modul_29_Platte01_Mesh@1.00000000000,1.00000000000,1.00000000000": {
+      "center": [
+        3.863269704e-09,
+        0.2999998927,
+        -3.200991472e-08
+      ],
+      "inertiaPerMass": [
+        2.083549023,
+        2.091753483,
+        0.1898847818
+      ],
+      "secondMoments": [
+        0.187499946,
+        0.02999997944,
+        2.083332998
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "positionsSha256": [
+        "13bf58747342ffb8b5e39c062925c2cd9152e2f37b403601bf4d6e66d2242308"
+      ],
+      "placements": [
+        "2:P_Modul_29_01:P_Modul_29_Platte01",
+        "3:P_Modul_29_01:P_Modul_29_Platte01",
+        "4:P_Modul_29_02:P_Modul_29_Platte01",
+        "6:P_Modul_29_01:P_Modul_29_Platte01",
+        "6:P_Modul_29_02:P_Modul_29_Platte01",
+        "7:P_Modul_29_03:P_Modul_29_Platte01",
+        "7:P_Modul_29_01:P_Modul_29_Platte01",
+        "7:P_Modul_29_02:P_Modul_29_Platte01",
+        "8:P_Modul_29_03:P_Modul_29_Platte01",
+        "8:P_Modul_29_01:P_Modul_29_Platte01",
+        "8:P_Modul_29_02:P_Modul_29_Platte01",
+        "9:P_Modul_29_01:P_Modul_29_Platte01",
+        "9:P_Modul_29_02:P_Modul_29_Platte01",
+        "10:P_Modul_29_03:P_Modul_29_Platte01",
+        "10:P_Modul_29_02:P_Modul_29_Platte01",
+        "11:P_Modul_29_01:P_Modul_29_Platte01"
+      ]
+    },
+    "P_Modul_29_Platte02_Mesh@1.00000000000,1.00000000000,1.00000000000": {
+      "center": [
+        -0.02119244449,
+        0.2983211577,
+        0.05507000163
+      ],
+      "inertiaPerMass": [
+        2.010560989,
+        2.017832041,
+        0.1761817634
+      ],
+      "secondMoments": [
+        0.1736807824,
+        0.02958037416,
+        2.010343445
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "positionsSha256": [
+        "da64600ae47f92d38729c9f1b863faaa0244df8f5ff1d0a2c327dcbeb1d47c49"
+      ],
+      "placements": [
+        "2:P_Modul_29_01:P_Modul_29_Platte02",
+        "3:P_Modul_29_01:P_Modul_29_Platte02",
+        "4:P_Modul_29_02:P_Modul_29_Platte02",
+        "6:P_Modul_29_01:P_Modul_29_Platte02",
+        "6:P_Modul_29_02:P_Modul_29_Platte02",
+        "7:P_Modul_29_03:P_Modul_29_Platte02",
+        "7:P_Modul_29_01:P_Modul_29_Platte02",
+        "7:P_Modul_29_02:P_Modul_29_Platte02",
+        "8:P_Modul_29_03:P_Modul_29_Platte02",
+        "8:P_Modul_29_01:P_Modul_29_Platte02",
+        "8:P_Modul_29_02:P_Modul_29_Platte02",
+        "9:P_Modul_29_01:P_Modul_29_Platte02",
+        "9:P_Modul_29_02:P_Modul_29_Platte02",
+        "10:P_Modul_29_03:P_Modul_29_Platte02",
+        "10:P_Modul_29_02:P_Modul_29_Platte02",
+        "11:P_Modul_29_01:P_Modul_29_Platte02"
+      ]
+    },
+    "P_Modul_29_Platte03_Mesh@1.00000000000,1.00000000000,1.00000000000": {
+      "center": [
+        -3.789873304e-09,
+        0.2999999225,
+        -0.04147739336
+      ],
+      "inertiaPerMass": [
+        1.831909537,
+        1.841235638,
+        0.1898847818
+      ],
+      "secondMoments": [
+        0.187499946,
+        0.02999997944,
+        1.831663878
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "positionsSha256": [
+        "238fc0cede31cb4ee939d20b7d1aa8c9728f687851df5a293fac0f7fbe4e380f"
+      ],
+      "placements": [
+        "2:P_Modul_29_01:P_Modul_29_Platte03",
+        "3:P_Modul_29_01:P_Modul_29_Platte03",
+        "4:P_Modul_29_02:P_Modul_29_Platte03",
+        "6:P_Modul_29_01:P_Modul_29_Platte03",
+        "6:P_Modul_29_02:P_Modul_29_Platte03",
+        "7:P_Modul_29_03:P_Modul_29_Platte03",
+        "7:P_Modul_29_01:P_Modul_29_Platte03",
+        "7:P_Modul_29_02:P_Modul_29_Platte03",
+        "8:P_Modul_29_03:P_Modul_29_Platte03",
+        "8:P_Modul_29_01:P_Modul_29_Platte03",
+        "8:P_Modul_29_02:P_Modul_29_Platte03",
+        "9:P_Modul_29_01:P_Modul_29_Platte03",
+        "9:P_Modul_29_02:P_Modul_29_Platte03",
+        "10:P_Modul_29_03:P_Modul_29_Platte03",
+        "10:P_Modul_29_02:P_Modul_29_Platte03",
+        "11:P_Modul_29_01:P_Modul_29_Platte03"
+      ]
+    },
+    "P_Modul_29_Platte04_Mesh@1.00000000000,1.00000000000,1.00000000000": {
+      "center": [
+        -1.973028851e-09,
+        0.2978569269,
+        -0.05207528174
+      ],
+      "inertiaPerMass": [
+        1.998892426,
+        2.007442951,
+        0.1898840517
+      ],
+      "secondMoments": [
+        0.187499946,
+        0.02999538718,
+        1.99866738
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "positionsSha256": [
+        "426521dda0e1a59f7879782d83184c3ba28c6e0372a871abdc4e0a1866fd94e7"
+      ],
+      "placements": [
+        "2:P_Modul_29_01:P_Modul_29_Platte04",
+        "3:P_Modul_29_01:P_Modul_29_Platte04",
+        "4:P_Modul_29_02:P_Modul_29_Platte04",
+        "6:P_Modul_29_01:P_Modul_29_Platte04",
+        "6:P_Modul_29_02:P_Modul_29_Platte04",
+        "7:P_Modul_29_03:P_Modul_29_Platte04",
+        "7:P_Modul_29_01:P_Modul_29_Platte04",
+        "7:P_Modul_29_02:P_Modul_29_Platte04",
+        "8:P_Modul_29_03:P_Modul_29_Platte04",
+        "8:P_Modul_29_01:P_Modul_29_Platte04",
+        "8:P_Modul_29_02:P_Modul_29_Platte04",
+        "9:P_Modul_29_01:P_Modul_29_Platte04",
+        "9:P_Modul_29_02:P_Modul_29_Platte04",
+        "10:P_Modul_29_03:P_Modul_29_Platte04",
+        "10:P_Modul_29_02:P_Modul_29_Platte04",
+        "11:P_Modul_29_01:P_Modul_29_Platte04"
+      ]
+    },
+    "P_Modul_29_Platte07_Mesh@1.00000000000,1.00000000000,1.00000000000": {
+      "center": [
+        0.04185995087,
+        0.2977323532,
+        0.0550125502
+      ],
+      "inertiaPerMass": [
+        1.994245291,
+        2.001013517,
+        0.1698239297
+      ],
+      "secondMoments": [
+        0.1671540567,
+        0.02999483772,
+        1.994019759
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "positionsSha256": [
+        "3206367c425a3700728f6350b6a203cea216f82ecf25a964e7d38aec88528635"
+      ],
+      "placements": [
+        "2:P_Modul_29_01:P_Modul_29_Platte07",
+        "3:P_Modul_29_01:P_Modul_29_Platte07",
+        "4:P_Modul_29_02:P_Modul_29_Platte07",
+        "6:P_Modul_29_01:P_Modul_29_Platte07",
+        "6:P_Modul_29_02:P_Modul_29_Platte07",
+        "7:P_Modul_29_03:P_Modul_29_Platte07",
+        "7:P_Modul_29_01:P_Modul_29_Platte07",
+        "7:P_Modul_29_02:P_Modul_29_Platte07",
+        "8:P_Modul_29_03:P_Modul_29_Platte07",
+        "8:P_Modul_29_01:P_Modul_29_Platte07",
+        "8:P_Modul_29_02:P_Modul_29_Platte07",
+        "9:P_Modul_29_01:P_Modul_29_Platte07",
+        "9:P_Modul_29_02:P_Modul_29_Platte07",
+        "10:P_Modul_29_03:P_Modul_29_Platte07",
+        "10:P_Modul_29_02:P_Modul_29_Platte07",
+        "11:P_Modul_29_01:P_Modul_29_Platte07"
+      ]
+    },
+    "P_Modul_29_Platte08_Mesh@1.00000000000,1.00000000000,1.00000000000": {
+      "center": [
+        4.25090807e-09,
+        0.2999998927,
+        0.001657260465
+      ],
+      "inertiaPerMass": [
+        1.941080451,
+        1.948057413,
+        0.1689968109
+      ],
+      "secondMoments": [
+        0.1668743178,
+        0.02669987511,
+        1.940896834
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "positionsSha256": [
+        "136234a877f649e45c59abc7a3051b19959322890284130cfeb2ab9b7a9d5087"
+      ],
+      "placements": [
+        "2:P_Modul_29_01:P_Modul_29_Platte08",
+        "3:P_Modul_29_01:P_Modul_29_Platte08",
+        "4:P_Modul_29_02:P_Modul_29_Platte08",
+        "6:P_Modul_29_01:P_Modul_29_Platte08",
+        "6:P_Modul_29_02:P_Modul_29_Platte08",
+        "7:P_Modul_29_03:P_Modul_29_Platte08",
+        "7:P_Modul_29_01:P_Modul_29_Platte08",
+        "7:P_Modul_29_02:P_Modul_29_Platte08",
+        "8:P_Modul_29_03:P_Modul_29_Platte08",
+        "8:P_Modul_29_01:P_Modul_29_Platte08",
+        "8:P_Modul_29_02:P_Modul_29_Platte08",
+        "9:P_Modul_29_01:P_Modul_29_Platte08",
+        "9:P_Modul_29_02:P_Modul_29_Platte08",
+        "10:P_Modul_29_03:P_Modul_29_Platte08",
+        "10:P_Modul_29_02:P_Modul_29_Platte08",
+        "11:P_Modul_29_01:P_Modul_29_Platte08"
+      ]
+    },
+    "P_Modul_29_Platte09_Mesh@1.00000000000,1.00000000000,1.00000000000": {
+      "center": [
+        0.01889961958,
+        0.2958971262,
+        -0.0339599438
+      ],
+      "inertiaPerMass": [
+        2.07161665,
+        2.079136133,
+        0.1816308498
+      ],
+      "secondMoments": [
+        0.1791664998,
+        0.02981825871,
+        2.071402037
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "positionsSha256": [
+        "dca3dd4b36931623f312adb2bee3caee72e8e42e68168448b52ef9275eaa7ad9"
+      ],
+      "placements": [
+        "2:P_Modul_29_01:P_Modul_29_Platte09",
+        "3:P_Modul_29_01:P_Modul_29_Platte09",
+        "4:P_Modul_29_02:P_Modul_29_Platte09",
+        "6:P_Modul_29_01:P_Modul_29_Platte09",
+        "6:P_Modul_29_02:P_Modul_29_Platte09",
+        "7:P_Modul_29_03:P_Modul_29_Platte09",
+        "7:P_Modul_29_01:P_Modul_29_Platte09",
+        "7:P_Modul_29_02:P_Modul_29_Platte09",
+        "8:P_Modul_29_03:P_Modul_29_Platte09",
+        "8:P_Modul_29_01:P_Modul_29_Platte09",
+        "8:P_Modul_29_02:P_Modul_29_Platte09",
+        "9:P_Modul_29_01:P_Modul_29_Platte09",
+        "9:P_Modul_29_02:P_Modul_29_Platte09",
+        "10:P_Modul_29_03:P_Modul_29_Platte09",
+        "10:P_Modul_29_02:P_Modul_29_Platte09",
+        "11:P_Modul_29_01:P_Modul_29_Platte09"
+      ]
+    },
+    "P_Modul_29_Platte05_Mesh@1.00000000000,1.00000000000,1.00000000000": {
+      "center": [
+        0.01629506238,
+        0.2965017557,
+        0.08445172757
+      ],
+      "inertiaPerMass": [
+        1.981247663,
+        1.989200354,
+        0.1826400459
+      ],
+      "secondMoments": [
+        0.1801846098,
+        0.02984781512,
+        1.981022858
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "positionsSha256": [
+        "fc3cce532ab1b5f2c50f06a103b76e95bd33da93ce8d4823c940bb1a0cfad896"
+      ],
+      "placements": [
+        "2:P_Modul_29_01:P_Modul_29_Platte05",
+        "3:P_Modul_29_01:P_Modul_29_Platte05",
+        "4:P_Modul_29_02:P_Modul_29_Platte05",
+        "6:P_Modul_29_01:P_Modul_29_Platte05",
+        "6:P_Modul_29_02:P_Modul_29_Platte05",
+        "7:P_Modul_29_03:P_Modul_29_Platte05",
+        "7:P_Modul_29_01:P_Modul_29_Platte05",
+        "7:P_Modul_29_02:P_Modul_29_Platte05",
+        "8:P_Modul_29_03:P_Modul_29_Platte05",
+        "8:P_Modul_29_01:P_Modul_29_Platte05",
+        "8:P_Modul_29_02:P_Modul_29_Platte05",
+        "9:P_Modul_29_01:P_Modul_29_Platte05",
+        "9:P_Modul_29_02:P_Modul_29_Platte05",
+        "10:P_Modul_29_03:P_Modul_29_Platte05",
+        "10:P_Modul_29_02:P_Modul_29_Platte05",
+        "11:P_Modul_29_01:P_Modul_29_Platte05"
+      ]
+    },
+    "P_Modul_34_Kiste_Mesh@1.00000131130,1.00000143051,1.00000143051": {
+      "center": [
+        -1.377273229e-08,
+        -1.507214975e-08,
+        -9.26363164e-09
+      ],
+      "inertiaPerMass": [
+        2.510507584,
+        2.510507345,
+        1.981083035
+      ],
+      "secondMoments": [
+        1.400836894,
+        1.400837546,
+        2.083339356
+      ],
+      "scale": [
+        1.0000013113026889,
+        1.0000014305124747,
+        1.0000014305119784
+      ],
+      "positionsSha256": [
+        "277f345b521a6eb3252b587415db533ab7b9cd56addf8ea057bd3e50207663d8"
+      ],
+      "placements": [
+        "1:P_Modul_34_01:P_Modul_34_Kiste",
+        "5:P_Modul_34_02:P_Modul_34_Kiste",
+        "5:P_Modul_34_03:P_Modul_34_Kiste",
+        "5:P_Modul_34_01:P_Modul_34_Kiste",
+        "5:P_Modul_34_04:P_Modul_34_Kiste",
+        "7:P_Modul_34_04:P_Modul_34_Kiste",
+        "7:P_Modul_34_01:P_Modul_34_Kiste",
+        "7:P_Modul_34_02:P_Modul_34_Kiste",
+        "7:P_Modul_34_03:P_Modul_34_Kiste",
+        "10:P_Modul_34_01:P_Modul_34_Kiste",
+        "10:P_Modul_34_02:P_Modul_34_Kiste",
+        "10:P_Modul_34_03:P_Modul_34_Kiste",
+        "11:P_Modul_34_03:P_Modul_34_Kiste",
+        "11:P_Modul_34_07:P_Modul_34_Kiste",
+        "11:P_Modul_34_06:P_Modul_34_Kiste",
+        "11:P_Modul_34_05:P_Modul_34_Kiste",
+        "11:P_Modul_34_02:P_Modul_34_Kiste",
+        "11:P_Modul_34_04:P_Modul_34_Kiste",
+        "11:P_Modul_34_01:P_Modul_34_Kiste"
+      ]
+    },
+    "P_Modul_34_Schiebestein_Mesh@1.00000131130,1.00000143051,1.00000143051": {
+      "center": [
+        2.947639928e-07,
+        -1.725743317e-07,
+        -4.472320825e-07
+      ],
+      "inertiaPerMass": [
+        2.744715214,
+        2.527114868,
+        2.744713068
+      ],
+      "secondMoments": [
+        1.786938447,
+        2.083338942,
+        1.786941724
+      ],
+      "scale": [
+        1.0000013113026889,
+        1.0000014305124747,
+        1.0000014305119784
+      ],
+      "positionsSha256": [
+        "255f865185972f9c79f3e66e52b0a580ef72899fa1bcfda210b3669451ca19be"
+      ],
+      "placements": [
+        "1:P_Modul_34_01:P_Modul_34_Schiebestein",
+        "5:P_Modul_34_02:P_Modul_34_Schiebestein",
+        "5:P_Modul_34_03:P_Modul_34_Schiebestein",
+        "5:P_Modul_34_01:P_Modul_34_Schiebestein",
+        "5:P_Modul_34_04:P_Modul_34_Schiebestein",
+        "7:P_Modul_34_04:P_Modul_34_Schiebestein",
+        "7:P_Modul_34_01:P_Modul_34_Schiebestein",
+        "7:P_Modul_34_02:P_Modul_34_Schiebestein",
+        "7:P_Modul_34_03:P_Modul_34_Schiebestein",
+        "10:P_Modul_34_01:P_Modul_34_Schiebestein",
+        "10:P_Modul_34_02:P_Modul_34_Schiebestein",
+        "10:P_Modul_34_03:P_Modul_34_Schiebestein",
+        "11:P_Modul_34_03:P_Modul_34_Schiebestein",
+        "11:P_Modul_34_07:P_Modul_34_Schiebestein",
+        "11:P_Modul_34_06:P_Modul_34_Schiebestein",
+        "11:P_Modul_34_05:P_Modul_34_Schiebestein",
+        "11:P_Modul_34_02:P_Modul_34_Schiebestein",
+        "11:P_Modul_34_04:P_Modul_34_Schiebestein",
+        "11:P_Modul_34_01:P_Modul_34_Schiebestein"
+      ]
+    },
+    "P_Modul_01_Col01_Mesh|P_Modul_01_Col02_Mesh|P_Modul_01_Col03_Mesh@1.00000000000,1.00000000000,1.00000000000": {
+      "center": [
+        -2.363870144,
+        1.555889368,
+        -1.745865603e-07
+      ],
+      "inertiaPerMass": [
+        3.872898102,
+        11.42000771,
+        12.052845
+      ],
+      "secondMoments": [
+        11.41683664,
+        3.863537883,
+        0.2690996754
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "positionsSha256": [
+        "dfc5810f1c8ef80df51bb46a94bedf83e72ec9a2c8a5d81dec1672fb0f0b02db",
+        "2b9cf80ec7ffc247f4e35a16a2cd02617fc2a7ea1791160a73334928f33f3ee6",
+        "10325b14ed880161b95c28220c9cdd957a8172031ee4cabc18bb37983bc1bd3a"
+      ],
+      "placements": [
+        "1:P_Modul_01_01:P_Modul_01_Pusher",
+        "1:P_Modul_01_02:P_Modul_01_Pusher",
+        "2:P_Modul_01_03:P_Modul_01_Pusher",
+        "5:P_Modul_01_02:P_Modul_01_Pusher",
+        "5:P_Modul_01_01:P_Modul_01_Pusher",
+        "5:P_Modul_01_03:P_Modul_01_Pusher",
+        "5:P_Modul_01_05:P_Modul_01_Pusher",
+        "5:P_Modul_01_06:P_Modul_01_Pusher",
+        "7:P_Modul_01_02:P_Modul_01_Pusher",
+        "7:P_Modul_01_01:P_Modul_01_Pusher",
+        "8:P_Modul_01_01:P_Modul_01_Pusher",
+        "9:P_Modul_01_01:P_Modul_01_Pusher",
+        "9:P_Modul_01_02:P_Modul_01_Pusher",
+        "9:P_Modul_01_03:P_Modul_01_Pusher",
+        "9:P_Modul_01_04:P_Modul_01_Pusher",
+        "10:P_Modul_01_01:P_Modul_01_Pusher",
+        "10:P_Modul_01_02:P_Modul_01_Pusher",
+        "10:P_Modul_01_03:P_Modul_01_Pusher",
+        "10:P_Modul_01_04:P_Modul_01_Pusher",
+        "11:P_Modul_01_05:P_Modul_01_Pusher",
+        "11:P_Modul_01_01:P_Modul_01_Pusher",
+        "11:P_Modul_01_02:P_Modul_01_Pusher",
+        "11:P_Modul_01_03:P_Modul_01_Pusher",
+        "11:P_Modul_01_04:P_Modul_01_Pusher"
+      ]
+    },
+    "P_Box_Mesh@1.00000000000,1.00000000000,1.00000000000": {
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "inertiaPerMass": [
+        2.946278334,
+        2.946278334,
+        2.946278334
+      ],
+      "secondMoments": [
+        2.083333395,
+        2.083333395,
+        2.083333395
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "positionsSha256": [
+        "303b8b0364729880934ca91117d95bfb9d0581b8dfa9de095ccec23937308d4b"
+      ],
+      "placements": [
+        "1:P_Box_04:P_Box_MF",
+        "1:P_Box_05:P_Box_MF",
+        "1:P_Box_06:P_Box_MF",
+        "1:P_Box_03:P_Box_MF",
+        "1:P_Box_01:P_Box_MF",
+        "1:P_Box_02:P_Box_MF",
+        "2:P_Box_03:P_Box_MF",
+        "2:P_Box_01:P_Box_MF",
+        "2:P_Box_02:P_Box_MF",
+        "3:P_Box_05:P_Box_MF",
+        "5:P_Box_01:P_Box_MF",
+        "5:P_Box_02:P_Box_MF",
+        "6:P_Box_04:P_Box_MF",
+        "6:P_Box_05:P_Box_MF",
+        "6:P_Box_06:P_Box_MF",
+        "6:P_Box_07:P_Box_MF",
+        "8:P_Box_17:P_Box_MF",
+        "8:P_Box_18:P_Box_MF",
+        "8:P_Box_16:P_Box_MF",
+        "8:P_Box_11:P_Box_MF",
+        "8:P_Box_12:P_Box_MF",
+        "8:P_Box_10:P_Box_MF",
+        "8:P_Box_15:P_Box_MF",
+        "8:P_Box_13:P_Box_MF",
+        "8:P_Box_14:P_Box_MF",
+        "8:P_Box_08:P_Box_MF",
+        "8:P_Box_09:P_Box_MF",
+        "8:P_Box_06:P_Box_MF",
+        "8:P_Box_07:P_Box_MF",
+        "9:P_Box_02:P_Box_MF",
+        "9:P_Box_01:P_Box_MF",
+        "9:P_Box_04:P_Box_MF",
+        "9:P_Box_03:P_Box_MF",
+        "10:P_Box_04:P_Box_MF",
+        "10:P_Box_05:P_Box_MF",
+        "10:P_Box_06:P_Box_MF",
+        "10:P_Box_07:P_Box_MF",
+        "10:P_Box_09:P_Box_MF",
+        "10:P_Box_03:P_Box_MF",
+        "11:P_Box_05:P_Box_MF"
+      ]
+    },
+    "P_Ball_Paper_Mesh@1.00000000000,1.00000000000,1.00000000000": {
+      "center": [
+        0.007551996037,
+        0.007511342876,
+        0.005611704662
+      ],
+      "inertiaPerMass": [
+        1.107558966,
+        1.10710144,
+        1.108973384
+      ],
+      "secondMoments": [
+        0.7838394444,
+        0.7844855923,
+        0.7818371302
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "positionsSha256": [
+        "be6d4feda3d7dcb746e1415ff5603641a45f025614e7cee7cd333e6a3a133bbc"
+      ],
+      "placements": [
+        "1:P_Ball_Paper_01:P_Ball_Paper_MF",
+        "1:P_Ball_Paper_02:P_Ball_Paper_MF",
+        "1:P_Ball_Paper_03:P_Ball_Paper_MF",
+        "1:P_Ball_Paper_04:P_Ball_Paper_MF",
+        "1:P_Ball_Paper_05:P_Ball_Paper_MF",
+        "1:P_Ball_Paper_06:P_Ball_Paper_MF",
+        "1:P_Ball_Paper_07:P_Ball_Paper_MF",
+        "1:P_Ball_Paper_08:P_Ball_Paper_MF",
+        "2:P_Ball_Paper_03:P_Ball_Paper_MF",
+        "2:P_Ball_Paper_02:P_Ball_Paper_MF",
+        "2:P_Ball_Paper_01:P_Ball_Paper_MF",
+        "2:P_Ball_Paper_04:P_Ball_Paper_MF",
+        "4:P_Ball_Paper_01:P_Ball_Paper_MF",
+        "10:P_Ball_Paper_04:P_Ball_Paper_MF",
+        "10:P_Ball_Paper_05:P_Ball_Paper_MF",
+        "10:P_Ball_Paper_06:P_Ball_Paper_MF",
+        "10:P_Ball_Paper_03:P_Ball_Paper_MF",
+        "10:P_Ball_Paper_01:P_Ball_Paper_MF",
+        "10:P_Ball_Paper_02:P_Ball_Paper_MF"
+      ]
+    },
+    "P_Box_Mesh@0.999999913971,1.00000000000,0.999999913971": {
+      "center": [
+        -1.092752111e-08,
+        1.080831069e-08,
+        9.417534308e-09
+      ],
+      "inertiaPerMass": [
+        2.946278095,
+        2.946277857,
+        2.946278095
+      ],
+      "secondMoments": [
+        2.083332998,
+        2.083333395,
+        2.083332998
+      ],
+      "scale": [
+        0.9999999139711523,
+        1,
+        0.9999999139711523
+      ],
+      "positionsSha256": [
+        "303b8b0364729880934ca91117d95bfb9d0581b8dfa9de095ccec23937308d4b"
+      ],
+      "placements": [
+        "3:P_Box_01:P_Box_MF"
+      ]
+    },
+    "P_Box_Mesh@0.999999917665,1.00000000000,0.999999917665": {
+      "center": [
+        -1.092752111e-08,
+        1.080831069e-08,
+        9.417534308e-09
+      ],
+      "inertiaPerMass": [
+        2.946278095,
+        2.946277857,
+        2.946278095
+      ],
+      "secondMoments": [
+        2.083332998,
+        2.083333395,
+        2.083332998
+      ],
+      "scale": [
+        0.9999999176653188,
+        1,
+        0.9999999176653188
+      ],
+      "positionsSha256": [
+        "303b8b0364729880934ca91117d95bfb9d0581b8dfa9de095ccec23937308d4b"
+      ],
+      "placements": [
+        "3:P_Box_02:P_Box_MF",
+        "3:P_Box_07:P_Box_MF"
+      ]
+    },
+    "P_Box_Mesh@1.00000002322,1.00000000000,1.00000002322": {
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "inertiaPerMass": [
+        2.946278334,
+        2.946278334,
+        2.946278334
+      ],
+      "secondMoments": [
+        2.083333395,
+        2.083333395,
+        2.083333395
+      ],
+      "scale": [
+        1.0000000232195931,
+        1,
+        1.0000000232195931
+      ],
+      "positionsSha256": [
+        "303b8b0364729880934ca91117d95bfb9d0581b8dfa9de095ccec23937308d4b"
+      ],
+      "placements": [
+        "3:P_Box_03:P_Box_MF"
+      ]
+    },
+    "P_Box_Mesh@0.999999992803,1.00000000000,0.999999992803": {
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "inertiaPerMass": [
+        2.946278334,
+        2.946278334,
+        2.946278334
+      ],
+      "secondMoments": [
+        2.083333395,
+        2.083333395,
+        2.083333395
+      ],
+      "scale": [
+        0.999999992802632,
+        1,
+        0.999999992802632
+      ],
+      "positionsSha256": [
+        "303b8b0364729880934ca91117d95bfb9d0581b8dfa9de095ccec23937308d4b"
+      ],
+      "placements": [
+        "3:P_Box_04:P_Box_MF"
+      ]
+    },
+    "P_Box_Mesh@1.00000002224,1.00000000000,1.00000002224": {
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "inertiaPerMass": [
+        2.946278334,
+        2.946278334,
+        2.946278334
+      ],
+      "secondMoments": [
+        2.083333395,
+        2.083333395,
+        2.083333395
+      ],
+      "scale": [
+        1.000000022239038,
+        1,
+        1.000000022239038
+      ],
+      "positionsSha256": [
+        "303b8b0364729880934ca91117d95bfb9d0581b8dfa9de095ccec23937308d4b"
+      ],
+      "placements": [
+        "3:P_Box_06:P_Box_MF"
+      ]
+    },
+    "P_Box_Mesh@1.00000001884,1.00000000000,1.00000001884": {
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "inertiaPerMass": [
+        2.946278334,
+        2.946278334,
+        2.946278334
+      ],
+      "secondMoments": [
+        2.083333395,
+        2.083333395,
+        2.083333395
+      ],
+      "scale": [
+        1.0000000188435136,
+        1,
+        1.0000000188435136
+      ],
+      "positionsSha256": [
+        "303b8b0364729880934ca91117d95bfb9d0581b8dfa9de095ccec23937308d4b"
+      ],
+      "placements": [
+        "3:P_Box_08:P_Box_MF"
+      ]
+    },
+    "P_Box_Mesh@1.00000001926,1.00000000000,1.00000001926": {
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "inertiaPerMass": [
+        2.946278334,
+        2.946278334,
+        2.946278334
+      ],
+      "secondMoments": [
+        2.083333395,
+        2.083333395,
+        2.083333395
+      ],
+      "scale": [
+        1.0000000192601037,
+        1,
+        1.0000000192601037
+      ],
+      "positionsSha256": [
+        "303b8b0364729880934ca91117d95bfb9d0581b8dfa9de095ccec23937308d4b"
+      ],
+      "placements": [
+        "4:P_Box_02:P_Box_MF"
+      ]
+    },
+    "P_Box_Mesh@1.00000002351,1.00000000000,1.00000002351": {
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "inertiaPerMass": [
+        2.946278334,
+        2.946278334,
+        2.946278334
+      ],
+      "secondMoments": [
+        2.083333395,
+        2.083333395,
+        2.083333395
+      ],
+      "scale": [
+        1.000000023505624,
+        1,
+        1.000000023505624
+      ],
+      "positionsSha256": [
+        "303b8b0364729880934ca91117d95bfb9d0581b8dfa9de095ccec23937308d4b"
+      ],
+      "placements": [
+        "4:P_Box_03:P_Box_MF"
+      ]
+    },
+    "P_Box_Mesh@0.999999996889,1.00000000000,0.999999996889": {
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "inertiaPerMass": [
+        2.946278334,
+        2.946278334,
+        2.946278334
+      ],
+      "secondMoments": [
+        2.083333395,
+        2.083333395,
+        2.083333395
+      ],
+      "scale": [
+        0.9999999968888833,
+        1,
+        0.9999999968888833
+      ],
+      "positionsSha256": [
+        "303b8b0364729880934ca91117d95bfb9d0581b8dfa9de095ccec23937308d4b"
+      ],
+      "placements": [
+        "4:P_Box_04:P_Box_MF"
+      ]
+    },
+    "P_Box_Mesh@0.999999987632,1.00000000000,0.999999987632": {
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "inertiaPerMass": [
+        2.946278334,
+        2.946278334,
+        2.946278334
+      ],
+      "secondMoments": [
+        2.083333395,
+        2.083333395,
+        2.083333395
+      ],
+      "scale": [
+        0.999999987631904,
+        1,
+        0.999999987631904
+      ],
+      "positionsSha256": [
+        "303b8b0364729880934ca91117d95bfb9d0581b8dfa9de095ccec23937308d4b"
+      ],
+      "placements": [
+        "4:P_Box_01:P_Box_MF"
+      ]
+    },
+    "P_Box_Mesh@1.00000001346,1.00000000000,1.00000001346": {
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "inertiaPerMass": [
+        2.946278334,
+        2.946278334,
+        2.946278334
+      ],
+      "secondMoments": [
+        2.083333395,
+        2.083333395,
+        2.083333395
+      ],
+      "scale": [
+        1.00000001346257,
+        1,
+        1.00000001346257
+      ],
+      "positionsSha256": [
+        "303b8b0364729880934ca91117d95bfb9d0581b8dfa9de095ccec23937308d4b"
+      ],
+      "placements": [
+        "7:P_Box_03:P_Box_MF",
+        "7:P_Box_01:P_Box_MF"
+      ]
+    },
+    "P_Box_Mesh@1.00000002735,1.00000000000,1.00000002735": {
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "inertiaPerMass": [
+        2.946278334,
+        2.946278334,
+        2.946278334
+      ],
+      "secondMoments": [
+        2.083333395,
+        2.083333395,
+        2.083333395
+      ],
+      "scale": [
+        1.0000000273532805,
+        1,
+        1.0000000273532805
+      ],
+      "positionsSha256": [
+        "303b8b0364729880934ca91117d95bfb9d0581b8dfa9de095ccec23937308d4b"
+      ],
+      "placements": [
+        "7:P_Box_02:P_Box_MF"
+      ]
+    },
+    "P_Box_Mesh@1.00000001265,1.00000000000,1.00000001265": {
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "inertiaPerMass": [
+        2.946278334,
+        2.946278334,
+        2.946278334
+      ],
+      "secondMoments": [
+        2.083333395,
+        2.083333395,
+        2.083333395
+      ],
+      "scale": [
+        1.0000000126501192,
+        1,
+        1.0000000126501192
+      ],
+      "positionsSha256": [
+        "303b8b0364729880934ca91117d95bfb9d0581b8dfa9de095ccec23937308d4b"
+      ],
+      "placements": [
+        "8:P_Box_01:P_Box_MF"
+      ]
+    },
+    "P_Box_Mesh@0.999999983715,1.00000000000,0.999999983715": {
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "inertiaPerMass": [
+        2.946278334,
+        2.946278334,
+        2.946278334
+      ],
+      "secondMoments": [
+        2.083333395,
+        2.083333395,
+        2.083333395
+      ],
+      "scale": [
+        0.9999999837154759,
+        1,
+        0.9999999837154759
+      ],
+      "positionsSha256": [
+        "303b8b0364729880934ca91117d95bfb9d0581b8dfa9de095ccec23937308d4b"
+      ],
+      "placements": [
+        "8:P_Box_02:P_Box_MF"
+      ]
+    },
+    "P_Box_Mesh@1.00000000830,1.00000000000,1.00000000830": {
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "inertiaPerMass": [
+        2.946278334,
+        2.946278334,
+        2.946278334
+      ],
+      "secondMoments": [
+        2.083333395,
+        2.083333395,
+        2.083333395
+      ],
+      "scale": [
+        1.0000000082967753,
+        1,
+        1.0000000082967753
+      ],
+      "positionsSha256": [
+        "303b8b0364729880934ca91117d95bfb9d0581b8dfa9de095ccec23937308d4b"
+      ],
+      "placements": [
+        "8:P_Box_03:P_Box_MF"
+      ]
+    },
+    "P_Box_Mesh@0.999999990143,1.00000000000,0.999999990143": {
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "inertiaPerMass": [
+        2.946278334,
+        2.946278334,
+        2.946278334
+      ],
+      "secondMoments": [
+        2.083333395,
+        2.083333395,
+        2.083333395
+      ],
+      "scale": [
+        0.9999999901432093,
+        1,
+        0.9999999901432093
+      ],
+      "positionsSha256": [
+        "303b8b0364729880934ca91117d95bfb9d0581b8dfa9de095ccec23937308d4b"
+      ],
+      "placements": [
+        "8:P_Box_04:P_Box_MF"
+      ]
+    },
+    "P_Box_Mesh@0.999999974633,1.00000000000,0.999999974633": {
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "inertiaPerMass": [
+        2.946278334,
+        2.946278334,
+        2.946278334
+      ],
+      "secondMoments": [
+        2.083333395,
+        2.083333395,
+        2.083333395
+      ],
+      "scale": [
+        0.999999974633252,
+        1,
+        0.999999974633252
+      ],
+      "positionsSha256": [
+        "303b8b0364729880934ca91117d95bfb9d0581b8dfa9de095ccec23937308d4b"
+      ],
+      "placements": [
+        "8:P_Box_05:P_Box_MF"
+      ]
+    },
+    "P_Modul_03_Wall_Coll_Mesh@0.999626994135,0.999447345736,0.999626994134": {
+      "center": [
+        -0.001422988134,
+        0.9215428233,
+        -0.007731186226
+      ],
+      "inertiaPerMass": [
+        4.40819931,
+        3.943023682,
+        5.913672924
+      ],
+      "secondMoments": [
+        3.94250811,
+        4.407738237,
+        0.06376286904
+      ],
+      "scale": [
+        0.9996269941351849,
+        0.9994473457355514,
+        0.999626994133552
+      ],
+      "positionsSha256": [
+        "ef66fdfb0f9e4ff35eb7a2e27a3c71480dc30076bfee337358da3ebeda7805d4"
+      ],
+      "placements": [
+        "10:P_Modul_03_01:P_Modul_03_Wall02"
+      ]
+    },
+    "P_Modul_29_Platte06_Mesh@0.999999940395,0.999999855509,1.00000015080": {
+      "center": [
+        0.002731824759,
+        0.3010602593,
+        -0.08354576677
+      ],
+      "inertiaPerMass": [
+        2.08143115,
+        2.089597702,
+        0.1892995238
+      ],
+      "secondMoments": [
+        0.186945588,
+        0.02975997553,
+        2.081218454
+      ],
+      "scale": [
+        0.9999999403953552,
+        0.9999998555091902,
+        1.0000001507999696
+      ],
+      "positionsSha256": [
+        "20dab865c6d4250de758e4f6afdda434efd07623a165980a88358c434056946a"
+      ],
+      "placements": [
+        "10:P_Modul_29_01:P_Modul_29_Platte06"
+      ]
+    },
+    "P_Modul_29_Platte01_Mesh@0.999999940395,0.999999855509,1.00000015080": {
+      "center": [
+        -3.863263487e-09,
+        0.2999998629,
+        -1.876443889e-08
+      ],
+      "inertiaPerMass": [
+        2.083549738,
+        2.091754198,
+        0.1898847818
+      ],
+      "secondMoments": [
+        0.187499946,
+        0.02999997348,
+        2.083333793
+      ],
+      "scale": [
+        0.9999999403953552,
+        0.9999998555091902,
+        1.0000001507999696
+      ],
+      "positionsSha256": [
+        "13bf58747342ffb8b5e39c062925c2cd9152e2f37b403601bf4d6e66d2242308"
+      ],
+      "placements": [
+        "10:P_Modul_29_01:P_Modul_29_Platte01"
+      ]
+    },
+    "P_Modul_29_Platte02_Mesh@0.999999940395,0.999999855509,1.00000015080": {
+      "center": [
+        -0.02119245753,
+        0.2983210981,
+        0.05507019535
+      ],
+      "inertiaPerMass": [
+        2.010561705,
+        2.017832518,
+        0.1761817485
+      ],
+      "secondMoments": [
+        0.1736807768,
+        0.02958036709,
+        2.010344086
+      ],
+      "scale": [
+        0.9999999403953552,
+        0.9999998555091902,
+        1.0000001507999696
+      ],
+      "positionsSha256": [
+        "da64600ae47f92d38729c9f1b863faaa0244df8f5ff1d0a2c327dcbeb1d47c49"
+      ],
+      "placements": [
+        "10:P_Modul_29_01:P_Modul_29_Platte02"
+      ]
+    },
+    "P_Modul_29_Platte03_Mesh@0.999999940395,0.999999855509,1.00000015080": {
+      "center": [
+        -2.583322167e-10,
+        0.2999998927,
+        -0.04147745669
+      ],
+      "inertiaPerMass": [
+        1.831910253,
+        1.841236353,
+        0.1898847818
+      ],
+      "secondMoments": [
+        0.187499946,
+        0.02999997348,
+        1.831664623
+      ],
+      "scale": [
+        0.9999999403953552,
+        0.9999998555091902,
+        1.0000001507999696
+      ],
+      "positionsSha256": [
+        "238fc0cede31cb4ee939d20b7d1aa8c9728f687851df5a293fac0f7fbe4e380f"
+      ],
+      "placements": [
+        "10:P_Modul_29_01:P_Modul_29_Platte03"
+      ]
+    },
+    "P_Modul_29_Platte04_Mesh@0.999999940395,0.999999855509,1.00000015080": {
+      "center": [
+        4.227914019e-09,
+        0.2978568673,
+        -0.05207535625
+      ],
+      "inertiaPerMass": [
+        1.998893142,
+        2.007443666,
+        0.1898840517
+      ],
+      "secondMoments": [
+        0.187499946,
+        0.02999538121,
+        1.998668065
+      ],
+      "scale": [
+        0.9999999403953552,
+        0.9999998555091902,
+        1.0000001507999696
+      ],
+      "positionsSha256": [
+        "426521dda0e1a59f7879782d83184c3ba28c6e0372a871abdc4e0a1866fd94e7"
+      ],
+      "placements": [
+        "10:P_Modul_29_01:P_Modul_29_Platte04"
+      ]
+    },
+    "P_Modul_29_Platte07_Mesh@0.999999940395,0.999999855509,1.00000015080": {
+      "center": [
+        0.04185996577,
+        0.2977323234,
+        0.05501263216
+      ],
+      "inertiaPerMass": [
+        1.994246006,
+        2.001014233,
+        0.1698239297
+      ],
+      "secondMoments": [
+        0.1671540567,
+        0.02999483175,
+        1.994020443
+      ],
+      "scale": [
+        0.9999999403953552,
+        0.9999998555091902,
+        1.0000001507999696
+      ],
+      "positionsSha256": [
+        "3206367c425a3700728f6350b6a203cea216f82ecf25a964e7d38aec88528635"
+      ],
+      "placements": [
+        "10:P_Modul_29_01:P_Modul_29_Platte07"
+      ]
+    },
+    "P_Modul_29_Platte08_Mesh@0.999999940395,0.999999855509,1.00000015080": {
+      "center": [
+        6.261484109e-10,
+        0.2999998927,
+        0.001657217275
+      ],
+      "inertiaPerMass": [
+        1.941081285,
+        1.948058128,
+        0.1689967811
+      ],
+      "secondMoments": [
+        0.1668742897,
+        0.02669986386,
+        1.940897602
+      ],
+      "scale": [
+        0.9999999403953552,
+        0.9999998555091902,
+        1.0000001507999696
+      ],
+      "positionsSha256": [
+        "136234a877f649e45c59abc7a3051b19959322890284130cfeb2ab9b7a9d5087"
+      ],
+      "placements": [
+        "10:P_Modul_29_01:P_Modul_29_Platte08"
+      ]
+    },
+    "P_Modul_29_Platte09_Mesh@0.999999940395,0.999999855509,1.00000015080": {
+      "center": [
+        0.01889963262,
+        0.2958970666,
+        -0.03395999968
+      ],
+      "inertiaPerMass": [
+        2.071617365,
+        2.079136848,
+        0.1816308498
+      ],
+      "secondMoments": [
+        0.179166501,
+        0.02981825277,
+        2.071402776
+      ],
+      "scale": [
+        0.9999999403953552,
+        0.9999998555091902,
+        1.0000001507999696
+      ],
+      "positionsSha256": [
+        "dca3dd4b36931623f312adb2bee3caee72e8e42e68168448b52ef9275eaa7ad9"
+      ],
+      "placements": [
+        "10:P_Modul_29_01:P_Modul_29_Platte09"
+      ]
+    },
+    "P_Modul_29_Platte05_Mesh@0.999999940395,0.999999855509,1.00000015080": {
+      "center": [
+        0.01629505679,
+        0.2965016961,
+        0.08445183933
+      ],
+      "inertiaPerMass": [
+        1.98124826,
+        1.98920095,
+        0.1826400459
+      ],
+      "secondMoments": [
+        0.1801846083,
+        0.02984780918,
+        1.981023438
+      ],
+      "scale": [
+        0.9999999403953552,
+        0.9999998555091902,
+        1.0000001507999696
+      ],
+      "positionsSha256": [
+        "fc3cce532ab1b5f2c50f06a103b76e95bd33da93ce8d4823c940bb1a0cfad896"
+      ],
+      "placements": [
+        "10:P_Modul_29_01:P_Modul_29_Platte05"
+      ]
+    },
+    "P_Box_Mesh@0.999999978689,0.999999978689,1.00000000000": {
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "inertiaPerMass": [
+        2.946278334,
+        2.946278334,
+        2.946278334
+      ],
+      "secondMoments": [
+        2.083333395,
+        2.083333395,
+        2.083333395
+      ],
+      "scale": [
+        0.9999999786893616,
+        0.9999999786893616,
+        1
+      ],
+      "positionsSha256": [
+        "303b8b0364729880934ca91117d95bfb9d0581b8dfa9de095ccec23937308d4b"
+      ],
+      "placements": [
+        "10:P_Box_08:P_Box_MF"
+      ]
+    },
+    "P_Box_Mesh@1.00000002587,1.00000000000,1.00000002587": {
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "inertiaPerMass": [
+        2.946278334,
+        2.946278334,
+        2.946278334
+      ],
+      "secondMoments": [
+        2.083333395,
+        2.083333395,
+        2.083333395
+      ],
+      "scale": [
+        1.0000000258658233,
+        1,
+        1.0000000258658233
+      ],
+      "positionsSha256": [
+        "303b8b0364729880934ca91117d95bfb9d0581b8dfa9de095ccec23937308d4b"
+      ],
+      "placements": [
+        "10:P_Box_02:P_Box_MF"
+      ]
+    },
+    "P_Box_Mesh@0.999999961970,1.00000000000,0.999999961970": {
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "inertiaPerMass": [
+        2.946278334,
+        2.946278334,
+        2.946278334
+      ],
+      "secondMoments": [
+        2.083333395,
+        2.083333395,
+        2.083333395
+      ],
+      "scale": [
+        0.9999999619696364,
+        1,
+        0.9999999619696364
+      ],
+      "positionsSha256": [
+        "303b8b0364729880934ca91117d95bfb9d0581b8dfa9de095ccec23937308d4b"
+      ],
+      "placements": [
+        "11:P_Box_06:P_Box_MF"
+      ]
+    },
+    "P_Box_Mesh@0.999999977769,1.00000000000,0.999999977769": {
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "inertiaPerMass": [
+        2.946278334,
+        2.946278334,
+        2.946278334
+      ],
+      "secondMoments": [
+        2.083333395,
+        2.083333395,
+        2.083333395
+      ],
+      "scale": [
+        0.999999977768639,
+        1,
+        0.999999977768639
+      ],
+      "positionsSha256": [
+        "303b8b0364729880934ca91117d95bfb9d0581b8dfa9de095ccec23937308d4b"
+      ],
+      "placements": [
+        "12:P_Box_02:P_Box_MF",
+        "12:P_Box_04:P_Box_MF",
+        "12:P_Box_03:P_Box_MF"
+      ]
+    },
+    "P_Box_Mesh@1.00000001736,1.00000000000,1.00000001736": {
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "inertiaPerMass": [
+        2.946278334,
+        2.946278334,
+        2.946278334
+      ],
+      "secondMoments": [
+        2.083333395,
+        2.083333395,
+        2.083333395
+      ],
+      "scale": [
+        1.0000000173628987,
+        1,
+        1.0000000173628987
+      ],
+      "positionsSha256": [
+        "303b8b0364729880934ca91117d95bfb9d0581b8dfa9de095ccec23937308d4b"
+      ],
+      "placements": [
+        "12:P_Box_01:P_Box_MF"
+      ]
+    }
+  }
+}

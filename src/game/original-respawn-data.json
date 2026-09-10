@@ -1,0 +1,184 @@
+{
+  "source": "Gameplay.nmo: Deactivate Ball 2499 / New Ball 2921",
+  "dumpSha256": "65821ec5eab4322e5bfc1e60b58532d466c1909ab2a0f3735b6185c2a083640a",
+  "lifeCheckDelayFrames": 2,
+  "removeBallDelayMs": 1000.0,
+  "newBallDelayFrames": 1,
+  "physicalizeDelayMs": 3000.0,
+  "wakeDelayFrames": 1,
+  "flash": {
+    "durationMs": 2000.0,
+    "curve": [
+      {
+        "flags": 2,
+        "position": [
+          0.0,
+          0.0
+        ],
+        "incoming": [
+          9.999999747378752e-05,
+          0.00024999998277053237
+        ],
+        "outgoing": [
+          0.4000000059604645,
+          1.0
+        ]
+      },
+      {
+        "flags": 3,
+        "position": [
+          0.4000000059604645,
+          1.0
+        ],
+        "incoming": [
+          0.4000000059604645,
+          0.8691480159759521
+        ],
+        "outgoing": [
+          0.20000001788139343,
+          0.43457406759262085
+        ]
+      },
+      {
+        "flags": 2,
+        "position": [
+          0.6000000238418579,
+          1.0
+        ],
+        "incoming": [
+          0.20000001788139343,
+          -0.3333333432674408
+        ],
+        "outgoing": [
+          0.4000000059604645,
+          -0.6666666269302368
+        ]
+      },
+      {
+        "flags": 2,
+        "position": [
+          1.0,
+          0.0
+        ],
+        "incoming": [
+          0.3999999761581421,
+          -1.0
+        ],
+        "outgoing": [
+          0.0010000000474974513,
+          -0.002500000176951289
+        ]
+      }
+    ],
+    "fromColor": [
+      0.0,
+      0.0,
+      0.0,
+      0.003921568859368563
+    ],
+    "toColor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "links": [
+    {
+      "index": 2488,
+      "delayFrames": 2,
+      "source": 2455,
+      "destination": 2437
+    },
+    {
+      "index": 2495,
+      "delayFrames": 0,
+      "source": 2279,
+      "destination": 2405
+    },
+    {
+      "index": 2478,
+      "delayFrames": 0,
+      "source": 2280,
+      "destination": 2498
+    },
+    {
+      "index": 2480,
+      "delayFrames": 0,
+      "source": 2406,
+      "destination": 2258
+    },
+    {
+      "index": 2475,
+      "delayFrames": 0,
+      "source": 2259,
+      "destination": 2321
+    },
+    {
+      "index": 2474,
+      "delayFrames": 0,
+      "source": 2322,
+      "destination": 2288
+    },
+    {
+      "index": 2477,
+      "delayFrames": 0,
+      "source": 2290,
+      "destination": 2327
+    },
+    {
+      "index": 2476,
+      "delayFrames": 0,
+      "source": 2328,
+      "destination": 2261
+    },
+    {
+      "index": 2489,
+      "delayFrames": 0,
+      "source": 2262,
+      "destination": 2426
+    },
+    {
+      "index": 2482,
+      "delayFrames": 0,
+      "source": 2352,
+      "destination": 2497
+    },
+    {
+      "index": 2941,
+      "delayFrames": 1,
+      "source": 2497,
+      "destination": 2919
+    },
+    {
+      "index": 2900,
+      "delayFrames": 0,
+      "source": 2514,
+      "destination": 2507
+    },
+    {
+      "index": 2915,
+      "delayFrames": 0,
+      "source": 2508,
+      "destination": 2719
+    },
+    {
+      "index": 2701,
+      "delayFrames": 1,
+      "source": 2587,
+      "destination": 2617
+    },
+    {
+      "index": 2255,
+      "delayFrames": 1,
+      "source": 2204,
+      "destination": 2202
+    },
+    {
+      "index": 2257,
+      "delayFrames": 0,
+      "source": 2220,
+      "destination": 2259
+    }
+  ]
+}

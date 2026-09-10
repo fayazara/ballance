@@ -1,0 +1,253 @@
+{
+  "source": "Sound.nmo / Levelinit.nmo / PH object attributes",
+  "materials": {
+    "paper": {
+      "onStone": "Roll_Paper",
+      "onWood": "Roll_Paper",
+      "onMetal": "Roll_Paper",
+      "HitStone": "Hit_Paper",
+      "HitWood": "Hit_Paper",
+      "HitMetal": "Hit_Paper",
+      "HitDome": "Hit_Paper"
+    },
+    "wood": {
+      "onStone": "Roll_Wood_Stone",
+      "onWood": "Roll_Wood_Wood",
+      "onMetal": "Roll_Wood_Metal",
+      "HitStone": "Hit_Wood_Stone",
+      "HitWood": "Hit_Wood_Wood",
+      "HitMetal": "Hit_Wood_Metal",
+      "HitDome": "Hit_Wood_Dome"
+    },
+    "stone": {
+      "onStone": "Roll_Stone_Stone",
+      "onWood": "Roll_Stone_Wood",
+      "onMetal": "Roll_Stone_Metal",
+      "HitStone": "Hit_Stone_Stone",
+      "HitWood": "Hit_Stone_Wood",
+      "HitMetal": "Hit_Stone_Metal",
+      "HitDome": "Hit_Stone_Kuppel"
+    }
+  },
+  "rolling": {
+    "startDelay": 0.30000001192092896,
+    "endDelay": 0.30000001192092896,
+    "groupCount": 3,
+    "gainMultiplier": 0.05000000074505806,
+    "pitchBase": 0.5,
+    "pitchMultiplier": 0.01
+  },
+  "impacts": [
+    {
+      "index": 266,
+      "minimum": 2.0,
+      "maximum": 30.0,
+      "cooldown": 1.0,
+      "group": 1,
+      "column": "HitStone"
+    },
+    {
+      "index": 248,
+      "minimum": 2.0,
+      "maximum": 14.0,
+      "cooldown": 1.0,
+      "group": 2,
+      "column": "HitWood"
+    },
+    {
+      "index": 30,
+      "minimum": 2.0,
+      "maximum": 14.0,
+      "cooldown": 2.0,
+      "group": 3,
+      "column": "HitMetal"
+    },
+    {
+      "index": 49,
+      "minimum": 1.0,
+      "maximum": 15.0,
+      "cooldown": 1.0,
+      "group": 4,
+      "column": "HitDome"
+    }
+  ],
+  "floorGroups": {
+    "roll": [
+      "Sound_RollID_01",
+      "Sound_RollID_02",
+      "Sound_RollID_03"
+    ],
+    "hit": [
+      "Sound_HitID_01",
+      "Sound_HitID_02",
+      "Sound_HitID_03"
+    ]
+  },
+  "moduleIds": {
+    "pe_balloon": {
+      "PE_Balloon_Platform": {
+        "hit": 2
+      },
+      "PE_Balloon_Platte01": {
+        "hit": 2
+      },
+      "PE_Balloon_Platte02": {
+        "hit": 2
+      },
+      "PE_Balloon_Platte03": {
+        "hit": 2
+      },
+      "PE_Balloon_Platte04": {
+        "hit": 2
+      },
+      "PE_Balloon_Platte05": {
+        "hit": 2
+      },
+      "PE_Balloon_Platte06": {
+        "hit": 2
+      },
+      "PE_Balloon_Platte07": {
+        "hit": 2
+      },
+      "PE_Balloon_Platte08": {
+        "hit": 2
+      }
+    },
+    "p_ball_paper": {},
+    "p_ball_stone": {
+      "P_Ball_Stone_MF": {
+        "hit": 1
+      }
+    },
+    "p_ball_wood": {
+      "P_Ball_Wood_MF": {
+        "hit": 2
+      }
+    },
+    "p_box": {
+      "P_Box_MF": {
+        "hit": 2
+      }
+    },
+    "p_dome": {
+      "P_Dome_MF": {
+        "hit": 4
+      }
+    },
+    "p_modul_01": {
+      "P_Modul_01_Pusher": {
+        "hit": 2
+      }
+    },
+    "p_modul_03": {
+      "P_Modul_03_Floor": {
+        "roll": 2,
+        "hit": 2
+      },
+      "P_Modul_03_Wall07": {
+        "hit": 1
+      },
+      "P_Modul_03_Wall06": {
+        "hit": 1
+      },
+      "P_Modul_03_Wall05": {
+        "hit": 1
+      },
+      "P_Modul_03_Wall04": {
+        "hit": 1
+      },
+      "P_Modul_03_Wall03": {
+        "hit": 1
+      },
+      "P_Modul_03_Wall02": {
+        "hit": 1
+      },
+      "P_Modul_03_Wall01": {
+        "hit": 1
+      },
+      "P_Modul_03_Gate": {
+        "hit": 1
+      }
+    },
+    "p_modul_08": {
+      "P_Modul_08_Schaukel": {
+        "hit": 2,
+        "roll": 2
+      }
+    },
+    "p_modul_17": {
+      "Modul17_Dreharme": {
+        "hit": 2
+      }
+    },
+    "p_modul_18": {},
+    "p_modul_19": {
+      "P_Modul_19_Flaps": {
+        "roll": 2,
+        "hit": 2
+      }
+    },
+    "p_modul_25": {
+      "P_Modul_25_Bridge": {
+        "hit": 2,
+        "roll": 2
+      }
+    },
+    "p_modul_26": {},
+    "p_modul_29": {
+      "P_Modul_29_Platte07": {
+        "hit": 2
+      },
+      "P_Modul_29_Platte08": {
+        "hit": 2
+      },
+      "P_Modul_29_Platte09": {
+        "hit": 2
+      },
+      "P_Modul_29_Platte01": {
+        "hit": 2
+      },
+      "P_Modul_29_Platte02": {
+        "hit": 2
+      },
+      "P_Modul_29_Platte03": {
+        "hit": 2
+      },
+      "P_Modul_29_Platte04": {
+        "hit": 2
+      },
+      "P_Modul_29_Platte05": {
+        "hit": 2
+      },
+      "P_Modul_29_Platte06": {
+        "hit": 2
+      }
+    },
+    "p_modul_30": {
+      "P_Modul_30_Wippe": {
+        "hit": 2,
+        "roll": 2
+      }
+    },
+    "p_modul_34": {
+      "P_Modul_34_Schiebestein": {
+        "roll": 1,
+        "hit": 1
+      },
+      "P_Modul_34_Kiste": {
+        "hit": 2
+      }
+    },
+    "p_modul_37": {
+      "P_Modul_37_Bridge": {
+        "roll": 2,
+        "hit": 2
+      }
+    },
+    "p_modul_41": {
+      "P_Modul_41": {
+        "hit": 3
+      }
+    }
+  }
+}
