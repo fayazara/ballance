@@ -1,0 +1,149 @@
+THIRD_PARTY.md
+  s_f2a017c1eb8a95::t_4c69c0462dddd3 23,32-33
+docs/original-actuator-clock-oracle.json
+  s_f2a017c1eb8a95::t_439c23498a0c71 1-1053
+docs/original-chain-route-probe.json
+  s_f2a017c1eb8a95::t_a409cebe22f210 1-458
+docs/original-chain-route-short-approach-probe.json
+  s_f2a017c1eb8a95::t_e55bc04bb37ee4 1-458
+docs/original-checkpoint.md
+  s_f2a017c1eb8a95::t_c59f77e44e2b2a 25-32
+docs/original-debris-clock-oracle.json
+  s_f2a017c1eb8a95::t_c627de9e4f874e 1-80
+docs/original-debris-scheduling-evidence.json
+  s_f2a017c1eb8a95::t_78df938a037acb 1-296
+docs/original-effects.md
+  s_f2a017c1eb8a95::t_4785905866663a 5-10,22,88-151
+docs/original-finish-clear-start-probe.json
+  s_f2a017c1eb8a95::t_a391eead5a5b09 1-1593
+docs/original-finish-material-extended-probe.json
+  s_f2a017c1eb8a95::t_a4a9d92fdd9dc7 1-690
+docs/original-finish-material-probe.json
+  s_f2a017c1eb8a95::t_98eb06cc304aa8 1-623
+docs/original-resetpoint-probe.json
+  s_f2a017c1eb8a95::t_b123b7c32e2bbc 1-3598
+docs/original-sack-route-perpendicular-probe.json
+  s_f2a017c1eb8a95::t_7f8a660d021dc4 1-623
+docs/original-sack-route-probe.json
+  s_f2a017c1eb8a95::t_4eeef14adb2d34 1-898
+docs/original-transformer-spring-oracle.json
+  s_f2a017c1eb8a95::t_71df807cceed2d 1-461
+docs/original-transformer.md
+  s_f2a017c1eb8a95::t_6e50675b3881bc 23-243,262-278
+scripts/probe-native-chain-routes.ts
+  s_f2a017c1eb8a95::t_576b649eb0f456 1-57
+scripts/probe-native-finish-materials.ts
+  s_f2a017c1eb8a95::t_0a101817c87251 1-56
+scripts/probe-native-resetpoints.ts
+  s_f2a017c1eb8a95::t_cdbff9539b4758 1-46
+scripts/probe-native-sack-routes.ts
+  s_f2a017c1eb8a95::t_b5dd51d7de22f2 1-64
+scripts/read-original-debris-scheduling.py
+  s_f2a017c1eb8a95::t_7abfbb542cddf0 1-29
+scripts/verify-original-debris-clock.py
+  s_f2a017c1eb8a95::t_0ae1eaa726cede 1-56
+scripts/verify-original-transformer-clock.py
+  s_f2a017c1eb8a95::t_41c0f9551d5064 1-54
+scripts/verify-original-transformer-spring.py
+  s_f2a017c1eb8a95::t_32eee4ee5a4a86 1-65
+src/game/original-checkpoint-activation-data.json
+  s_f2a017c1eb8a95::t_0ee7bd7d2daad8 1-140
+src/game/original-checkpoint.ts
+  s_f2a017c1eb8a95::t_80df4e7787e008 4-5,19-21,27
+src/game/original-inspector.ts
+  s_f2a017c1eb8a95::t_4d3e645c48c862 355
+src/game/original-lightning-data.json
+  s_f2a017c1eb8a95::t_f9e156dec51209 1-768
+src/game/original-respawn-data.json
+  s_f2a017c1eb8a95::t_b05302fc0f8ef4 4,88-99
+src/game/original-transformation.ts
+  s_f2a017c1eb8a95::t_fafb294a6918ad 2,4,7,9,19-27,29-30,32,38,40,42,44-46,48-55,57-68,71,79
+src/game/original-transformer-clock-data.json
+  s_f2a017c1eb8a95::t_b514ffb0dbf65f 1-108
+src/game/original-transformer-proximity.ts
+  s_f2a017c1eb8a95::t_1e3e4de3751ea2 1-14
+src/game/original-transformer-spring.ts
+  s_f2a017c1eb8a95::t_73fe9e0393c05f 1-36
+tests/original-checkpoint.test.ts
+  s_f2a017c1eb8a95::t_4be127913ff6dd 74-87
+tests/original-transformation.test.ts
+  s_f2a017c1eb8a95::t_f963bfc3df74b1 45-46,73-117,134-147,170-185
+tests/original-transformer-proximity.test.ts
+  s_f2a017c1eb8a95::t_759e7459323cd3 1-49
+tests/original-transformer-spring.test.ts
+  s_f2a017c1eb8a95::t_7c0cce81e79e22 1-32
+docs/original-depth.md
+  s_f2a017c1eb8a95::t_cf022f92debe06 19-51
+docs/original-lightning.md
+  s_f2a017c1eb8a95::t_45af2a0870f8f8 1-60
+docs/original-native-routes.md
+  s_f2a017c1eb8a95::t_dcde97db5f6f6a 163-507
+docs/original-sound.md
+  s_f2a017c1eb8a95::t_8eee02aae05a42 63-71
+docs/performance.md
+  s_f2a017c1eb8a95::t_820f258e8a18c7 71-98
+scripts/read-original-checkpoint-activation.py
+  s_f2a017c1eb8a95::t_e884f576389f6e 1-24
+scripts/read-original-lift.py
+  s_f2a017c1eb8a95::t_1755661d927099 16-20
+scripts/read-original-lightning.py
+  s_f2a017c1eb8a95::t_2247e1e3822b8a 1-54
+scripts/read-original-respawn.py
+  s_f2a017c1eb8a95::t_56154ef645d9e7 9-11,14,39
+scripts/read-original-transformer-clock.py
+  s_f2a017c1eb8a95::t_85f098c8b36ed6 1-23
+scripts/verify-original-actuator-clock.py
+  s_f2a017c1eb8a95::t_b43ef742d043ee 1-66
+scripts/verify-original-respawn-clock.py
+  s_f2a017c1eb8a95::t_01992a921d8f53 1-55
+src/game/original-data.ts
+  s_f2a017c1eb8a95::t_97338030c84452 53
+src/game/original-debris-clock.ts
+  s_f2a017c1eb8a95::t_95ebcc6f2e1f17 1-35
+src/game/original-debris.ts
+  s_f2a017c1eb8a95::t_6a23c9145ab832 12,25,29,56-58,79,85-86,88,91,99-100
+src/game/original-fan.ts
+  s_f2a017c1eb8a95::t_7a286015a8c1ad 37-41,88-89,96,144-146,152
+src/game/original-flames.ts
+  s_f2a017c1eb8a95::t_7dec33452ae5eb 18-19,24-30,47-50,53-55,62,66
+src/game/original-ivp-sound.ts
+  s_f2a017c1eb8a95::t_827d8d7560d731 55-58
+src/game/original-lightning.ts
+  s_f2a017c1eb8a95::t_456192a32aef70 1-82
+src/game/original-point-trails.ts
+  s_f2a017c1eb8a95::t_e7be4baff5d440 52,57-58,62-64
+src/game/original-render-batching.ts
+  s_f2a017c1eb8a95::t_d0694653691c31 8,10-11,15-21,23-25,27-28,30
+src/game/original-respawn.ts
+  s_f2a017c1eb8a95::t_5eb08daded4d05 18-20,22-33,41-43,51,53,57,59
+tests/original-debris-clock.test.ts
+  s_f2a017c1eb8a95::t_b65d3ffe39b842 1-45
+tests/original-fan.test.ts
+  s_f2a017c1eb8a95::t_d8b384ba07baca 46-57
+tests/original-ivp-sound.test.ts
+  s_f2a017c1eb8a95::t_2a946066ae213c 34-46,60-72
+tests/original-lightning.test.ts
+  s_f2a017c1eb8a95::t_94452bcd799f2f 1-56
+tests/original-point-trails.test.ts
+  s_f2a017c1eb8a95::t_4d8a82507e21aa 4-17
+tests/original-render-performance.test.ts
+  s_f2a017c1eb8a95::t_7575bb21f76ea1 6-7,24-61
+tests/original-respawn.test.ts
+  s_f2a017c1eb8a95::t_ee8f352b91107b 5-18,24,27,35-57
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "3a3743eed355f9f0fc29489b986ceed07380b428",
+  "prompts": {},
+  "sessions": {
+    "s_f2a017c1eb8a95": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a07b89-b5da-7993-a5cd-aa6860ea5d27",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Fayaz Ahmed <fayazara@gmail.com>"
+    }
+  }
+}
