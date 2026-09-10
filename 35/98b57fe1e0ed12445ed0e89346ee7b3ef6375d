@@ -1,0 +1,227 @@
+README.md
+  s_f2a017c1eb8a95::t_c8f0b53dbf6244 3,5,7,9-10,12,14,16,18,21-27,30,32,34-38,40,42,44-53,55,57
+THIRD_PARTY.md
+  s_f2a017c1eb8a95::t_6c2792cfebf620 3,6-31
+docs/original-arms.md
+  s_f2a017c1eb8a95::t_3eb9538bf87856 46-55
+docs/original-camera.md
+  s_f2a017c1eb8a95::t_d43aec8b23960b 1-85
+docs/original-death.md
+  s_f2a017c1eb8a95::t_c000190321da43 1-33
+docs/original-depth.md
+  s_f2a017c1eb8a95::t_62df2d4ab5b22e 3
+docs/original-effects.md
+  s_f2a017c1eb8a95::t_cf374631ee59b9 24-25,36-82
+docs/original-finish.md
+  s_f2a017c1eb8a95::t_f16a7470edb2b1 1-184
+docs/original-import.md
+  s_f2a017c1eb8a95::t_8cb459a9f10bd5 19,21-22,28-37,41,75-81
+docs/original-inertia.md
+  s_f2a017c1eb8a95::t_7813106ef5936f 1-132
+docs/original-ivp-wasm.md
+  s_f2a017c1eb8a95::t_c27eb3bdc9a017 1-522
+docs/original-music.md
+  s_f2a017c1eb8a95::t_6b2e32b5e341dc 1-59
+docs/original-native-routes.md
+  s_f2a017c1eb8a95::t_bb4a23e129c99e 1-162
+docs/original-pushers.md
+  s_f2a017c1eb8a95::t_022367fa3b8456 32-40
+docs/original-sound.md
+  s_f2a017c1eb8a95::t_403860e4599c18 1-65
+docs/original-swings.md
+  s_f2a017c1eb8a95::t_7040b3d94c7206 43-54
+docs/original-ui.md
+  s_f2a017c1eb8a95::t_dc3075ac1428c3 1-50
+docs/phone-play.md
+  s_f2a017c1eb8a95::t_521e3a034efaec 1-65
+index.html
+  s_f2a017c1eb8a95::t_16f793b8d38b95 6,9-10
+public/licenses/CK2-Apache-2.0.txt
+  s_f2a017c1eb8a95::t_0ba57beedbf122 1-201
+public/licenses/VxMath-Apache-2.0.txt
+  s_f2a017c1eb8a95::t_348304428738fd 1-201
+public/manifest.webmanifest
+  s_f2a017c1eb8a95::t_c8c8d2ee2e0f31 1
+public/sw.js
+  s_f2a017c1eb8a95::t_42978e0cf36900 1-74
+scripts/prepare-original.py
+  s_f2a017c1eb8a95::t_a21d46f4f32d38 20-23,28,31-38,40
+scripts/read-original-music.py
+  s_f2a017c1eb8a95::t_9189f01c625b9f 1-23
+scripts/read-original-point-trails.py
+  s_f2a017c1eb8a95::t_b80a9069860c19 1-50
+scripts/read-original-ui.py
+  s_f2a017c1eb8a95::t_2830d3c5806356 1-28
+scripts/stage-original-assets.mjs
+  s_f2a017c1eb8a95::t_2e8dd2c8d95272 12,20-38
+scripts/verify-ivp-contacts.ts
+  s_79e2d1c1b6107f::t_ef5dea065e26a9 1-54
+scripts/verify-ivp-joints.ts
+  s_f2a017c1eb8a95::t_22104b53e303c8 1-91
+scripts/verify-ivp-lifts.ts
+  s_f2a017c1eb8a95::t_4a106f68876756 1-52
+scripts/verify-original-physics-clock.py
+  s_f2a017c1eb8a95::t_d7aa4364e51447 1-74
+src/App.css
+  s_f2a017c1eb8a95::t_1e4d5e212ffb43 1-24
+src/controls/MobileControls.tsx
+  s_f2a017c1eb8a95::t_94de9c008972db 1-94
+src/controls/OfflineDownload.tsx
+  s_f2a017c1eb8a95::t_0212c80ca6915a 1-41
+src/controls/mobile-input.ts
+  s_f2a017c1eb8a95::t_d7c37952e22cc0 1-30
+src/controls/original-controls.ts
+  s_f2a017c1eb8a95::t_997c267aaf5fb0 1-16
+src/controls/useWakeLock.ts
+  s_f2a017c1eb8a95::t_731307b9dbd364 1-14
+src/game/ivp-bridge.ts
+  s_79e2d1c1b6107f::t_90195843d03932 1-235
+src/game/original-arms.ts
+  s_f2a017c1eb8a95::t_7c338ec9df6b32 1,49
+src/game/original-audio-data.json
+  s_f2a017c1eb8a95::t_39adcce8a6f84b 1-253
+src/game/original-camera-data.json
+  s_f2a017c1eb8a95::t_34992955c0254b 1-269
+src/game/original-checkpoint-data.json
+  s_f2a017c1eb8a95::t_be192e3344073a 1-199
+src/game/original-collectibles.ts
+  s_f2a017c1eb8a95::t_7762f28fa2c8b1 5-7,10-11,28-37,52,59,61-63,66-67,71-72,86-92,95
+src/game/original-death-data.json
+  s_f2a017c1eb8a95::t_68752a36b01fe2 1-60
+src/game/original-debris-data.json
+  s_f2a017c1eb8a95::t_36f0919350a9d8 1-515
+src/game/original-ending-camera-data.json
+  s_f2a017c1eb8a95::t_08bfea82bc655f 1-89
+src/game/original-fan.ts
+  s_f2a017c1eb8a95::t_dab81796be6ad4 9,58,128
+src/game/original-finish-data.json
+  s_f2a017c1eb8a95::t_68ebf9ce46431c 1-1445
+src/game/original-fragment-inertia.json
+  s_f2a017c1eb8a95::t_48f8bdf7a07ade 1-1374
+src/game/original-hinges.ts
+  s_f2a017c1eb8a95::t_12331df9d4d8dc 1,61
+src/game/original-inspector.ts
+  s_f2a017c1eb8a95::t_1bcc4dce673902 33
+src/game/original-ivp-contact.ts
+  s_f2a017c1eb8a95::t_7372da482df7be 1-77
+src/game/original-ivp-finish.ts
+  s_f2a017c1eb8a95::t_ac4485f03afbf2 1-111
+src/game/original-ivp-sound.ts
+  s_f2a017c1eb8a95::t_0a9d0efddf04b6 1-71
+src/game/original-lift.ts
+  s_f2a017c1eb8a95::t_d4f20319675a64 1,53
+src/game/original-music-data.json
+  s_f2a017c1eb8a95::t_69f4ca2e0e60a2 1-58
+src/game/original-music.ts
+  s_f2a017c1eb8a95::t_def5c6b06ed728 1-81
+src/game/original-object-inertia.json
+  s_f2a017c1eb8a95::t_be3766d159f001 1-2342
+src/game/original-player-data.json
+  s_f2a017c1eb8a95::t_56bd889e7a2f2c 55-112
+src/game/original-player-inertia.json
+  s_f2a017c1eb8a95::t_b8d37fbe0ec01d 1-48
+src/game/original-point-extra.ts
+  s_f2a017c1eb8a95::t_034ce07bad01d7 1-71
+src/game/original-point-trails-data.json
+  s_f2a017c1eb8a95::t_9b02b429f3c459 1-76
+src/game/original-point-trails.ts
+  s_f2a017c1eb8a95::t_dfd2cec03aa16f 1-65
+src/game/original-pusher-data.json
+  s_f2a017c1eb8a95::t_015760cbb2fa34 1-75
+src/game/original-pusher.ts
+  s_f2a017c1eb8a95::t_c1b5852799d3f4 1,55
+src/game/original-respawn-data.json
+  s_f2a017c1eb8a95::t_e7259b18011205 1-184
+src/game/original-sack.ts
+  s_f2a017c1eb8a95::t_b0e1c1561850b9 1,53
+src/game/original-slider.ts
+  s_f2a017c1eb8a95::t_9a6fb4d7f2eb95 1,46
+src/game/original-swing.ts
+  s_f2a017c1eb8a95::t_e25c7d487deec8 1,53
+src/game/original-time-settings-data.json
+  s_f2a017c1eb8a95::t_71639cc4170d63 1-28
+src/game/original-ufo-data.json
+  s_f2a017c1eb8a95::t_52ad18f7396246 1-1714
+src/game/original-ui-data.json
+  s_f2a017c1eb8a95::t_fc1f8683a4f054 1-4494
+src/ui/OriginalMenuBackdrop.tsx
+  s_f2a017c1eb8a95::t_7a573c93ba2bbc 1-36
+src/ui/OriginalWidgets.tsx
+  s_f2a017c1eb8a95::t_463e5458a2c178 1-28
+tests/fixtures/original-dynamic-position.json
+  s_f2a017c1eb8a95::t_3bda0cf16dfd0f 1-2076
+tests/fixtures/original-physics-clock.json
+  s_f2a017c1eb8a95::t_300dc8a53a6a87 1-884
+tests/ivp-assets.test.ts
+  s_f2a017c1eb8a95::t_7cce2cfcaf13db 1-63
+tests/mobile-input.test.ts
+  s_f2a017c1eb8a95::t_e059e16eee565b 1-41
+tests/offline-worker.test.ts
+  s_f2a017c1eb8a95::t_63170c33c12aa4 1-55
+tests/original-camera.test.ts
+  s_f2a017c1eb8a95::t_df6804e03808b8 1-118
+tests/original-collisions.test.ts
+  s_f2a017c1eb8a95::t_8f5015eee0bec0 85
+tests/original-controls.test.ts
+  s_f2a017c1eb8a95::t_9bcf87262e1f4d 1-26
+tests/original-death.test.ts
+  s_f2a017c1eb8a95::t_53ecc89e992f39 1-79
+tests/original-effects.test.ts
+  s_f2a017c1eb8a95::t_325f7c8bc1246e 40,43,48,52
+tests/original-ending-camera.test.ts
+  s_f2a017c1eb8a95::t_1fea2335f13beb 1-25
+tests/original-fan.test.ts
+  s_f2a017c1eb8a95::t_70c7aa6d8df29b 1,205
+tests/original-ivp-contact.test.ts
+  s_f2a017c1eb8a95::t_ea0a1742f7e571 1-43
+tests/original-ivp-lift.test.ts
+  s_f2a017c1eb8a95::t_a8d5974fd48068 1-40
+tests/original-ivp-player.test.ts
+  s_f2a017c1eb8a95::t_cbf025a31824c6 1-80
+tests/original-ivp-runtime.test.ts
+  s_f2a017c1eb8a95::t_aea1cb05b02f4a 1-888
+tests/original-ivp-sound.test.ts
+  s_f2a017c1eb8a95::t_6ae9a0ffda43fc 1-103
+tests/original-music.test.ts
+  s_f2a017c1eb8a95::t_61da66ebcd2dcf 1-86
+tests/original-physics-clock.test.ts
+  s_f2a017c1eb8a95::t_18aced5fd7d2ed 1-35
+tests/original-point-extra.test.ts
+  s_f2a017c1eb8a95::t_04acdbaad95f2a 1-48
+tests/original-point-trails.test.ts
+  s_f2a017c1eb8a95::t_4632b4f1844384 1-28
+vite.config.ts
+  s_c70dbb70166529::t_211e13b11deee1 2,7,10-11,13-23,29,36
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "3598b57fe1e0ed12445ed0e89346ee7b3ef6375d",
+  "prompts": {},
+  "sessions": {
+    "s_79e2d1c1b6107f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a07fb7-4da5-75e1-a35c-b6007aa15a5d",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Fayaz Ahmed <fayazara@gmail.com>"
+    },
+    "s_c70dbb70166529": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08089-74e6-7163-b4c8-8f99b4467004",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Fayaz Ahmed <fayazara@gmail.com>"
+    },
+    "s_f2a017c1eb8a95": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a07b89-b5da-7993-a5cd-aa6860ea5d27",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Fayaz Ahmed <fayazara@gmail.com>"
+    }
+  }
+}
