@@ -10,7 +10,8 @@ import { loadOriginal, originalGeometry, originalPosition, originalSceneEntries,
 import type { OriginalDocument, OriginalObject } from './original-data'
 import { OriginalAudio } from './original-audio'
 import { OriginalFlames } from './original-flames'
-import { BallTransformation } from './original-transformation'
+import { BallTransformation, TRANSFORMATION } from './original-transformation'
+import { nearestOriginalTransformer } from './original-transformer-proximity'
 import { OriginalTransformerVisual } from './original-transformer-visual'
 import { OriginalDebris } from './original-debris'
 import { OriginalCollectible, OriginalCollectibleAssets } from './original-collectibles'
@@ -39,9 +40,10 @@ import {OriginalEndingCamera} from './original-ending-camera'
 import endingCameraData from './original-ending-camera-data.json'
 import {originalScriptDeltaMs} from './original-script-clock'
 import {OriginalCamera} from './original-camera'
-import {OriginalCheckpoint} from './original-checkpoint'
+import {OriginalCheckpoint,CHECKPOINT_ACTIVATION} from './original-checkpoint'
 import checkpointData from './original-checkpoint-data.json'
 import {OriginalRespawn} from './original-respawn'
+import {OriginalLightning} from './original-lightning'
 import {batchOriginalScene} from './original-render-batching'
 import {OriginalRenderBudget} from './original-render-budget'
 
@@ -81,9 +83,12 @@ export class OriginalEngine {
   ballMaterials = new OriginalMaterials()
   ballModels = new Map<Material, THREE.Mesh>()
   transformation = new BallTransformation()
+  pendingTransformation?:{pad:Trigger;kind:Material;frames:number}
+  transformerRearmFrames=0
   transformerVisual?: OriginalTransformerVisual
   transformerMaterials = new OriginalMaterials()
   debris?: OriginalDebris
+  lightning?:OriginalLightning
   collectibleAssets?: OriginalCollectibleAssets
   collectibleMaterials = [new OriginalMaterials(), new OriginalMaterials()]
   transformerMeshes = new Map<number, THREE.Mesh[]>()
@@ -114,7 +119,7 @@ export class OriginalEngine {
   audio = new OriginalAudio()
   observer: ResizeObserver
   frame = 0; disposed = false; loading = false; generation = 0; last = 0; accumulator = 0; emitAt = 0
-  yaw = Math.PI / 2; targetYaw = Math.PI / 2; follow = new THREE.Vector3(); elapsed = 0; padCooldown = 0; messageUntil = 0
+  yaw = Math.PI / 2; targetYaw = Math.PI / 2; follow = new THREE.Vector3(); elapsed = 0; messageUntil = 0
   checkpointMaterial: Material = 'wood'
   shadowLight = new THREE.DirectionalLight(0xffffff, 1.6)
   sky?: THREE.CubeTexture
@@ -163,6 +168,8 @@ export class OriginalEngine {
       mesh.castShadow = true; mesh.receiveShadow = true; this.ballModels.set(kind, mesh)
     }
     this.debris = new OriginalDebris(balls, materials);batchOriginalScene(this.debris.group); this.scene.add(this.debris.group)
+    this.lightning=new OriginalLightning(balls,this.ballMaterials.textures)
+    this.scene.add(this.lightning.group,this.lightning.light)
     const animation = await loadOriginal('animtrafo')
     const animationMaterials = await this.transformerMaterials.create(animation)
     if (this.disposed) { this.transformerMaterials.dispose(); return }
@@ -240,14 +247,19 @@ export class OriginalEngine {
       for(const item of this.sacks) for(const part of item.parts) add(item.name,part.mesh)
       for(const item of this.arms) add(item.name,item.mesh)
       for(const item of this.swings) add(item.name,item.mesh)
-      this.native=new OriginalIvpRuntime(this.nativeModule,document,this.ballsDocument!,new Map(modules.map(m=>[m.name,m.document])),visuals)
+      this.native=new OriginalIvpRuntime(this.nativeModule,document,this.ballsDocument!,new Map(modules.map(m=>[m.name,m.document])),visuals,{physicalizePlayer:false})
     }
     this.state = { phase: 'playing', level: index, lives: 3, time: 500, score: 1000, material: 'wood', checkpoint: 0, speed: 0, message: '' }
     this.checkpointMaterial = 'wood'; this.elapsed = 0; this.yaw = this.targetYaw = Math.PI / 2
     this.body = this.physics.createRigidBody(RAPIER.RigidBodyDesc.dynamic().setCcdEnabled(true).setCanSleep(false))
     // Start timing at the next RAF timestamp. performance.now() can be later
     // than the timestamp of an already queued RAF callback after asset loading.
-    this.transform('wood', false); this.respawn();batchOriginalScene(this.worldGroup);batchOriginalScene(this.ball); this.loading = false; this.last = 0; this.accumulator = 0
+    this.respawn(!!this.native);batchOriginalScene(this.worldGroup);batchOriginalScene(this.ball); this.loading = false; this.last = 0; this.accumulator = 0
+    if(this.native) {
+      // Init Ingame enters New Ball directly. No falling phase or spare-life
+      // deduction; the new body's formation precedes physicalization/input.
+      this.respawnSequence.beginInitial()
+    }
     this.audio.music.start(index);this.musicProximity=new OriginalProximity(musicData.proximity);this.musicInitialExit=true;this.musicResetAge=0
     this.audio.paused = false; this.audio.sync(); this.audio.effect('Misc_StartLevel'); this.emit()
   }
@@ -354,16 +366,16 @@ export class OriginalEngine {
     })
     const flames = new OriginalFlames(origins, this.flameTexture); this.flames.push(flames); this.worldGroup.add(flames.points)
   }
-  transform(kind: Material, sound = true) {
+  transform(kind: Material, sound = true, physicalize = true) {
     if (!this.body) return
     this.state.material = kind; this.ball.clear(); const model = this.ballModels.get(kind); if (model) this.ball.add(model)
     const vertices = model?.geometry.attributes.position?.array as Float32Array | undefined
     replacePlayerCollider(this.physics!, this.body, kind, vertices)
-    if(this.native) {this.moveNativeCaptured();this.native.material(kind);this.syncNativePlayer()}
+    if(this.native) {this.moveNativeCaptured();this.native.material(kind,physicalize);this.syncNativePlayer()}
     if (sound) this.audio.effect('Misc_Trafo')
   }
   respawn(hold=false,resetSector=true) {
-    if(!hold)this.respawnSequence.reset()
+    if(!hold){this.respawnSequence.reset();this.lightning?.reset();this.audio.stop('Misc_Lightning')}
     this.musicResetAge=musicData.resetDelayMs/1000;this.musicProximity.restart()
     this.endingAge=undefined
     this.ufo?.reset();this.endingCamera.reset()
@@ -373,18 +385,16 @@ export class OriginalEngine {
     if (this.physics) this.debris?.clear(this.physics)
     const point = originalPosition(this.resets[this.state.checkpoint] || this.resets[0]!)
     this.body.setTranslation(point, true); this.body.setLinvel({ x: 0, y: 0, z: 0 }, true); this.body.setAngvel({ x: 0, y: 0, z: 0 }, true); this.body.setRotation({ x: 0, y: 0, z: 0, w: 1 }, true)
-    this.transform(this.checkpointMaterial, false); this.follow.copy(point); this.ball.position.copy(point)
+    this.transform(this.checkpointMaterial, false, !this.native); this.follow.copy(point); this.ball.position.copy(point)
     if(resetSector)this.resetSectorObjects()
     this.cancelPointExtras()
     this.armCheckpoint()
-    this.padCooldown = this.elapsed + 1
     if(this.native) {
       const reset=this.resets[this.state.checkpoint]||this.resets[0]!
       const rotation=new THREE.Quaternion().setFromRotationMatrix(new THREE.Matrix4().fromArray(reset.matrix)).normalize()
-      this.native.reset(this.state.checkpoint+1,this.checkpointMaterial,reset.matrix.slice(12,15),rotation.toArray(),false);this.syncNativePlayer()
+      this.native.reset(this.state.checkpoint+1,this.checkpointMaterial,reset.matrix.slice(12,15),rotation.toArray(),false,!hold);this.syncNativePlayer()
       this.gameCamera.reset(reset.matrix);this.cameraInputFrame=[...this.gameCamera.steeringFrame.elements]
       this.yaw=this.targetYaw=this.gameCamera.inputYaw
-      if(hold)this.native.capture()
       this.audio.contacts(this.native.sound.frame)
     }
     this.body.setEnabled(!hold);this.ball.visible=!hold
@@ -407,10 +417,15 @@ export class OriginalEngine {
     this.native?.activate(this.state.checkpoint+1,true)
   }
   beginTransformation(pad: Trigger, kind: Material) {
+    if(!this.body||this.pendingTransformation||this.transformerRearmFrames||(this.transformation.active&&!this.transformation.physicalized)||kind===this.state.material)return
+    this.pendingTransformation={pad,kind,frames:TRANSFORMATION.entryFrames}
+    this.debris?.requestTransformation(this.state.material)
+  }
+  private startTransformation(pad: Trigger, kind: Material) {
     if (!this.body) return
     // TT Set Dynamic Position subtracts its (0, -3, 0) offset in the machine's frame.
     const center = new THREE.Vector3(0, 3, 0).applyMatrix4(new THREE.Matrix4().fromArray(pad.object.matrix)).multiplyScalar(SCALE); center.z *= -1
-    if (!this.transformation.begin(this.body, this.state.material, kind, center)) return
+    if (!this.transformation.begin(this.body, this.state.material, kind, center, pad.object.matrix)) return
     this.native?.capture()
     this.transformerVisual?.begin(pad.object, this.transformerMeshes.get(pad.object.id) || [])
     this.state.speed = 0
@@ -418,20 +433,23 @@ export class OriginalEngine {
     else this.audio.roll(this.state.material,0,false)
     this.audio.effect('Misc_Trafo')
   }
-  private armCheckpoint() {
+  private armCheckpoint(activationFrames=0) {
     const checkpoint=this.checkpoints[this.state.checkpoint]
-    this.checkpointTrigger=checkpoint?new OriginalCheckpoint(checkpoint.object):undefined
+    this.checkpointTrigger=checkpoint?new OriginalCheckpoint(checkpoint.object,activationFrames):undefined
     if(this.checkpointTrigger)this.checkpointScripts[this.state.checkpoint]=this.checkpointTrigger
   }
   private reachCheckpoint() {
     this.cancelPointExtras()
     this.state.checkpoint++;this.checkpointMaterial=this.state.material
     this.audio.effect('Misc_Checkpoint');this.message('Checkpoint')
-    this.armCheckpoint()
+    this.armCheckpoint(CHECKPOINT_ACTIVATION.nextActivationFrames)
   }
   cancelTransformation() {
+    const releaseCaptured=this.transformation.active&&!this.transformation.physicalized
+    this.pendingTransformation=undefined
+    this.transformerRearmFrames=0
     this.transformation.cancel(); this.transformerVisual?.reset(); this.ball.visible = true
-    if(this.native&&this.native.player.body===undefined) {this.moveNativeCaptured();this.native.material(this.state.material);this.syncNativePlayer()}
+    if(releaseCaptured&&this.native&&this.native.player.body===undefined) {this.moveNativeCaptured();this.native.material(this.state.material);this.syncNativePlayer()}
     this.audio.stop('Misc_Trafo')
   }
   private checkPlayerDeath() {
@@ -439,7 +457,8 @@ export class OriginalEngine {
     const dead=this.native?!!this.native.deathTest.hit:!!reset&&this.body!.translation().y<originalPosition(reset).y-22
     if(!dead)return false
     if(!this.respawnSequence.begin())return true
-    this.keys.clear();this.touch={x:0,z:0,brake:false}
+    this.pendingTransformation=undefined
+    this.touch={x:0,z:0,brake:false}
     this.native?.input(new Set(),this.yaw)
     this.cancelPointExtras()
     this.audio.effect('Misc_Fall')
@@ -455,7 +474,10 @@ export class OriginalEngine {
         this.cancelTransformation();this.native?.capture();this.body!.setEnabled(false);this.ball.visible=false
         this.state.lives--;this.resetSectorObjects()
       }
-      if(event==='position-ball')this.respawn(true,false)
+      if(event==='position-ball') {
+        this.respawn(true,false)
+        this.lightning?.start(this.ball.position,dt*1000);this.audio.effect('Misc_Lightning')
+      }
       if(event==='physicalize-ball') {
         this.native?.material(this.state.material);this.body!.setEnabled(true);this.ball.visible=true
       }
@@ -474,8 +496,14 @@ export class OriginalEngine {
   }
   step(dt: number) {
     if (!this.physics || !this.body) return
+    this.lightning?.step(dt*1000)
     this.audio.stepMusic(dt)
     if(this.respawnSequence.active){this.stepRespawn(dt);return}
+    if(this.transformerRearmFrames>0)this.transformerRearmFrames--
+    if(this.pendingTransformation&&--this.pendingTransformation.frames===0) {
+      const {pad,kind}=this.pendingTransformation;this.pendingTransformation=undefined
+      this.startTransformation(pad,kind)
+    }
     if(this.finish&&this.state.checkpoint===this.checkpoints.length&&this.endingAge===undefined) {
       this.audio.music.lastCheckpoint()
       this.musicResetAge=Math.max(0,this.musicResetAge-dt)
@@ -518,13 +546,18 @@ export class OriginalEngine {
     for (const fan of this.fans) { fan.step(player, this.state.checkpoint + 1, dt); this.audio.fan(fan.name, fan.soundGain) }
     this.stepCollectibles(dt)
     if (this.transformation.active) {
-      this.transformation.step(dt, kind => this.transform(kind, false), () => {
+      // The resume message is delivered after physicalization's script frame.
+      // On following frames, steering may run while the visual ring finishes.
+      const navigationResumed=this.transformation.physicalized
+      this.transformation.step(dt, kind => this.transform(kind, false, false), () => {
         const p = this.body!.translation()
         if(this.native)this.debris?.spawnIvp(this.native.world,this.state.material,new THREE.Vector3(p.x,p.y,p.z))
         else this.debris?.spawn(this.physics!, this.state.material, new THREE.Vector3(p.x, p.y, p.z))
-      })
+      },()=>{this.transformerRearmFrames=TRANSFORMATION.rearmFrames;if(this.native){this.moveNativeCaptured();this.native.material(this.state.material);this.syncNativePlayer()}})
       this.ball.visible = this.transformation.ballVisible
       this.transformerVisual?.update(this.transformation.age)
+      if (!this.transformation.active) this.transformerVisual?.reset()
+      if(!navigationResumed) {
       this.debris?.beforeStep(dt)
       if(this.native) {this.moveNativeCaptured();for(const sound of this.native.step(dt*1000))this.audio.effect(sound);this.audio.contacts(this.native.sound.frame);this.syncNativePlayer()}
       else {this.physics.timestep = dt;this.physics.step()}
@@ -533,12 +566,12 @@ export class OriginalEngine {
       if(!this.native)this.depthTest?.update()
       if(this.native)this.debris?.stepIvp(dt)
       else this.debris?.step(this.physics, dt)
-      if (!this.transformation.active) { this.transformerVisual?.reset(); this.padCooldown = this.elapsed + .3 }
       return
+      }
     }
     let x = Number(this.keys.has('arrowright') || this.keys.has('d')) - Number(this.keys.has('arrowleft') || this.keys.has('a')) + this.touch.x
     let z = Number(this.keys.has('arrowdown') || this.keys.has('s')) - Number(this.keys.has('arrowup') || this.keys.has('w')) + this.touch.z
-    if (this.keys.has('shift')) { x = 0; z = 0 }
+    if (this.keys.has('shift')||this.pendingTransformation) { x = 0; z = 0 }
     // Original arrow keys create independent axis controllers, including diagonal input.
     x = THREE.MathUtils.clamp(x, -1, 1); z = THREE.MathUtils.clamp(z, -1, 1)
     const dx = x * Math.cos(this.yaw) + z * Math.sin(this.yaw), dz = z * Math.cos(this.yaw) - x * Math.sin(this.yaw)
@@ -548,7 +581,7 @@ export class OriginalEngine {
     // Original force controllers remain active in the air; contact friction supplies rolling torque.
     if(this.native) {
       const held=new Set<OriginalDriveKey>()
-      if(!this.keys.has('shift')) {
+      if(!this.keys.has('shift')&&!this.pendingTransformation) {
         if(this.keys.has('arrowleft')||this.keys.has('a')||this.touch.x<0) held.add('left')
         if(this.keys.has('arrowright')||this.keys.has('d')||this.touch.x>0) held.add('right')
         if(this.keys.has('arrowup')||this.keys.has('w')||this.touch.z<0) held.add('forward')
@@ -569,12 +602,10 @@ export class OriginalEngine {
     const position = this.body.translation(), velocity = this.body.linvel()
     this.state.speed = Math.hypot(velocity.x, velocity.z)
     this.state.score = Math.floor(this.state.time * 2)
-    for (const pad of this.pads) {
-      const distance = Math.hypot(position.x - pad.position.x, position.y - pad.position.y, position.z - pad.position.z)
-      if (distance < 4.3 * SCALE && position.y > pad.position.y && this.elapsed > this.padCooldown) {
+    const pad=nearestOriginalTransformer(this.pads,position)
+    if(pad) {
         const kind = /Stone/.test(pad.object.name) ? 'stone' : /Paper/.test(pad.object.name) ? 'paper' : 'wood'
         if (this.state.material !== kind) { this.beginTransformation(pad, kind); return }
-      }
     }
     const reachedFinish=this.native?this.native.finish?.stage==='departing':this.finish&&Math.hypot(position.x-this.finish.position.x,position.z-this.finish.position.z)<3&&Math.abs(position.y-this.finish.position.y)<3
     if (reachedFinish && this.state.checkpoint === this.checkpoints.length) {
@@ -606,6 +637,7 @@ export class OriginalEngine {
     }
     if (this.body) {
       const p = this.body.translation(); this.ball.position.set(p.x, p.y, p.z); this.ball.quaternion.copy(this.body.rotation())
+      if(this.lightning?.state.active)this.lightning.follow(this.ball.position)
       if(!this.native)for (const item of this.dynamics) { item.mesh.position.copy(item.body.translation()); item.mesh.quaternion.copy(item.body.rotation()) }
       this.native?.syncVisuals()
       if(this.ufo?.hidePlayer)this.ball.visible=false
@@ -686,7 +718,7 @@ export class OriginalEngine {
       pickup.visual.point.cancel();if(pickup.mesh)pickup.mesh.visible=false
     }
   }
-  pause() { if (this.loading) return; if (this.state.phase === 'playing') this.state.phase = 'paused'; else if (this.state.phase === 'paused') this.state.phase = 'playing'; this.last=0;this.keys.clear();this.touch={x:0,z:0,brake:false}; this.audio.paused = this.state.phase !== 'playing'; this.audio.sync(); if (this.transformation.active) this.audio.resumeEffect('Misc_Trafo'); this.emit() }
+  pause() { if (this.loading) return; if (this.state.phase === 'playing') this.state.phase = 'paused'; else if (this.state.phase === 'paused') this.state.phase = 'playing'; this.last=0;this.keys.clear();this.touch={x:0,z:0,brake:false}; this.audio.paused = this.state.phase !== 'playing'; this.audio.sync(); if (this.transformation.active) this.audio.resumeEffect('Misc_Trafo'); if(this.lightning?.state.active)this.audio.resumeEffect('Misc_Lightning'); this.emit() }
   private completeCourse() {
     this.state.score=(this.state.level+1)*100+Math.floor(this.state.time*2)+this.state.lives*200
     this.state.phase='won';this.audio.paused=true;this.audio.sync();this.emit()
@@ -707,7 +739,12 @@ export class OriginalEngine {
     if (/^(INPUT|TEXTAREA|SELECT)$/.test((event.target as HTMLElement)?.tagName)) return
     const key = event.code==='Escape'?'escape':event.code==='Enter'?'enter':originalEngineKey(event.code,this.controls)
     if(!key)return
-    if(this.respawnSequence.active&&this.state.phase==='playing'){event.preventDefault();return}
+    if(this.respawnSequence.active&&this.state.phase==='playing'){
+      // Key Event polls physical key state when reactivated. Keep held controls
+      // here; stepRespawn still submits no drive input until formation ends.
+      if(originalEngineKey(event.code,this.controls))this.keys.add(key)
+      event.preventDefault();return
+    }
     if(this.endingAge!==undefined&&this.state.phase==='playing'&&this.endingAge*1000>=finishData.presentation.skyFadeMs&&['escape','enter',' '].includes(key)) {
       event.preventDefault();this.completeCourse();return
     }
@@ -726,6 +763,7 @@ export class OriginalEngine {
   blur = () => { this.keys.clear(); if (this.state.phase === 'playing') this.pause() }
   resize = () => { const w = this.host.clientWidth, h = this.host.clientHeight; this.camera.aspect = w / Math.max(h, 1); this.camera.updateProjectionMatrix();this.renderer.setPixelRatio(this.renderBudget.configure(w,h,devicePixelRatio,this.settings.quality,this.coarsePointer)); this.renderer.setSize(w, h) }
   clearLevel() {
+    this.lightning?.reset();this.audio.stop('Misc_Lightning')
     this.respawnSequence.reset();this.respawnFilter.style.display='none'
     this.endingAge=undefined
     this.endingCamera.reset()
@@ -761,6 +799,7 @@ export class OriginalEngine {
     this.body.setLinvel({x:velocity[0]!*.5,y:velocity[1]!*.5,z:-velocity[2]!*.5},true)
   }
   destroy() {
+    this.lightning?.dispose()
     this.respawnFilter.remove()
     this.disposed = true; this.generation++; cancelAnimationFrame(this.frame); this.observer.disconnect()
     window.removeEventListener('keydown', this.keydown); window.removeEventListener('keyup', this.keyup); window.removeEventListener('blur', this.blur); window.removeEventListener('pointerdown', this.unlock)

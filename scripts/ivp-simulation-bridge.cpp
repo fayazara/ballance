@@ -77,8 +77,13 @@ struct Simulation : public IVP_Listener_Collision {
     std::vector<Spring> springs;
     std::vector<Force> forces;
     std::vector<std::unique_ptr<IVP_Material_Simple>> materials;
-    std::vector<std::unique_ptr<IVP_SurfaceManager_Polygon>> managers;
-    std::vector<IVP_Compact_Surface *> surfaces;
+    struct Surface {
+        IVP_Compact_Surface *data;
+        std::unique_ptr<IVP_SurfaceManager_Polygon> manager;
+        explicit Surface(IVP_Compact_Surface *value):data(value),manager(std::make_unique<IVP_SurfaceManager_Polygon>(value)) {}
+        ~Surface() {manager.reset();ivp_free_aligned(data);}
+    };
+    std::map<int,std::unique_ptr<Surface>> surfaces;
     explicit Simulation(double gravity):IVP_Listener_Collision(IVP_LISTENER_COLLISION_CALLBACK_FRICTION|IVP_LISTENER_COLLISION_CALLBACK_POST_COLLISION) {
         IVP_Application_Environment config;
         auto *filters=new IVP_Meta_Collision_Filter(IVP_TRUE);
@@ -122,8 +127,7 @@ struct Simulation : public IVP_Listener_Collision {
         for(auto &spring:springs) delete spring.spring;
         for(auto &joint:joints) delete joint.constraint;
         delete environment;
-        managers.clear();
-        for (auto surface : surfaces) ivp_free_aligned(surface);
+        surfaces.clear();
     }
 };
 
@@ -162,9 +166,10 @@ static int add_object(Simulation *s, const double *d, double radius, IVP_Surface
 static int finish_surface(Simulation *s, IVP_SurfaceBuilder_Ledge_Soup &builder, const double *d, const char *group) {
     IVP_Compact_Surface *surface = builder.compile();
     if (!surface) return 0;
-    s->surfaces.push_back(surface);
-    s->managers.push_back(std::make_unique<IVP_SurfaceManager_Polygon>(surface));
-    return add_object(s,d,0,s->managers.back().get(),group);
+    auto owned=std::make_unique<Simulation::Surface>(surface);
+    const int id=add_object(s,d,0,owned->manager.get(),group);
+    if(id)s->surfaces.emplace(id,std::move(owned));
+    return id;
 }
 
 static IVP_Real_Object *get_object(Simulation *s, int id) {
@@ -182,7 +187,13 @@ static bool insert_convex(IVP_SurfaceBuilder_Ledge_Soup &builder, int count, con
 }
 
 extern "C" {
-BRIDGE_EXPORT int ivp_bridge_abi() { return 7; }
+BRIDGE_EXPORT int ivp_bridge_abi() { return 8; }
+BRIDGE_EXPORT int ivp_resources(Simulation *s,double *out) {
+    if(!s||!out)return 0;
+    out[0]=std::count_if(s->objects.begin(),s->objects.end(),[](auto *body){return body!=nullptr;});
+    out[1]=std::count_if(s->materials.begin(),s->materials.end(),[](const auto &material){return bool(material);});
+    out[2]=s->surfaces.size();return 1;
+}
 BRIDGE_EXPORT Simulation *ivp_new(double gravity) { return std::isfinite(gravity) ? new Simulation(gravity) : nullptr; }
 BRIDGE_EXPORT void ivp_delete(Simulation *s) { delete s; }
 BRIDGE_EXPORT double ivp_time(Simulation *s) {return s?s->environment->get_current_time().get_time():NAN;}
@@ -285,7 +296,8 @@ BRIDGE_EXPORT int ivp_remove(Simulation *s, int id) {
     for(auto &joint:s->joints) if(joint.constraint && (joint.reference==id || joint.attached==id)) {
         delete joint.constraint; joint.constraint=nullptr;
     }
-    body->delete_silently(); s->objects[id-1]=nullptr; return 1;
+    body->delete_silently(); s->objects[id-1]=nullptr;
+    s->surfaces.erase(id);s->materials[id-1].reset();return 1;
 }
 BRIDGE_EXPORT int ivp_pair(Simulation *s,int first,int second,int enabled) {
     auto *a=get_object(s,first),*b=get_object(s,second);

@@ -352,7 +352,7 @@ export function inspectOriginal(engine: OriginalEngine) {
   button('Force fall', () => { const p = engine.body!.translation(); engine.body!.setTranslation({ ...p, y: p.y - 80 }, true); run(.1) })
   button('Next checkpoint', () => { const point = engine.checkpoints[engine.state.checkpoint]?.position; if (!point) return; engine.body!.setTranslation({ x: point.x, y: point.y + .7, z: point.z }, true); engine.body!.setLinvel({ x: 0, y: 0, z: 0 }, true); run(.1) })
   button('First extra', () => { const point = engine.pickups.find(p => p.object.name.includes('Point') && !p.taken)?.position; if (!point) return; engine.body!.setTranslation(point, true); engine.body!.setLinvel({ x: 0, y: 0, z: 0 }, true); run(1.8) })
-  for (const name of ['Stone', 'Wood', 'Paper']) button(`${name} transformer`, () => { engine.cancelTransformation(); const pad = engine.pads.find(p => p.object.name.includes(name)); if (!pad) return; const p = originalPosition(pad.object); engine.body!.setTranslation({ x: p.x + .6, y: p.y + .8, z: p.z + .3 }, true); engine.body!.setLinvel({ x: 0, y: 0, z: 0 }, true); engine.padCooldown = 0; run(.2) })
+  for (const name of ['Stone', 'Wood', 'Paper']) button(`${name} transformer`, () => { engine.cancelTransformation(); const pad = engine.pads.find(p => p.object.name.includes(name)); if (!pad) return; const p = originalPosition(pad.object); engine.body!.setTranslation({ x: p.x + .6, y: p.y + .8, z: p.z + .3 }, true); engine.body!.setLinvel({ x: 0, y: 0, z: 0 }, true); run(.2) })
   for (const life of [true, false]) button(life ? 'View extra life' : 'View extra points', () => {
     engine.cancelTransformation()
     const point = engine.pickups.find(p => p.object.name.includes(life ? 'Life' : 'Point') && !p.taken)?.position

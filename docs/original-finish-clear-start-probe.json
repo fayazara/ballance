@@ -1,0 +1,1593 @@
+{
+  "localStart": [
+    24,
+    3.1,
+    0
+  ],
+  "cases": [
+    {
+      "level": 1,
+      "material": "wood",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.3373811343698896,
+      "boarded": 128,
+      "touched": true,
+      "position": [
+        790.7287670546864,
+        -9.93193119971808,
+        -874.2131417694204
+      ],
+      "finish": [
+        791.4525649145619,
+        -10.042583422923032,
+        -873.7116288395952
+      ],
+      "grounded": true
+    },
+    {
+      "level": 1,
+      "material": "stone",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.3373811343698896,
+      "boarded": 137,
+      "touched": true,
+      "position": [
+        742.70784714822,
+        -22.530320449215903,
+        -873.8279642563889
+      ],
+      "finish": [
+        743.4306808381134,
+        -22.64386055671039,
+        -873.3253598187677
+      ],
+      "grounded": true
+    },
+    {
+      "level": 1,
+      "material": "paper",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.3373811343698896,
+      "boarded": 113,
+      "touched": true,
+      "position": [
+        808.2078480594059,
+        -5.1046591255906435,
+        -873.4481661131118
+      ],
+      "finish": [
+        808.9329569349488,
+        -5.15236362772756,
+        -873.7754500348036
+      ],
+      "grounded": true
+    },
+    {
+      "level": 2,
+      "material": "wood",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.093404388427736,
+      "boarded": 129,
+      "touched": true,
+      "position": [
+        1668.2873703587427,
+        30.59438016269377,
+        73.6775037759899
+      ],
+      "finish": [
+        1669.0114181606639,
+        30.483753206616747,
+        74.17900929567625
+      ],
+      "grounded": true
+    },
+    {
+      "level": 2,
+      "material": "stone",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.093404388427736,
+      "boarded": 125,
+      "touched": true,
+      "position": [
+        1620.252486507001,
+        17.99109102560936,
+        74.06236024386624
+      ],
+      "finish": [
+        1620.9753231014004,
+        17.877559218048297,
+        74.56496234650831
+      ],
+      "grounded": true
+    },
+    {
+      "level": 2,
+      "material": "paper",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.093404388427736,
+      "boarded": 113,
+      "touched": true,
+      "position": [
+        1685.7905447211747,
+        35.46407499390342,
+        74.61278009534323
+      ],
+      "finish": [
+        1686.4572053169375,
+        35.365351636381895,
+        74.1153299916324
+      ],
+      "grounded": true
+    },
+    {
+      "level": 3,
+      "material": "wood",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.3307956898531375,
+      "boarded": 127,
+      "touched": true,
+      "position": [
+        1928.3610263832413,
+        -462.707749299881,
+        -142.2437449953135
+      ],
+      "finish": [
+        1929.084122258683,
+        -462.8184687919295,
+        -141.74225482114937
+      ],
+      "grounded": true
+    },
+    {
+      "level": 3,
+      "material": "stone",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.3307956898531375,
+      "boarded": 137,
+      "touched": true,
+      "position": [
+        1880.0522543063441,
+        -475.33132154193635,
+        -141.85855928069037
+      ],
+      "finish": [
+        1880.775093358229,
+        -475.4448393507574,
+        -141.35595752034868
+      ],
+      "grounded": true
+    },
+    {
+      "level": 3,
+      "material": "paper",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.3307956898531375,
+      "boarded": 114,
+      "touched": true,
+      "position": [
+        1945.5681336940372,
+        -457.9163417650391,
+        -141.46413525799704
+      ],
+      "finish": [
+        1946.2365917368086,
+        -457.96798961321264,
+        -141.80571688712868
+      ],
+      "grounded": true
+    },
+    {
+      "level": 4,
+      "material": "wood",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.498620401302689,
+      "boarded": 129,
+      "touched": true,
+      "position": [
+        2492.066040776196,
+        -372.99381847697606,
+        -614.1605915850042
+      ],
+      "finish": [
+        2492.788637766365,
+        -373.10505699002994,
+        -614.6124640976624
+      ],
+      "grounded": true
+    },
+    {
+      "level": 4,
+      "material": "stone",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.498620401302689,
+      "boarded": 212,
+      "touched": true,
+      "position": [
+        2444.0320749415,
+        -385.5815977692266,
+        -614.6213532044654
+      ],
+      "finish": [
+        2444.7549379408497,
+        -385.6948928908823,
+        -614.118735678151
+      ],
+      "grounded": true
+    },
+    {
+      "level": 4,
+      "material": "paper",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.498620401302689,
+      "boarded": 114,
+      "touched": true,
+      "position": [
+        2509.5214216415893,
+        -368.16989682356194,
+        -614.357672388384
+      ],
+      "finish": [
+        2510.256284653834,
+        -368.2223081845703,
+        -614.570828668813
+      ],
+      "grounded": true
+    },
+    {
+      "level": 5,
+      "material": "wood",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.498580554885933,
+      "boarded": 129,
+      "touched": true,
+      "position": [
+        1405.86407238667,
+        -112.55967425193174,
+        -38.87057194964607
+      ],
+      "finish": [
+        1406.5870715306355,
+        -112.67088875830291,
+        -39.32247043185337
+      ],
+      "grounded": true
+    },
+    {
+      "level": 5,
+      "material": "stone",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.498580554885933,
+      "boarded": 212,
+      "touched": true,
+      "position": [
+        1357.834212444888,
+        -125.14668582482616,
+        -39.33126706953479
+      ],
+      "finish": [
+        1358.557075372683,
+        -125.25998115789983,
+        -38.82864953836939
+      ],
+      "grounded": true
+    },
+    {
+      "level": 5,
+      "material": "paper",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.498580554885933,
+      "boarded": 114,
+      "touched": true,
+      "position": [
+        1423.2678887298664,
+        -107.72038067523971,
+        -39.569365188966614
+      ],
+      "finish": [
+        1424.0518708195402,
+        -107.78307257451111,
+        -39.28090771673758
+      ],
+      "grounded": true
+    },
+    {
+      "level": 6,
+      "material": "wood",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0935959005301297,
+      "boarded": 129,
+      "touched": true,
+      "position": [
+        515.5474068860408,
+        -31.77021327329295,
+        -223.52511805651312
+      ],
+      "finish": [
+        515.0458994459832,
+        -31.880840320871982,
+        -222.80107175703932
+      ],
+      "grounded": true
+    },
+    {
+      "level": 6,
+      "material": "stone",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0935959005301297,
+      "boarded": 125,
+      "touched": true,
+      "position": [
+        515.1627308803521,
+        -44.37815247740513,
+        -271.61260536556415
+      ],
+      "finish": [
+        514.6601303932861,
+        -44.49167765952839,
+        -270.8897666576542
+      ],
+      "grounded": true
+    },
+    {
+      "level": 6,
+      "material": "paper",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0935959005301297,
+      "boarded": 112,
+      "touched": true,
+      "position": [
+        514.8477788413053,
+        -26.89947367675097,
+        -205.25273914528884
+      ],
+      "finish": [
+        515.1151620976826,
+        -26.910148045948475,
+        -204.54534925030865
+      ],
+      "grounded": true
+    },
+    {
+      "level": 7,
+      "material": "wood",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0936006704296988,
+      "boarded": 129,
+      "touched": true,
+      "position": [
+        1484.662147653884,
+        32.26000856996881,
+        70.94850848995695
+      ],
+      "finish": [
+        1485.3859985166534,
+        32.14935054211069,
+        71.449939033857
+      ],
+      "grounded": true
+    },
+    {
+      "level": 7,
+      "material": "stone",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0936006704296988,
+      "boarded": 125,
+      "touched": true,
+      "position": [
+        1436.5572337397962,
+        19.650881650067195,
+        71.33302308293148
+      ],
+      "finish": [
+        1437.2800736525794,
+        19.537360431879474,
+        71.83562277759476
+      ],
+      "grounded": true
+    },
+    {
+      "level": 7,
+      "material": "paper",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0936006704296988,
+      "boarded": 114,
+      "touched": true,
+      "position": [
+        1501.9049742543793,
+        37.13907267276604,
+        71.84642784380947
+      ],
+      "finish": [
+        1502.6048064179895,
+        37.01100349009677,
+        71.38641150735334
+      ],
+      "grounded": true
+    },
+    {
+      "level": 8,
+      "material": "wood",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.093406295776367,
+      "boarded": 129,
+      "touched": true,
+      "position": [
+        863.8037371064523,
+        -5.445673344769143,
+        -892.1914088037345
+      ],
+      "finish": [
+        864.3052426843407,
+        -5.55630033346023,
+        -892.9154564948032
+      ],
+      "grounded": true
+    },
+    {
+      "level": 8,
+      "material": "stone",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.093406295776367,
+      "boarded": 125,
+      "touched": true,
+      "position": [
+        864.1887221240503,
+        -18.075988203078946,
+        -843.8079710886634
+      ],
+      "finish": [
+        864.6913205394775,
+        -18.18950470723123,
+        -844.5308127294119
+      ],
+      "grounded": true
+    },
+    {
+      "level": 8,
+      "material": "paper",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.093406295776367,
+      "boarded": 112,
+      "touched": true,
+      "position": [
+        864.6474812449662,
+        -0.5629029954386927,
+        -909.6136306983574
+      ],
+      "finish": [
+        864.2414945937367,
+        -0.6542179943406174,
+        -910.4053701608682
+      ],
+      "grounded": true
+    },
+    {
+      "level": 9,
+      "material": "wood",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0934124808322934,
+      "boarded": 129,
+      "touched": true,
+      "position": [
+        918.8445263866514,
+        -62.40676675761215,
+        783.8522870856374
+      ],
+      "finish": [
+        919.5685742569339,
+        -62.5173936987878,
+        784.353792504105
+      ],
+      "grounded": true
+    },
+    {
+      "level": 9,
+      "material": "stone",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0934124808322934,
+      "boarded": 125,
+      "touched": true,
+      "position": [
+        870.6278412592462,
+        -75.02308220585253,
+        784.2368662071392
+      ],
+      "finish": [
+        871.3506723713648,
+        -75.13666553539761,
+        784.7394645006449
+      ],
+      "grounded": true
+    },
+    {
+      "level": 9,
+      "material": "paper",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0934124808322934,
+      "boarded": 114,
+      "touched": true,
+      "position": [
+        936.2434958278361,
+        -57.58805368806454,
+        784.78112558771
+      ],
+      "finish": [
+        936.8803609687737,
+        -57.65505082955474,
+        784.2901563369464
+      ],
+      "grounded": true
+    },
+    {
+      "level": 10,
+      "material": "wood",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0934275992389906,
+      "boarded": 129,
+      "touched": true,
+      "position": [
+        780.4614628972536,
+        -40.17605146723203,
+        -989.4541419465176
+      ],
+      "finish": [
+        780.9629683486255,
+        -40.286678423697445,
+        -990.1781897472371
+      ],
+      "grounded": true
+    },
+    {
+      "level": 10,
+      "material": "stone",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0934275992389906,
+      "boarded": 125,
+      "touched": true,
+      "position": [
+        780.8457951742382,
+        -52.780517299515374,
+        -941.4005771349887
+      ],
+      "finish": [
+        781.348324449726,
+        -52.89408232230665,
+        -942.1234097756414
+      ],
+      "grounded": true
+    },
+    {
+      "level": 10,
+      "material": "paper",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0934275992389906,
+      "boarded": 112,
+      "touched": true,
+      "position": [
+        781.3953614764414,
+        -35.30011008406697,
+        -1006.9137377244745
+      ],
+      "finish": [
+        780.8991937558061,
+        -35.38246726244272,
+        -1007.6987956678391
+      ],
+      "grounded": true
+    },
+    {
+      "level": 11,
+      "material": "wood",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0934165684816977,
+      "boarded": 129,
+      "touched": true,
+      "position": [
+        1484.4300022639256,
+        -223.64944925302956,
+        -741.1937473229481
+      ],
+      "finish": [
+        1484.9315077169751,
+        -223.76007615926014,
+        -741.9177951092942
+      ],
+      "grounded": true
+    },
+    {
+      "level": 11,
+      "material": "stone",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0934165684816977,
+      "boarded": 125,
+      "touched": true,
+      "position": [
+        1484.8146132907746,
+        -236.25957628760744,
+        -693.0683806562193
+      ],
+      "finish": [
+        1485.3172134590639,
+        -236.3730835602733,
+        -693.7912224803149
+      ],
+      "grounded": true
+    },
+    {
+      "level": 11,
+      "material": "paper",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0934165684816977,
+      "boarded": 112,
+      "touched": true,
+      "position": [
+        1484.9925061550725,
+        -218.72807996840788,
+        -758.5734444524916
+      ],
+      "finish": [
+        1484.867737932207,
+        -218.85672142259395,
+        -759.3879105415871
+      ],
+      "grounded": true
+    },
+    {
+      "level": 12,
+      "material": "wood",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0641957143308045,
+      "boarded": 130,
+      "touched": true,
+      "position": [
+        15.329934782502717,
+        -156.32056520997887,
+        645.1957242658422
+      ],
+      "finish": [
+        14.606385371398261,
+        -156.4317652042073,
+        645.6476544954137
+      ],
+      "grounded": true
+    },
+    {
+      "level": 12,
+      "material": "stone",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0641957143308045,
+      "boarded": 149,
+      "touched": true,
+      "position": [
+        63.18597889765179,
+        -168.90190141420373,
+        645.6599677152303
+      ],
+      "finish": [
+        62.463140423331865,
+        -169.01543695953703,
+        645.1573691463317
+      ],
+      "grounded": true
+    },
+    {
+      "level": 12,
+      "material": "paper",
+      "durationSeconds": 20,
+      "fps": 60,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0641957143308045,
+      "boarded": 119,
+      "touched": true,
+      "position": [
+        -1.6179382899031887,
+        -151.52076143802586,
+        646.0691932232359
+      ],
+      "finish": [
+        -2.3858942919112875,
+        -151.59910949953402,
+        645.6058311437857
+      ],
+      "grounded": true
+    },
+    {
+      "level": 1,
+      "material": "wood",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.3373811343698896,
+      "boarded": 243,
+      "touched": true,
+      "position": [
+        791.0792050529626,
+        -9.89955098527854,
+        -874.2139351217112
+      ],
+      "finish": [
+        791.8032535428254,
+        -10.010185509610631,
+        -873.7124325235604
+      ],
+      "grounded": true
+    },
+    {
+      "level": 1,
+      "material": "stone",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.3373811343698896,
+      "boarded": 274,
+      "touched": true,
+      "position": [
+        742.7653272462798,
+        -22.525413120846597,
+        -873.8286520719349
+      ],
+      "finish": [
+        743.4881656268142,
+        -22.63893734196439,
+        -873.3260507791088
+      ],
+      "grounded": true
+    },
+    {
+      "level": 1,
+      "material": "paper",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.3373811343698896,
+      "boarded": 221,
+      "touched": true,
+      "position": [
+        808.169453828072,
+        -5.135317733385995,
+        -873.4933531693906
+      ],
+      "finish": [
+        808.8637699525348,
+        -5.164415550433673,
+        -873.7754422269736
+      ],
+      "grounded": true
+    },
+    {
+      "level": 2,
+      "material": "wood",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.093404388427736,
+      "boarded": 239,
+      "touched": true,
+      "position": [
+        1668.5912241896735,
+        30.625896311883675,
+        74.52586258906115
+      ],
+      "finish": [
+        1669.3143452995446,
+        30.51468630243734,
+        74.07395487618828
+      ],
+      "grounded": true
+    },
+    {
+      "level": 2,
+      "material": "stone",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.093404388427736,
+      "boarded": 247,
+      "touched": true,
+      "position": [
+        1620.2640047800865,
+        17.99177794006642,
+        74.06172532753149
+      ],
+      "finish": [
+        1620.986878308964,
+        17.878229838143728,
+        74.56387048921806
+      ],
+      "grounded": true
+    },
+    {
+      "level": 2,
+      "material": "paper",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.093404388427736,
+      "boarded": 220,
+      "touched": true,
+      "position": [
+        1686.4708326609477,
+        35.428181405311854,
+        74.26975752063633
+      ],
+      "finish": [
+        1687.1129826490144,
+        35.3768433158532,
+        74.11199922733
+      ],
+      "grounded": true
+    },
+    {
+      "level": 3,
+      "material": "wood",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.3307956898531375,
+      "boarded": 245,
+      "touched": true,
+      "position": [
+        1928.397744978412,
+        -462.7003121340156,
+        -141.39509735148656
+      ],
+      "finish": [
+        1929.1212945606364,
+        -462.8115150276953,
+        -141.84702658335635
+      ],
+      "grounded": true
+    },
+    {
+      "level": 3,
+      "material": "stone",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.3307956898531375,
+      "boarded": 273,
+      "touched": true,
+      "position": [
+        1880.1908939946297,
+        -475.3203335054701,
+        -141.85895881904912
+      ],
+      "finish": [
+        1880.913731862979,
+        -475.43386099409736,
+        -141.3563575839555
+      ],
+      "grounded": true
+    },
+    {
+      "level": 3,
+      "material": "paper",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.3307956898531375,
+      "boarded": 220,
+      "touched": true,
+      "position": [
+        1946.354255173322,
+        -457.67176197293094,
+        -141.52613806967454
+      ],
+      "finish": [
+        1947.0625071533639,
+        -457.69782888385134,
+        -141.8194520198162
+      ],
+      "grounded": true
+    },
+    {
+      "level": 4,
+      "material": "wood",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.498620401302689,
+      "boarded": 245,
+      "touched": true,
+      "position": [
+        2492.5024363058724,
+        -372.95363046041285,
+        -614.1603511519831
+      ],
+      "finish": [
+        2493.2256721879885,
+        -373.0649200367432,
+        -614.6122183100146
+      ],
+      "grounded": true
+    },
+    {
+      "level": 4,
+      "material": "stone",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.498620401302689,
+      "boarded": 417,
+      "touched": true,
+      "position": [
+        2443.7755229484424,
+        -385.60199920714064,
+        -614.6209692353495
+      ],
+      "finish": [
+        2444.498382273255,
+        -385.71532489347055,
+        -614.1183534611486
+      ],
+      "grounded": true
+    },
+    {
+      "level": 4,
+      "material": "paper",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.498620401302689,
+      "boarded": 222,
+      "touched": true,
+      "position": [
+        2509.605290890675,
+        -368.175142487297,
+        -614.4222591690108
+      ],
+      "finish": [
+        2510.3301020642325,
+        -368.2156967566392,
+        -614.5708663105984
+      ],
+      "grounded": true
+    },
+    {
+      "level": 5,
+      "material": "wood",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.498580554885933,
+      "boarded": 246,
+      "touched": true,
+      "position": [
+        1406.286552440156,
+        -112.52081129711293,
+        -38.87039699513636
+      ],
+      "finish": [
+        1407.009880467925,
+        -112.63203076551619,
+        -39.32229255085275
+      ],
+      "grounded": true
+    },
+    {
+      "level": 5,
+      "material": "stone",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.498580554885933,
+      "boarded": 417,
+      "touched": true,
+      "position": [
+        1357.632036378827,
+        -125.16259173921705,
+        -39.33098393878844
+      ],
+      "finish": [
+        1358.3548975671529,
+        -125.2759034593333,
+        -38.82836759416944
+      ],
+      "grounded": true
+    },
+    {
+      "level": 5,
+      "material": "paper",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.498580554885933,
+      "boarded": 223,
+      "touched": true,
+      "position": [
+        1423.7157633267632,
+        -107.71446061918016,
+        -39.06453946789935
+      ],
+      "finish": [
+        1424.4160866849654,
+        -107.74326305510392,
+        -39.280331416440426
+      ],
+      "grounded": true
+    },
+    {
+      "level": 6,
+      "material": "wood",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0935959005301297,
+      "boarded": 239,
+      "touched": true,
+      "position": [
+        514.698991107441,
+        -31.740660434205573,
+        -223.23961856344198
+      ],
+      "finish": [
+        515.1508971903411,
+        -31.85187195990418,
+        -222.51653257367158
+      ],
+      "grounded": true
+    },
+    {
+      "level": 6,
+      "material": "stone",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0935959005301297,
+      "boarded": 247,
+      "touched": true,
+      "position": [
+        515.1640430715244,
+        -44.38062254466915,
+        -271.64233385144627
+      ],
+      "finish": [
+        514.661449147027,
+        -44.494158736673306,
+        -270.91949219165326
+      ],
+      "grounded": true
+    },
+    {
+      "level": 6,
+      "material": "paper",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0935959005301297,
+      "boarded": 218,
+      "touched": true,
+      "position": [
+        515.1689858854843,
+        -27.390066330863768,
+        -205.54317256080148
+      ],
+      "finish": [
+        515.1151872700652,
+        -27.449459752962714,
+        -204.78162629284677
+      ],
+      "grounded": true
+    },
+    {
+      "level": 7,
+      "material": "wood",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0936006704296988,
+      "boarded": 239,
+      "touched": true,
+      "position": [
+        1484.9280648127753,
+        32.28794521622882,
+        71.79687909492087
+      ],
+      "finish": [
+        1485.6511436652313,
+        32.17673332613728,
+        71.34497348662329
+      ],
+      "grounded": true
+    },
+    {
+      "level": 7,
+      "material": "stone",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0936006704296988,
+      "boarded": 246,
+      "touched": true,
+      "position": [
+        1436.5650165224722,
+        19.651051352796724,
+        71.33335827078282
+      ],
+      "finish": [
+        1437.287854652007,
+        19.53752794863601,
+        71.83595996689016
+      ],
+      "grounded": true
+    },
+    {
+      "level": 7,
+      "material": "paper",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0936006704296988,
+      "boarded": 219,
+      "touched": true,
+      "position": [
+        1502.8359934697176,
+        37.06571489447052,
+        71.75487297781493
+      ],
+      "finish": [
+        1503.4309076275915,
+        37.00696588189636,
+        71.40731676446023
+      ],
+      "grounded": true
+    },
+    {
+      "level": 8,
+      "material": "wood",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.093406295776367,
+      "boarded": 239,
+      "touched": true,
+      "position": [
+        864.6520350493818,
+        -5.412681447627899,
+        -892.5112654464284
+      ],
+      "finish": [
+        864.2001922875853,
+        -5.523958667846648,
+        -893.2342412876517
+      ],
+      "grounded": true
+    },
+    {
+      "level": 8,
+      "material": "stone",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.093406295776367,
+      "boarded": 246,
+      "touched": true,
+      "position": [
+        864.1881344971259,
+        -18.047177897501257,
+        -844.1767442917137
+      ],
+      "finish": [
+        864.6907345646365,
+        -18.16068479463203,
+        -844.8995861544032
+      ],
+      "grounded": true
+    },
+    {
+      "level": 8,
+      "material": "paper",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.093406295776367,
+      "boarded": 220,
+      "touched": true,
+      "position": [
+        864.7447543101815,
+        -0.5914111800435116,
+        -909.3845170166541
+      ],
+      "finish": [
+        864.2416193975748,
+        -0.6783558614362071,
+        -910.1839094861036
+      ],
+      "grounded": true
+    },
+    {
+      "level": 9,
+      "material": "wood",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0934124808322934,
+      "boarded": 239,
+      "touched": true,
+      "position": [
+        919.1578955056038,
+        -62.37437129289633,
+        784.7006052039725
+      ],
+      "finish": [
+        919.8808499238822,
+        -62.485646295219865,
+        784.2487624328763
+      ],
+      "grounded": true
+    },
+    {
+      "level": 9,
+      "material": "stone",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0934124808322934,
+      "boarded": 247,
+      "touched": true,
+      "position": [
+        870.6239970923107,
+        -75.02536098268577,
+        784.2375161046197
+      ],
+      "finish": [
+        871.3468238078092,
+        -75.13895476674337,
+        784.740118453871
+      ],
+      "grounded": true
+    },
+    {
+      "level": 9,
+      "material": "paper",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0934124808322934,
+      "boarded": 220,
+      "touched": true,
+      "position": [
+        936.8415525261195,
+        -57.225454167122756,
+        784.4560168608594
+      ],
+      "finish": [
+        937.4668413469655,
+        -57.277657195440824,
+        784.2766992197704
+      ],
+      "grounded": true
+    },
+    {
+      "level": 10,
+      "material": "wood",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0934275992389906,
+      "boarded": 239,
+      "touched": true,
+      "position": [
+        781.3097305013886,
+        -40.140885500216996,
+        -989.797830600433
+      ],
+      "finish": [
+        780.8578709591538,
+        -40.25214390597119,
+        -990.520681823944
+      ],
+      "grounded": true
+    },
+    {
+      "level": 10,
+      "material": "stone",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0934275992389906,
+      "boarded": 246,
+      "touched": true,
+      "position": [
+        781.0059966731181,
+        -52.7931077990977,
+        -941.2255036428332
+      ],
+      "finish": [
+        780.5530541730446,
+        -52.90803468822283,
+        -941.9478366902578
+      ],
+      "grounded": true
+    },
+    {
+      "level": 10,
+      "material": "paper",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0934275992389906,
+      "boarded": 220,
+      "touched": true,
+      "position": [
+        781.0529192041749,
+        -35.30741314864904,
+        -1006.6966959859731
+      ],
+      "finish": [
+        780.8992541446588,
+        -35.403563376103115,
+        -1007.4961293848232
+      ],
+      "grounded": true
+    },
+    {
+      "level": 11,
+      "material": "wood",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0934165684816977,
+      "boarded": 239,
+      "touched": true,
+      "position": [
+        1485.2782978554899,
+        -223.61652480089404,
+        -741.5129673359821
+      ],
+      "finish": [
+        1484.8264561436945,
+        -223.72779542088946,
+        -742.235879209708
+      ],
+      "grounded": true
+    },
+    {
+      "level": 11,
+      "material": "stone",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0934165684816977,
+      "boarded": 248,
+      "touched": true,
+      "position": [
+        1484.8146553428066,
+        -236.25737079074463,
+        -693.1003787127943
+      ],
+      "finish": [
+        1485.317255826449,
+        -236.37087864415832,
+        -693.8232201713455
+      ],
+      "grounded": true
+    },
+    {
+      "level": 11,
+      "material": "paper",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0934165684816977,
+      "boarded": 220,
+      "touched": true,
+      "position": [
+        1485.3710315797473,
+        -218.79363513784017,
+        -758.4068932441846
+      ],
+      "finish": [
+        1484.8678773889724,
+        -218.87989941606395,
+        -759.2059086972579
+      ],
+      "grounded": true
+    },
+    {
+      "level": 12,
+      "material": "wood",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0641957143308045,
+      "boarded": 252,
+      "touched": true,
+      "position": [
+        15.110666305018649,
+        -156.30040808875017,
+        645.1956564130018
+      ],
+      "finish": [
+        14.387116769091604,
+        -156.4116077589339,
+        645.6475866465056
+      ],
+      "grounded": true
+    },
+    {
+      "level": 12,
+      "material": "stone",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0641957143308045,
+      "boarded": 310,
+      "touched": true,
+      "position": [
+        63.34428505050479,
+        -168.91242711112054,
+        645.4993719372239
+      ],
+      "finish": [
+        62.62196269544198,
+        -169.0274188612201,
+        645.9523153122183
+      ],
+      "grounded": true
+    },
+    {
+      "level": 12,
+      "material": "paper",
+      "durationSeconds": 20,
+      "fps": 120,
+      "startDistance": 24,
+      "startHeight": 3.1,
+      "floorDistance": 3.0641957143308045,
+      "boarded": 240,
+      "touched": true,
+      "position": [
+        -1.8330135075913196,
+        -151.5181090883855,
+        646.0429663427783
+      ],
+      "finish": [
+        -2.5459258486611342,
+        -151.5879731579551,
+        645.6058657462615
+      ],
+      "grounded": true
+    }
+  ]
+}

@@ -60,6 +60,15 @@ comparison against the original game.
 Level-specific music selection, ambient/theme scheduling and checkpoint/ending
 transitions are now connected; see [original-music.md](original-music.md).
 
+The native rolling speed adapter now follows `SpeedOMeter.cpp`'s nonpositive
+delta guard: a frame duration at or below zero becomes 1 ms. Previously a
+zero-duration frame could produce NaN volume and pitch, or infinite pitch when
+the position changed. Positive sub-millisecond durations are preserved. Tests
+cover stationary and moving samples for zero, negative, and 0.5 ms durations.
+An additional contact regression verifies that deleting an obstacle's sound
+tags before consuming its contact-end event still stops its rolling loop after
+the recovered end delay; the contact manager retains the original group mapping.
+
 Still incomplete: the remaining message-driven sound activation timing, some non-player mechanism effects,
 exact waveform/pitch equivalence to Virtools/DirectSound, and full-level listening
 and playthrough verification. The native engine remains local and opt-in.

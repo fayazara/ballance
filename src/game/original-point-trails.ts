@@ -49,15 +49,19 @@ export class OriginalPointTrails {
   mesh:THREE.Points
   private positions=new Float32Array(6*POINT_TRAIL.capacity*3)
   private ages=new Float32Array(6*POINT_TRAIL.capacity)
+  private bounds=new THREE.Box3()
   constructor(material:THREE.PointsMaterial) {
     this.geometry.setAttribute('position',new THREE.BufferAttribute(this.positions,3).setUsage(THREE.DynamicDrawUsage))
     this.geometry.setAttribute('trailAge',new THREE.BufferAttribute(this.ages,1).setUsage(THREE.DynamicDrawUsage))
     this.geometry.setDrawRange(0,0)
-    this.mesh=new THREE.Points(this.geometry,material);this.mesh.frustumCulled=false
+    this.geometry.boundingSphere=new THREE.Sphere()
+    this.mesh=new THREE.Points(this.geometry,material)
   }
   update(time:number,positions?:THREE.Vector3[],active?:boolean[]) {
     this.state.update(time,positions,active)
-    this.state.dots.forEach((dot,i)=>{dot.position.toArray(this.positions,i*3);this.ages[i]=time-dot.born})
+    this.bounds.makeEmpty()
+    this.state.dots.forEach((dot,i)=>{dot.position.toArray(this.positions,i*3);this.ages[i]=time-dot.born;this.bounds.expandByPoint(dot.position)})
+    this.bounds.expandByScalar(Math.max(POINT_TRAIL.startSize,POINT_TRAIL.endSize)).getBoundingSphere(this.geometry.boundingSphere!)
     this.geometry.setDrawRange(0,this.state.dots.length)
     this.geometry.attributes.position!.needsUpdate=true;this.geometry.attributes.trailAge!.needsUpdate=true
   }

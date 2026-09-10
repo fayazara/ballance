@@ -31,6 +31,19 @@ test('native rolling follows delayed contacts and uses three-dimensional script-
   assert.deepEqual(sound.frame.rolls,[])
 })
 
+test('rolling SpeedOMeter uses the source one-millisecond fallback for nonpositive frame times',()=> {
+  for(const dt of [0,-.01,.0005]) {
+    const sound=new OriginalIvpSound(),ids=new Map([[2,{roll:2}]])
+    sound.bind(1,'wood',[0,0,0])
+    sound.step(1,'wood',[0,0,0],[contact('contactStart',2)],2,.1,ids)
+    sound.step(1,'wood',[0,0,0],[],2.31,dt,ids)
+    assert.deepEqual(sound.frame.rolls,[{name:'Roll_Wood_Wood',gain:0,pitch:data.rolling.pitchBase}])
+    sound.step(1,'wood',[.001,0,0],[],2.32,dt,ids)
+    const speed=Math.fround(Math.fround(.001)*1000/(dt<=0?1:.5))
+    assert.deepEqual(sound.frame.rolls,[{name:'Roll_Wood_Wood',gain:Math.fround(speed*data.rolling.gainMultiplier),pitch:data.rolling.pitchBase+speed*data.rolling.pitchMultiplier}])
+  }
+})
+
 test('paper obeys the shared Wave Player stop command while wood keeps independent surface loops',()=> {
   const ids=new Map([[2,{roll:1}],[3,{roll:2}]])
   for(const material of ['paper','wood'] as const) {
@@ -42,6 +55,19 @@ test('paper obeys the shared Wave Player stop command while wood keeps independe
     sound.step(1,material,[3,0,0],[],2.71,.1,ids)
     assert.deepEqual(sound.frame.rolls.map(r=>r.name),material==='paper'?[]:['Roll_Wood_Wood'])
   }
+})
+
+test('removing an obstacle sound tag does not lose the rolling contact-end event',()=> {
+  const sound=new OriginalIvpSound(),ids=new Map([[2,{roll:2}]])
+  sound.bind(1,'wood',[0,0,0])
+  sound.step(1,'wood',[0,0,0],[contact('contactStart',2)],2,.1,ids)
+  sound.step(1,'wood',[1,0,0],[],2.31,.1,ids)
+  assert.equal(sound.frame.rolls.length,1)
+  ids.delete(2)
+  sound.step(1,'wood',[1,0,0],[contact('contactEnd',2.4)],2.4,.1,ids)
+  assert.equal(sound.frame.rolls.length,1,'source contact-end delay still applies')
+  sound.step(1,'wood',[1,0,0],[],2.71,.1,ids)
+  assert.deepEqual(sound.frame.rolls,[],'stored contact membership clears the deleted obstacle loop')
 })
 
 test('impact thresholds, initial cooldown, independent IDs and normalized volume match source callbacks',()=> {

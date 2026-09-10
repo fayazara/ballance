@@ -1,0 +1,80 @@
+{
+  "sources": [
+    {
+      "path": ".local/reference/buildingblocks/Logics/Behaviors/TimeTimer.cpp",
+      "sha256": "c42b28659f57bf85aeddd1310e09bb2b83d1253696a3f77a69c9e80684afbaef"
+    },
+    {
+      "path": ".local/reference/buildingblocks/Logics/Behaviors/BezierProgression.cpp",
+      "sha256": "7c934ad6776a2323a29006fd8277004165d5cf35ae050e462d976e873ee8e8ca"
+    }
+  ],
+  "schedulesMs": [
+    [
+      100
+    ],
+    [
+      33.333333333333336
+    ],
+    [
+      16.666666666666668
+    ],
+    [
+      8.333333333333334
+    ],
+    [
+      6.944444444444445
+    ],
+    [
+      7,
+      19,
+      33,
+      9
+    ],
+    [
+      1000
+    ]
+  ],
+  "fields": [
+    "schedule",
+    "fadeStartFrame",
+    "removeFrame"
+  ],
+  "cases": [
+    [
+      0,
+      200,
+      220
+    ],
+    [
+      1,
+      600,
+      659
+    ],
+    [
+      2,
+      1201,
+      1321
+    ],
+    [
+      3,
+      2400,
+      2639
+    ],
+    [
+      4,
+      2880,
+      3167
+    ],
+    [
+      5,
+      1178,
+      1295
+    ],
+    [
+      6,
+      20,
+      22
+    ]
+  ]
+}

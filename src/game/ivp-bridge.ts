@@ -2,6 +2,7 @@
 // original game's units/axes. This does not select the playable game's backend.
 export interface IvpModule {
   _ivp_bridge_abi(): number
+  _ivp_resources(world:number,output:number):number
   HEAPF64: Float64Array
   HEAPU8: Uint8Array
   _malloc(bytes: number): number
@@ -124,7 +125,7 @@ export class IvpWorld {
   private handle: number
   private output: number
   constructor(module: IvpModule, gravity = -20) {
-    if (typeof module._ivp_bridge_abi !== 'function' || module._ivp_bridge_abi() !== 7) throw new Error('Rebuild the IVP module: bridge ABI 7 is required')
+    if (typeof module._ivp_bridge_abi !== 'function' || module._ivp_bridge_abi() !== 8) throw new Error('Rebuild the IVP module: bridge ABI 8 is required')
     this.module = module; this.handle = module._ivp_new(gravity)
     if (!this.handle) throw new Error('IVP environment creation failed')
     this.output = module._malloc(17*8)
@@ -201,6 +202,11 @@ export class IvpWorld {
   }
   step(dt = 1/66) { this.result(this.module._ivp_step(this.live,dt),'simulation step') }
   get time() { return this.module._ivp_time(this.live) }
+  get resources() {
+    this.result(this.module._ivp_resources(this.live,this.output),'resource count')
+    const [bodies,materials,surfaces]=this.module.HEAPF64.subarray(this.output/8,this.output/8+3)
+    return {bodies:bodies!,materials:materials!,surfaces:surfaces!}
+  }
   state(body: number) {
     this.result(this.module._ivp_state(this.live,body,this.output),'body state read')
     return Array.from(this.module.HEAPF64.subarray(this.output/8,this.output/8+17))

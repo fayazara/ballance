@@ -16,4 +16,36 @@ Five tests verify cutoff geometry across all twelve levels, natural free fall an
 
 ## Remaining differences
 
-The source delays one script frame between full group sweeps. The web runtime currently runs one sweep per fixed physics tick, including during transformations, consistent with its other behavior adapters. Script-clock parity and the broader sector lifecycle remain outstanding. Rapier body disabling replaces original destruction/rephysicalization; internal IVP object allocation and solver state are not replicated. These tests do not prove full level playthroughs.
+The native IVP adapter now registers Module 03's eight wall/door pieces only
+after its proximity watcher wakes the platform. Source links 418→411,
+412→474, 475→488 and 491→484 lead from wake-up through the DepthTest group
+lookup and falling-parts iterator to Add To Group. Membership remains global
+through sector reset; reconstructed native bodies inherit it. The regression
+checks absent membership before waking, all eight members afterward, natural
+fall cleanup, and registration/pose restoration after reset. Previously the
+native adapter registered the weights immediately when activating a sector.
+
+The placement regression now covers all nine authored Module 03 lifts across
+the twelve course files. For each fresh runtime it leaves the player far away
+for 70 script frames and checks that none of the lift's nine bodies is eligible
+for cleanup. It then stages the captured player at the source wake frame and
+advances proximity polling, verifying exactly eight registered weights and an
+excluded platform. Sector reset replaces all nine native handles while retaining
+the eight memberships. This checks placement transforms and registration
+lifecycle, not traversal through each lift puzzle.
+
+The native path sweeps once per script frame, before advancing physics. This
+matches the recovered frame boundary: `CKContext::Process` in the local CK2
+reference executes behaviors before manager PostProcess, and the supplied
+physics DLL's `CKIpionManager::PostProcess` performs simulation (see
+[frame timing](original-frame-timing.md)). A prop crossing the cutoff during
+simulation stays physical until the following script frame. A native regression
+launches a loose prop off the course, observes that crossing, then verifies
+destruction on the next zero-duration script frame. The previous native order
+removed it immediately after simulation, one behavior observation too early.
+
+The source delays one script frame between full group sweeps. Complete behavior
+dispatch ordering and first-activation timing remain unverified. The comparison
+Rapier path still sweeps after each fixed physics tick and disables retained
+bodies rather than destroying them. Native bodies are destroyed and rebuilt on
+reset. These checks do not prove full level playthroughs.

@@ -42,8 +42,8 @@ test('captures a moving ball, animates before swapping, and releases it without 
     assert.equal(t.material, 'wood'); assert.equal(t.changes, 0)
     assert.ok(t.body.translation().x < .1, 'ball snaps toward the center during ring opening')
     t.until(1.35)
-    assert.ok(Math.abs(t.body.translation().x) < .00001)
-    assert.ok(Math.abs(t.body.translation().y - .75) < .00001)
+    assert.ok(Math.abs(t.body.translation().x) < .001,'spring converges near the center without teleporting')
+    assert.ok(Math.abs(t.body.translation().y - .75) < .001)
     t.until(2.36)
     assert.equal(t.sequence.ballVisible, false); assert.equal(t.material, 'wood')
     t.until(2.51)
@@ -70,6 +70,51 @@ test('all six material changes work; same-material pads and overlapping triggers
     } finally { t.world.free() }
   }
 })
+test('capture Off completes its spring update and retains the residual position during the explosion delay', async () => {
+  const t = await setup()
+  try {
+    t.sequence.begin(t.body,'wood','stone',{x:0,y:.75,z:0})
+    // At 10 Hz the residual is large enough to distinguish retaining the last
+    // spring position from the former unconditional center teleport.
+    for(let i=0;i<13;i++)t.sequence.step(.1,()=>assert.fail('early replacement'))
+    const before=t.body.translation()
+    t.sequence.step(.1,()=>assert.fail('early replacement'))
+    const stopped=t.body.translation()
+    assert.notEqual(stopped.x,before.x,'Off frame still advances the spring')
+    assert.ok(Math.abs(stopped.x)>.001,'the spring has not landed exactly at its target')
+    for(let i=0;i<9;i++)t.sequence.step(.1,()=>assert.fail('early replacement'))
+    assert.deepEqual(t.body.translation(),stopped,'no position setter runs after Off')
+  } finally {t.world.free()}
+})
+test('spring activation records the starting position and moves only on the next frame',async()=>{
+  const t=await setup()
+  try {
+    t.sequence.begin(t.body,'wood','stone',{x:0,y:.75,z:0})
+    const start=t.body.translation()
+    t.sequence.step(1/60,()=>assert.fail('early replacement'))
+    assert.deepEqual(t.body.translation(),start)
+    assert.ok(t.sequence.age>0,'the concurrently activated timer still consumes this frame')
+    t.sequence.step(1/60,()=>assert.fail('early replacement'))
+    assert.ok(t.body.translation().x<start.x)
+  }finally{t.world.free()}
+})
+test('transformer stage boundaries match upstream float timers and zero-frame activation links', async () => {
+  // Compiled TimerMini.cpp oracle: scripts/verify-original-transformer-clock.py.
+  for(const [hz,capture,explosion,replacement] of [[10,14,10,2],[30,41,31,5],[60,82,60,9],[120,162,121,18],[144,195,144,22]]) {
+    const t=await setup()
+    try {
+      t.sequence.begin(t.body,'wood','stone',{x:0,y:.75,z:0})
+      const events:{frame:number;kind:string}[]=[]
+      for(let frame=1;frame<=capture!+explosion!+replacement!;frame++) {
+        t.sequence.step(1/hz!,()=>events.push({frame,kind:'replace'}),()=>events.push({frame,kind:'explode'}),()=>events.push({frame,kind:'physicalize'}))
+        assert.equal(t.sequence.ballVisible,!t.sequence.shattered||t.sequence.committed)
+        if(t.sequence.committed&&!t.sequence.physicalized){assert.ok(t.body.isFixed());assert.equal(t.body.collider(0).isEnabled(),false)}
+      }
+      assert.deepEqual(events,[{frame:capture!+explosion!-1,kind:'explode'},{frame:capture!+explosion!+replacement!-2,kind:'replace'},{frame:capture!+explosion!+replacement!,kind:'physicalize'}],`${hz} Hz`)
+      assert.ok(t.body.isDynamic());assert.equal(t.body.collider(0).isEnabled(),true)
+    } finally {t.world.free()}
+  }
+})
 test('pausing advances nothing; cancelling at any stage restores physics and prevents a late swap', async () => {
   for (const age of [.1, 1, 2.4, 2.52]) {
     const t = await setup()
@@ -85,6 +130,20 @@ test('pausing advances nothing; cancelling at any stage restores physics and pre
       assert.equal(t.changes, before.changes)
     } finally { t.world.free() }
   }
+})
+test('a rearmed transformer can start while the previous visual tail remains at high refresh rates',async()=>{
+  const t=await setup()
+  try {
+    t.sequence.begin(t.body,'wood','stone',{x:0,y:.75,z:0})
+    for(let frame=0;frame<366;frame++)t.sequence.step(1/144,()=>{})
+    assert.ok(t.sequence.physicalized)
+    assert.ok(t.sequence.active,'visual tail still running after rearm and next entry delay')
+    assert.equal(t.sequence.begin(t.body,'stone','paper',{x:1,y:.75,z:0}),true)
+    assert.equal(t.sequence.physicalized,false)
+    assert.equal(t.sequence.committed,false)
+    assert.equal(t.sequence.kind,'paper')
+    assert.equal(t.body.collider(0).isEnabled(),false)
+  } finally {t.world.free()}
 })
 test('original ring opens, travels above the ball, flashes, and returns flush with its base', () => {
   assert.equal(transformerPose(0).opening, 0)
@@ -107,4 +166,20 @@ test('imported animation handles unused material slots and restores the stationa
     for (const age of [0, .2, .35, 1.35, 2.4, 2.55]) visual.update(age)
     visual.reset(); assert.equal(machine.visible, true); assert.equal(visual.group.visible, false)
   } finally { visual.dispose(); materials.forEach(m => { m.map?.dispose(); m.dispose() }); machine.geometry.dispose(); machine.material.dispose() }
+})
+
+test('gameplay capture uses the original local-frame spring samples',async()=>{
+  const {default:oracle}=await import('../docs/original-transformer-spring-oracle.json',{with:{type:'json'}})
+  for(const dt of new Set(oracle.samples.map(row=>row[0]))){
+    const t=await setup()
+    try{
+      t.body.setTranslation({x:.8,y:.8,z:-.3},true)
+      t.sequence.begin(t.body,'wood','stone',{x:0,y:.75,z:0},new THREE.Matrix4().elements)
+      for(const row of oracle.samples.filter(row=>row[0]===dt&&row[1]!<12)){
+        t.sequence.step(dt!/1000,()=>assert.fail('early swap'))
+        const actual=t.body.translation()
+        assert.deepEqual({...actual},{x:Math.fround(row[2]!)/4,y:Math.fround(row[3]!)/4,z:-Math.fround(row[4]!)/4})
+      }
+    }finally{t.world.free()}
+  }
 })

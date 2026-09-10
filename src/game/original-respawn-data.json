@@ -1,6 +1,7 @@
 {
   "source": "Gameplay.nmo: Deactivate Ball 2499 / New Ball 2921",
   "dumpSha256": "65821ec5eab4322e5bfc1e60b58532d466c1909ab2a0f3735b6185c2a083640a",
+  "initialBallDelayFrames": 0,
   "lifeCheckDelayFrames": 2,
   "removeBallDelayMs": 1000.0,
   "newBallDelayFrames": 1,
@@ -84,6 +85,18 @@
     ]
   },
   "links": [
+    {
+      "index": 3110,
+      "delayFrames": 0,
+      "source": 1572,
+      "destination": 2949
+    },
+    {
+      "index": 2940,
+      "delayFrames": 0,
+      "source": 2949,
+      "destination": 2919
+    },
     {
       "index": 2488,
       "delayFrames": 2,

@@ -71,3 +71,17 @@ test('all 51 placed checkpoints preserve their authored center and reject overhe
   }
   assert.equal(count,51)
 })
+
+test('next checkpoint waits two script frames without consuming proximity countdowns',async()=>{
+  const {CHECKPOINT_ACTIVATION}=await import('../src/game/original-checkpoint.ts')
+  assert.equal(CHECKPOINT_ACTIVATION.nextActivationFrames,2)
+  const next=new OriginalCheckpoint(marker,CHECKPOINT_ACTIVATION.nextActivationFrames)
+  assert.equal(next.sample(next.center),false)
+  assert.equal(next.armed,false)
+  assert.equal(next.gate.remaining,1,'delayed script has not polled the ball')
+  assert.equal(next.trigger.remaining,1)
+  assert.equal(next.sample(next.center),true,'zero-delay activation chain runs on the second following frame')
+  assert.equal(next.sample(next.center),false,'the delayed checkpoint still triggers only once')
+  const first=new OriginalCheckpoint(marker)
+  assert.equal(first.sample(first.center),true,'first checkpoint has no delayed reposition link')
+})

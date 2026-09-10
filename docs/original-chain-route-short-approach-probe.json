@@ -1,0 +1,458 @@
+{
+  "conditions": {
+    "material": "wood",
+    "fps": 60,
+    "settleFrames": 12,
+    "driveFrames": 228,
+    "startLocal": [
+      -8,
+      3,
+      0.21
+    ],
+    "exitDistance": 12
+  },
+  "results": [
+    {
+      "level": 2,
+      "name": "P_Modul_29_01",
+      "sign": 1,
+      "entrance": true,
+      "touched": true,
+      "exit": true,
+      "position": [
+        992.4177546070088,
+        48.26927150783109,
+        -346.6515110185624
+      ]
+    },
+    {
+      "level": 2,
+      "name": "P_Modul_29_01",
+      "sign": -1,
+      "entrance": true,
+      "touched": true,
+      "exit": true,
+      "position": [
+        885.7410601674903,
+        49.000915915464546,
+        -347.906619032639
+      ]
+    },
+    {
+      "level": 3,
+      "name": "P_Modul_29_01",
+      "sign": 1,
+      "entrance": false,
+      "touched": true,
+      "exit": true,
+      "position": [
+        238.17522392238797,
+        -74.80355850539287,
+        93.91346968990607
+      ]
+    },
+    {
+      "level": 3,
+      "name": "P_Modul_29_01",
+      "sign": -1,
+      "entrance": true,
+      "touched": true,
+      "exit": true,
+      "position": [
+        102.71423380767237,
+        -34.96437628863727,
+        93.90693830788796
+      ]
+    },
+    {
+      "level": 4,
+      "name": "P_Modul_29_02",
+      "sign": 1,
+      "entrance": true,
+      "touched": true,
+      "exit": false,
+      "position": [
+        1775.5259697598406,
+        -234.96409891154866,
+        -685.8327520707165
+      ]
+    },
+    {
+      "level": 4,
+      "name": "P_Modul_29_02",
+      "sign": -1,
+      "entrance": true,
+      "touched": true,
+      "exit": false,
+      "position": [
+        1775.5300880836212,
+        -234.95867482355183,
+        -707.1250295097362
+      ]
+    },
+    {
+      "level": 6,
+      "name": "P_Modul_29_01",
+      "sign": 1,
+      "entrance": false,
+      "touched": true,
+      "exit": true,
+      "position": [
+        569.9128789465428,
+        -53.22676461279153,
+        -614.6948502416349
+      ]
+    },
+    {
+      "level": 6,
+      "name": "P_Modul_29_01",
+      "sign": -1,
+      "entrance": true,
+      "touched": true,
+      "exit": true,
+      "position": [
+        434.7800407274556,
+        -36.73186022056692,
+        -606.7732330315026
+      ]
+    },
+    {
+      "level": 6,
+      "name": "P_Modul_29_02",
+      "sign": 1,
+      "entrance": true,
+      "touched": true,
+      "exit": true,
+      "position": [
+        507.0426290673153,
+        -78.39547672449153,
+        -521.7971761999767
+      ]
+    },
+    {
+      "level": 6,
+      "name": "P_Modul_29_02",
+      "sign": -1,
+      "entrance": true,
+      "touched": true,
+      "exit": true,
+      "position": [
+        515.2989857434484,
+        -68.28830681626346,
+        -679.305346939663
+      ]
+    },
+    {
+      "level": 7,
+      "name": "P_Modul_29_03",
+      "sign": 1,
+      "entrance": true,
+      "touched": true,
+      "exit": true,
+      "position": [
+        826.17055737202,
+        -32.257019344683016,
+        96.53011814915706
+      ]
+    },
+    {
+      "level": 7,
+      "name": "P_Modul_29_03",
+      "sign": -1,
+      "entrance": true,
+      "touched": true,
+      "exit": true,
+      "position": [
+        665.8397832096199,
+        14.033720729884475,
+        95.22568657098151
+      ]
+    },
+    {
+      "level": 7,
+      "name": "P_Modul_29_01",
+      "sign": 1,
+      "entrance": true,
+      "touched": true,
+      "exit": true,
+      "position": [
+        358.48254983457974,
+        0.5226819048653741,
+        -74.62665148063398
+      ]
+    },
+    {
+      "level": 7,
+      "name": "P_Modul_29_01",
+      "sign": -1,
+      "entrance": true,
+      "touched": true,
+      "exit": true,
+      "position": [
+        212.892532445487,
+        -31.835687613812627,
+        -82.33660740827685
+      ]
+    },
+    {
+      "level": 7,
+      "name": "P_Modul_29_02",
+      "sign": 1,
+      "entrance": true,
+      "touched": true,
+      "exit": true,
+      "position": [
+        373.47190096510315,
+        2.4945580032064174,
+        -62.875940166839776
+      ]
+    },
+    {
+      "level": 7,
+      "name": "P_Modul_29_02",
+      "sign": -1,
+      "entrance": true,
+      "touched": true,
+      "exit": true,
+      "position": [
+        223.7796855132004,
+        8.615942798689966,
+        -62.806118069082245
+      ]
+    },
+    {
+      "level": 8,
+      "name": "P_Modul_29_03",
+      "sign": 1,
+      "entrance": true,
+      "touched": true,
+      "exit": true,
+      "position": [
+        892.2338997167994,
+        -67.47605744158686,
+        -677.7796956387771
+      ]
+    },
+    {
+      "level": 8,
+      "name": "P_Modul_29_03",
+      "sign": -1,
+      "entrance": true,
+      "touched": true,
+      "exit": false,
+      "position": [
+        892.2722584538946,
+        -78.70264905910894,
+        -515.0293723771886
+      ]
+    },
+    {
+      "level": 8,
+      "name": "P_Modul_29_01",
+      "sign": 1,
+      "entrance": true,
+      "touched": true,
+      "exit": true,
+      "position": [
+        468.94212212006545,
+        -47.93373023211497,
+        -38.0000987595387
+      ]
+    },
+    {
+      "level": 8,
+      "name": "P_Modul_29_01",
+      "sign": -1,
+      "entrance": true,
+      "touched": true,
+      "exit": true,
+      "position": [
+        308.2576240510882,
+        -22.76598659683481,
+        -38.00284733637431
+      ]
+    },
+    {
+      "level": 8,
+      "name": "P_Modul_29_02",
+      "sign": 1,
+      "entrance": true,
+      "touched": true,
+      "exit": true,
+      "position": [
+        899.9004722400841,
+        14.565198161153273,
+        -320.07161207213693
+      ]
+    },
+    {
+      "level": 8,
+      "name": "P_Modul_29_02",
+      "sign": -1,
+      "entrance": true,
+      "touched": true,
+      "exit": true,
+      "position": [
+        762.9167676554944,
+        8.501623462251484,
+        -325.2965486910222
+      ]
+    },
+    {
+      "level": 9,
+      "name": "P_Modul_29_01",
+      "sign": 1,
+      "entrance": true,
+      "touched": true,
+      "exit": true,
+      "position": [
+        351.67403412170864,
+        -141.12209263604714,
+        400.143756397039
+      ]
+    },
+    {
+      "level": 9,
+      "name": "P_Modul_29_01",
+      "sign": -1,
+      "entrance": true,
+      "touched": true,
+      "exit": true,
+      "position": [
+        219.8037585765578,
+        -98.58716539785702,
+        400.13757700995046
+      ]
+    },
+    {
+      "level": 9,
+      "name": "P_Modul_29_02",
+      "sign": 1,
+      "entrance": true,
+      "touched": true,
+      "exit": true,
+      "position": [
+        343.1018034962271,
+        -113.27378069749388,
+        467.57407721451193
+      ]
+    },
+    {
+      "level": 9,
+      "name": "P_Modul_29_02",
+      "sign": -1,
+      "entrance": true,
+      "touched": true,
+      "exit": true,
+      "position": [
+        343.10014613317543,
+        -112.67439095525076,
+        618.4060641281797
+      ]
+    },
+    {
+      "level": 10,
+      "name": "P_Modul_29_03",
+      "sign": 1,
+      "entrance": true,
+      "touched": true,
+      "exit": true,
+      "position": [
+        839.2876186288756,
+        -78.45992168645981,
+        -463.52832607013084
+      ]
+    },
+    {
+      "level": 10,
+      "name": "P_Modul_29_03",
+      "sign": -1,
+      "entrance": true,
+      "touched": true,
+      "exit": true,
+      "position": [
+        724.9879799114772,
+        -82.36061490333462,
+        -463.54452248165876
+      ]
+    },
+    {
+      "level": 10,
+      "name": "P_Modul_29_02",
+      "sign": 1,
+      "entrance": true,
+      "touched": true,
+      "exit": true,
+      "position": [
+        802.931751135663,
+        -58.79629116125517,
+        -324.7779043854242
+      ]
+    },
+    {
+      "level": 10,
+      "name": "P_Modul_29_02",
+      "sign": -1,
+      "entrance": false,
+      "touched": true,
+      "exit": false,
+      "position": [
+        803.3936643341584,
+        -92.92562326611446,
+        -483.43894463953177
+      ]
+    },
+    {
+      "level": 10,
+      "name": "P_Modul_29_01",
+      "sign": 1,
+      "entrance": false,
+      "touched": true,
+      "exit": false,
+      "position": [
+        871.7770176491399,
+        -174.13716469149,
+        -211.73000417822698
+      ]
+    },
+    {
+      "level": 10,
+      "name": "P_Modul_29_01",
+      "sign": -1,
+      "entrance": false,
+      "touched": true,
+      "exit": false,
+      "position": [
+        869.7618956575948,
+        -181.0137631328518,
+        -18.38873167575175
+      ]
+    },
+    {
+      "level": 11,
+      "name": "P_Modul_29_01",
+      "sign": 1,
+      "entrance": false,
+      "touched": true,
+      "exit": true,
+      "position": [
+        770.4218242466573,
+        -117.20759482832362,
+        -131.685942673864
+      ]
+    },
+    {
+      "level": 11,
+      "name": "P_Modul_29_01",
+      "sign": -1,
+      "entrance": true,
+      "touched": true,
+      "exit": true,
+      "position": [
+        768.6589050922576,
+        -120.91805460446545,
+        -265.9145760621343
+      ]
+    }
+  ]
+}

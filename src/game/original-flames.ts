@@ -15,10 +15,19 @@ export class OriginalFlames {
   material: THREE.ShaderMaterial
   origins: THREE.Vector3[]
   settings:FlameSettings
+  private seeds:{life:number;speed:number;size:number}[]=[]
+  private lastTime?:number
   constructor(origins: THREE.Vector3[], texture: THREE.Texture, settings:FlameSettings=startSettings) {
     this.origins = origins
     this.settings=settings
     const count = origins.length * 50
+    const noise=(n:number)=>{const value=Math.sin(n*127.1+311.7)*43758.5453;return value-Math.floor(value)}
+    for(let index=0;index<count;index++) {
+      const seed=index+1
+      this.seeds.push({life:settings.lifespan+(noise(seed)*2-1)*settings.lifespanVariance,
+        speed:(settings.speed+(noise(seed+70)*2-1)*settings.speedVariance)*.25,
+        size:(settings.initialSize+(noise(seed+13)*2-1)*settings.sizeVariance)*.25})
+    }
     this.geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(count * 3), 3))
     this.geometry.setAttribute('size', new THREE.BufferAttribute(new Float32Array(count), 1))
     this.geometry.setAttribute('opacity', new THREE.BufferAttribute(new Float32Array(count), 1))
@@ -35,27 +44,30 @@ export class OriginalFlames {
         }`,
       transparent: true, blending: THREE.AdditiveBlending, depthWrite: false,
     })
-    this.points = new THREE.Points(this.geometry, this.material); this.points.frustumCulled = false
+    const travel=(settings.lifespan+settings.lifespanVariance)*(Math.abs(settings.speed)+settings.speedVariance)*.25
+    const size=Math.max(settings.initialSize+settings.sizeVariance,settings.endingSize)*.25
+    this.geometry.boundingSphere=new THREE.Box3().setFromPoints(origins).expandByScalar(travel+size).getBoundingSphere(new THREE.Sphere())
+    this.points = new THREE.Points(this.geometry, this.material)
   }
   update(time: number, pixelHeight: number, fov: number) {
+    this.material.uniforms.pixelScale!.value = pixelHeight / (2 * Math.tan(THREE.MathUtils.degToRad(fov / 2)))
+    if(time===this.lastTime)return
+    this.lastTime=time
     const positions = this.geometry.getAttribute('position'), sizes = this.geometry.getAttribute('size'), opacity = this.geometry.getAttribute('opacity')
-    const noise = (n: number) => { const value = Math.sin(n * 127.1 + 311.7) * 43758.5453; return value - Math.floor(value) }
     for (let emitter = 0; emitter < this.origins.length; emitter++) {
       const origin = this.origins[emitter]!
       for (let i = 0; i < 50; i++) {
         const index = emitter * 50 + i, seed = index + 1
         const settings=this.settings
-        const life = settings.lifespan + (noise(seed)*2-1)*settings.lifespanVariance
+        const {life,speed,size}=this.seeds[index]!
         const age = (time + i * settings.emissionDelay) % life, progress = age / life
-        const speed = (settings.speed + (noise(seed + 70)*2-1)*settings.speedVariance)*.25
         const drift = age * speed * .05236
         positions.setXYZ(index, origin.x + Math.sin(seed * 4.1 + age * 3) * drift, origin.y + age * speed, origin.z + Math.cos(seed * 3.7 + age * 2) * drift)
-        sizes.setX(index, THREE.MathUtils.lerp((settings.initialSize+(noise(seed+13)*2-1)*settings.sizeVariance)*.25, settings.endingSize*.25, progress))
+        sizes.setX(index, THREE.MathUtils.lerp(size, settings.endingSize*.25, progress))
         opacity.setX(index, (1 - progress) * .3)
       }
     }
     positions.needsUpdate = sizes.needsUpdate = opacity.needsUpdate = true
-    this.material.uniforms.pixelScale!.value = pixelHeight / (2 * Math.tan(THREE.MathUtils.degToRad(fov / 2)))
   }
   dispose() { this.geometry.dispose(); this.material.dispose() }
 }

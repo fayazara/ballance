@@ -1,5 +1,79 @@
 # Original ending-balloon physics
 
+## Native all-material approach probe
+
+**Fixture correction:** the initial local Y=1.1 fixture below overlaps the
+approach floor. In Level 6 it provided only 1.0936 units of center clearance for
+a radius-2 sphere. Its stalls and different departure times are contaminated
+by penetration recovery and must not be interpreted as normal gameplay limits.
+The current probe uses Y=3.1 and checks each sphere's starting distance against
+every authored floor triangle, rejecting distances below its radius.
+`original-finish-clear-start-probe.json` records the corrected 72 runs: all
+three materials board and finish supported in every level at both 60 and
+120 script FPS, using X=24 and 20 seconds. The Level 5–7 stone regression now
+uses that same corrected start at both rates. No special Level 5 run-up or
+physics tuning is needed. The older artifacts below remain as superseded
+diagnostic evidence, not valid traversal comparisons.
+
+The older Level 1 departure and Level 12 UFO integration fixtures now also use
+local Y=3.1. Both still pass. The UFO fixture now runs all three materials at
+60 and 120 script FPS: ordinary key forces board the platform, the claw captures
+the physical player exactly once within four original units, the captured ball
+follows the ship, all thirteen waypoints execute, the flash remains in view and
+faces the ending camera, and reset cancels the previous sequence. All six cases
+complete. This is native physics plus headless Three.js scene/camera validation;
+it is not browser rendering or an original executable animation comparison.
+
+An in-app browser check subsequently staged Level 12, rolled onto the balloon,
+and advanced through pickup to row 13/flash. The rendered flash was visible
+above the departing platform with the test panel hidden. Inspector telemetry
+reported the ball captured and hidden, nine departure force controllers, and
+no browser error logs in the repeated boarding check. This is a staged browser
+check, not an uninterrupted level playthrough or an audio listening comparison.
+
+That check exposed two development-inspector fixture problems: its finish
+button still used Y=1.1, and staging during initial spawn allowed the pending
+respawn position event to overwrite the test location. The button now uses
+Y=3.1; explicit staging resets the respawn/lightning sequence and restores ball
+visibility. Repeating load-with-pause, immediate staging, and the three-second
+roll now reaches departure/UFO flight without waiting for spawn first. These
+changes affect inspection controls, not ordinary gameplay respawn behavior.
+
+`node scripts/probe-native-finish-materials.ts` stages each material at local
+`(24,1.1,0)` relative to every saved ending, then steers through normal independent
+key forces toward the moving platform for 15 seconds at 60 script FPS. Steering
+uses horizontal position error and velocity braking; forces stop at boarding.
+No obstacle poses or player velocities are overwritten after initial staging.
+Results are stored in `original-finish-material-probe.json`.
+
+All 24 wood/paper cases and nine stone cases boarded; all 36 final samples were
+supported. Stone did not board in Levels 5, 6, and 7. Level 5 never contacted an
+ending body; Levels 6 and 7 did. Their stopped positions are retained in the
+artifact for investigation. These failures do not establish a solver mismatch
+or prove the route impossible. Level 1 stone boarded with braking, resolving the
+earlier full-throttle probe's failure as insufficient traversal evidence.
+
+This is a staged physics approach only. It does not execute the game's results
+flow or Level 12 UFO choreography, and successful boarding does not prove full
+course traversal or original-executable trajectory parity.
+
+Follow-up contact probes found that Levels 6 and 7 stone runs were still moving
+on entry plates at 15 seconds; both board at frame 937 (about 15.62 seconds).
+Level 5 stone rested against `A05_Floor_03` without touching an ending body.
+Starting at local X=28 supplies a supported run-up across that approach and
+boards at frame 159. Starts at X=20 and 32 also boarded, while X=40 fell off
+the approach; these are fixture/route differences, not solver changes.
+
+`node scripts/probe-native-finish-materials.ts 20 28` extends the window to
+20 seconds and uses X=28 only for Level 5 stone. All 36 cases board and end
+supported; `original-finish-material-extended-probe.json` retains the results.
+The regression for the three previously unresolved cases requires real floor
+and ending contacts, unchanged player identity, boarding, and supported final
+positions within two original units of the platform. The original fifteen-second
+artifact remains unchanged to preserve why the follow-up was needed. This does
+not establish that the X=24 stone start can recover, nor original executable
+trajectory parity.
+
 The local IVP path now instantiates the physical assembly from the supplied
 `3D_Entities/PH/PE_Balloon.nmo`. The ordinary/deployed Rapier path remains on the
 older finish implementation. No original executable was run.

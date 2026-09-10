@@ -47,9 +47,11 @@ export class OriginalIvpRuntime {
   readonly sound=new OriginalIvpSound()
   readonly clock=new OriginalPhysicsClock()
   readonly soundIds=new Map<number,OriginalSoundIds>()
+  readonly floorObjects=new Map<number,{id:number;name:string}>()
   private assemblies:Assembly[]=[]
   private visuals:IvpVisuals
-  private wake:{body:number;watcher:OriginalProximity;origin?:THREE.Vector3}[]=[]
+  private wake:{body:number;watcher:OriginalProximity;origin?:THREE.Vector3;onEnter?:()=>void}[]=[]
+  private depthRegisteredLifts=new Set<number>()
   readonly fans:OriginalIvpFan[]=[]
   finish?:OriginalIvpFinish
   private ending?:{parent:OriginalObject;document:OriginalDocument;sector:number}
@@ -58,9 +60,10 @@ export class OriginalIvpRuntime {
   private supports:number[]=[]
   readonly actuators:{name:string;stage:number;cycles:number;force?:number}[]=[]
   private held=new Set<OriginalDriveKey>()
+  get activeDriveKeys(){return [...this.held]}
   private sector=0
   private disposed=false
-  constructor(module:IvpModule,course:OriginalDocument,balls:OriginalDocument,modules:Map<string,OriginalDocument>,visuals:IvpVisuals) {
+  constructor(module:IvpModule,course:OriginalDocument,balls:OriginalDocument,modules:Map<string,OriginalDocument>,visuals:IvpVisuals,options:{physicalizePlayer?:boolean}={}) {
     this.depthLimit=originalDepthLimit(course,1)
     this.deathTest=new OriginalDeathTest(course)
     this.world=new IvpWorld(module);this.course=course;this.visuals=visuals
@@ -69,6 +72,7 @@ export class OriginalIvpRuntime {
       for(const floor of originalIvpFloors(course)) {
         const body=this.world.triangles(floor.triangles,floor.descriptor)
         this.soundIds.set(body,originalFloorSoundIds(course,floor.objectId))
+        this.floorObjects.set(body,{id:floor.objectId,name:floor.name})
       }
       const supported=[...Object.keys(objects),...Object.keys(hinges),'P_Modul_01','P_Modul_34','P_Modul_18','P_Modul_29','P_Modul_03','P_Modul_17','P_Modul_08','P_Modul_26']
       for(const parent of course.objects) {
@@ -83,7 +87,7 @@ export class OriginalIvpRuntime {
       }
       const reset=originalIvpResetpoints(course)[0]
       if(!reset) throw new Error('Missing IVP course reset point')
-      this.player=new OriginalIvpPlayer(this.world,balls,'wood',{position:reset.matrix.slice(12,15),rotation:[0,0,0,1]})
+      this.player=new OriginalIvpPlayer(this.world,balls,'wood',{position:reset.matrix.slice(12,15),rotation:[0,0,0,1]},options.physicalizePlayer!==false)
       this.sound.bind(this.player.body,this.player.material,this.player.pose.position)
       const ending=course.objects.find(o=>o.name.startsWith('PE_Balloon_'))
       if(ending) {
@@ -182,12 +186,22 @@ export class OriginalIvpRuntime {
       if(kind in objects) this.part(assembly,{...objects[kind as keyof typeof objects],target:kind+'_MF'})
       else if(kind==='P_Modul_03') {
         const lift=new OriginalIvpLift(this.world,parent,assembly.document);this.lifts.push(lift)
+        const weights:{part:Part;target:string}[]=[]
         for(const [target,body] of lift.parts) {
           this.soundIds.set(body,originalModuleSoundIds(kind,target))
           const rotation=new THREE.Quaternion();this.frame(assembly,target).decompose(new THREE.Vector3(),rotation,new THREE.Vector3());rotation.normalize()
-          this.parts.push({body,name:parent.name+'/'+target,mesh:this.visuals.get(parent.name)?.get(target),initialRotation:flippedRotation(rotation.toArray()).invert(),owned:false,...(target!==liftData.wakeTarget?{removeOnFall:()=>{lift.removeWeight(target)}}:{})})
+          const part:Part={body,name:parent.name+'/'+target,mesh:this.visuals.get(parent.name)?.get(target),initialRotation:flippedRotation(rotation.toArray()).invert(),owned:false}
+          this.parts.push(part)
+          if(target!==liftData.wakeTarget)weights.push({part,target})
         }
-        this.wake.push({body:lift.platform,origin:new THREE.Vector3().setFromMatrixPosition(this.frame(assembly,liftData.wakeFrame)),watcher:new OriginalProximity(liftData.wake,1)})
+        const registerDepth=()=>{
+          this.depthRegisteredLifts.add(parent.id)
+          for(const {part,target} of weights)part.removeOnFall=()=>{lift.removeWeight(target)}
+        }
+        // DepthTest is a level-global group. Wake registers these entities once;
+        // sector resets rebuild their bodies but retain group membership.
+        if(this.depthRegisteredLifts.has(parent.id))registerDepth()
+        this.wake.push({body:lift.platform,origin:new THREE.Vector3().setFromMatrixPosition(this.frame(assembly,liftData.wakeFrame)),watcher:new OriginalProximity(liftData.wake,1),onEnter:registerDepth})
       } else if(kind==='P_Modul_17'||kind==='P_Modul_08') {
         const data=kind==='P_Modul_17'?arms:swing,body=this.part(assembly,data.body)
         const frame=this.frame(assembly,data.hinge.frame)
@@ -276,12 +290,13 @@ export class OriginalIvpRuntime {
     this.wake=this.wake.filter(w=> {
       const origin=w.origin??new THREE.Vector3(...this.world.state(w.body).slice(0,3) as [number,number,number])
       if(!w.watcher.enter(p,origin)) return true
-      this.world.wake(w.body);return false
+      this.world.wake(w.body);w.onEnter?.();return false
     })
     const sounds=this.mechanisms.map(update=>update(p,deltaMs)).filter((sound):sound is string=>sound!==undefined)
     this.finish?.step(p)
     for(const fan of this.fans)fan.sample(this.player,this.sector)
-    if(simulationSeconds>0)this.world.step(simulationSeconds)
+    // DepthTest is a gameplay behavior; physics_RT advances in PostProcess.
+    // A crossing during this simulation interval is observed next script frame.
     for(let i=this.parts.length-1;i>=0;i--) {
       const part=this.parts[i]!
       if(!part.removeOnFall||this.world.state(part.body)[1]!>=this.depthLimit)continue
@@ -290,15 +305,26 @@ export class OriginalIvpRuntime {
       if(part.mesh){part.mesh.visible=false;part.mesh.position.set(0,0,0)}
       this.parts.splice(i,1)
     }
+    if(simulationSeconds>0)this.world.step(simulationSeconds)
     this.sound.step(this.player.body,this.player.material,this.player.pose.position,this.world.drainEvents(),this.world.time,deltaMs/1000,this.soundIds)
     return sounds
   }
   capture() {for(const fan of this.fans)fan.detachPlayer();this.held.clear();this.sound.bind(undefined,this.player.material,this.player.pose.position);return this.player.capture()}
-  material(kind:Material) {if(this.player.body!==undefined) this.capture();this.player.release(kind);this.sound.bind(this.player.body,kind,this.player.pose.position)}
-  reset(sector:number,kind:Material,position:readonly number[],rotation:readonly number[]=[0,0,0,1],resetSector=true) {
+  material(kind:Material,physicalize=true) {
+    if(this.player.body!==undefined)this.capture()
+    if(physicalize)this.player.release(kind)
+    else this.player.selectCapturedMaterial(kind)
+    this.sound.bind(this.player.body,kind,this.player.pose.position)
+  }
+  reset(sector:number,kind:Material,position:readonly number[],rotation:readonly number[]=[0,0,0,1],resetSector=true,physicalize=true) {
     for(const fan of this.fans)fan.detachPlayer()
     this.deathTest.restart()
-    this.held.clear();this.player.respawn(kind,{position,rotation});if(resetSector)this.activate(sector,true)
+    this.held.clear()
+    if(physicalize)this.player.respawn(kind,{position,rotation})
+    else {
+      this.player.capture();this.player.moveCaptured({position,rotation});this.player.selectCapturedMaterial(kind)
+    }
+    if(resetSector)this.activate(sector,true)
     this.sound.bind(this.player.body,kind,position)
   }
   get grounded() {const body=this.player.body;return body!==undefined&&this.world.contacts(body).some(c=>c.normal[1]>.3)}

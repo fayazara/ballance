@@ -1,0 +1,296 @@
+{
+  "source": "Gameplay.nmo: Fadeout Manager 754 / set Piecesflag 796",
+  "dumpSha256": "65821ec5eab4322e5bfc1e60b58532d466c1909ab2a0f3735b6185c2a083640a",
+  "pools": [
+    {
+      "material": "wood",
+      "flag": 596,
+      "setFlag": 760,
+      "clearFlag": 671,
+      "timer": 665,
+      "idleSwitch": 598,
+      "runningSwitch": 656,
+      "fadeInput": 648
+    },
+    {
+      "material": "paper",
+      "flag": 607,
+      "setFlag": 780,
+      "clearFlag": 682,
+      "timer": 592,
+      "idleSwitch": 687,
+      "runningSwitch": 676,
+      "fadeInput": 647
+    },
+    {
+      "material": "stone",
+      "flag": 610,
+      "setFlag": 786,
+      "clearFlag": 699,
+      "timer": 708,
+      "idleSwitch": 721,
+      "runningSwitch": 713,
+      "fadeInput": 649
+    }
+  ],
+  "links": [
+    {
+      "index": 722,
+      "delayFrames": 1,
+      "source": 595,
+      "destination": 593
+    },
+    {
+      "index": 723,
+      "delayFrames": 0,
+      "source": 600,
+      "destination": 593
+    },
+    {
+      "index": 724,
+      "delayFrames": 0,
+      "source": 660,
+      "destination": 652
+    },
+    {
+      "index": 725,
+      "delayFrames": 0,
+      "source": 753,
+      "destination": 599
+    },
+    {
+      "index": 726,
+      "delayFrames": 0,
+      "source": 594,
+      "destination": 666
+    },
+    {
+      "index": 727,
+      "delayFrames": 0,
+      "source": 667,
+      "destination": 657
+    },
+    {
+      "index": 728,
+      "delayFrames": 1,
+      "source": 654,
+      "destination": 658
+    },
+    {
+      "index": 729,
+      "delayFrames": 1,
+      "source": 685,
+      "destination": 683
+    },
+    {
+      "index": 730,
+      "delayFrames": 1,
+      "source": 674,
+      "destination": 585
+    },
+    {
+      "index": 731,
+      "delayFrames": 0,
+      "source": 587,
+      "destination": 672
+    },
+    {
+      "index": 732,
+      "delayFrames": 0,
+      "source": 678,
+      "destination": 584
+    },
+    {
+      "index": 733,
+      "delayFrames": 0,
+      "source": 684,
+      "destination": 677
+    },
+    {
+      "index": 734,
+      "delayFrames": 0,
+      "source": 586,
+      "destination": 688
+    },
+    {
+      "index": 735,
+      "delayFrames": 0,
+      "source": 673,
+      "destination": 688
+    },
+    {
+      "index": 736,
+      "delayFrames": 1,
+      "source": 689,
+      "destination": 683
+    },
+    {
+      "index": 737,
+      "delayFrames": 0,
+      "source": 689,
+      "destination": 647
+    },
+    {
+      "index": 738,
+      "delayFrames": 0,
+      "source": 659,
+      "destination": 691
+    },
+    {
+      "index": 739,
+      "delayFrames": 0,
+      "source": 692,
+      "destination": 648
+    },
+    {
+      "index": 740,
+      "delayFrames": 0,
+      "source": 653,
+      "destination": 691
+    },
+    {
+      "index": 741,
+      "delayFrames": 1,
+      "source": 692,
+      "destination": 593
+    },
+    {
+      "index": 742,
+      "delayFrames": 1,
+      "source": 719,
+      "destination": 717
+    },
+    {
+      "index": 743,
+      "delayFrames": 1,
+      "source": 715,
+      "destination": 717
+    },
+    {
+      "index": 744,
+      "delayFrames": 0,
+      "source": 710,
+      "destination": 714
+    },
+    {
+      "index": 745,
+      "delayFrames": 0,
+      "source": 702,
+      "destination": 714
+    },
+    {
+      "index": 746,
+      "delayFrames": 1,
+      "source": 711,
+      "destination": 701
+    },
+    {
+      "index": 747,
+      "delayFrames": 0,
+      "source": 703,
+      "destination": 709
+    },
+    {
+      "index": 748,
+      "delayFrames": 0,
+      "source": 695,
+      "destination": 700
+    },
+    {
+      "index": 749,
+      "delayFrames": 0,
+      "source": 718,
+      "destination": 694
+    },
+    {
+      "index": 750,
+      "delayFrames": 0,
+      "source": 600,
+      "destination": 683
+    },
+    {
+      "index": 751,
+      "delayFrames": 0,
+      "source": 600,
+      "destination": 717
+    },
+    {
+      "index": 752,
+      "delayFrames": 0,
+      "source": 715,
+      "destination": 649
+    },
+    {
+      "index": 787,
+      "delayFrames": 0,
+      "source": 765,
+      "destination": 781
+    },
+    {
+      "index": 788,
+      "delayFrames": 0,
+      "source": 763,
+      "destination": 775
+    },
+    {
+      "index": 789,
+      "delayFrames": 0,
+      "source": 764,
+      "destination": 755
+    },
+    {
+      "index": 790,
+      "delayFrames": 0,
+      "source": 794,
+      "destination": 761
+    },
+    {
+      "index": 791,
+      "delayFrames": 0,
+      "source": 776,
+      "destination": 795
+    },
+    {
+      "index": 792,
+      "delayFrames": 0,
+      "source": 782,
+      "destination": 795
+    },
+    {
+      "index": 793,
+      "delayFrames": 0,
+      "source": 756,
+      "destination": 795
+    },
+    {
+      "index": 862,
+      "delayFrames": 0,
+      "source": 795,
+      "destination": 488
+    },
+    {
+      "index": 869,
+      "delayFrames": 0,
+      "source": 489,
+      "destination": 832
+    },
+    {
+      "index": 872,
+      "delayFrames": 0,
+      "source": 833,
+      "destination": 845
+    },
+    {
+      "index": 873,
+      "delayFrames": 2,
+      "source": 846,
+      "destination": 479
+    },
+    {
+      "index": 859,
+      "delayFrames": 0,
+      "source": 480,
+      "destination": 574
+    }
+  ]
+}

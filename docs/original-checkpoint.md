@@ -22,7 +22,14 @@ interval. Revisiting a collected checkpoint can relight its side flames but
 never sends another checkpoint event. Unactivated future checkpoints have no
 flame scripts running. Gameplay's next-checkpoint graph resets the next script
 with CurrentLevel column 4 false before positioning and enabling it; its
-two-frame reposition link is not yet reproduced by this adapter.
+two-frame reposition link now delays the next checkpoint watcher. The old
+checkpoint side-flame watcher and the new sector continue during that delay.
+The initial checkpoint still activates without delay. The extractor
+`scripts/read-original-checkpoint-activation.py` validates Gameplay compounds
+5258 and 5476, including link 5250 from Activate Script output 5168 to Set World
+Matrix input 5214, against the saved chunk hash. The adapter uses preplaced
+checkpoint meshes, so this reproduces watcher activation timing rather than
+executing the original shared-object reposition graph.
 
 The engine samples the current trigger before native physics and activates the
 new sector for that frame. It saves the current ball material and uses the

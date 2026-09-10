@@ -50,6 +50,7 @@ export class OriginalMaterials {
     const textures = new Map<number, THREE.Texture>()
     await Promise.all(document.textures.map(async t => {
       const texture = await new THREE.TextureLoader().loadAsync(`/original/${t.file}`)
+      texture.name=t.file
       texture.colorSpace = THREE.SRGBColorSpace; texture.wrapS = texture.wrapT = THREE.RepeatWrapping; texture.anisotropy = 8
       textures.set(t.id, texture); this.textures.push(texture)
     }))

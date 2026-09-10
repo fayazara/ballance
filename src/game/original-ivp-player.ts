@@ -20,7 +20,8 @@ export class OriginalIvpPlayer {
   private drives=new Map<OriginalDriveKey,{handle:number;direction:number[]}>()
   private disposed=false
   material:Material
-  constructor(world:PlayerWorld,document:OriginalDocument,material:Material,pose:OriginalPlayerPose) {
+  physicalizations=0
+  constructor(world:PlayerWorld,document:OriginalDocument,material:Material,pose:OriginalPlayerPose,physicalize=true) {
     this.world=world;this.material=material;this.captured=this.copyPose(pose)
     const object=document.objects.find(o=>o.name==='Ball_Paper'),mesh=document.meshes.find(m=>m.id===object?.mesh)
     if(!object||!mesh) throw new Error('Missing original paper player geometry')
@@ -36,7 +37,7 @@ export class OriginalIvpPlayer {
       if(ball.matrix.some((v,i)=>Math.abs(v-identity[i]!)>1e-7)) throw new Error(`Unverified original ${kind} player frame`)
       this.bounds.set(kind,new THREE.Box3().setFromBufferAttribute(new THREE.Float32BufferAttribute(geometry.positions,3)))
     }
-    this.release(material)
+    if(physicalize)this.release(material)
   }
   private live() {if(this.disposed) throw new Error('IVP player is disposed')}
   private copyPose(pose:OriginalPlayerPose):OriginalPlayerPose {
@@ -81,12 +82,16 @@ export class OriginalIvpPlayer {
     this.live();if(this.handle!==undefined) throw new Error('Capture the player before moving its visual pose')
     this.captured=this.copyPose(pose)
   }
+  selectCapturedMaterial(material:Material) {
+    this.live();if(this.handle!==undefined)throw new Error('Capture the player before selecting its visual material')
+    this.material=material
+  }
   release(material:Material) {
     this.live();if(this.handle!==undefined) throw new Error('Player is already physicalized')
     const settings=source.bodies.find(b=>b.shape===(material==='paper'?'convex':'sphere'))!
     const descriptor={...PLAYER_PHYSICS[material],...this.captured,massCenter:settings.massCenter,collisionGroup:'Ball',fixed:settings.fixed,frozen:settings.startFrozen,collisionEnabled:settings.enableCollision}
     const handle=material==='paper'?this.world.convex(this.paper,descriptor):this.world.sphere(settings.radius!,descriptor)
-    this.handle=handle;this.material=material
+    this.handle=handle;this.material=material;this.physicalizations++
   }
   respawn(material:Material,pose:OriginalPlayerPose) {
     const valid=this.copyPose(pose)

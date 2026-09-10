@@ -1,0 +1,140 @@
+{
+  "source": ".local/reference/chunks/Gameplay.tsv",
+  "sha256": "65821ec5eab4322e5bfc1e60b58532d466c1909ab2a0f3735b6185c2a083640a",
+  "nextActivationFrames": 2,
+  "firstActivationFrames": 0,
+  "graphs": [
+    {
+      "index": 5258,
+      "name": "activate next Checkpoint",
+      "links": [
+        {
+          "index": 5242,
+          "delayFrames": 0,
+          "source": 5145,
+          "destination": 5167
+        },
+        {
+          "index": 5243,
+          "delayFrames": 0,
+          "source": 5156,
+          "destination": 5144
+        },
+        {
+          "index": 5244,
+          "delayFrames": 0,
+          "source": 5192,
+          "destination": 5174
+        },
+        {
+          "index": 5245,
+          "delayFrames": 0,
+          "source": 5175,
+          "destination": 5136
+        },
+        {
+          "index": 5246,
+          "delayFrames": 0,
+          "source": 5185,
+          "destination": 5203
+        },
+        {
+          "index": 5247,
+          "delayFrames": 0,
+          "source": 5184,
+          "destination": 5155
+        },
+        {
+          "index": 5248,
+          "delayFrames": 0,
+          "source": 5222,
+          "destination": 5191
+        },
+        {
+          "index": 5249,
+          "delayFrames": 0,
+          "source": 5215,
+          "destination": 5221
+        },
+        {
+          "index": 5250,
+          "delayFrames": 2,
+          "source": 5168,
+          "destination": 5214
+        },
+        {
+          "index": 5251,
+          "delayFrames": 0,
+          "source": 5137,
+          "destination": 5257
+        },
+        {
+          "index": 5252,
+          "delayFrames": 0,
+          "source": 5256,
+          "destination": 5227
+        },
+        {
+          "index": 5253,
+          "delayFrames": 0,
+          "source": 5228,
+          "destination": 5183
+        },
+        {
+          "index": 5254,
+          "delayFrames": 0,
+          "source": 5204,
+          "destination": 5236
+        },
+        {
+          "index": 5255,
+          "delayFrames": 0,
+          "source": 5237,
+          "destination": 5257
+        }
+      ]
+    },
+    {
+      "index": 5476,
+      "name": "set first Checkpoint",
+      "links": [
+        {
+          "index": 5468,
+          "delayFrames": 0,
+          "source": 5430,
+          "destination": 5451
+        },
+        {
+          "index": 5469,
+          "delayFrames": 0,
+          "source": 5437,
+          "destination": 5444
+        },
+        {
+          "index": 5470,
+          "delayFrames": 0,
+          "source": 5445,
+          "destination": 5429
+        },
+        {
+          "index": 5471,
+          "delayFrames": 0,
+          "source": 5474,
+          "destination": 5436
+        },
+        {
+          "index": 5472,
+          "delayFrames": 0,
+          "source": 5452,
+          "destination": 5461
+        },
+        {
+          "index": 5473,
+          "delayFrames": 0,
+          "source": 5462,
+          "destination": 5475
+        }
+      ]
+    }
+  ]
+}

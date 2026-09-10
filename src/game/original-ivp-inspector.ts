@@ -16,10 +16,13 @@ export function inspectOriginal(engine:OriginalEngine) {
   output.style.cssText='display:block;white-space:pre-wrap';panel.append(output)
   const update=()=> {
     const runtime=engine.native
-    output.textContent=JSON.stringify({backend:'IVP',phase:engine.state.phase,level:engine.state.level+1,sector:engine.state.checkpoint+1,material:engine.state.material,
+    output.textContent=JSON.stringify({backend:'IVP',phase:engine.state.phase,level:engine.state.level+1,sector:engine.state.checkpoint+1,material:engine.state.material,lives:engine.state.lives,
+      heldKeys:[...engine.keys],nativeDriveKeys:runtime?.activeDriveKeys,transformerEntryFrames:engine.pendingTransformation?.frames,transformerRearmFrames:engine.transformerRearmFrames,
+      debrisPools:engine.debris?[...engine.debris.clocks].map(([kind,clock])=>({kind,waiting:clock.waiting,requested:clock.requested,elapsedMs:clock.elapsedMs,fadeMs:clock.fadeMs,bodies:engine.debris!.nativeFragments.filter(f=>f.kind===kind).length,windControllers:engine.debris!.nativeFragments.filter(f=>f.kind===kind&&f.wind!==undefined).length})):[],
       points:{time:engine.state.time,pickups:engine.pickups.filter(p=>p.visual?.point&&p.taken).map(p=>({name:p.object.name,stage:p.visual!.point!.stage,remaining:p.visual!.point!.remaining}))},
       transformation:{active:engine.transformation.active,age:engine.transformation.age},fragments:engine.debris?.nativeFragments.length,fans:runtime?.fans.filter(f=>f.running).map(f=>({sector:f.sector,active:f.active,origin:f.origin.toArray()})),
-      actuators:runtime?.actuators,death:{hit:runtime?.deathTest.hit,volumes:runtime?.deathTest.volumes.length,
+      lightning:engine.lightning?{active:engine.lightning.state.active,age:engine.lightning.state.age,sphere:engine.lightning.mesh.visible,scale:engine.lightning.state.scale,texture:engine.lightning.state.texture,light:engine.lightning.state.lightVisible}:undefined,
+      playerPhysicalizations:runtime?.player.physicalizations,actuators:runtime?.actuators,death:{hit:runtime?.deathTest.hit,volumes:runtime?.deathTest.volumes.length,
         stage:engine.respawnSequence.stage,physicalized:runtime?.player.body!==undefined,visible:engine.ball.visible,flash:engine.respawnSequence.flash},
       checkpoint:{armed:engine.checkpointTrigger?.armed,center:engine.checkpointTrigger?.center.toArray(),
         flames:engine.checkpointScripts.map(s=>({center:s.armed,sides:s.smallFlames,reached:s.reached}))},
@@ -43,6 +46,9 @@ export function inspectOriginal(engine:OriginalEngine) {
     engine.audio.paused=true;engine.audio.sync();engine.syncNativePlayer();engine.native?.syncVisuals();engine.follow.copy(engine.body!.translation());engine.emit()
   }
   const place=(point:THREE.Vector3,sector:number,kind:Material)=> {
+    // Explicit staging replaces any in-flight spawn/death sequence; otherwise
+    // its next positioning event overwrites the selected inspection location.
+    engine.respawnSequence.reset();engine.lightning?.reset();engine.audio.stop('Misc_Lightning');engine.ball.visible=true
     engine.endingAge=undefined
     engine.ufo?.reset()
     engine.endingCamera.reset()
@@ -56,6 +62,13 @@ export function inspectOriginal(engine:OriginalEngine) {
   }
   button('Run IVP 2 seconds',()=>run(2))
   button('Run IVP 0.1 seconds',()=>run(.1))
+  button('Run IVP 1 frame',()=>run(1/60))
+  for(const type of ['keydown','keyup'] as const)button(`${type==='keydown'?'Hold':'Release'} forward key`,()=>{
+    // Exercise the registered event path while the frame clock is paused.
+    const phase=engine.state.phase;engine.state.phase='playing'
+    window.dispatchEvent(new KeyboardEvent(type,{code:engine.controls.keys.forward,bubbles:true,cancelable:true}))
+    engine.state.phase=phase
+  })
   button('Play IVP',()=>{engine.state.phase='playing';engine.audio.paused=false;engine.audio.sync();engine.emit()})
   button('Pause IVP',()=>{engine.state.phase='paused';engine.audio.paused=true;engine.audio.sync();engine.emit()})
   button('Reset IVP',()=>{engine.state.checkpoint=0;engine.respawn();run(0)})
@@ -123,7 +136,6 @@ export function inspectOriginal(engine:OriginalEngine) {
   button('Visit transformer',()=> {
     const pad=engine.pads.find(p=>/Stone/.test(p.object.name));if(!pad)return
     place(pad.position.clone().add(new THREE.Vector3(.3,.75,0)),pad.sector,'wood')
-    engine.padCooldown=0
   })
   for(const [label,height] of [['Above checkpoint',8],['Enter checkpoint',2]] as const)button(label,()=> {
     const checkpoint=engine.checkpointTrigger;if(!checkpoint)return
@@ -131,7 +143,12 @@ export function inspectOriginal(engine:OriginalEngine) {
     place(point,engine.state.checkpoint+1,engine.state.material)
     run(1/60)
   })
-  for(let level=1;level<=12;level++)button(`Load Level ${level}`,()=>{void engine.load(level-1).then(update).catch(error=>{output.textContent=String(error)})})
+  const pauseLoad=document.createElement('input');pauseLoad.type='checkbox'
+  const pauseLabel=document.createElement('label');pauseLabel.append(pauseLoad,'Pause after loading');panel.append(pauseLabel)
+  for(let level=1;level<=12;level++)button(`Load Level ${level}`,()=>{void engine.load(level-1).then(()=> {
+    if(pauseLoad.checked){engine.state.phase='paused';engine.audio.paused=true;engine.audio.sync();engine.emit()}
+    update()
+  }).catch(error=>{output.textContent=String(error)})})
   for(const kind of ['swing','sack'] as const)button(`Visit ${kind}`,()=> {
     const item=kind==='swing'?engine.swings[0]:engine.sacks[0];if(!item)return
     const point=kind==='swing'?engine.swings[0]!.origin:engine.sacks[0]!.sack.origin
@@ -159,7 +176,7 @@ export function inspectOriginal(engine:OriginalEngine) {
   button('Visit ending bridge',()=> {
     const parent=engine.finish?.object;if(!parent)return
     const frame=new THREE.Matrix4().fromArray(parent.matrix)
-    const point=new THREE.Vector3(24,1.1,0).applyMatrix4(frame),direction=new THREE.Vector3(-1,0,0).transformDirection(frame)
+    const point=new THREE.Vector3(24,3.1,0).applyMatrix4(frame),direction=new THREE.Vector3(-1,0,0).transformDirection(frame)
     point.multiplyScalar(.25);point.z*=-1
     place(point,engine.resets.length,'wood')
     engine.yaw=engine.targetYaw=Math.atan2(direction.x,-direction.z)

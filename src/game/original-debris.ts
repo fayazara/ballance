@@ -9,6 +9,7 @@ import { configureBody, configureContact, ORIGINAL_TIME_FACTOR, ORIGINAL_PSI_HZ 
 import type { Material } from './levels.ts'
 import recovered from './original-debris-data.json' with { type: 'json' }
 import type { IvpWorld } from './ivp-bridge.ts'
+import {OriginalDebrisClock} from './original-debris-clock.ts'
 
 // Balls.nmo: Wood/Stone/Paper Explosion. Debris uses the actual broken-ball meshes.
 export const DEBRIS_PHYSICS = recovered.materials
@@ -21,9 +22,11 @@ export class OriginalDebris {
   group = new THREE.Group()
   fragments: Fragment[] = []
   nativeFragments: NativeFragment[] = []
+  readonly clocks=new Map<Material,OriginalDebrisClock>()
   private templates = new Map<Material, Template[]>()
   constructor(document: OriginalDocument, materials: Map<number, THREE.MeshPhongMaterial>) {
     for (const kind of ['wood', 'stone', 'paper'] as Material[]) {
+      this.clocks.set(kind,new OriginalDebrisClock(recovered.lifecycle[kind].waitMs,recovered.lifecycle[kind].fadeMs))
       this.templates.set(kind, document.objects.filter(o => o.name.toLowerCase().startsWith(`ball_${kind}_piece`)).map(object => {
         const source = document.meshes.find(m => m.id === object.mesh)!
         const data = DEBRIS_PHYSICS[kind], matrix = new THREE.Matrix4().fromArray(object.matrix)
@@ -50,6 +53,9 @@ export class OriginalDebris {
   }
   /** Same fragment pool and fade materials, simulated in the player's IVP world. */
   spawnIvp(world:IvpWorld,kind:Material,position:THREE.Vector3,random=Math.random) {
+    // Standalone inspector/test explosions have no transformer entry event.
+    const clock=this.clocks.get(kind)!
+    if(!clock.waiting&&!clock.requested&&clock.fadeMs===undefined)clock.request()
     this.removeIvp(f=>f.kind===kind)
     const data=DEBRIS_PHYSICS[kind],sample=(range:readonly number[])=>range[0]===range[1]?range[0]!:range[0]!+(range[1]!-range[0]!)*random()
     for(const template of this.templates.get(kind)||[]) {
@@ -70,18 +76,19 @@ export class OriginalDebris {
     this.stepIvp(0)
   }
   stepIvp(dt:number) {
+    const events=new Map([...this.clocks].map(([kind,clock])=>[kind,clock.step(dt*1000)]))
     for(const fragment of this.nativeFragments) {
       fragment.age+=dt
       const state=fragment.world.state(fragment.body),lifetime=recovered.lifecycle[fragment.kind]
       fragment.mesh.position.set(state[0]!*.25,state[1]!*.25,-state[2]!*.25)
       fragment.mesh.quaternion.set(-state[3]!,-state[4]!,state[5]!,state[6]!).multiply(fragment.initialRotation)
-      const fadeAge=fragment.age-lifetime.waitMs/1000
-      if(fadeAge>=0) {
+      const clock=this.clocks.get(fragment.kind)!,event=events.get(fragment.kind)!
+      if(clock.fadeMs!==undefined||event.fadeStarted) {
         if(fragment.wind!==undefined) {fragment.world.removeForce(fragment.wind);fragment.wind=undefined}
-        this.fade(fragment,fadeAge,lifetime.fadeMs)
+        this.fade(fragment,(clock.fadeMs??lifetime.fadeMs)/1000,lifetime.fadeMs)
       }
     }
-    this.removeIvp(f=>f.age>(recovered.lifecycle[f.kind].waitMs+recovered.lifecycle[f.kind].fadeMs)/1000)
+    this.removeIvp(f=>events.get(f.kind)!.removed)
   }
   private removeIvp(predicate:(fragment:NativeFragment)=>boolean) {
     this.nativeFragments=this.nativeFragments.filter(f=> {
@@ -89,7 +96,8 @@ export class OriginalDebris {
       f.world.remove(f.body);this.group.remove(f.mesh);f.mesh.material.forEach(m=>m.dispose());return false
     })
   }
-  clearIvp() {this.removeIvp(()=>true)}
+  requestTransformation(kind:Material){this.clocks.get(kind)!.request()}
+  clearIvp() {this.removeIvp(()=>true);for(const clock of this.clocks.values())clock.reset()}
   spawn(world: RAPIER.World, kind: Material, position: THREE.Vector3, random = Math.random) {
     // The original has one fragment set per material. Reuse that bound on repeated transformations.
     this.remove(world, f => f.kind === kind)

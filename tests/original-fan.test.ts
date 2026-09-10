@@ -43,6 +43,18 @@ async function trial(kind: Material) {
   }
   return { world, ball, fan, run, dispose: () => { world.free(); fan.dispose() } }
 }
+test('fan smoke stays inside its culling bound and paused smoke avoids repeat uploads',()=> {
+  const fan=fanAt(new THREE.Matrix4().makeTranslation(120,30,-50).toArray())
+  for(let i=0;i<100;i++) {
+    fan.step(fan.particleOrigin,1,.02);fan.update(1000,45)
+    const positions=fan.air.geometry.getAttribute('position')
+    for(let j=0;j<positions.count;j++)assert.ok(fan.air.geometry.boundingSphere!.containsPoint(new THREE.Vector3().fromBufferAttribute(positions,j)))
+  }
+  assert.equal(fan.air.frustumCulled,true)
+  const position=fan.air.geometry.attributes.position!,version=position.version
+  fan.update(500,45);assert.equal(position.version,version)
+  fan.dispose()
+})
 test('fan lifts paper and sustains a bounded hover; the same force cannot lift wood or stone', async () => {
   assert.ok(Math.abs(FAN_FORCE - 6.6) < .00001)
   for (const kind of ['paper', 'wood', 'stone'] as Material[]) {

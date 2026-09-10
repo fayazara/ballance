@@ -34,6 +34,11 @@ export class OriginalFan {
   private sound = new OriginalProximity(data.sound)
   private rotorTime = 0
   private particleTime = 0
+  private lastParticleTime?:number
+  private jitter=Array.from({length:100},(_,i)=> {
+    const noise=(seed:number)=>THREE.MathUtils.euclideanModulo(Math.sin(seed*127.1)*43758.5453,1)
+    return [(noise(i+1)-.5)*.5,(noise(i+101)-.5)*.5] as const
+  })
   active = false
   private ballMatrix = new THREE.Matrix4()
   private position = new THREE.Vector3()
@@ -80,13 +85,15 @@ export class OriginalFan {
         }`,
       transparent: true, blending: THREE.AdditiveBlending, depthWrite: false,
     })
-    this.air = new THREE.Points(geometry, material); this.air.frustumCulled = false
+    geometry.boundingSphere=new THREE.Sphere(this.origin.clone().add(new THREE.Vector3(0,3.6,0)),4.5)
+    this.air = new THREE.Points(geometry, material)
     this.group.add(this.air)
     this.reset()
   }
   reset() {
     this.inSector = this.running = this.soundActive = this.active = false
     this.soundGain = this.rotorTime = this.particleTime = 0
+    this.lastParticleTime=undefined
     this.outer = new OriginalProximity(data.outer); this.force = new OriginalProximity(data.force); this.sound = new OriginalProximity(data.sound)
     this.rotor.quaternion.identity(); this.air.visible = false
   }
@@ -134,19 +141,20 @@ export class OriginalFan {
     // Rotate's original Per Second angle is -15 radians/s; reverse for handedness.
     this.rotor.quaternion.setFromAxisAngle(this.rotorAxis, -data.rotorRadiansPerSecond * this.rotorTime)
     if (!this.air.visible) return
+    ;(this.air.material as THREE.ShaderMaterial).uniforms.pixelScale!.value = pixelHeight / (2 * Math.tan(THREE.MathUtils.degToRad(fov / 2)))
+    if(this.particleTime===this.lastParticleTime)return
+    this.lastParticleTime=this.particleTime
     const positions = this.air.geometry.getAttribute('position'), sizes = this.air.geometry.getAttribute('size'), opacity = this.air.geometry.getAttribute('opacity')
     for (let i = 0; i < 100; i++) {
       const soft = i >= 60, life = soft ? .8 : .4
       const age = (this.particleTime + i * life / (soft ? 40 : 60)) % life, progress = age / life
       // PlanarEmitter starts on a [-1,1] square in the emitter's X/Y plane.
-      const noise = (seed: number) => THREE.MathUtils.euclideanModulo(Math.sin(seed * 127.1) * 43758.5453, 1)
-      positions.setXYZ(i, this.origin.x + (noise(i + 1) - .5) * .5, this.origin.y + age * (soft ? 9 : 10), this.origin.z + (noise(i + 101) - .5) * .5)
+      positions.setXYZ(i, this.origin.x + this.jitter[i]![0], this.origin.y + age * (soft ? 9 : 10), this.origin.z + this.jitter[i]![1])
       // Fast stream evolves color only (flags 2); soft stream evolves size and color (flags 3).
       sizes.setX(i, soft ? THREE.MathUtils.lerp(.575, .75, progress) : 1)
       opacity.setX(i, (soft ? .1176 : .235) * (1 - progress) ** 2)
     }
     positions.needsUpdate = sizes.needsUpdate = opacity.needsUpdate = true
-    ;(this.air.material as THREE.ShaderMaterial).uniforms.pixelScale!.value = pixelHeight / (2 * Math.tan(THREE.MathUtils.degToRad(fov / 2)))
   }
   dispose() { this.group.removeFromParent(); this.rotor.geometry.dispose(); this.air.geometry.dispose(); (this.air.material as THREE.Material).dispose() }
 }

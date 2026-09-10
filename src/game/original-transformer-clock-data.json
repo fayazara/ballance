@@ -1,0 +1,108 @@
+{
+  "source": "Gameplay.nmo: Trafo Manager 876",
+  "dumpSha256": "65821ec5eab4322e5bfc1e60b58532d466c1909ab2a0f3735b6185c2a083640a",
+  "timers": [
+    {
+      "index": 568,
+      "durationMs": 1350.0
+    },
+    {
+      "index": 5,
+      "durationMs": 1000.0
+    },
+    {
+      "index": 487,
+      "durationMs": 150.0
+    }
+  ],
+  "captureRadius": 4.300000190734863,
+  "physicalizeDelayFrames": 2,
+  "entryDelayFrames": 2,
+  "rearmDelayFrames": 3,
+  "links": [
+    {
+      "index": 3112,
+      "delayFrames": 0,
+      "source": 1572,
+      "destination": 875
+    },
+    {
+      "index": 857,
+      "delayFrames": 0,
+      "source": 875,
+      "destination": 6
+    },
+    {
+      "index": 569,
+      "delayFrames": 0,
+      "source": 564,
+      "destination": 496
+    },
+    {
+      "index": 573,
+      "delayFrames": 0,
+      "source": 497,
+      "destination": 563
+    },
+    {
+      "index": 859,
+      "delayFrames": 0,
+      "source": 480,
+      "destination": 574
+    },
+    {
+      "index": 860,
+      "delayFrames": 0,
+      "source": 575,
+      "destination": 0
+    },
+    {
+      "index": 874,
+      "delayFrames": 0,
+      "source": 1,
+      "destination": 401
+    },
+    {
+      "index": 855,
+      "delayFrames": 0,
+      "source": 402,
+      "destination": 482
+    },
+    {
+      "index": 854,
+      "delayFrames": 0,
+      "source": 483,
+      "destination": 167
+    },
+    {
+      "index": 164,
+      "delayFrames": 2,
+      "source": 135,
+      "destination": 168
+    },
+    {
+      "index": 858,
+      "delayFrames": 0,
+      "source": 168,
+      "destination": 339
+    },
+    {
+      "index": 871,
+      "delayFrames": 2,
+      "source": 840,
+      "destination": 804
+    },
+    {
+      "index": 865,
+      "delayFrames": 1,
+      "source": 805,
+      "destination": 6
+    },
+    {
+      "index": 873,
+      "delayFrames": 2,
+      "source": 846,
+      "destination": 479
+    }
+  ]
+}

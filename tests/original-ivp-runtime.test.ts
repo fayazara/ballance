@@ -10,11 +10,13 @@ import type {OriginalDocument} from '../src/game/original-data.ts'
 import {OriginalDebris,ORIGINAL_DEBRIS} from '../src/game/original-debris.ts'
 import chain from '../src/game/original-chain-data.json' with {type:'json'}
 import hinges from '../src/game/original-hinge-data.json' with {type:'json'}
+import liftData from '../src/game/original-lift-data.json' with {type:'json'}
 import {originalDepthLimit} from '../src/game/original-depth.ts'
 import {OriginalUfo} from '../src/game/original-ufo.ts'
 import {OriginalEndingCamera} from '../src/game/original-ending-camera.ts'
 import {PLAYER_PHYSICS,ORIGINAL_PSI_HZ,ORIGINAL_TIME_FACTOR} from '../src/game/original-physics.ts'
 import clockFixtures from './fixtures/original-physics-clock.json' with {type:'json'}
+import actuatorClock from '../docs/original-actuator-clock-oracle.json' with {type:'json'}
 
 const binary=resolve(process.env.BALLANCE_IVP_BUILD??'.local/ivp-simulation','ivp-simulation.mjs')
 const root=resolve('.local/original'),available=existsSync(binary)&&existsSync(resolve(root,'level_01.json'))
@@ -68,7 +70,57 @@ test('native swinging-platform timers consume rendered frames and keep their zer
   } finally {runtime.dispose()}
 })
 
+test('native sack and swing force transitions match compiled TimerMini under uneven script frames',{skip:!available},async()=> {
+  const runtime=await setup(8)
+  try {
+    for(const [scheduleIndex,duration,activationFrames] of actuatorClock.cases) {
+      const name=duration===500?'P_Modul_08_01':'P_Modul_26_01'
+      const parent=runtime.course.objects.find(o=>o.name===name)!
+      const sector=Number(runtime.course.groups.find(g=>/^Sector_/.test(g.name)&&g.members.includes(parent.id))!.name.slice(-2))
+      runtime.activate(sector);runtime.capture()
+      const actor=runtime.actuators.find(a=>a.name===name)!
+      // Consume the swing's startup link before the oracle's timer activation.
+      if(duration===500){runtime.step(7);assert.equal(actor.stage,-1)}
+      const schedule=actuatorClock.schedules[scheduleIndex!]!
+      let initialForce:number|undefined
+      for(let frame=0;frame<activationFrames!;frame++) {
+        runtime.step(schedule[frame%schedule.length]!)
+        if(frame===0)initialForce=actor.force
+        const expected=duration===500&&frame===activationFrames!-1?1:0
+        assert.equal(actor.stage,expected,`${name}, schedule ${scheduleIndex}, frame ${frame}`)
+        if(expected===0)assert.equal(actor.force,initialForce,'force remains attached until the source timer and link expire')
+      }
+      // Sack output traverses a one-frame link; swing output is zero-delay.
+      if(duration===1500){runtime.step(0);assert.equal(actor.stage,1,'zero-delta script frames still traverse delayed links')}
+      assert.notEqual(actor.force,initialForce,'next stage replaces the native force controller')
+    }
+  } finally {runtime.dispose()}
+})
+
+test('native actuator cycles rearm timers and preserve unpowered swing stages across uneven frames',{skip:!available},async()=> {
+  const runtime=await setup(8)
+  try {
+    for(let scheduleIndex=0;scheduleIndex<actuatorClock.schedules.length;scheduleIndex++)for(const kind of [0,1]) {
+      const name=kind?'P_Modul_26_01':'P_Modul_08_01'
+      const parent=runtime.course.objects.find(o=>o.name===name)!
+      const sector=Number(runtime.course.groups.find(g=>/^Sector_/.test(g.name)&&g.members.includes(parent.id))!.name.slice(-2))
+      runtime.activate(sector);runtime.capture()
+      if(!kind)runtime.step(7)
+      const actor=runtime.actuators.find(a=>a.name===name)!,schedule=actuatorClock.schedules[scheduleIndex]!
+      const transitions:number[][]=[]
+      for(let frame=0;frame<400;frame++) {
+        runtime.step(schedule[frame%schedule.length]!)
+        if(frame===0||transitions.at(-1)![3]!==actor.stage)transitions.push([scheduleIndex,kind,frame,actor.stage])
+        assert.equal(actor.force!==undefined,Boolean(kind||actor.stage%2===0),'swing stages 1 and 3 must remain unpowered')
+      }
+      assert.deepEqual(transitions,actuatorClock.cycleTransitions.filter(row=>row[0]===scheduleIndex&&row[1]===kind))
+      assert.equal(actor.cycles,transitions.slice(1).filter(row=>row[3]===0).length)
+    }
+  } finally {runtime.dispose()}
+})
+
 test('Level 12 boarding runs the UFO claw, removes the physical ball, carries it away and resets cleanly',{skip:!available},async()=> {
+  for(const fps of [60,120])for(const kind of ['wood','stone','paper'] as const) {
   const runtime=await setup(12)
   const document=read('pe_balloon')
   const materials=new Map(document.materials.map(material=>[material.id,new THREE.MeshPhongMaterial()]))
@@ -76,9 +128,9 @@ test('Level 12 boarding runs the UFO claw, removes the physical ball, carries it
   const ufo=new OriginalUfo(parent,document,materials)
   const endingCamera=new OriginalEndingCamera(),camera=new THREE.PerspectiveCamera(45,16/9,.75,625)
   try {
-    const frame=new THREE.Matrix4().fromArray(parent.matrix),start=new THREE.Vector3(24,1.1,0).applyMatrix4(frame)
+    const frame=new THREE.Matrix4().fromArray(parent.matrix),start=new THREE.Vector3(24,3.1,0).applyMatrix4(frame)
     const direction=new THREE.Vector3(-1,0,0).transformDirection(frame),sector=originalIvpResetpoints(runtime.course).length
-    runtime.reset(sector,'wood',start.toArray())
+    runtime.reset(sector,kind,start.toArray())
     const viewTarget=runtime.player.renderPose.position.clone()
     camera.position.copy(viewTarget).add(new THREE.Vector3(13,13,0))
     const originalBody=runtime.player.body!
@@ -92,10 +144,10 @@ test('Level 12 boarding runs the UFO claw, removes the physical ball, carries it
       captureGap=ship.distanceTo(new THREE.Vector3().fromArray(runtime.player.pose.position))
       return runtime.capture()
     },moveCaptured:(pose:typeof runtime.player.pose)=>runtime.player.moveCaptured(pose)}
-    for(;frameIndex<1600;frameIndex++) {
-      sounds.push(...ufo.step(1000/60,player));rows.add(ufo.row)
-      endingCamera.step(1000/60,runtime.player.renderPose.position,camera.position,viewTarget,ufo.stage==='flight')
-      runtime.step(1000/60)
+    for(;frameIndex<1600*fps/60;frameIndex++) {
+      sounds.push(...ufo.step(1000/fps,player));rows.add(ufo.row)
+      endingCamera.step(1000/fps,runtime.player.renderPose.position,camera.position,viewTarget,ufo.stage==='flight')
+      runtime.step(1000/fps)
       if(!started&&runtime.finish?.stage==='departing') {started=true;runtime.input(new Set(),0);ufo.start();endingCamera.start()}
       if(captures&&frameIndex>capturedAt) {
         const ship=new THREE.Vector3().setFromMatrixPosition(ufo.nodes.get('PE_UFO_Body')!.matrixWorld)
@@ -125,15 +177,16 @@ test('Level 12 boarding runs the UFO claw, removes the physical ball, carries it
     assert.equal([...rows].filter(row=>row>=0&&row<13).length,13)
     assert.ok([...ufo.meshes.values()].every(mesh=>!mesh.visible))
     assert.ok(ufo.group.children.every(mesh=>!mesh.visible))
-    runtime.reset(sector,'wood',start.toArray());ufo.reset();endingCamera.reset()
+    runtime.reset(sector,kind,start.toArray());ufo.reset();endingCamera.reset()
     assert.equal(endingCamera.active,false)
     assert.notEqual(runtime.player.body,undefined);assert.equal(ufo.stage,'idle');assert.equal(ufo.hidePlayer,false)
     assert.equal(ufo.grabbed,false);assert.equal(ufo.row,-1)
-    for(let i=0;i<120;i++)ufo.step(1000/60,player)
+    for(let i=0;i<120;i++)ufo.step(1000/fps,player)
     assert.equal(captures,1,'reset cancels the old sequence')
   } finally {
     runtime.dispose();for(const material of materials.values())material.dispose()
     ufo.group.traverse(object=>{if(object instanceof THREE.Mesh)object.geometry.dispose()})
+  }
   }
 })
 
@@ -213,20 +266,33 @@ test('playable Level 2 airflow lifts paper, supports heavier balls and detaches 
   } finally {runtime.dispose()}
 })
 
-test('Level 2 chain releases its original endpoint once for stone, and resets on sector restart',{skip:!available},async()=> {
-  const runtime=await setup(2)
-  try {
-    const parent=runtime.course.objects.find(o=>o.name.startsWith('P_Modul_29_'))!
-    const sector=Number(runtime.course.groups.find(g=>/^Sector_/.test(g.name)&&g.members.includes(parent.id))!.name.slice(-2))
-    const part=read('p_modul_29').objects.find(o=>o.name===chain.release.object)!
-    const start=new THREE.Vector3().setFromMatrixPosition(new THREE.Matrix4().fromArray(parent.matrix).multiply(new THREE.Matrix4().fromArray(part.matrix))).add(new THREE.Vector3(0,2.5,0))
-    for(const material of ['wood','stone','paper','stone'] as const) {
-      runtime.reset(sector,material,start.toArray())
-      const sounds:string[]=[]
-      for(let i=0;i<132;i++)sounds.push(...runtime.step())
-      assert.equal(sounds.filter(s=>s===chain.sound).length,material==='stone'?1:0,`${material} release sequence`)
-    }
-  } finally {runtime.dispose()}
+test('all chain placements release for stone, retain other materials, and restore removed handles on reset',{skip:!available},async()=> {
+  let placements=0
+  const part=read('p_modul_29').objects.find(o=>o.name===chain.release.object)!
+  for(const level of [2,3,4,6,7,8,9,10,11]){
+    const runtime=await setup(level)
+    try {
+      for(const parent of runtime.course.objects.filter(o=>o.name.startsWith('P_Modul_29_'))){
+        const sector=Number(runtime.course.groups.find(g=>/^Sector_/.test(g.name)&&g.members.includes(parent.id))!.name.slice(-2))
+        const start=new THREE.Vector3().setFromMatrixPosition(new THREE.Matrix4().fromArray(parent.matrix).multiply(new THREE.Matrix4().fromArray(part.matrix))).add(new THREE.Vector3(0,2.5,0))
+        const nearby=runtime.course.objects.filter(o=>o.name.startsWith('P_Modul_29_')&&runtime.course.groups.find(g=>g.name===`Sector_${String(sector).padStart(2,'0')}`)?.members.includes(o.id)).filter(o=>new THREE.Vector3().setFromMatrixPosition(new THREE.Matrix4().fromArray(o.matrix).multiply(new THREE.Matrix4().fromArray(part.matrix))).distanceTo(start)<chain.release.distance).length
+        let previous:number|undefined
+        for(const material of ['wood','stone','paper','stone'] as const) {
+          runtime.reset(sector,material,start.toArray())
+          if(previous!==undefined)assert.throws(()=>runtime.world.state(previous!),/state read failed/,'reset destroys the previous bridge bodies')
+          previous=runtime.parts.find(p=>p.name===parent.name+'/'+chain.release.object)!.body
+          const sounds:string[]=[]
+          sounds.push(...runtime.step())
+          assert.equal(sounds.filter(s=>s===chain.sound).length,material==='stone'?nearby:0,'first frame checks the authored overlapping ranges')
+          for(let i=1;i<132;i++)sounds.push(...runtime.step())
+          const tears=sounds.filter(s=>s===chain.sound).length
+          assert.equal(tears,material==='stone'?(level===6?2:1):0,`${level}/${parent.name}/${material}: release sequence`)
+        }
+        placements++
+      }
+    } finally {runtime.dispose()}
+  }
+  assert.equal(placements,17)
 })
 
 test('stone landing on the real Level 2 seesaw moves its native hinge and rendered mesh',{skip:!available},async()=> {
@@ -289,6 +355,16 @@ test('fallen loose props and lift weights leave IVP and their visual state is re
       const sector=Number(runtime.course.groups.find(g=>/^Sector_/.test(g.name)&&g.members.includes(parent.id))!.name.slice(-2))
       const reset=originalIvpResetpoints(runtime.course)[sector-1]!
       runtime.reset(sector,'wood',reset.matrix.slice(12,15))
+      if(level===7) {
+        const weights=runtime.parts.filter(p=>p.name.startsWith(parent.name+'/')&&!p.name.endsWith('/'+liftData.wakeTarget))
+        assert.equal(weights.length,8)
+        assert.ok(weights.every(p=>!p.removeOnFall),'lift weights are not registered before proximity wake')
+        const origin=new THREE.Vector3().setFromMatrixPosition(new THREE.Matrix4().fromArray(parent.matrix).multiply(new THREE.Matrix4().fromArray(liftData.wakeFrame)))
+        runtime.reset(sector,'wood',origin.toArray())
+        for(let frame=0;frame<70;frame++)runtime.step()
+        assert.equal(runtime.parts.filter(p=>p.name.startsWith(parent.name+'/')&&p.removeOnFall).length,8)
+        runtime.reset(sector,'wood',reset.matrix.slice(12,15))
+      }
       const part=runtime.parts.find(p=>p.name.startsWith(parent.name+'/')&&p.removeOnFall)!
       assert.ok(part,'the source depth group must register this loose part')
       const origin=runtime.world.state(part.body).slice(0,3)
@@ -300,10 +376,60 @@ test('fallen loose props and lift weights leave IVP and their visual state is re
       assert.deepEqual(part.mesh!.position.toArray(),[0,0,0])
       runtime.reset(sector,'wood',reset.matrix.slice(12,15));runtime.syncVisuals()
       const restored=runtime.parts.find(p=>p.name===part.name)!
+      assert.ok(restored.removeOnFall,'global depth membership survives sector reset')
       assert.ok(restored.mesh!.visible)
       assert.deepEqual(runtime.world.state(restored.body).slice(0,3),origin)
     } finally {runtime.dispose()}
   }
+})
+
+test('all nine authored lifts register falling weights on proximity wake and retain membership across resets',{skip:!available},async()=> {
+  let checked=0
+  for(let level=1;level<=12;level++) {
+    const course=read(`level_${String(level).padStart(2,'0')}`)
+    for(const parent of course.objects.filter(o=>o.name.startsWith('P_Modul_03_'))) {
+      const runtime=await setup(level)
+      try {
+        const sector=Number(course.groups.find(g=>/^Sector_/.test(g.name)&&g.members.includes(parent.id))!.name.slice(-2))
+        const origin=new THREE.Vector3().setFromMatrixPosition(new THREE.Matrix4().fromArray(parent.matrix).multiply(new THREE.Matrix4().fromArray(liftData.wakeFrame)))
+        const far=origin.clone().add(new THREE.Vector3(1000,1000,1000)).toArray()
+        runtime.reset(sector,'wood',far)
+        const parts=()=>runtime.parts.filter(p=>p.name.startsWith(parent.name+'/'))
+        for(let frame=0;frame<70;frame++)runtime.step(1000/60)
+        assert.equal(parts().length,9)
+        assert.ok(parts().every(p=>!p.removeOnFall),`Level ${level}/${parent.name}: distant player cannot register lift weights`)
+        runtime.capture();runtime.player.moveCaptured({position:origin.toArray(),rotation:[0,0,0,1]})
+        for(let frame=0;frame<70;frame++)runtime.step(0)
+        assert.equal(parts().filter(p=>p.removeOnFall).length,8,`Level ${level}/${parent.name}: script proximity registers exactly the eight falling weights`)
+        assert.equal(parts().find(p=>p.name.endsWith('/'+liftData.wakeTarget))!.removeOnFall,undefined)
+        const oldHandles=parts().map(p=>p.body)
+        runtime.reset(sector,'wood',far)
+        assert.equal(parts().filter(p=>p.removeOnFall).length,8,'global membership survives physical body replacement')
+        for(const body of oldHandles)assert.throws(()=>runtime.world.state(body),/state read failed/)
+        checked++
+      } finally {runtime.dispose()}
+    }
+  }
+  assert.equal(checked,9)
+})
+
+test('native depth cleanup observes a falling prop on the script frame after physics crosses the cutoff',{skip:!available},async()=> {
+  const runtime=await setup(1)
+  try {
+    const part=runtime.parts.find(p=>p.removeOnFall)!
+    assert.ok(part)
+    runtime.world.wake(part.body);runtime.world.push(part.body,1000,0,0)
+    let crossed=false
+    for(let frame=0;frame<2640;frame++) {
+      runtime.step(1000/132)
+      assert.ok(runtime.parts.includes(part),'cleanup must not observe the new PostProcess pose in the same script frame')
+      if(runtime.world.state(part.body)[1]!<runtime.depthLimit){crossed=true;break}
+    }
+    assert.ok(crossed,'the prop falls naturally below the cutoff')
+    runtime.step(0)
+    assert.equal(runtime.parts.includes(part),false,'the next script frame removes it even with zero elapsed time')
+    assert.throws(()=>runtime.world.state(part.body),/state read failed/)
+  } finally {runtime.dispose()}
 })
 
 test('every transformer is supported by authored floor collision without a fabricated machine collider',{skip:!available},async()=> {
@@ -385,6 +511,58 @@ test('IVP transformer fragments move, replace their material pool and release bo
   } finally {debris.dispose();material.dispose();runtime.dispose()}
 })
 
+test('held respawn positions the captured player without allocating a transient physics body',{skip:!available},async()=> {
+  const runtime=await setup()
+  try {
+    const reset=originalIvpResetpoints(runtime.course)[0]!,position=reset.matrix.slice(12,15)
+    const sphere=runtime.world.sphere.bind(runtime.world),convex=runtime.world.convex.bind(runtime.world)
+    let creations=0
+    runtime.world.sphere=(...args)=>{creations++;return sphere(...args)}
+    runtime.world.convex=(...args)=>{creations++;return convex(...args)}
+    for(const kind of ['wood','stone','paper'] as const) {
+      const old=runtime.player.body!
+      runtime.input(new Set(['right']),0)
+      runtime.reset(1,kind,position,[0,0,0,1],false,false)
+      assert.equal(runtime.player.body,undefined)
+      assert.equal(runtime.player.material,kind)
+      assert.deepEqual(runtime.player.pose.position,position)
+      assert.throws(()=>runtime.world.state(old),/state read failed/)
+      assert.deepEqual(runtime.activeDriveKeys,[])
+      assert.equal(creations,0,'positioning must not create a body only to destroy it')
+      for(let frame=0;frame<180;frame++)runtime.step(1000/60)
+      assert.deepEqual(runtime.player.pose.position,position,'formation has no gravity or contact response')
+      runtime.material(kind)
+      assert.equal(creations,1,'the physicalization event creates exactly one replacement')
+      assert.deepEqual(runtime.world.state(runtime.player.body!).slice(7,13),[0,0,0,0,0,0])
+      creations=0
+    }
+  } finally {runtime.dispose()}
+})
+
+test('all 63 authored resetpoints support every ball material without entering a death volume',{skip:!available},async()=> {
+  let points=0
+  for(let level=1;level<=12;level++) {
+    const runtime=await setup(level)
+    try {
+      for(const [index,reset] of originalIvpResetpoints(runtime.course).entries()) {
+        points++
+        const rotation=new THREE.Quaternion().setFromRotationMatrix(new THREE.Matrix4().fromArray(reset.matrix)).normalize()
+        for(const kind of ['wood','stone','paper'] as const) {
+          runtime.reset(index+1,kind,reset.matrix.slice(12,15),rotation.toArray())
+          const body=runtime.player.body!
+          for(let frame=0;frame<180;frame++) {
+            runtime.step(1000/60)
+            assert.equal(runtime.deathTest.hit,undefined,`Level ${level}, sector ${index+1}, ${kind}: no death trigger during settling`)
+          }
+          assert.equal(runtime.player.body,body)
+          assert.ok(runtime.grounded,`Level ${level}, sector ${index+1}, ${kind}: settled on authored support`)
+        }
+      }
+    } finally {runtime.dispose()}
+  }
+  assert.equal(points,63)
+})
+
 test('all twelve native endings have the original frozen assembly and reset removes its controllers',{skip:!available},async()=> {
   for(let level=1;level<=12;level++) {
     const runtime=await setup(level)
@@ -424,7 +602,7 @@ test('wood rolls over the Level 1 ending bridge, boards, and rides the departing
   try {
     const parent=runtime.course.objects.find(o=>o.name.startsWith('PE_Balloon_'))!
     const frame=new THREE.Matrix4().fromArray(parent.matrix)
-    const start=new THREE.Vector3(24,1.1,0).applyMatrix4(frame)
+    const start=new THREE.Vector3(24,3.1,0).applyMatrix4(frame)
     const direction=new THREE.Vector3(-1,0,0).transformDirection(frame)
     runtime.reset(originalIvpResetpoints(runtime.course).length,'wood',start.toArray())
     const finish=runtime.finish!,origin=finish.position.clone()
@@ -441,6 +619,38 @@ test('wood rolls over the Level 1 ending bridge, boards, and rides the departing
     assert.ok(finish.position.y>boardingHeight+2,'spring/balloon assembly rises after bridge release')
     assert.ok(new THREE.Vector3(...runtime.player.pose.position as [number,number,number]).distanceTo(finish.position)<2)
   } finally {runtime.dispose()}
+})
+
+test('stone boards Levels 5 through 7 endings with a supported run-up and sufficient bridge traversal time',{skip:!available},async()=> {
+  for(const fps of [60,120])for(const level of [5,6,7]) {
+    const runtime=await setup(level)
+    try {
+      const parent=runtime.course.objects.find(o=>o.name.startsWith('PE_Balloon_'))!
+      const start=new THREE.Vector3(24,3.1,0).applyMatrix4(new THREE.Matrix4().fromArray(parent.matrix))
+      runtime.reset(originalIvpResetpoints(runtime.course).length,'stone',start.toArray())
+      const body=runtime.player.body!,finish=runtime.finish!
+      let boarded=-1,touched=false,approach=false
+      for(let frame=0;frame<20*fps;frame++) {
+        const p=new THREE.Vector3(...runtime.player.pose.position as [number,number,number]),v=runtime.world.state(body).slice(7,10),error=finish.position.sub(p)
+        const keys=new Set<'left'|'right'|'forward'|'backward'>()
+        if(boarded<0) {
+          const x=error.x*1.2-v[0]!*.9,z=error.z*1.2-v[2]!*.9
+          if(Math.abs(x)>.25)keys.add(x>0?'right':'left')
+          if(Math.abs(z)>.25)keys.add(z>0?'forward':'backward')
+        }
+        runtime.input(keys,0);runtime.step(1000/fps)
+        const contacts=runtime.world.contacts(body)
+        approach ||= contacts.some(c=>c.normal[1]>.3&&runtime.floorObjects.has(c.other))
+        touched ||= contacts.some(c=>[...finish.parts.values()].includes(c.other))
+        if(finish.stage==='departing'&&boarded<0)boarded=frame
+      }
+      assert.equal(runtime.player.body,body,'one continuous physical player, no intermediate restaging')
+      assert.ok(approach&&touched,`Level ${level}: real approach floor and bridge contacts`)
+      assert.ok(boarded>0&&boarded<20*fps,`Level ${level}: boarding frame ${boarded}`)
+      assert.ok(runtime.grounded)
+      assert.ok(new THREE.Vector3(...runtime.player.pose.position as [number,number,number]).distanceTo(finish.position)<2)
+    } finally {runtime.dispose()}
+  }
 })
 
 test('native Level 1 passage stays blocked when closed and opens through two wooden-ball pushes per gate',{skip:!available},async()=> {
@@ -885,4 +1095,311 @@ test('native falls enter authored death boxes before the former checkpoint cutof
       assert.ok(runtime.grounded)
     }
   } finally {runtime.dispose()}
+})
+
+test('material reuse fades native paper debris before the next explosion while retaining its new lifetime clock',{skip:!available},async()=>{
+  const runtime=await setup(),document=read('balls'),material=new THREE.MeshPhongMaterial()
+  const debris=new OriginalDebris(document,new Map(document.materials.map(m=>[m.id,material])))
+  try {
+    debris.requestTransformation('paper')
+    for(let i=0;i<150;i++)debris.stepIvp(1/60)
+    debris.spawnIvp(runtime.world,'paper',new THREE.Vector3(13.5,8,38),()=>.5)
+    const clock=debris.clocks.get('paper')!
+    assert.ok(clock.elapsedMs>2400,'lifetime started before the explosion')
+    assert.equal(debris.nativeFragments.filter(f=>f.wind!==undefined).length,18)
+    const old=debris.nativeFragments.map(f=>f.body)
+    debris.requestTransformation('paper');debris.stepIvp(1/60)
+    assert.ok(debris.nativeFragments.every(f=>f.wind===undefined),'fade entry shuts down every paper wind controller')
+    assert.equal(debris.nativeFragments.length,18,'fade does not remove physical bodies immediately')
+    for(let i=0;i<130;i++){runtime.step();debris.stepIvp(1/60)}
+    assert.equal(debris.nativeFragments.length,0)
+    for(const body of old)assert.throws(()=>runtime.world.state(body),/state read failed/)
+    assert.equal(clock.waiting,true)
+    debris.spawnIvp(runtime.world,'paper',new THREE.Vector3(13.5,8,38),()=>.5)
+    assert.equal(debris.nativeFragments.length,18)
+    assert.ok(clock.elapsedMs>2000,'new explosion must not reset the material clock')
+  } finally {debris.dispose();material.dispose();runtime.dispose()}
+})
+
+test('Level 2 chain route supports wood and paper but tears under a stone approach at 60 and 120 FPS',{skip:!available},async()=>{
+  const runtime=await setup(2)
+  try{
+    const parent=runtime.course.objects.find(o=>o.name.startsWith('P_Modul_29_'))!
+    const sector=Number(runtime.course.groups.find(g=>/^Sector_/.test(g.name)&&g.members.includes(parent.id))!.name.slice(-2))
+    const origin=new THREE.Vector3().setFromMatrixPosition(new THREE.Matrix4().fromArray(parent.matrix))
+    for(const fps of [60,120])for(const material of ['wood','stone','paper'] as const){
+      runtime.reset(sector,material,origin.clone().add(new THREE.Vector3(-12,3,.21)).toArray())
+      let touched=false,supportedExit=false,supportedEntrance=false
+      const sounds:string[]=[]
+      for(let tick=0;tick<fps*4;tick++){
+        runtime.input(new Set(tick<fps?[]:['right']),0)
+        sounds.push(...runtime.step(1000/fps))
+        const p=runtime.player.pose.position
+        const contacts=runtime.world.contacts(runtime.player.body!)
+        touched ||= contacts.some(c=>runtime.parts.some(part=>part.name.startsWith(parent.name+'/')&&part.body===c.other))
+        if(tick<fps&&onAuthoredFloor(runtime))supportedEntrance=true
+        if(p[0]!>origin.x+12&&p[1]!>origin.y&&onAuthoredFloor(runtime))supportedExit=true
+      }
+      const context=`${fps} FPS ${material}`
+      assert.ok(supportedEntrance,context+': initial placement must settle on the real approach')
+      assert.ok(touched,context+': player must contact a bridge plank')
+      assert.equal(supportedExit,material!=='stone',context+': material changes the traversable route')
+      assert.equal(sounds.filter(s=>s===chain.sound).length,material==='stone'?1:0,context+': source release event')
+      if(material==='stone')assert.ok(runtime.player.pose.position[1]!<origin.y-15,'stone falls after tearing the endpoint')
+    }
+  }finally{runtime.dispose()}
+})
+
+test('Level 4 chain crosses onto the short exit floor before its authored end wall',{skip:!available},async()=>{
+ const runtime=await setup(4)
+ try{
+  const parent=runtime.course.objects.find(o=>o.name==='P_Modul_29_02')!,frame=new THREE.Matrix4().fromArray(parent.matrix),inverse=frame.clone().invert()
+  const sector=Number(runtime.course.groups.find(g=>/^Sector_/.test(g.name)&&g.members.includes(parent.id))!.name.slice(-2))
+  const axis=new THREE.Vector3().setFromMatrixColumn(frame,0)
+  runtime.reset(sector,'wood',new THREE.Vector3(-8,3,.21).applyMatrix4(frame).toArray())
+  let touched=false,landed=false,wall=false
+  for(let tick=0;tick<180;tick++){
+   if(tick<12)runtime.input(new Set(),0);else routeDrive(runtime,axis.x,axis.z)
+   runtime.step(1000/60)
+   const local=new THREE.Vector3(...runtime.player.pose.position as [number,number,number]).applyMatrix4(inverse)
+   const contacts=runtime.world.contacts(runtime.player.body!)
+   touched ||= contacts.some(c=>runtime.parts.some(p=>p.name.startsWith(parent.name+'/')&&p.body===c.other))
+   landed ||= local.x>9&&onAuthoredFloor(runtime)
+   wall ||= local.x>11&&contacts.some(c=>!runtime.parts.some(p=>p.body===c.other)&&new THREE.Vector3(...c.normal).dot(axis)<-.9)
+  }
+  assert.ok(touched);assert.ok(landed);assert.ok(wall)
+  const local=new THREE.Vector3(...runtime.player.pose.position as [number,number,number]).applyMatrix4(inverse)
+  assert.ok(local.x>11&&local.x<12,'real wall blocks the former probe target')
+  assert.ok(onAuthoredFloor(runtime),'ball remains supported at the wall')
+ }finally{runtime.dispose()}
+})
+
+test('tilted Level 10 chain requires lateral balance while crossing',{skip:!available},async()=>{
+ const runtime=await setup(10)
+ try{
+  const parent=runtime.course.objects.find(o=>o.name==='P_Modul_29_01')!,frame=new THREE.Matrix4().fromArray(parent.matrix),inverse=frame.clone().invert()
+  const sector=Number(runtime.course.groups.find(g=>/^Sector_/.test(g.name)&&g.members.includes(parent.id))!.name.slice(-2))
+  const axis=new THREE.Vector3().setFromMatrixColumn(frame,0),side=new THREE.Vector3().setFromMatrixColumn(frame,2)
+  for(const balance of [false,true]){
+   runtime.reset(sector,'wood',new THREE.Vector3(-8,3,.21).applyMatrix4(frame).toArray())
+   let touched=false,landed=false
+   for(let tick=0;tick<120;tick++){
+    const local=new THREE.Vector3(...runtime.player.pose.position as [number,number,number]).applyMatrix4(inverse)
+    const velocity=new THREE.Vector3(...runtime.world.state(runtime.player.body!).slice(7,10) as [number,number,number]).dot(side)
+    const correction=balance?(.21-local.z)*2-velocity*.5:0
+    if(tick<12)runtime.input(new Set(),0)
+    else routeDrive(runtime,axis.x+(Math.abs(correction)>.3?Math.sign(correction)*side.x:0),axis.z)
+    runtime.step(1000/60)
+    touched ||= runtime.world.contacts(runtime.player.body!).some(c=>runtime.parts.some(p=>p.name.startsWith(parent.name+'/')&&p.body===c.other))
+    landed ||= local.x>12&&onAuthoredFloor(runtime)
+   }
+   assert.equal(landed,balance,'ordinary lateral key inputs prevent sliding off the banked bridge')
+   if(balance){assert.ok(touched);assert.ok(onAuthoredFloor(runtime))}
+  }
+ }finally{runtime.dispose()}
+})
+
+test('all player materials pass the first Level 8 sack with its native oscillator active',{skip:!available},async()=>{
+ const runtime=await setup(8)
+ try{
+  const parent=runtime.course.objects.find(o=>o.name==='P_Modul_26_01')!
+  const origin=new THREE.Vector3().setFromMatrixPosition(new THREE.Matrix4().fromArray(parent.matrix))
+  const sector=Number(runtime.course.groups.find(g=>/^Sector_/.test(g.name)&&g.members.includes(parent.id))!.name.slice(-2))
+  for(const fps of [60,120])for(const material of ['paper','wood','stone'] as const){
+   runtime.reset(sector,material,origin.clone().add(new THREE.Vector3(-8,4,0)).toArray())
+   const sack=runtime.parts.find(p=>p.name===parent.name+'/P_Modul_26_Sack')!
+   const rope=runtime.parts.find(p=>p.name===parent.name+'/P_Modul_26_Rope')!
+   const initial=runtime.world.state(sack.body).slice(0,7)
+   let touched=false,entrance=false,exit=false
+   for(let tick=0;tick<fps*5;tick++){
+    runtime.input(new Set(tick<fps?[]:['right']),0);runtime.step(1000/fps)
+    const contacts=runtime.world.contacts(runtime.player.body!)
+    touched ||= contacts.some(c=>c.other===sack.body)
+    assert.ok(!contacts.some(c=>c.other===rope.body),'massive rope is collision-disabled in the source')
+    entrance ||= tick<fps&&onAuthoredFloor(runtime)
+    exit ||= runtime.player.pose.position[0]!>origin.x+8&&onAuthoredFloor(runtime)
+   }
+   const context=`${fps} FPS ${material}`
+   assert.ok(entrance,context+': settle on the actual paired rails')
+   assert.ok(touched,context+': contact the moving sack')
+   assert.ok(exit,context+': reach supporting course floor past the sack')
+   const old=sack.body
+   runtime.reset(sector,material,origin.clone().add(new THREE.Vector3(-8,4,0)).toArray())
+   assert.throws(()=>runtime.world.state(old),/state read failed/)
+   const restored=runtime.parts.find(p=>p.name===sack.name)!
+   assert.deepEqual(runtime.world.state(restored.body).slice(0,7),initial,'sector reset restores the authored sack pose')
+  }
+ }finally{runtime.dispose()}
+})
+
+test('Level 8 three-sack corridor supports wood and paper at both frame rates with timed departures',{skip:!available},async()=>{
+ const runtime=await setup(8)
+ try{
+  const parent=runtime.course.objects.find(o=>o.name==='P_Modul_26_01')!
+  const origin=new THREE.Vector3().setFromMatrixPosition(new THREE.Matrix4().fromArray(parent.matrix))
+  const sector=Number(runtime.course.groups.find(g=>/^Sector_/.test(g.name)&&g.members.includes(parent.id))!.name.slice(-2))
+  const target=new THREE.Vector3(622,0,origin.z)
+  const last=runtime.course.objects.find(o=>o.name==='P_Modul_26_03')!
+  const cases:[number,'wood'|'paper',number][]=[[60,'wood',1],[60,'paper',1],[120,'wood',1],[120,'paper',.5]]
+  // Reproduce the unsuccessful one-second paper departure instead of the verified half-second phase.
+  if(process.env.BALLANCE_SACK_PROBE_ALL==='1')cases[3]=[120,'paper',1]
+  for(const [fps,material,departure] of cases){
+   runtime.reset(sector,material,origin.clone().add(new THREE.Vector3(-8,4,0)).toArray())
+   const touched=new Set<string>()
+   let entrance=false,minimumY=Infinity
+   for(let tick=0;tick<fps*10;tick++){
+    if(tick<fps*departure)runtime.input(new Set(),0);else routeBrake(runtime,target)
+    runtime.step(1000/fps)
+    entrance ||= tick<fps*departure&&onAuthoredFloor(runtime)
+    minimumY=Math.min(minimumY,runtime.player.pose.position[1]!)
+    for(const contact of runtime.world.contacts(runtime.player.body!)){
+     const part=runtime.parts.find(p=>p.body===contact.other&&p.name.endsWith('/P_Modul_26_Sack'))
+     if(part)touched.add(part.name)
+    }
+   }
+   const context=`${fps} FPS ${material}`,p=runtime.player.pose.position
+   assert.ok(entrance,context+': actual entrance support')
+   assert.ok(touched.has(parent.name+'/P_Modul_26_Sack')&&touched.size>=2,context+': passage interacts with multiple swinging sacks')
+   assert.ok(p[0]!>last.matrix[12]!+10,context+': pass the final sack')
+   assert.ok(onAuthoredFloor(runtime),context+': stop on authored exit floor '+JSON.stringify({p,v:runtime.world.state(runtime.player.body!).slice(7,10)}))
+   assert.ok(Math.hypot(p[0]!-target.x,p[2]!-target.z)<1,context+': stop near the exit target')
+   const brakingStep=PLAYER_PHYSICS[material].driveImpulse/PLAYER_PHYSICS[material].mass*Math.ceil(ORIGINAL_PSI_HZ*ORIGINAL_TIME_FACTOR/fps)
+   assert.ok(Math.hypot(...runtime.world.state(runtime.player.body!).slice(7,10))<brakingStep,context+': residual speed stays below one frame of normal drive')
+   assert.ok(minimumY>origin.y-6,context+': no fall and later re-entry')
+  }
+ }finally{runtime.dispose()}
+})
+
+test('stone direct approach stalls on the Level 8 uphill rails rather than an immovable sack',{skip:!available},async()=>{
+ const runtime=await setup(8)
+ try{
+  const parent=runtime.course.objects.find(o=>o.name==='P_Modul_26_01')!
+  const origin=new THREE.Vector3().setFromMatrixPosition(new THREE.Matrix4().fromArray(parent.matrix))
+  const sector=Number(runtime.course.groups.find(g=>/^Sector_/.test(g.name)&&g.members.includes(parent.id))!.name.slice(-2))
+  runtime.reset(sector,'stone',origin.clone().add(new THREE.Vector3(-8,4,0)).toArray())
+  for(let tick=0;tick<600;tick++){
+   if(tick<60)runtime.input(new Set(),0);else routeBrake(runtime,new THREE.Vector3(622,0,origin.z))
+   runtime.step(1000/60)
+  }
+  const contacts=runtime.world.contacts(runtime.player.body!)
+  assert.ok(onAuthoredFloor(runtime),'stalled stone is supported by the imported rails')
+  assert.ok(contacts.every(c=>!runtime.parts.some(p=>p.body===c.other)),'no sack or other moving prop blocks the ball at the measured endpoint')
+  const uphill=contacts.filter(c=>c.normal[1]>.3&&c.normal[0]<-.1)
+  assert.ok(uphill.length>=2,'paired rail faces supply the supporting contacts')
+  const driveAcceleration=PLAYER_PHYSICS.stone.driveImpulse*ORIGINAL_PSI_HZ/PLAYER_PHYSICS.stone.mass
+  for(const contact of uphill){
+   const grade=-contact.normal[0]/contact.normal[1]
+   assert.ok(20*grade>driveAcceleration,'source gravity on this grade exceeds available horizontal drive')
+  }
+  assert.ok(runtime.player.pose.position[0]!<608,'this direct input sequence has not passed the last sack')
+ }finally{runtime.dispose()}
+})
+
+test('lateral steering recovers the Level 9 and 10 sack passages onto their exit floors',{skip:!available},async()=>{
+ for(const [level,name,sign] of [[9,'P_Modul_26_01',-1],[10,'P_Modul_26_02',1],[10,'P_Modul_26_02',-1]] as const){
+  const runtime=await setup(level)
+  try{
+   const parent=runtime.course.objects.find(o=>o.name===name)!,frame=new THREE.Matrix4().fromArray(parent.matrix)
+   const origin=new THREE.Vector3().setFromMatrixPosition(frame),axis=new THREE.Vector3().setFromMatrixColumn(frame,0).multiplyScalar(sign)
+   const sector=Number(runtime.course.groups.find(g=>/^Sector_/.test(g.name)&&g.members.includes(parent.id))!.name.slice(-2))
+   runtime.reset(sector,'wood',new THREE.Vector3(-8*sign,4,0).applyMatrix4(frame).toArray())
+   const sack=runtime.parts.find(p=>p.name===name+'/P_Modul_26_Sack')!,target=origin.clone().addScaledVector(axis,12)
+   let touched=false,entrance=false
+   for(let tick=0;tick<300;tick++){
+    if(tick<60)runtime.input(new Set(),0);else routeBrake(runtime,target)
+    runtime.step(1000/60)
+    touched ||= runtime.world.contacts(runtime.player.body!).some(c=>c.other===sack.body)
+    entrance ||= tick<60&&onAuthoredFloor(runtime)
+   }
+   const position=new THREE.Vector3(...runtime.player.pose.position as [number,number,number])
+   assert.ok(entrance&&touched,`${level}/${name}: real approach and sack contact`)
+   assert.ok(onAuthoredFloor(runtime),`${level}/${name}: supporting exit floor`)
+   assert.ok(position.clone().sub(origin).dot(axis)>10,'ball is beyond the swinging sack')
+   assert.ok(Math.hypot(position.x-target.x,position.z-target.z)<1,'braking stays near the exit target')
+  }finally{runtime.dispose()}
+ }
+})
+
+test('Level 9 turning and Level 11 diagonal sack paths retain floor support',{skip:!available},async()=>{
+for(const [level,name,start,points] of [[9,'P_Modul_26_03',[0,4,-8],[[0,0,3],[10,0,5]]],[11,'P_Modul_26_03',[-8,4,2],[[0,0,0],[10,0,-4]]]] as const){
+const runtime=await setup(level)
+try{
+ const parent=runtime.course.objects.find(o=>o.name===name)!,origin=new THREE.Vector3().setFromMatrixPosition(new THREE.Matrix4().fromArray(parent.matrix))
+ const sector=Number(runtime.course.groups.find(g=>/^Sector_/.test(g.name)&&g.members.includes(parent.id))!.name.slice(-2))
+ runtime.reset(sector,'wood',origin.clone().add(new THREE.Vector3(...start)).toArray())
+ const sack=runtime.parts.find(p=>p.name===name+'/P_Modul_26_Sack')!;let stage=0,touched=false,entrance=false
+ for(let tick=0;tick<600;tick++){
+ const p=new THREE.Vector3(...runtime.player.pose.position as [number,number,number]),target=origin.clone().add(new THREE.Vector3(...points[stage]!))
+ if(tick<60)runtime.input(new Set(),0);else routeBrake(runtime,target)
+ runtime.step(1000/60)
+ if(Math.hypot(p.x-target.x,p.z-target.z)<1&&stage<points.length-1)stage++
+ touched ||= runtime.world.contacts(runtime.player.body!).some(c=>c.other===sack.body)
+ entrance ||= tick<60&&onAuthoredFloor(runtime)
+ }
+ assert.equal(stage,1,'follow both authored route legs')
+ assert.ok(touched&&entrance,'real approach support and sack contact')
+ assert.ok(onAuthoredFloor(runtime),`${level}: supported destination`)
+ const p=runtime.player.pose.position,target=origin.clone().add(new THREE.Vector3(...points[1]))
+ assert.ok(Math.hypot(p[0]!-target.x,p[2]!-target.z)<1,'stop near the route destination')
+}finally{runtime.dispose()}}
+
+})
+
+test('all four Level 12 sacks permit timed crossings onto the upper exit in both directions',{skip:!available},async()=>{
+ for(const name of ['P_Modul_26_01','P_Modul_26_02','P_Modul_26_03','P_Modul_26_04'])for(const sign of [1,-1])for(const departure of [.5,1]){
+  const runtime=await setup(12)
+  try{
+   const parent=runtime.course.objects.find(o=>o.name===name)!,origin=new THREE.Vector3().setFromMatrixPosition(new THREE.Matrix4().fromArray(parent.matrix))
+   const sector=Number(runtime.course.groups.find(g=>/^Sector_/.test(g.name)&&g.members.includes(parent.id))!.name.slice(-2))
+   runtime.reset(sector,'wood',origin.clone().add(new THREE.Vector3(0,4,-8*sign)).toArray())
+   const sack=runtime.parts.find(p=>p.name===parent.name+'/P_Modul_26_Sack')!,target=origin.clone().add(new THREE.Vector3(0,0,8*sign))
+   let touched=false,entrance=false,minimumY=Infinity
+   for(let tick=0;tick<600;tick++){
+    if(tick<departure*60)runtime.input(new Set(),0);else routeBrake(runtime,target)
+    runtime.step(1000/60)
+    touched ||= runtime.world.contacts(runtime.player.body!).some(c=>c.other===sack.body)
+    entrance ||= tick<departure*60&&onAuthoredFloor(runtime)
+    minimumY=Math.min(minimumY,runtime.player.pose.position[1]!)
+   }
+   const p=runtime.player.pose.position
+   assert.ok(touched&&entrance,'the approach is supported and contacts the actual sack')
+   const upperExit=onAuthoredFloor(runtime)&&p[1]!>origin.y-2&&Math.hypot(p[0]!-target.x,p[2]!-target.z)<1
+   assert.equal(upperExit,departure===.5,'departure phase changes whether the upper route is reached')
+   if(upperExit)assert.ok(minimumY>origin.y-3,'successful crossing never falls to the lower floor')
+  }finally{runtime.dispose()}
+ }
+})
+
+test('Level 12 four-sack corridor is traversable continuously by braking at each upper junction',{skip:!available},async()=>{
+ for(const fps of [60,120])for(const junctionStops of [false,true]){
+  const runtime=await setup(12)
+  try{
+   const parent=runtime.course.objects.find(o=>o.name==='P_Modul_26_01')!,origin=new THREE.Vector3().setFromMatrixPosition(new THREE.Matrix4().fromArray(parent.matrix))
+   const sector=Number(runtime.course.groups.find(g=>/^Sector_/.test(g.name)&&g.members.includes(parent.id))!.name.slice(-2))
+   runtime.reset(sector,'wood',origin.clone().add(new THREE.Vector3(0,4,8)).toArray())
+   const handle=runtime.player.body!,touched=new Set<string>(),targets=[113.771,97.811,81.787,65.787]
+   let stage=junctionStops?0:3,minimumY=Infinity
+   for(let tick=0;tick<fps*40;tick++){
+    if(tick<fps*.5)runtime.input(new Set(),0);else routeBrake(runtime,new THREE.Vector3(origin.x,0,targets[stage]!))
+    runtime.step(1000/fps)
+    assert.equal(runtime.player.body,handle,'no respawn or restaging between sacks')
+    const p=runtime.player.pose.position,v=runtime.world.state(handle).slice(7,10)
+    minimumY=Math.min(minimumY,p[1]!)
+    if(stage<3&&Math.hypot(p[0]!-origin.x,p[2]!-targets[stage]!)<.6&&Math.hypot(...v)<.5&&onAuthoredFloor(runtime))stage++
+    for(const c of runtime.world.contacts(handle)){
+     const part=runtime.parts.find(p=>p.body===c.other&&p.name.endsWith('/P_Modul_26_Sack'))
+     if(part)touched.add(part.name)
+    }
+   }
+   const p=runtime.player.pose.position
+   const safeExit=stage===3&&onAuthoredFloor(runtime)&&p[1]!>origin.y-2&&Math.hypot(p[0]!-origin.x,p[2]!-targets[3]!)<1
+   assert.equal(safeExit,junctionStops,'braking at the junctions changes the route outcome')
+   if(junctionStops){
+    assert.ok(minimumY>origin.y-3,'continuous upper-route traversal never drops to lower rails')
+    assert.ok(touched.has(parent.name+'/P_Modul_26_Sack'),'the route contacts the first sack and may avoid later swings')
+    if(fps===60)assert.ok(touched.size>=2,'the 60 FPS fixture also contacts a subsequent sack')
+    assert.ok(Math.hypot(...runtime.world.state(handle).slice(7,10))<.5,'supported final stop')
+   }
+  }finally{runtime.dispose()}
+ }
 })

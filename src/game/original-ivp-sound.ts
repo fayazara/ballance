@@ -52,7 +52,10 @@ export class OriginalIvpSound {
     }
     const next=position.map(Math.fround)
     const displacement=next.map((v,i)=>Math.fround(v-this.position![i]!))
-    const speed=Math.fround(Math.hypot(...displacement)*1000/Math.fround(dt*1000))
+    // SpeedOMeter substitutes one millisecond only for nonpositive deltas;
+    // positive sub-millisecond frames retain their actual duration.
+    const frameMs=Math.fround(dt*1000)
+    const speed=Math.fround(Math.hypot(...displacement)*1000/(frameMs<=0?1:frameMs))
     this.position=next
     const gain=Math.min(1,Math.max(0,Math.fround(speed*data.rolling.gainMultiplier)))
     const pitch=data.rolling.pitchBase+speed*data.rolling.pitchMultiplier

@@ -1,6 +1,8 @@
 import * as THREE from 'three'
 import type {OriginalObject} from './original-data.ts'
 import {OriginalProximity} from './original-proximity.ts'
+import activation from './original-checkpoint-activation-data.json' with {type:'json'}
+export const CHECKPOINT_ACTIVATION=activation
 import data from './original-checkpoint-data.json' with {type:'json'}
 
 /** Current checkpoint script, in original coordinates. Only the active next
@@ -14,12 +16,15 @@ export class OriginalCheckpoint {
   armed=false
   reached=false
   smallFlames=false
-  constructor(object:OriginalObject) {
+  activationFrames:number
+  constructor(object:OriginalObject,activationFrames=activation.firstActivationFrames) {
+    this.activationFrames=activationFrames
     const frame=new THREE.Matrix4().fromArray(object.matrix)
     this.origin=new THREE.Vector3().setFromMatrixPosition(frame)
     this.center=new THREE.Vector3().setFromMatrixPosition(frame.multiply(new THREE.Matrix4().fromArray(data.frame)))
   }
   sample(player:THREE.Vector3) {
+    if(this.activationFrames>0&&--this.activationFrames>0)return false
     if(this.reached) {
       this.sampleSmallFlames(player)
       return false

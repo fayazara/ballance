@@ -1,9 +1,12 @@
 import RAPIER from '@dimforge/rapier3d-compat'
+import { OriginalTransformerFrame, originalSpringStep } from './original-transformer-spring.ts'
 import type { Material } from './levels.ts'
+import clockData from './original-transformer-clock-data.json' with {type:'json'}
 
 // Seconds, from Gameplay.nmo and AnimTrafo.nmo. See docs/original-transformer.md.
-export const TRANSFORMATION = { open: .35, travel: 2, close: .2, capture: 1.35, dissolve: 2.35, swap: 2.5, duration: 2.55 } as const
+export const TRANSFORMATION = { entryFrames:clockData.entryDelayFrames, rearmFrames:clockData.rearmDelayFrames, open: .35, travel: 2, close: .2, capture: 1.35, dissolve: 2.35, swap: 2.5, duration: 2.55 } as const
 type Point = { x: number; y: number; z: number }
+const timerDurations=clockData.timers.map(timer=>timer.durationMs)
 export class BallTransformation {
   age = 0
   active = false
@@ -13,35 +16,59 @@ export class BallTransformation {
   private body?: RAPIER.RigidBody
   private target: Point = { x: 0, y: 0, z: 0 }
   private previous: Point = { x: 0, y: 0, z: 0 }
-  get ballVisible() { return !this.active || this.age < TRANSFORMATION.dissolve || this.committed }
-  begin(body: RAPIER.RigidBody, current: Material, kind: Material, center: Point) {
-    if (this.active || current === kind) return false
+  private timerStage=0
+  private timerAge=0
+  private springStarted=false
+  private frame?: OriginalTransformerFrame
+  private releaseFrames=0
+  physicalized=false
+  get ballVisible() { return !this.active || !this.shattered || this.committed }
+  begin(body: RAPIER.RigidBody, current: Material, kind: Material, center: Point, machineMatrix?: readonly number[]) {
+    if ((this.active&&!this.physicalized) || current === kind) return false
     this.body = body; this.target = { ...center }; this.previous = { ...body.translation() }
+    this.frame = machineMatrix ? new OriginalTransformerFrame(machineMatrix) : undefined
+    if(this.frame)this.previous=this.frame.local(body.translation())
     this.kind = kind; this.age = 0; this.committed = false; this.shattered = false; this.active = true
+    this.timerStage=0;this.timerAge=0;this.releaseFrames=0;this.physicalized=false;this.springStarted=false
     body.setLinvel({ x: 0, y: 0, z: 0 }, true); body.setAngvel({ x: 0, y: 0, z: 0 }, true)
     body.setBodyType(RAPIER.RigidBodyType.Fixed, true)
     this.collision(false)
     return true
   }
-  step(dt: number, changeMaterial: (kind: Material) => void, shatter: () => void = () => {}) {
+  step(dt: number, changeMaterial: (kind: Material) => void, shatter: () => void = () => {}, physicalize:()=>void=()=>{}) {
     if (!this.active || !this.body) return
+    if(!Number.isFinite(dt)||dt<0)throw new Error('Invalid transformer frame duration')
     this.age += dt
+    const deltaMs=Math.fround(dt*1000)
     const body = this.body
+    if(this.committed&&!this.physicalized&&--this.releaseFrames===0) {
+      this.release();physicalize();this.physicalized=true
+    }
     if (!this.committed) {
-      const position = body.translation()
-      // Original TT Set Dynamic Position: force 2 on each axis, damping .7.
-      const next = { ...this.target }
-      if (this.age < TRANSFORMATION.capture) {
-        for (const axis of ['x', 'y', 'z'] as const) next[axis] = position[axis] + (this.target[axis] - position[axis]) * 2 * dt + (position[axis] - this.previous[axis]) * .7
+      // Off performs one final spring update; subsequent delay frames retain
+      // that position. The source graph has no snap-to-center Set Position.
+      if (this.timerStage===0&&(this.springStarted||Math.fround(this.timerAge+deltaMs)>=timerDurations[0]!)) {
+        const worldPosition = body.translation()
+        const position = this.frame ? this.frame.local(worldPosition) : worldPosition
+        const next = this.frame ? originalSpringStep(position,this.previous,{x:0,y:0,z:0},{x:0,y:-3,z:0},deltaMs) : { ...position }
+        if(!this.frame)for (const axis of ['x', 'y', 'z'] as const) next[axis] = position[axis] + (this.target[axis] - position[axis]) * 2 * dt + (position[axis] - this.previous[axis]) * .7
+        this.previous = { ...position }; body.setTranslation(this.frame ? this.frame.rendered(next) : next, true)
       }
-      this.previous = { ...position }; body.setTranslation(next, true)
-      if (!this.shattered && this.age >= TRANSFORMATION.dissolve) { this.shattered = true; shatter() }
-      if (this.age >= TRANSFORMATION.swap) {
-        changeMaterial(this.kind); this.committed = true
-        this.release()
+      this.springStarted=true
+      // Separate TimerMini behaviors. A zero-frame link starts the next timer
+      // with this frame's DeltaTime, not the previous timer's overshoot.
+      while(this.timerStage<timerDurations.length) {
+        this.timerAge=Math.fround(this.timerAge+deltaMs)
+        if(this.timerAge<timerDurations[this.timerStage]!)break
+        this.timerStage++;this.timerAge=0
+        if(this.timerStage===2){this.shattered=true;shatter()}
+        if(this.timerStage===3){
+          changeMaterial(this.kind);this.committed=true;this.releaseFrames=clockData.physicalizeDelayFrames
+          this.collision(false);body.setBodyType(RAPIER.RigidBodyType.Fixed,true)
+        }
       }
     }
-    if (this.age >= TRANSFORMATION.duration) { this.active = false; this.body = undefined }
+    if (this.physicalized&&this.age >= TRANSFORMATION.duration) { this.active = false; this.body = undefined }
   }
   private collision(enabled: boolean) { if (this.body) for (let i = 0; i < this.body.numColliders(); i++) this.body.collider(i).setEnabled(enabled) }
   private release() {
@@ -49,7 +76,7 @@ export class BallTransformation {
     this.collision(true); this.body.setBodyType(RAPIER.RigidBodyType.Dynamic, true)
     this.body.setLinvel({ x: 0, y: 0, z: 0 }, true); this.body.setAngvel({ x: 0, y: 0, z: 0 }, true)
   }
-  cancel() { this.release(); this.body = undefined; this.active = false; this.committed = false; this.shattered = false; this.age = 0 }
+  cancel() { this.release(); this.body = undefined; this.active = false; this.committed = false; this.shattered = false; this.age = 0;this.timerStage=0;this.timerAge=0;this.releaseFrames=0;this.physicalized=false }
 }
 
 // Reconstruct the saved 2D curves from their knot positions and tangent slopes.

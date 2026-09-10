@@ -1,0 +1,623 @@
+{
+  "conditions": {
+    "material": "wood",
+    "crossingAxis": 2,
+    "fps": 60,
+    "settleFrames": 60,
+    "driveFrames": 240,
+    "startLocal": [
+      0,
+      4,
+      -8
+    ],
+    "exitDistance": 8
+  },
+  "results": [
+    {
+      "level": 8,
+      "name": "P_Modul_26_01",
+      "sign": 1,
+      "entrance": false,
+      "touched": false,
+      "exit": false,
+      "firstExit": null,
+      "minimumHeightAboveRoot": -191.64826339741356,
+      "finalFloors": [],
+      "position": [
+        572.146728515625,
+        -198.23764413853294,
+        -63.37123622422009
+      ]
+    },
+    {
+      "level": 8,
+      "name": "P_Modul_26_01",
+      "sign": -1,
+      "entrance": false,
+      "touched": false,
+      "exit": false,
+      "firstExit": null,
+      "minimumHeightAboveRoot": -193.66819944048467,
+      "finalFloors": [],
+      "position": [
+        572.146728515625,
+        -200.25758018160406,
+        -276.2613478248168
+      ]
+    },
+    {
+      "level": 8,
+      "name": "P_Modul_26_02",
+      "sign": 1,
+      "entrance": false,
+      "touched": false,
+      "exit": false,
+      "firstExit": null,
+      "minimumHeightAboveRoot": -193.66817957458971,
+      "finalFloors": [],
+      "position": [
+        592.9882805506178,
+        -201.75754171905993,
+        -275.99644041877576
+      ]
+    },
+    {
+      "level": 8,
+      "name": "P_Modul_26_02",
+      "sign": -1,
+      "entrance": false,
+      "touched": false,
+      "exit": false,
+      "firstExit": null,
+      "minimumHeightAboveRoot": -193.66815970869476,
+      "finalFloors": [],
+      "position": [
+        592.9882819493822,
+        -201.75752185316497,
+        -63.106388129843616
+      ]
+    },
+    {
+      "level": 8,
+      "name": "P_Modul_26_03",
+      "sign": 1,
+      "entrance": false,
+      "touched": false,
+      "exit": false,
+      "firstExit": null,
+      "minimumHeightAboveRoot": -193.6681398427998,
+      "finalFloors": [],
+      "position": [
+        608.4970092773438,
+        -197.85741749172558,
+        -63.37129553588479
+      ]
+    },
+    {
+      "level": 8,
+      "name": "P_Modul_26_03",
+      "sign": -1,
+      "entrance": false,
+      "touched": false,
+      "exit": false,
+      "firstExit": null,
+      "minimumHeightAboveRoot": -193.66811997690485,
+      "finalFloors": [],
+      "position": [
+        608.4970092773438,
+        -197.85739762583063,
+        -276.2612885131521
+      ]
+    },
+    {
+      "level": 9,
+      "name": "P_Modul_26_04",
+      "sign": 1,
+      "entrance": false,
+      "touched": false,
+      "exit": false,
+      "firstExit": null,
+      "minimumHeightAboveRoot": -191.64826339741342,
+      "finalFloors": [],
+      "position": [
+        350.89777125840016,
+        -264.0782865907728,
+        730.8956298828125
+      ]
+    },
+    {
+      "level": 9,
+      "name": "P_Modul_26_04",
+      "sign": -1,
+      "entrance": false,
+      "touched": false,
+      "exit": false,
+      "firstExit": null,
+      "minimumHeightAboveRoot": -193.6681994404846,
+      "finalFloors": [],
+      "position": [
+        563.7878828589961,
+        -266.098222633844,
+        730.8956298828125
+      ]
+    },
+    {
+      "level": 9,
+      "name": "P_Modul_26_05",
+      "sign": 1,
+      "entrance": false,
+      "touched": false,
+      "exit": false,
+      "firstExit": null,
+      "minimumHeightAboveRoot": -193.66817957458966,
+      "finalFloors": [],
+      "position": [
+        564.2239642224862,
+        -266.09820276794903,
+        741.3544921875
+      ]
+    },
+    {
+      "level": 9,
+      "name": "P_Modul_26_05",
+      "sign": -1,
+      "entrance": false,
+      "touched": false,
+      "exit": false,
+      "firstExit": null,
+      "minimumHeightAboveRoot": -193.6681597086947,
+      "finalFloors": [],
+      "position": [
+        351.33391193355493,
+        -266.0981829020541,
+        741.3544921875
+      ]
+    },
+    {
+      "level": 9,
+      "name": "P_Modul_26_06",
+      "sign": 1,
+      "entrance": false,
+      "touched": false,
+      "exit": false,
+      "firstExit": null,
+      "minimumHeightAboveRoot": -193.66813984279975,
+      "finalFloors": [],
+      "position": [
+        350.89783057006485,
+        -266.0981630361591,
+        750.8956298828125
+      ]
+    },
+    {
+      "level": 9,
+      "name": "P_Modul_26_06",
+      "sign": -1,
+      "entrance": false,
+      "touched": false,
+      "exit": false,
+      "firstExit": null,
+      "minimumHeightAboveRoot": -193.6681199769048,
+      "finalFloors": [],
+      "position": [
+        563.7878235473314,
+        -266.09814317026417,
+        750.8956298828125
+      ]
+    },
+    {
+      "level": 9,
+      "name": "P_Modul_26_01",
+      "sign": 1,
+      "entrance": false,
+      "touched": false,
+      "exit": false,
+      "firstExit": null,
+      "minimumHeightAboveRoot": -193.6681001110099,
+      "finalFloors": [],
+      "position": [
+        -47.38161975457171,
+        -251.94228529167395,
+        373.10479736328125
+      ]
+    },
+    {
+      "level": 9,
+      "name": "P_Modul_26_01",
+      "sign": -1,
+      "entrance": false,
+      "touched": false,
+      "exit": false,
+      "firstExit": null,
+      "minimumHeightAboveRoot": -193.66808024511494,
+      "finalFloors": [],
+      "position": [
+        165.50831391103054,
+        -251.942265425779,
+        373.10479736328125
+      ]
+    },
+    {
+      "level": 9,
+      "name": "P_Modul_26_02",
+      "sign": 1,
+      "entrance": false,
+      "touched": false,
+      "exit": false,
+      "firstExit": null,
+      "minimumHeightAboveRoot": -193.66806037921998,
+      "finalFloors": [],
+      "position": [
+        62.104705810546875,
+        -251.94224555988404,
+        505.26739332139545
+      ]
+    },
+    {
+      "level": 9,
+      "name": "P_Modul_26_02",
+      "sign": -1,
+      "entrance": false,
+      "touched": false,
+      "exit": false,
+      "firstExit": null,
+      "minimumHeightAboveRoot": -193.66804051332502,
+      "finalFloors": [],
+      "position": [
+        62.104705810546875,
+        -251.9422256939891,
+        292.37751896745823
+      ]
+    },
+    {
+      "level": 9,
+      "name": "P_Modul_26_03",
+      "sign": 1,
+      "entrance": true,
+      "touched": false,
+      "exit": false,
+      "firstExit": null,
+      "minimumHeightAboveRoot": -172.42180901684003,
+      "finalFloors": [],
+      "position": [
+        69.54457751814428,
+        -230.6959941975041,
+        325.9955244600064
+      ]
+    },
+    {
+      "level": 9,
+      "name": "P_Modul_26_03",
+      "sign": -1,
+      "entrance": true,
+      "touched": true,
+      "exit": false,
+      "firstExit": null,
+      "minimumHeightAboveRoot": -48.47247725035733,
+      "finalFloors": [],
+      "position": [
+        63.92419441349895,
+        -106.74666243102139,
+        479.4300816399202
+      ]
+    },
+    {
+      "level": 10,
+      "name": "P_Modul_26_01",
+      "sign": 1,
+      "entrance": false,
+      "touched": false,
+      "exit": false,
+      "firstExit": null,
+      "minimumHeightAboveRoot": -189.09659387233174,
+      "finalFloors": [],
+      "position": [
+        549.7274160223513,
+        -206.6571903383962,
+        74.46812019011853
+      ]
+    },
+    {
+      "level": 10,
+      "name": "P_Modul_26_01",
+      "sign": -1,
+      "entrance": false,
+      "touched": false,
+      "exit": false,
+      "firstExit": null,
+      "minimumHeightAboveRoot": -193.66819944048467,
+      "finalFloors": [],
+      "position": [
+        549.7274169921875,
+        -211.22879590654912,
+        -140.96452623057837
+      ]
+    },
+    {
+      "level": 10,
+      "name": "P_Modul_26_02",
+      "sign": 1,
+      "entrance": false,
+      "touched": false,
+      "exit": false,
+      "firstExit": null,
+      "minimumHeightAboveRoot": -193.66817957458971,
+      "finalFloors": [],
+      "position": [
+        765.7793841443607,
+        -197.00558954773425,
+        -72.59452056884766
+      ]
+    },
+    {
+      "level": 10,
+      "name": "P_Modul_26_02",
+      "sign": -1,
+      "entrance": false,
+      "touched": false,
+      "exit": false,
+      "firstExit": null,
+      "minimumHeightAboveRoot": -193.66815970869476,
+      "finalFloors": [],
+      "position": [
+        552.8893318554304,
+        -197.0055696818393,
+        -72.59452056884766
+      ]
+    },
+    {
+      "level": 11,
+      "name": "P_Modul_26_01",
+      "sign": 1,
+      "entrance": false,
+      "touched": false,
+      "exit": false,
+      "firstExit": null,
+      "minimumHeightAboveRoot": -191.64826339741356,
+      "finalFloors": [],
+      "position": [
+        197.62150822158048,
+        -219.3731130983413,
+        -65.75574493408203
+      ]
+    },
+    {
+      "level": 11,
+      "name": "P_Modul_26_01",
+      "sign": -1,
+      "entrance": false,
+      "touched": false,
+      "exit": false,
+      "firstExit": null,
+      "minimumHeightAboveRoot": -193.66819944048467,
+      "finalFloors": [],
+      "position": [
+        -15.268603379015865,
+        -221.3930491414124,
+        -65.75574493408203
+      ]
+    },
+    {
+      "level": 11,
+      "name": "P_Modul_26_02",
+      "sign": 1,
+      "entrance": true,
+      "touched": true,
+      "exit": true,
+      "firstExit": {
+        "frame": 235,
+        "position": [
+          86.33388645649008,
+          -28.39860542599733,
+          -42.439046325257465
+        ],
+        "heightAboveRoot": -0.6737252074914721,
+        "minimumHeightAboveRoot": -0.6744622422570892,
+        "floors": [
+          {
+            "id": 117,
+            "name": "A01_Floor_02"
+          }
+        ]
+      },
+      "minimumHeightAboveRoot": -20.698230004235413,
+      "finalFloors": [],
+      "position": [
+        85.19859794279711,
+        -48.42311022274127,
+        -13.059960762809055
+      ]
+    },
+    {
+      "level": 11,
+      "name": "P_Modul_26_02",
+      "sign": -1,
+      "entrance": true,
+      "touched": true,
+      "exit": true,
+      "firstExit": {
+        "frame": 213,
+        "position": [
+          87.33329628492619,
+          -28.739726778241923,
+          -59.04672714792339
+        ],
+        "heightAboveRoot": -1.014846559736064,
+        "minimumHeightAboveRoot": -1.014846559736064,
+        "floors": [
+          {
+            "id": 117,
+            "name": "A01_Floor_02"
+          }
+        ]
+      },
+      "minimumHeightAboveRoot": -38.253199506936625,
+      "finalFloors": [],
+      "position": [
+        80.97775913604994,
+        -65.97807972544248,
+        -84.94048946820001
+      ]
+    },
+    {
+      "level": 11,
+      "name": "P_Modul_26_03",
+      "sign": 1,
+      "entrance": false,
+      "touched": false,
+      "exit": false,
+      "firstExit": null,
+      "minimumHeightAboveRoot": -192.45741853587936,
+      "finalFloors": [],
+      "position": [
+        538.6509415928192,
+        -249.24915513866256,
+        -194.74071119250144
+      ]
+    },
+    {
+      "level": 11,
+      "name": "P_Modul_26_03",
+      "sign": -1,
+      "entrance": true,
+      "touched": false,
+      "exit": false,
+      "firstExit": null,
+      "minimumHeightAboveRoot": -156.90788459886232,
+      "finalFloors": [],
+      "position": [
+        748.0953385320912,
+        -213.69962120164553,
+        -200.59104043432094
+      ]
+    },
+    {
+      "level": 12,
+      "name": "P_Modul_26_01",
+      "sign": 1,
+      "entrance": false,
+      "touched": false,
+      "exit": false,
+      "firstExit": null,
+      "minimumHeightAboveRoot": -191.64826339741356,
+      "finalFloors": [],
+      "position": [
+        271.66071071152516,
+        -189.45553010960228,
+        121.78324127197266
+      ]
+    },
+    {
+      "level": 12,
+      "name": "P_Modul_26_01",
+      "sign": -1,
+      "entrance": false,
+      "touched": false,
+      "exit": false,
+      "firstExit": null,
+      "minimumHeightAboveRoot": -193.66819944048467,
+      "finalFloors": [],
+      "position": [
+        484.55082231212117,
+        -191.4754661526734,
+        121.78324127197266
+      ]
+    },
+    {
+      "level": 12,
+      "name": "P_Modul_26_02",
+      "sign": 1,
+      "entrance": false,
+      "touched": false,
+      "exit": false,
+      "firstExit": null,
+      "minimumHeightAboveRoot": -193.66817957458971,
+      "finalFloors": [],
+      "position": [
+        484.550807484205,
+        -191.47544652519701,
+        105.77165985107422
+      ]
+    },
+    {
+      "level": 12,
+      "name": "P_Modul_26_02",
+      "sign": -1,
+      "entrance": false,
+      "touched": false,
+      "exit": false,
+      "firstExit": null,
+      "minimumHeightAboveRoot": -193.66815970869476,
+      "finalFloors": [],
+      "position": [
+        271.6607551952737,
+        -191.47542665930206,
+        105.77165985107422
+      ]
+    },
+    {
+      "level": 12,
+      "name": "P_Modul_26_03",
+      "sign": 1,
+      "entrance": false,
+      "touched": false,
+      "exit": false,
+      "firstExit": null,
+      "minimumHeightAboveRoot": -193.6681398427998,
+      "finalFloors": [],
+      "position": [
+        271.66077002318985,
+        -191.4754067934071,
+        89.81066131591797
+      ]
+    },
+    {
+      "level": 12,
+      "name": "P_Modul_26_03",
+      "sign": -1,
+      "entrance": false,
+      "touched": false,
+      "exit": false,
+      "firstExit": null,
+      "minimumHeightAboveRoot": -193.66811997690485,
+      "finalFloors": [],
+      "position": [
+        484.55076300045647,
+        -191.47538692751215,
+        89.81066131591797
+      ]
+    },
+    {
+      "level": 12,
+      "name": "P_Modul_26_04",
+      "sign": 1,
+      "entrance": false,
+      "touched": false,
+      "exit": false,
+      "firstExit": null,
+      "minimumHeightAboveRoot": -193.6681001110099,
+      "finalFloors": [],
+      "position": [
+        484.5507481725403,
+        -191.4753670616172,
+        73.78717803955078
+      ]
+    },
+    {
+      "level": 12,
+      "name": "P_Modul_26_04",
+      "sign": -1,
+      "entrance": false,
+      "touched": false,
+      "exit": false,
+      "firstExit": null,
+      "minimumHeightAboveRoot": -193.66808024511494,
+      "finalFloors": [],
+      "position": [
+        271.6608145069384,
+        -191.47534719572224,
+        73.78717803955078
+      ]
+    }
+  ]
+}

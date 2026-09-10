@@ -15,7 +15,22 @@ export class OriginalRespawn {
     this.stage='checking';this.frames=data.lifeCheckDelayFrames;this.age=0;this.flashAge=undefined
     return true
   }
+  beginInitial() {
+    this.reset();this.stage='positioning';this.frames=data.initialBallDelayFrames
+  }
   reset(){this.stage='idle';this.age=0;this.frames=0;this.flashAge=undefined}
+  private advanceRemoval(deltaMs:number):RespawnEvent[] {
+    this.age=Math.fround(this.age+deltaMs)
+    if(this.age<data.removeBallDelayMs)return []
+    this.stage='positioning';this.frames=data.newBallDelayFrames
+    return ['remove-ball']
+  }
+  private advanceFormation(deltaMs:number):RespawnEvent[] {
+    this.age=Math.fround(this.age+deltaMs)
+    if(this.age<data.physicalizeDelayMs)return []
+    this.stage='waking';this.frames=data.wakeDelayFrames
+    return ['physicalize-ball']
+  }
   get flash() {
     if(this.flashAge===undefined||this.flashAge>data.flash.durationMs)return [0,0,0,0]
     const t=ufoCurve(data.flash.curve,this.flashAge/data.flash.durationMs)
@@ -23,6 +38,9 @@ export class OriginalRespawn {
   }
   step(deltaMs:number,spareLives:number):RespawnEvent[] {
     if(!Number.isFinite(deltaMs)||deltaMs<0)throw new Error('Invalid respawn frame duration')
+    // TimerMini / Delayer 0x20000 resets then adds float DeltaTime on In.
+    // Zero-delay graph links execute that first timer tick in the same frame.
+    deltaMs=Math.fround(deltaMs)
     if(this.flashAge!==undefined)this.flashAge=Math.fround(this.flashAge+deltaMs)
     switch(this.stage) {
       case 'idle':return []
@@ -30,21 +48,15 @@ export class OriginalRespawn {
         if(--this.frames>0)return []
         if(spareLives<=0){this.reset();return ['game-over']}
         this.stage='falling';this.age=0;this.flashAge=deltaMs
-        return ['clear-fragments']
+        return ['clear-fragments',...this.advanceRemoval(deltaMs)]
       case 'falling':
-        this.age=Math.fround(this.age+deltaMs)
-        if(this.age<data.removeBallDelayMs)return []
-        this.stage='positioning';this.frames=data.newBallDelayFrames
-        return ['remove-ball']
+        return this.advanceRemoval(deltaMs)
       case 'positioning':
         if(--this.frames>0)return []
         this.stage='forming';this.age=0
-        return ['position-ball']
+        return ['position-ball',...this.advanceFormation(deltaMs)]
       case 'forming':
-        this.age=Math.fround(this.age+deltaMs)
-        if(this.age<data.physicalizeDelayMs)return []
-        this.stage='waking';this.frames=data.wakeDelayFrames
-        return ['physicalize-ball']
+        return this.advanceFormation(deltaMs)
       case 'waking':
         if(--this.frames>0)return []
         this.stage='idle'

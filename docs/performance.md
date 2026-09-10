@@ -68,3 +68,31 @@ with no browser errors. No deployment was performed for this change.
 
 Use `?inspect=tools` locally and the **Measure sound on/off** buttons to repeat a
 measurement. Do not run builds concurrently with a frame-rate measurement.
+
+## Second pass and deployment
+
+The Level 2 fan floor contains 254 alternating material groups, including an
+alpha-blended grille. The first pass skipped this entire mesh. Batching now works
+within contiguous solid sections, treating transparent, non-depth-writing and
+nonstandard-blending groups as ordering barriers. No triangle crosses a barrier.
+
+Flames and fan smoke now cache their invariant random seed calculations, avoid
+buffer uploads while animation time is unchanged, and have conservative culling
+spheres. Red collectible trails update their bounds with the live dots so they
+can be culled outside the view without losing trails during satellite pursuit.
+This reduces offscreen rendering; particle simulation still advances normally.
+
+The same Level 2 fan test now reports **60 draw calls**, down from **308**, while
+retaining **3,257 triangles** and the **1908 × 1996** drawing buffer. Sound-on
+sampling returned 120 FPS, p95 9.3 ms and zero frames over 33.4 ms. Two Web Audio
+voices were playing and the browser error log was empty. This is reduced rendering
+work, not a measured FPS increase on the already refresh-limited desktop test.
+
+All **223 tests** pass. Added coverage verifies ordering barriers, conservative
+particle bounds for every flame profile, moving trail bounds, and paused effect
+uploads. Lint and TypeScript checks pass. Physical-iPhone performance is still
+unmeasured. The deployment requested with this second pass includes both passes.
+
+Deployed with `pnpm run deploy` to `https://ballance.fayaz.workers.dev/`, version
+`45bec4e0-d2b6-4179-bf0e-e229c6d90568`. The public HTML serves the matching new
+`index-DMN_o7GZ.js` bundle. Offline pack version: `71e86082520ade6e90b8`.

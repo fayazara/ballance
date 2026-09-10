@@ -13,4 +13,9 @@ wake=dict(index=440,distance=p[0],object=p[2],barycenter=p[3],exactnessMin=p[4],
 for link in [(381,340),(340,143),(145,287),(289,217),(219,73),(75,182),(184,252),(254,38),(40,108),(110,342),(342,345),(347,450),(452,386),(388,416),(418,411),(418,417),(382,451),(453,387),(389,341),(389,417),(343,346),(348,469),(412,474),(475,488),(491,484),(485,489)]:assert link in d.links,link
 assert all(p['startFrozen'] and not p['fixed'] for p in parts)
 assert wake['axes']==5 and wake['outputFlags']==4
+assert d.behavior(415,33)['inIO']==[411] and d.behavior(415,33)['outIO']==[412]
+assert d.behavior(496)['inputs']==[493] and d.value(493)=='P_Modul_03_FallingParts'
+assert d.value(477)=='DepthTest'
+# WakeUp Out -> group lookup -> iterator -> Add To Group; registration is not
+# part of the physicalization chain before the proximity Enter Range output.
 print(json.dumps(dict(source='P_Modul_03.nmo',parts=parts,slider=slider,spring=spring,wake=wake,wakeFrame=d.frame(wake['object']),wakeTarget=d.behavior(415,33)['target'],fallingGroup='P_Modul_03_FallingParts',depthGroup='DepthTest'),indent=2))
