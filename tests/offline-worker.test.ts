@@ -10,20 +10,20 @@ function harness() {
   const offline={value:false},messages:any[]=[]
   const context=vm.createContext({Response,Headers,URL,AbortController,setTimeout,clearTimeout,crypto:webcrypto,console,
     self:{location:{origin:'https://game.test'},skipWaiting:async()=>{},clients:{claim:async()=>{}},addEventListener:(name:string,fn:(e:any)=>void)=>listeners.set(name,fn)},
-    caches:{keys:async()=>[...stores.keys()],open:async(name:string)=> {
+    caches:{delete:async(name:string)=>stores.delete(name),keys:async()=>[...stores.keys()],open:async(name:string)=> {
       if(!stores.has(name))stores.set(name,new Map())
       const cache=stores.get(name)!
       return {match:async(key:string)=>cache.get(key)?.clone(),put:async(key:string,response:Response)=>{cache.set(key,response.clone())},delete:async(key:string)=>cache.delete(key)}
     }},
     fetch:async(input:string|{url:string})=> {
       if(offline.value)throw new Error('Network disconnected')
-      const path=typeof input==='string'?input:new URL(input.url).pathname
+      const path=new URL(typeof input==='string'?input:input.url,'https://game.test').pathname
       if(path==='/offline-manifest.json')return Response.json({version:'test',files})
       const body=payloads.get(path);return new Response(body??'Missing',{status:body?200:404})
     }
   })
   vm.runInContext(readFileSync(new URL('../public/sw.js',import.meta.url),'utf8').replace('__OFFLINE_VERSION__','test'),context)
-  const message=async(type:string)=>{let work:Promise<unknown>|undefined;listeners.get('message')!({data:{type},ports:[{postMessage:(m:any)=>messages.push(m)}],waitUntil:(p:Promise<unknown>)=>{work=p}});await work;return messages.at(-1)}
+  const message=async(type:string,refresh=false)=>{let work:Promise<unknown>|undefined;listeners.get('message')!({data:{type,refresh},ports:[{postMessage:(m:any)=>messages.push(m)}],waitUntil:(p:Promise<unknown>)=>{work=p}});await work;return messages.at(-1)}
   const request=async(path:string,range?:string,navigation=false)=> {
     let result:Promise<Response>|undefined
     listeners.get('fetch')!({request:{url:`https://game.test${path}`,method:'GET',mode:navigation?'navigate':'cors',headers:new Headers(range?{range}:{})},respondWith:(p:Promise<Response>)=>{result=p}})
@@ -52,4 +52,23 @@ test('a failed or changed download cannot claim offline readiness and is retryab
   assert.equal((await h.message('STATUS')).type,'EMPTY')
   h.payloads.set('/original/level_12.json','{"level":12}')
   assert.equal((await h.message('SAVE')).type,'READY')
+})
+
+test('online navigation receives new deployments while offline navigation retains the saved shell',async()=> {
+  const h=harness();await h.message('SAVE');h.payloads.set('/','new deployment')
+  assert.equal(await (await h.request('/',undefined,true)).text(),'new deployment')
+  h.offline.value=true
+  assert.equal(await (await h.request('/',undefined,true)).text(),'<html>Ballance</html>')
+})
+test('refresh replaces cached files and delete removes only game downloads',async()=> {
+  const h=harness();await h.message('SAVE')
+  h.stores.get('ballance-flight-test')!.set('/original/level_12.json',new Response('corrupt'))
+  assert.equal((await h.message('SAVE',true)).type,'READY')
+  h.offline.value=true
+  assert.equal(await (await h.request('/original/level_12.json')).text(),'{"level":12}')
+  h.stores.set('unrelated-cache',new Map())
+  h.stores.set('ballance-flight-old',new Map())
+  assert.equal((await h.message('DELETE')).type,'DELETED')
+  assert.deepEqual([...h.stores.keys()],['unrelated-cache'])
+  assert.equal((await h.message('STATUS')).type,'EMPTY')
 })

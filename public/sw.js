@@ -5,14 +5,23 @@ const READY='/__ballance_offline_ready__';
 self.addEventListener('install',event=>event.waitUntil(self.skipWaiting()));
 self.addEventListener('activate',event=>event.waitUntil(self.clients.claim()));
 let downloading;
-async function downloadFile(url) {
-  const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),30000);
+async function downloadFile(url,timeout=30000) {
+  const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),timeout);
   try {return await fetch(url,{cache:'no-store',signal:controller.signal});} finally {clearTimeout(timer);}
 }
 self.addEventListener('message',event=> {
   const port=event.ports[0];if(!port)return;
   if(event.data?.type==='STATUS') {
     event.waitUntil((async()=>{const cache=await caches.open(CACHE);const ready=await cache.match(READY);port.postMessage({type:ready?'READY':'EMPTY'});})());return;
+  }
+  if(event.data?.type==='DELETE') {
+    event.waitUntil((async()=> {
+      if(downloading){port.postMessage({type:'ERROR',message:'Wait for the download to finish before deleting it.'});return;}
+      try {
+        for(const name of await caches.keys())if(name.startsWith('ballance-flight-'))await caches.delete(name);
+        port.postMessage({type:'DELETED'});
+      } catch(error){port.postMessage({type:'ERROR',message:error.message||'Could not delete the download.'});}
+    })());return;
   }
   if(event.data?.type!=='SAVE')return;
   if(downloading){port.postMessage({type:'ERROR',message:'A download is already running. Keep that tab open.'});return;}
@@ -27,7 +36,7 @@ self.addEventListener('message',event=> {
     const outcomes=await Promise.allSettled(Array.from({length:4},async()=> {
       while(next<manifest.files.length) {
         const file=manifest.files[next++];
-        if(!await cache.match(file.url)) {
+        if(event.data.refresh||!await cache.match(file.url)) {
           const response=await downloadFile(file.url);
           if(!response.ok)throw new Error(`Could not download ${file.url}. Reconnect and retry.`);
           const bytes=await response.clone().arrayBuffer();
@@ -67,7 +76,11 @@ self.addEventListener('fetch',event=> {
   const request=event.request,url=new URL(request.url);
   if(request.method!=='GET'||url.origin!==self.location.origin||url.pathname==='/offline-manifest.json')return;
   event.respondWith((async()=> {
-    // A saved build uses a coherent shell and asset pack, including during flaky flight Wi-Fi.
+    // Online navigation must discover new deployments instead of pinning users
+    // to a previously downloaded shell. Failed connections retain offline play.
+    if(request.mode==='navigate') {
+      try {const response=await downloadFile(request.url,4000);if(response.ok)return response;}catch{}
+    }
     const saved=await savedResponse(request);if(saved)return saved;
     return fetch(request);
   })());

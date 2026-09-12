@@ -4,9 +4,13 @@ import {OriginalButton as Button} from '../ui/OriginalWidgets'
 import {screenTilt,tiltAxes,floatingPad} from './mobile-input'
 import type {Axes} from './mobile-input'
 
+function Arrow({turn=0}:{turn?:number}) {
+  return <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" style={{transform:`rotate(${turn}deg)`}}><path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m5 12l7-7l7 7m-7 7V5"/></svg>
+}
 type OrientationPermission=typeof DeviceOrientationEvent&{requestPermission?:()=>Promise<string>}
 export function MobileControls({onInput,onView,onRotate,active,original,sensitivity,settingsHost}:{onInput:(value:Axes)=>void;onView:(held:boolean)=>void;onRotate:(delta:number)=>void;active:boolean;original:boolean;sensitivity:number;settingsHost:HTMLElement|null}) {
   const [mode,setMode]=useState<'dpad'|'gyro'>('dpad'),[status,setStatus]=useState(''),[requesting,setRequesting]=useState(false)
+  const [actionsOpen,setActionsOpen]=useState(false)
   const [calibrated,setCalibrated]=useState(false),[axes,setAxes]=useState<Axes>({x:0,z:0})
   const pointer=useRef<{id:number;x:number;y:number}|null>(null)
   const [stick,setStick]=useState<{x:number;y:number;dx:number;dy:number}|null>(null)
@@ -90,8 +94,15 @@ export function MobileControls({onInput,onView,onRotate,active,original,sensitiv
       {mode==='gyro'&&<div className="tilt-control"><div className="tilt-indicator" aria-label={calibrated?'Tilt calibrated':'Waiting for sensor'}><i style={{transform:`translate(${axes.x*28}px,${axes.z*28}px)`}}/></div><Button compact onClick={calibrate}>Calibrate</Button></div>}
     </div>
     ,settingsHost)}
-    {active&&<div className="mobile-actions"><div className="camera-turns"><button aria-label="Rotate camera left" onClick={()=>rotate(Math.PI/2)}>↶</button><button aria-label="Rotate camera right" onClick={()=>rotate(-Math.PI/2)}>↷</button></div>
-      <button className="phone-view" aria-label={original?'Hold to raise camera':'Hold to brake'} onPointerDown={e=>{if(!active)return;e.currentTarget.setPointerCapture(e.pointerId);onView(true)}} onPointerUp={()=>{onView(false)}} onPointerCancel={()=>{onView(false)}} onLostPointerCapture={()=>{onView(false)}}>{original?'VIEW':'BRAKE'}</button>
+    {active&&<div className="mobile-actions">
+      {actionsOpen&&<div id="phone-camera-actions" className="camera-turns" role="group" aria-label="Camera controls">
+        <button className="original-button phone-action" aria-label="Rotate camera left" onClick={()=>rotate(Math.PI/2)}><Arrow turn={-90}/></button>
+        <button className="original-button phone-action" aria-label="Rotate camera right" onClick={()=>rotate(-Math.PI/2)}><Arrow turn={90}/></button>
+        <button className="original-button phone-action" aria-label={original?'Hold to raise camera':'Hold to brake'} onPointerDown={e=>{if(!active)return;e.currentTarget.setPointerCapture(e.pointerId);onView(true)}} onPointerUp={()=>onView(false)} onPointerCancel={()=>onView(false)} onLostPointerCapture={()=>onView(false)} onKeyDown={e=>{if(e.key===' '||e.key==='Enter'){e.preventDefault();onView(true)}}} onKeyUp={()=>onView(false)} onBlur={()=>onView(false)}><Arrow/></button>
+      </div>}
+      <button className="original-button phone-action" aria-label={actionsOpen?'Hide camera controls':'Show camera controls'} aria-expanded={actionsOpen} aria-controls="phone-camera-actions" onClick={()=>{onView(false);setActionsOpen(open=>!open)}}>
+        <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="3" fill="currentColor"/><circle cx="15" cy="17" r="3" fill="currentColor"/></svg>
+      </button>
     </div>}
   </div>
 }
