@@ -1,0 +1,23 @@
+docs/original-fans.md
+  s_f2a017c1eb8a95::t_c9c895c67150cc 78-85
+tests/original-ivp-runtime.test.ts
+  s_f2a017c1eb8a95::t_b430eec558ebfb 1406-1435
+scripts/prepare-original.py
+  s_f2a017c1eb8a95::t_d6b44283bbba12 22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "bc17836d9d98ae88d7a7c94d3c90ba16978a65cb",
+  "prompts": {},
+  "sessions": {
+    "s_f2a017c1eb8a95": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a07b89-b5da-7993-a5cd-aa6860ea5d27",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Fayaz Ahmed <fayazara@gmail.com>"
+    }
+  }
+}
