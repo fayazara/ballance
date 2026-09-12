@@ -1,0 +1,33 @@
+src/App.css
+  s_f2a017c1eb8a95::t_a212dd3a507a82 25-39
+src/App.tsx
+  s_f2a017c1eb8a95::t_35eff746bf315a 1,8-11,14,25-33,86,135-137,145-146,149-151
+src/controls/MobileControls.tsx
+  s_f2a017c1eb8a95::t_e743486145cb14 2-3,8,67,84,86-87,90,92-93,95
+src/game/original-camera.ts
+  s_f2a017c1eb8a95::t_014de74bcc99f4 12-23
+src/game/original-engine.ts
+  s_f2a017c1eb8a95::t_e1eb1e14095a22 42,656-657,660,766
+src/ui/OriginalWidgets.tsx
+  s_f2a017c1eb8a95::t_3e6bbab7a46949 10-11
+tests/responsive-camera.test.ts
+  s_f2a017c1eb8a95::t_3d26d2798548ba 1-23
+src/controls/OfflineDownload.tsx
+  s_f2a017c1eb8a95::t_b0c41a3ed5c980 1,6,10,38-39,41
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "fe1e0dd65560487fe7b646b674ef49e42f8eec44",
+  "prompts": {},
+  "sessions": {
+    "s_f2a017c1eb8a95": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a07b89-b5da-7993-a5cd-aa6860ea5d27",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Fayaz Ahmed <fayazara@gmail.com>"
+    }
+  }
+}
