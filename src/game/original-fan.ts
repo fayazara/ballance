@@ -79,11 +79,15 @@ export class OriginalFan {
         void main() { vec4 view = modelViewMatrix * vec4(position, 1.); gl_Position = projectionMatrix * view;
           gl_PointSize = size * pixelScale / max(.1, -view.z); alpha = opacity; }`,
       fragmentShader: `uniform sampler2D smoke; varying float alpha;
-        void main() { vec4 texel = texture2D(smoke, gl_PointCoord); gl_FragColor = vec4(texel.rgb, texel.a * alpha);
+        void main() { vec4 texel = texture2D(smoke, gl_PointCoord);
+          // The original BMP stores its soft mask in RGB, not alpha. Treat
+          // it as coverage so overlapping wisps cannot add up to white beams.
+          float coverage = dot(texel.rgb, vec3(0.2126, 0.7152, 0.0722));
+          gl_FragColor = vec4(0.92, 0.90, 0.82, coverage * alpha * 0.35);
           #include <tonemapping_fragment>
           #include <colorspace_fragment>
         }`,
-      transparent: true, blending: THREE.AdditiveBlending, depthWrite: false,
+      transparent: true, blending: THREE.NormalBlending, depthWrite: false,
     })
     geometry.boundingSphere=new THREE.Sphere(this.origin.clone().add(new THREE.Vector3(0,3.6,0)),4.5)
     this.air = new THREE.Points(geometry, material)
