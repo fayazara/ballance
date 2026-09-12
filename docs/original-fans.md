@@ -75,3 +75,11 @@ Counts are module instances in the imported twelve-level pack. Every listed type
 | 41 | 43 | P_Modul_41 | Passive hinge and original compound collision implemented; see [hinge validation](original-hinges.md) |
 
 Also outstanding: exact script-frame scheduling for [fallen-object cleanup](original-depth.md), complete sector lifecycle and collision filtering, full level playthroughs, exact original constraint/contact solver behavior, tutorial and cutscene flows, per-level music scheduling, transformer lightning/curve fidelity, and the complete UFO finish sequence. See `original-import.md` for the overall runtime boundary. This project is not yet a 1:1 recreation.
+
+## Level 3 final-fan collision fix (2026-09-12)
+
+The native floor importer included the Level 3 `P_Modul_18_04` placement proxy because its ID remains in `Phys_Floors`. Among all 12 converted courses, this is the only fan placement in a physical-floor group. Its untextured proxy contains a closed column from local Y 0.34 to 16.70, in addition to a base box. The rendered fan instead loads `p_modul_18`; the real grille belongs to the course floor geometry.
+
+A paper approach along `A05_Rail_02`, starting at original coordinates `(1721.23, -479, -141.92)`, reproduced the report: it stopped at approximately `(1728.8125, -480.2041, -141.8461)` with contacts against both rails and `P_Modul_18_04`, and the fan controller never activated. Native floor import now excludes fan placement proxies, matching the module-loading path already used by the renderer and Rapier. It preserves course floors, rails, airflow bounds, and force parameters.
+
+A regression drives the same native paper body from the upstream rails into the fan at 60 and 120 script FPS, checks actual rail contact and airflow activation, and verifies ascent more than 14 original units above the grille. This is a headless native route check, not a browser playthrough or original-executable comparison.

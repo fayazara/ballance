@@ -1403,3 +1403,33 @@ test('Level 12 four-sack corridor is traversable continuously by braking at each
   }finally{runtime.dispose()}
  }
 })
+
+test('Level 3 final fan admits paper from its approach rails instead of colliding with the placement proxy',{skip:!available},async()=> {
+  for(const hz of [60,120]) {
+    const runtime=await setup(3)
+    try {
+      const parent=runtime.course.objects.find(o=>o.name==='P_Modul_18_04')!
+      const fan=runtime.fans.find(f=>Math.abs(f.origin.x-parent.matrix[12]!)<.01)!
+      // Start upstream on the actual pair of rails, clear of the fan volume.
+      runtime.reset(5,'paper',[1721.23,-479,-141.92])
+      const body=runtime.player.body!
+      let railContact=false,airflow=false
+      for(let frame=0;frame<6*hz;frame++) {
+        const p=runtime.player.pose.position,v=runtime.world.state(body).slice(7,10)
+        const x=(fan.origin.x-p[0]!)*1.5-v[0]!*.8,z=(fan.origin.z-p[2]!)*1.5-v[2]!*.8
+        const keys=new Set<'left'|'right'|'forward'|'backward'>()
+        if(Math.abs(x)>.3)keys.add(x>0?'right':'left')
+        if(Math.abs(z)>.3)keys.add(z>0?'forward':'backward')
+        runtime.input(keys,0);runtime.step(1000/hz)
+        railContact ||= runtime.world.contacts(body).some(c=>runtime.floorObjects.get(c.other)?.name==='A05_Rail_02')
+        airflow ||= fan.active
+      }
+      assert.ok(railContact,'approach must use the real rails')
+      assert.ok(airflow,'paper must reach the airflow without being teleported')
+      assert.equal(runtime.player.body,body)
+      assert.ok(runtime.player.pose.position[1]!>fan.origin.y+14,'fan must lift paper above its grille')
+      assert.ok(Math.hypot(runtime.player.pose.position[0]!-fan.origin.x,runtime.player.pose.position[2]!-fan.origin.z)<1)
+      assert.ok(![...runtime.floorObjects.values()].some(o=>o.name.startsWith('P_Modul_18_')),'fan placement columns must never become walls')
+    } finally {runtime.dispose()}
+  }
+})

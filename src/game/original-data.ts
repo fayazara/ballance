@@ -4,7 +4,7 @@ export interface OriginalObject { id: number; name: string; mesh: number; matrix
 export interface OriginalMesh { id: number; name?: string; positions: number[]; normals: number[]; uvs: number[]; indices: number[]; faceMaterials: number[]; materials: number[] }
 export interface OriginalDocument {
   objects: OriginalObject[]; meshes: OriginalMesh[]
-  materials: { id: number; name: string; emissive: number[]; texture: number; diffuse: number[]; AlphaBlendEnabled: boolean; AlphaTestEnabled: boolean; TwoSidedEnabled: boolean; ZWriteEnabled: boolean }[]
+  materials: { id: number; name: string; emissive: number[]; specular?: number[]; texture: number; diffuse: number[]; AlphaBlendEnabled: boolean; AlphaTestEnabled: boolean; TwoSidedEnabled: boolean; ZWriteEnabled: boolean }[]
   textures: { id: number; file: string }[]; groups: { name: string; members: number[] }[]
 }
 /** Invisible collision-only floors still participate in physics. */
@@ -57,6 +57,47 @@ export class OriginalMaterials {
     return new Map(document.materials.map(m => {
       const material = new THREE.MeshPhongMaterial({ map: textures.get(m.texture) ?? null, color: new THREE.Color(m.diffuse[0], m.diffuse[1], m.diffuse[2]), emissive: new THREE.Color(m.emissive[0], m.emissive[1], m.emissive[2]), emissiveMap: textures.get(m.texture) ?? null, shininess: 8, specular: 0x222222, transparent: m.AlphaBlendEnabled, alphaTest: m.AlphaTestEnabled ? 0.4 : 0, opacity: m.diffuse[3], depthWrite: m.ZWriteEnabled, side: m.TwoSidedEnabled ? THREE.DoubleSide : THREE.FrontSide })
       if (m.name === 'Laterne_Verlauf') { material.blending = THREE.AdditiveBlending; material.depthWrite = false; material.alphaTest = 0; material.emissiveIntensity = 2 }
+      if (material.map?.name.endsWith('/Rail_Environment.png')) {
+        const specular=m.specular??[.823529,.823529,.823529]
+        material.specular.setRGB(specular[0]!,specular[1]!,specular[2]!)
+        material.shininess=64
+        // Sample the supplied reflection image from the smooth surface normal,
+        // rather than freezing the editor's UVs onto each pipe segment.
+        material.onBeforeCompile=shader=> {
+          shader.fragmentShader=shader.fragmentShader.replace('#include <map_fragment>', `
+            vec3 railReflection = inverseTransformDirection(reflect(-normalize(vViewPosition), normalize(vNormal)), viewMatrix);
+            vec2 railUv = clamp(railReflection.xz * 0.5 + 0.5, 0.001, 0.999);
+            ${THREE.ShaderChunk.map_fragment.replaceAll('vMapUv','railUv')}
+          `).replace('#include <emissivemap_fragment>',THREE.ShaderChunk.emissivemap_fragment.replaceAll('vEmissiveMapUv','railUv'))
+        }
+        material.customProgramCacheKey=()=> 'original-rail-reflection-v1'
+      }
+      if (m.name === 'Laterne_Schatten' || m.name === 'I_Laterne_Schatten') {
+        // Source TGA alpha peaks at 82/255: the generic 0.4 cutoff erases it.
+        material.transparent = true; material.alphaTest = 0; material.depthWrite = false
+        material.specular.set(0x000000)
+      }
+      if (m.name === 'P_Dome') {
+        const environmentSource = document.textures.find(t => /(?:^|\/)DomeEnvironment\.png$/i.test(t.file))
+        const environment = environmentSource && textures.get(environmentSource.id)
+        if (environment) {
+          // Restore the additional reflection layer omitted by the mesh exporter.
+          // TT_ReflectionMapping projects the reflected direction onto X/Z;
+          // originalGeometry reverses Z and flips texture V, cancelling here.
+          material.onBeforeCompile = shader => {
+            shader.uniforms.domeEnvironment = { value: environment }
+            shader.fragmentShader = 'uniform sampler2D domeEnvironment;\n' + shader.fragmentShader
+            shader.fragmentShader = shader.fragmentShader.replace('#include <opaque_fragment>', `
+              vec3 domeReflection = inverseTransformDirection(reflect(-normalize(vViewPosition), normal), viewMatrix);
+              vec2 domeUv = clamp(domeReflection.xz * 0.5 + 0.5, 0.001, 0.999);
+              vec3 domeSky = texture2D(domeEnvironment, domeUv).rgb;
+              outgoingLight = mix(outgoingLight, domeSky * (0.7 + 0.3 * diffuseColor.rgb), 0.7);
+              #include <opaque_fragment>
+            `)
+          }
+          material.customProgramCacheKey = () => 'original-dome-reflection-v1'
+        }
+      }
       material.name = m.name
       this.materials.push(material); return [m.id, material]
     }))

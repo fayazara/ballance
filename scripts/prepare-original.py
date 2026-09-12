@@ -19,7 +19,7 @@ subprocess.run(command + ['--entities'], check=True)
 subprocess.run(command + ['--transformer'], check=True)
 subprocess.run(command + ['--menu'], check=True)
 # BMap's image export discards these source TGA alpha channels.
-for name in ['DomeShadow', 'Trafo_Shadow_Big']:
+for name in ['DomeShadow', 'Trafo_Shadow_Big', 'Laterne_Schatten']:
     subprocess.run(['ffmpeg', '-nostdin', '-loglevel', 'error', '-y', '-i', str(args.game / 'Textures' / (name + '.tga')), str(output / 'textures' / (name + '.png'))], check=True)
 for folder in ['sky', 'audio']: (output / folder).mkdir(exist_ok=True)
 subprocess.run(['ffmpeg', '-nostdin', '-loglevel', 'error', '-y', '-i', str(args.game / 'Textures' / 'Particle_Flames.bmp'), str(output / 'textures' / 'Particle_Flames.png')], check=True)

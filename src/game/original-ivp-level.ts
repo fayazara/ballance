@@ -19,7 +19,10 @@ export function originalIvpFloors(document: OriginalDocument): IvpOriginalFloor[
   const members=(name: string)=>new Set(document.groups.find(g=>g.name===name)?.members ?? [])
   const floors=new Set([...members('Phys_Floors'),...members('Phys_FloorRails'),...members('Phys_FloorStopper')])
   const stoppers=members('Phys_FloorStopper')
-  return document.objects.filter(o=>floors.has(o.id)).map(object=> {
+  // Some courses retain fan placement proxies in Phys_Floors. Their mesh
+  // includes a closed column above the grille, not the loaded module's floor.
+  // The module supplies airflow; the real grille is baked into course geometry.
+  return document.objects.filter(o=>floors.has(o.id)&&!/^P_Modul_18_/.test(o.name)).map(object=> {
     const source=document.meshes.find(m=>m.id===object.mesh)
     if(!source || !source.indices.length) throw new Error(`Missing original floor mesh: ${object.name}`)
     const matrix=new THREE.Matrix4().fromArray(object.matrix.map(Math.fround))
