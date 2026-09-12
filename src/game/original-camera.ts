@@ -9,6 +9,18 @@ const original=(value:THREE.Vector3)=>value.clone().multiply(new THREE.Vector3(4
 const rendered=(from:THREE.Vector3,to:THREE.Vector3)=>to.copy(from).multiply(new THREE.Vector3(.25,.25,-.25))
 const matrix=(name:keyof typeof data.frames)=>new THREE.Matrix4().fromArray(data.frames[name].matrix)
 
+/** Modest portrait pullback without a wide-angle lens or changes to the rig. */
+export function responsiveCameraDistance(aspect:number) {
+  const referenceAspect=data.projection.aspectWidth/data.projection.aspectHeight
+  if(!Number.isFinite(aspect)||aspect<=0||aspect>=referenceAspect)return 1
+  return Math.min(1.4,Math.pow(referenceAspect/aspect,.4))
+}
+
+/** Apply to the presentation camera after copying the original rig each frame. */
+export function framePortraitCamera(camera:THREE.PerspectiveCamera,target:THREE.Vector3) {
+  camera.position.sub(target).multiplyScalar(responsiveCameraDistance(camera.aspect)).add(target)
+}
+
 /** Camera.nmo's world-space rig and Gameplay's two dynamic-position controls.
  * Navigation turns Cam_Orient first; Cam_OrientRef only commits on the delayed
  * completion link, so input does not follow the visibly lagging camera. */

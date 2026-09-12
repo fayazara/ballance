@@ -1,13 +1,17 @@
-import {useEffect,useRef,useState} from 'react'
+import {useCallback,useEffect,useRef,useState} from 'react'
 import type {GameState,Settings} from './game/engine'
 import type {OriginalEngine} from './game/original-engine'
 import {ORIGINAL_CONTROLS,originalKeyLabel,rebindOriginalControl,type OriginalControlAction,type OriginalControlSettings} from './controls/original-controls'
 import {OriginalButton as Button,OriginalLabel as Label,OriginalText as Text,OriginalHud,type SpriteName} from './ui/OriginalWidgets'
 import {OriginalMenuBackdrop} from './ui/OriginalMenuBackdrop'
 import ui from './game/original-ui-data.json'
+import {MobileControls} from './controls/MobileControls'
+import {OfflineDownload} from './controls/OfflineDownload'
+import {useWakeLock} from './controls/useWakeLock'
+import type {Axes} from './controls/mobile-input'
 import './App.css'
 
-type Panel='main'|'levels'|'pause'|'options'|'graphics'|'controls'|'sound'|'credits'|'highscore'|'score'|'confirm'|'name'|null
+type Panel='main'|'levels'|'pause'|'options'|'graphics'|'controls'|'sound'|'credits'|'highscore'|'score'|'confirm'|'name'|'offline'|null
 type Score={Playername:string;Points:number}
 const initial:GameState={phase:'menu',level:0,lives:3,time:500,score:1000,material:'wood',checkpoint:0,speed:0,message:''}
 function read<T,>(key:string,fallback:T):T {try{return JSON.parse(localStorage.getItem(key)||'null')??fallback}catch{return fallback}}
@@ -18,6 +22,15 @@ export default function App() {
   const [state,setState]=useState(initial),[panel,setPanel]=useState<Panel>('main'),[busy,setBusy]=useState(true),[error,setError]=useState('')
   const [inCourse,setInCourse]=useState(false),[returnTo,setReturnTo]=useState<Panel>('main')
   const [controls,setControls]=useState<OriginalControlSettings>(()=>read('ballance-original-controls',ORIGINAL_CONTROLS))
+  const [phoneControls,setPhoneControls]=useState(()=>read('ballance-phone-controls',matchMedia('(any-pointer: coarse)').matches))
+  const [offlineHost,setOfflineHost]=useState<HTMLDivElement|null>(null)
+  const [controlHost,setControlHost]=useState<HTMLDivElement|null>(null)
+  const playing=!panel&&!busy&&state.phase==='playing'
+  useWakeLock(playing&&phoneControls)
+  useEffect(()=>save('ballance-phone-controls',phoneControls),[phoneControls])
+  const touchInput=useCallback((value:Axes)=>{if(engine.current){engine.current.touch.x=value.x;engine.current.touch.z=value.z}},[])
+  const touchView=useCallback((held:boolean)=>{if(engine.current)engine.current.touch.brake=held},[])
+  const touchRotate=useCallback((delta:number)=>engine.current?.turnCamera(delta>0?'left':'right'),[])
   const [binding,setBinding]=useState<OriginalControlAction|null>(null)
   const [volume,setVolume]=useState(()=>read('ballance-original-volume',1))
   const [quality,setQuality]=useState(()=>read('ballance-original-resolution',2))
@@ -70,7 +83,7 @@ export default function App() {
   const back=()=> {
     if(binding){setBinding(null);return}
     if(panel==='pause'){resume();return}
-    if(['graphics','controls','sound'].includes(panel??'')){navigate('options');return}
+    if(['graphics','controls','sound','offline'].includes(panel??'')){navigate('options');return}
     if(panel==='options'||panel==='highscore'||panel==='credits'){navigate(returnTo);return}
     if(panel==='confirm'){navigate(inCourse?'pause':'main');return}
     navigate('main')
@@ -119,6 +132,9 @@ export default function App() {
   return <main className="original-app">
     <div className="game-canvas" ref={host}/>
     {menuBackground&&<OriginalMenuBackdrop/>}
+    <OfflineDownload host={offlineHost}/>
+    <MobileControls onInput={touchInput} onView={touchView} onRotate={touchRotate} active={playing&&phoneControls} original sensitivity={1} settingsHost={controlHost}/>
+    {playing&&<button className="original-button game-menu-toggle" aria-label="Pause game" onClick={()=>engine.current?.pause()}><span className="menu-toggle-icon" aria-hidden="true"><i/><i/><i/></span></button>}
     {!panel&&!busy&&<OriginalHud points={points} lives={state.lives}/>}
     {panel&&!busy&&<div className={`original-menu ${inCourse?'over-course':''}`} data-panel={panel} role="dialog" aria-modal="true" aria-label={panel==='main'?'Main menu':panel==='pause'?'Pause menu':panel} ref={dialog}><div className="menu-content">
       {panel==='main'&&<>
@@ -126,9 +142,13 @@ export default function App() {
       </>}
       {panel==='levels'&&<>{Array.from({length:12},(_,i)=><Button key={`M_Start_But_${String(i+1).padStart(2,'0')}` as SpriteName} name={`M_Start_But_${String(i+1).padStart(2,'0')}` as SpriteName} onClick={()=>void play(i)} compact={true}>{`Level ${i+1}`}</Button>)}{<Button key={'M_Start_But_Back'} name={'M_Start_But_Back'} onClick={back} compact={false}>{label(15)}</Button>}</>}
       {panel==='pause'&&<>{<Button key={'M_Pause_But_1'} name={'M_Pause_But_1'} onClick={()=>ask('restart')} compact={false}>{label(17)}</Button>}{<Button key={'M_Pause_But_2'} name={'M_Pause_But_2'} onClick={()=>ask('home')} compact={false}>{label(18)}</Button>}{<Button key={'M_Pause_But_3'} name={'M_Pause_But_3'} onClick={highscore} compact={false}>{label(1)}</Button>}{<Button key={'M_Pause_But_4'} name={'M_Pause_But_4'} onClick={options} compact={false}>{label(2)}</Button>}{<Button key={'M_Pause_But_Back'} name={'M_Pause_But_Back'} onClick={resume} compact={false}>{label(15)}</Button>}</>}
-      {panel==='options'&&<><Label name="M_Options_Title" scale={[.7,.8]}>{label(28)}</Label>{<Button key={'M_Options_But_1'} name={'M_Options_But_1'} onClick={()=>navigate('graphics')} compact={false}>{label(29)}</Button>}{<Button key={'M_Options_But_2'} name={'M_Options_But_2'} onClick={()=>navigate('controls')} compact={false}>{label(30)}</Button>}{<Button key={'M_Options_But_3'} name={'M_Options_But_3'} onClick={()=>navigate('sound')} compact={false}>{label(31)}</Button>}{<Button key={'M_Options_But_Back'} name={'M_Options_But_Back'} onClick={back} compact={false}>{label(15)}</Button>}</>}
+      {panel==='options'&&<><Label name="M_Options_Title" scale={[.7,.8]}>{label(28)}</Label>{<Button key={'M_Options_But_1'} name={'M_Options_But_1'} onClick={()=>navigate('graphics')} compact={false}>{label(29)}</Button>}{<Button key={'M_Options_But_2'} name={'M_Options_But_2'} onClick={()=>navigate('controls')} compact={false}>{label(30)}</Button>}{<Button key={'M_Options_But_3'} name={'M_Options_But_3'} onClick={()=>navigate('sound')} compact={false}>{label(31)}</Button>}<button className="original-button" onClick={()=>navigate('offline')}>Download offline</button>{<Button key={'M_Options_But_Back'} name={'M_Options_But_Back'} onClick={back} compact={false}>{label(15)}</Button>}</>}
+      {panel==='offline'&&<><Text scale={[.7,.8]}>Download offline</Text><div ref={setOfflineHost}/><button className="original-button menu-back" onClick={back}>Back</button></>}
       {panel==='controls'&&<>
         <Label name="M_Opt_Keys_Title" scale={[.7,.8]}>{label(30)}</Label>
+        <div className="setting-row"><Label name="M_Opt_Keys_Inv_Field">Phone controls</Label><div className="setting-choice" role="group" aria-label="Phone controls"><Button compact selected={phoneControls} onClick={()=>setPhoneControls(true)}>On</Button><Button compact selected={!phoneControls} onClick={()=>setPhoneControls(false)}>Off</Button></div></div>
+        <div ref={setControlHost}/>
+        <p className="control-help">D-pad: touch anywhere in the game and drag. Gyroscope: tilt your phone to roll. Use the menu button to pause.</p>
         {(['forward','backward','left','right','rotation','overview'] as const).map((action,i)=><div className="setting-row" key={action}><Label name={`M_Opt_Keys_Key${i+1}` as SpriteName}>{label([37,38,39,40,42,41][i]!)}</Label>{<Button key={`M_Opt_Keys_Field${i+1}` as SpriteName} name={`M_Opt_Keys_Field${i+1}` as SpriteName} onClick={()=>{sound();setBinding(action)}} compact={true}>{binding===action?'...':originalKeyLabel(controls.keys[action])}</Button>}</div>)}
         <div className="setting-row"><Label name="M_Opt_Keys_Inv_Field">{label(43)}</Label>
         <div className="setting-choice"><Button name="M_Opt_Keys_Inv_Yes" selected={controls.invertRotation} compact onClick={()=>setControls({...controls,invertRotation:true})}>{label(34)}</Button><Button name="M_Opt_Keys_Inv_No" selected={!controls.invertRotation} compact onClick={()=>setControls({...controls,invertRotation:false})}>{label(35)}</Button></div></div>

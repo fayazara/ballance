@@ -1,9 +1,11 @@
 import {useCallback,useEffect,useRef,useState} from 'react'
+import {createPortal} from 'react-dom'
+import {OriginalButton as Button} from '../ui/OriginalWidgets'
 import {screenTilt,tiltAxes,floatingPad} from './mobile-input'
 import type {Axes} from './mobile-input'
 
 type OrientationPermission=typeof DeviceOrientationEvent&{requestPermission?:()=>Promise<string>}
-export function MobileControls({onInput,onView,onRotate,active,original,sensitivity}:{onInput:(value:Axes)=>void;onView:(held:boolean)=>void;onRotate:(delta:number)=>void;active:boolean;original:boolean;sensitivity:number}) {
+export function MobileControls({onInput,onView,onRotate,active,original,sensitivity,settingsHost}:{onInput:(value:Axes)=>void;onView:(held:boolean)=>void;onRotate:(delta:number)=>void;active:boolean;original:boolean;sensitivity:number;settingsHost:HTMLElement|null}) {
   const [mode,setMode]=useState<'dpad'|'gyro'>('dpad'),[status,setStatus]=useState(''),[requesting,setRequesting]=useState(false)
   const [calibrated,setCalibrated]=useState(false),[axes,setAxes]=useState<Axes>({x:0,z:0})
   const pointer=useRef<{id:number;x:number;y:number}|null>(null)
@@ -62,7 +64,7 @@ export function MobileControls({onInput,onView,onRotate,active,original,sensitiv
   const update=(value:Axes)=>{if(active){onInput(value);setAxes(value)}}
   const calibrate=()=>{clear();neutral.current=sample.current;setCalibrated(!!sample.current);setStatus(sample.current?'Calibrated':'Waiting for motion…')}
   return <div className={`mobile-controls ${!active?'controls-inactive':''}`} aria-label="Phone controls">
-    {mode==='dpad'&&<div className="steering-surface" role="group" aria-label="Touch anywhere and drag to roll" onContextMenu={e=>e.preventDefault()}
+    {active&&mode==='dpad'&&<div className="steering-surface" role="group" aria-label="Touch anywhere and drag to roll" onContextMenu={e=>e.preventDefault()}
       onPointerDown={e=>{
         if(!active||pointer.current||e.button!==0)return
         e.preventDefault();e.currentTarget.setPointerCapture(e.pointerId)
@@ -79,16 +81,17 @@ export function MobileControls({onInput,onView,onRotate,active,original,sensitiv
       onLostPointerCapture={e=>{if(pointer.current?.id===e.pointerId)releaseStick()}}>
       {stick&&<div className="floating-dpad" aria-hidden="true" style={{left:stick.x,top:stick.y}}><i style={{transform:`translate(${stick.dx}px,${stick.dy}px)`}}/></div>}
     </div>}
-    <div className="mobile-steering">
+    {settingsHost&&createPortal(<div className="mobile-steering">
       <div className="control-choice" role="group" aria-label="Steering mode">
-        <button aria-pressed={mode==='dpad'} onClick={()=>{epoch.current.value++;setRequesting(false);clear();setAxes({x:0,z:0});setMode('dpad');setStatus('')}}>D-pad</button>
-        <button aria-pressed={mode==='gyro'} disabled={requesting} onClick={()=>void gyro()}>{requesting?'Allow motion…':'Gyroscope'}</button>
+        <Button compact selected={mode==='dpad'} onClick={()=>{epoch.current.value++;setRequesting(false);clear();setAxes({x:0,z:0});setMode('dpad');setStatus('')}}>D-pad</Button>
+        <Button compact selected={mode==='gyro'} disabled={requesting} onClick={()=>void gyro()}>{requesting?'Allow motion…':'Gyroscope'}</Button>
       </div>
       {status&&<p className="motion-status" role="status">{status}</p>}
-      {mode==='gyro'&&<div className="tilt-control"><div className="tilt-indicator" aria-label={calibrated?'Tilt calibrated':'Waiting for sensor'}><i style={{transform:`translate(${axes.x*28}px,${axes.z*28}px)`}}/></div><button onClick={calibrate}>Calibrate</button></div>}
+      {mode==='gyro'&&<div className="tilt-control"><div className="tilt-indicator" aria-label={calibrated?'Tilt calibrated':'Waiting for sensor'}><i style={{transform:`translate(${axes.x*28}px,${axes.z*28}px)`}}/></div><Button compact onClick={calibrate}>Calibrate</Button></div>}
     </div>
-    <div className="mobile-actions"><div className="camera-turns"><button aria-label="Rotate camera left" onClick={()=>rotate(Math.PI/2)}>↶</button><button aria-label="Rotate camera right" onClick={()=>rotate(-Math.PI/2)}>↷</button></div>
+    ,settingsHost)}
+    {active&&<div className="mobile-actions"><div className="camera-turns"><button aria-label="Rotate camera left" onClick={()=>rotate(Math.PI/2)}>↶</button><button aria-label="Rotate camera right" onClick={()=>rotate(-Math.PI/2)}>↷</button></div>
       <button className="phone-view" aria-label={original?'Hold to raise camera':'Hold to brake'} onPointerDown={e=>{if(!active)return;e.currentTarget.setPointerCapture(e.pointerId);onView(true)}} onPointerUp={()=>{onView(false)}} onPointerCancel={()=>{onView(false)}} onLostPointerCapture={()=>{onView(false)}}>{original?'VIEW':'BRAKE'}</button>
-    </div>
+    </div>}
   </div>
 }

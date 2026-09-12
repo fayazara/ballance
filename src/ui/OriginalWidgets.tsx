@@ -7,8 +7,8 @@ export function OriginalText({children,scale=[.45,.55],className='',style}:{chil
   const size=scale[0]!>=.7?'large':scale[0]!<.4?'small':'normal'
   return <span className={`original-text text-${size} ${className}`} style={style}>{children}</span>
 }
-export function OriginalButton({name,children,onClick,onFocus,disabled=false,selected,compact=false}:{name:SpriteName;children:ReactNode;onClick:()=>void;onFocus?:()=>void;disabled?:boolean;selected?:boolean;compact?:boolean}) {
-  const back=name.endsWith('Back'),caption=children==='‹'?'Previous level':children==='›'?'Next level':typeof children==='string'?children:undefined
+export function OriginalButton({name,children,onClick,onFocus,disabled=false,selected,compact=false}:{name?:SpriteName;children:ReactNode;onClick:()=>void;onFocus?:()=>void;disabled?:boolean;selected?:boolean;compact?:boolean}) {
+  const back=name?.endsWith('Back'),caption=children==='‹'?'Previous level':children==='›'?'Next level':typeof children==='string'?children:undefined
   return <button className={`original-button ${selected?'selected':''} ${compact?'compact':''} ${back?'menu-back':''}`} data-sprite={name} disabled={disabled} onClick={onClick} onFocus={onFocus} aria-label={caption} aria-pressed={selected}>
     {typeof children==='string'?<OriginalText>{children}</OriginalText>:children}
   </button>

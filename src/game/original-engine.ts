@@ -39,7 +39,7 @@ import {OriginalUfo} from './original-ufo'
 import {OriginalEndingCamera} from './original-ending-camera'
 import endingCameraData from './original-ending-camera-data.json'
 import {originalScriptDeltaMs} from './original-script-clock'
-import {OriginalCamera} from './original-camera'
+import {OriginalCamera,framePortraitCamera} from './original-camera'
 import {OriginalCheckpoint,CHECKPOINT_ACTIVATION} from './original-checkpoint'
 import checkpointData from './original-checkpoint-data.json'
 import {OriginalRespawn} from './original-respawn'
@@ -653,9 +653,11 @@ export class OriginalEngine {
       if(this.endingCamera.active) {
         this.camera.position.copy(this.endingCamera.position);this.camera.lookAt(this.endingCamera.target)
       }
+      const framingTarget=this.endingCamera.active?this.endingCamera.target:this.native?this.gameCamera.target:this.follow.clone().add(new THREE.Vector3(0,.25,0))
+      framePortraitCamera(this.camera,framingTarget)
       const near=this.endingCamera.active?endingCameraData.clipping[0]!*SCALE:this.native?this.gameCamera.clipping.near:.1
       const far=this.endingCamera.active?endingCameraData.clipping[1]!*SCALE:this.native?this.gameCamera.clipping.far:1800
-      const fov=this.native?this.gameCamera.verticalFov:45
+      const fov=(this.native?this.gameCamera.verticalFov:45)
       if(this.camera.near!==near||this.camera.far!==far||this.camera.fov!==fov) {
         this.camera.near=near;this.camera.far=far;this.camera.fov=fov
         this.camera.updateProjectionMatrix()
@@ -761,7 +763,7 @@ export class OriginalEngine {
   }
   keyup = (event: KeyboardEvent) => { const key=originalEngineKey(event.code,this.controls);if(key)this.keys.delete(key) }
   blur = () => { this.keys.clear(); if (this.state.phase === 'playing') this.pause() }
-  resize = () => { const w = this.host.clientWidth, h = this.host.clientHeight; this.camera.aspect = w / Math.max(h, 1); this.camera.updateProjectionMatrix();this.renderer.setPixelRatio(this.renderBudget.configure(w,h,devicePixelRatio,this.settings.quality,this.coarsePointer)); this.renderer.setSize(w, h) }
+  resize = () => { const w = this.host.clientWidth, h = this.host.clientHeight; this.camera.aspect = w / Math.max(h, 1); this.camera.fov=(this.native?this.gameCamera.verticalFov:45); this.camera.updateProjectionMatrix();this.renderer.setPixelRatio(this.renderBudget.configure(w,h,devicePixelRatio,this.settings.quality,this.coarsePointer)); this.renderer.setSize(w, h) }
   clearLevel() {
     this.lightning?.reset();this.audio.stop('Misc_Lightning')
     this.respawnSequence.reset();this.respawnFilter.style.display='none'
