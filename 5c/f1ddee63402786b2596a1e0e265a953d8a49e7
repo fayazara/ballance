@@ -1,0 +1,27 @@
+public/sw.js
+  s_f2a017c1eb8a95::t_c3f67367fc9e8d 8-9,17-25,39,79-83
+src/App.css
+  s_f2a017c1eb8a95::t_68ffd4f349c528 33-34,40-42
+src/controls/MobileControls.tsx
+  s_f2a017c1eb8a95::t_eadf3c9fad0b7f 7-9,13,97-105
+src/controls/OfflineDownload.tsx
+  s_f2a017c1eb8a95::t_6e10a44e4cdb28 7-14,18,30,42,45-63
+tests/offline-worker.test.ts
+  s_f2a017c1eb8a95::t_5b38341574ab04 13,20,26,56-74
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "5cf1ddee63402786b2596a1e0e265a953d8a49e7",
+  "prompts": {},
+  "sessions": {
+    "s_f2a017c1eb8a95": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a07b89-b5da-7993-a5cd-aa6860ea5d27",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Fayaz Ahmed <fayazara@gmail.com>"
+    }
+  }
+}
