@@ -269,7 +269,7 @@ export class OriginalIvpRuntime {
     if(this.finish)for(const [target,body] of this.finish.parts)this.soundIds.set(body,originalModuleSoundIds('pe_balloon',target))
     this.syncVisuals()
   }
-  input(keys:Set<OriginalDriveKey>,yaw:number|readonly number[],controller={x:0,z:0}) {
+  input(keys:Set<OriginalDriveKey>,yaw:number|readonly number[]) {
     for(const key of ['left','right','forward','backward'] as const) {
       if(!keys.has(key)) {if(this.held.delete(key)) this.player.drive(key,undefined);continue}
       if(this.held.has(key)||this.player.body===undefined) continue
@@ -279,13 +279,6 @@ export class OriginalIvpRuntime {
       this.player.drive(key,direction)
       this.held.add(key)
     }
-    // Analog input needs its own force magnitude: the native bridge normalizes
-    // direction vectors, so a small direction alone still produces full force.
-    const {x,z}=controller,strength=Math.hypot(x,z)
-    const direction=strength===0?undefined:typeof yaw==='number'?
-      [x*Math.cos(yaw)+z*Math.sin(yaw),0,x*Math.sin(yaw)-z*Math.cos(yaw)]:
-      new THREE.Vector3(x,0,-z).transformDirection(new THREE.Matrix4().fromArray(yaw)).toArray()
-    this.player.drive('controller',direction,strength)
   }
   /** One original script/presentation frame. IVP internally divides its smoothed
    * simulation duration into PSI ticks; callers must not repeat script polling

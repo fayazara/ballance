@@ -583,16 +583,12 @@ export class OriginalEngine {
     if(this.native) {
       const held=new Set<OriginalDriveKey>()
       if(!this.keys.has('shift')&&!this.pendingTransformation) {
-        if(this.keys.has('arrowleft')||this.keys.has('a')||this.touch.x<0) held.add('left')
-        if(this.keys.has('arrowright')||this.keys.has('d')||this.touch.x>0) held.add('right')
-        if(this.keys.has('arrowup')||this.keys.has('w')||this.touch.z<0) held.add('forward')
-        if(this.keys.has('arrowdown')||this.keys.has('s')||this.touch.z>0) held.add('backward')
+        if(this.keys.has('arrowleft')||this.keys.has('a')||this.touch.x<0||this.controller.x<0) held.add('left')
+        if(this.keys.has('arrowright')||this.keys.has('d')||this.touch.x>0||this.controller.x>0) held.add('right')
+        if(this.keys.has('arrowup')||this.keys.has('w')||this.touch.z<0||this.controller.z<0) held.add('forward')
+        if(this.keys.has('arrowdown')||this.keys.has('s')||this.touch.z>0||this.controller.z>0) held.add('backward')
       }
-      const blocked=this.keys.has('shift')||!!this.pendingTransformation
-      this.native.input(held,this.cameraInputFrame,{
-        x:blocked||held.has('left')||held.has('right')?0:this.controller.x,
-        z:blocked||held.has('forward')||held.has('backward')?0:this.controller.z,
-      })
+      this.native.input(held,this.cameraInputFrame)
     } else driveBall(this.body, this.state.material, dx, dz, dt, this.settings.sensitivity)
     const bounds = this.ballModels.get(this.state.material)?.geometry.boundingBox
     if (!this.native&&bounds) for (const fan of this.fans) fan.apply(this.body, bounds, dt)

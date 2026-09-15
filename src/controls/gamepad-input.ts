@@ -31,9 +31,7 @@ export function readController(pad:ControllerPad) {
   }
   if(x<-.5)actions.add('left');if(x>.5)actions.add('right')
   if(z<-.5)actions.add('up');if(z>.5)actions.add('down')
-  // A soft response near the center gives fine control without reducing the
-  // available force at full travel. Menu navigation keeps its linear threshold.
-  return {input:{x:Math.sign(x)*x*x,z:Math.sign(z)*z*z,brake:standard&&pressed(3)},actions}
+  return {input:{x,z,brake:standard&&pressed(3)},actions}
 }
 /** Button edges prevent held confirm/pause buttons leaking into the next menu. */
 export class ControllerActions {

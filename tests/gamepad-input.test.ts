@@ -23,18 +23,11 @@ test('PS5 standard mapping provides D-pad, shoulders, overview, confirm, back an
 })
 test('raw joystick uses primary axes without guessing standard extra button indices',()=>{
   const result=readController(pad({mapping:'',axes:[.6,0]},[0,3,4,9,12]))
-  assert.ok(Math.abs(result.input.x-.25)<1e-10)
+  assert.ok(Math.abs(result.input.x-.5)<1e-10)
   assert.equal(result.input.z,0)
   assert.equal(result.input.brake,false)
   assert.deepEqual([...result.actions],['accept'])
   assert.deepEqual(readController(pad({axes:[],buttons:[]})).input,{x:0,z:0,brake:false})
-})
-test('small stick movements produce gentle force while full travel and D-pad retain full power',()=>{
-  assert.ok(Math.abs(readController(pad({axes:[.3,0]})).input.x-.015625)<1e-10)
-  assert.ok(Math.abs(readController(pad({axes:[.6,0]})).input.x-.25)<1e-10)
-  assert.equal(readController(pad({axes:[1,0]})).input.x,1)
-  assert.equal(readController(pad({},[15])).input.x,1)
-  assert.ok(readController(pad({axes:[.65,0]})).actions.has('right'),'menus retain their original threshold')
 })
 test('detects already-connected controllers in sparse slots and retains selection until unplugged',()=>{
   const first=pad({index:2}),second=pad({index:4})
