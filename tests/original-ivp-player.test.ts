@@ -13,6 +13,34 @@ const pack=resolve('.local/original/balls.json'),available=existsSync(binary)&&e
 const document=()=>JSON.parse(readFileSync(pack,'utf8')) as OriginalDocument
 const pose={position:[0,10,0],rotation:[0,0,0,1]}
 async function world() {const {default:create}=await import(pathToFileURL(binary).href);return new IvpWorld(await create(),0)}
+test('analog force scales real native acceleration and updates while the stick stays held',{skip:!available},async()=>{
+  const w=await world(),player=new OriginalIvpPlayer(w,document(),'wood',pose)
+  const force=w.force.bind(w),values:number[]=[]
+  w.force=descriptor=>{values.push(descriptor.value);return force(descriptor)}
+  const run=()=>{for(let i=0;i<30;i++)w.step();return w.state(player.body!)[7]!}
+  try {
+    player.drive('controller',[1,0,0],1)
+    const full=run()
+    player.respawn('wood',pose)
+    player.drive('controller',[1,0,0],.25)
+    const gentle=run()
+    assert.ok(full>0)
+    assert.ok(Math.abs(gentle/full-.25)<.001,`quarter force must yield quarter acceleration: ${gentle/full}`)
+    player.drive('controller',[1,0,0],.5)
+    const stronger=run()
+    assert.equal(values.at(-1)!/values[0]!,.5,'changing magnitude must update the held force')
+    assert.ok(stronger>gentle*2,'held stick accelerates more strongly after increasing tilt')
+    player.drive('controller',undefined)
+    const coast=run()
+    assert.ok(coast>0&&coast<=stronger,'centering the stick coasts with native damping instead of accelerating')
+    const creations=values.length
+    player.drive('controller',[1,0,0],0)
+    assert.equal(values.length,creations,'zero strength does not reattach a force')
+    player.respawn('wood',pose)
+    player.drive('right',[1,0,0])
+    assert.ok(Math.abs(run()-full)<1e-5,'keyboard drive retains the original full strength')
+  } finally {player.dispose();w.dispose()}
+})
 test('initial formation can construct the player without creating any native body',{skip:!available},async()=> {
   const w=await world(),sphere=w.sphere.bind(w),convex=w.convex.bind(w)
   let creations=0

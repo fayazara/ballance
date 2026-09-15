@@ -8,6 +8,8 @@ import ui from './game/original-ui-data.json'
 import {MobileControls} from './controls/MobileControls'
 import {OfflineDownload} from './controls/OfflineDownload'
 import {useWakeLock} from './controls/useWakeLock'
+import {useGamepad} from './controls/useGamepad'
+import {idleController} from './controls/gamepad-input'
 import type {Axes} from './controls/mobile-input'
 import './App.css'
 
@@ -127,6 +129,45 @@ export default function App() {
     setScores(next);save('ballance-original-highscores',next);save('ballance-original-player-name',name)
     if(state.level<11)void play(state.level+1);else home()
   }
+  const controller=useGamepad({
+    onInput:input=>{if(engine.current)engine.current.controller=playing?input:idleController()},
+    onDisconnect:()=>{if(engine.current?.state.phase==='playing')engine.current.pause()},
+    onAction:action=>{
+      const game=engine.current
+      if(busy||error||!game)return
+      game.unlock()
+      if(panel) {
+        if(action==='back'){if(panel!=='main')back();return}
+        if(action==='pause'){if(panel==='pause')resume();return}
+        if(binding)return
+        const items=[...dialog.current!.querySelectorAll<HTMLElement>('button:not(:disabled),input:not(:disabled)')]
+        const current=items.indexOf(document.activeElement as HTMLElement)
+        if(action==='accept') {
+          const item=items[current]??items[0]
+          if(item instanceof HTMLInputElement){if(panel==='name')submitScore()}
+          else item?.click()
+        } else if(['up','down','left','right'].includes(action)) {
+          const delta=action==='up'||action==='left'?-1:1
+          if(document.activeElement instanceof HTMLInputElement&&document.activeElement.type==='range'&&(action==='left'||action==='right')) {
+            setVolume(value=>Math.max(0,Math.min(1,Math.round((value+delta*.1)*10)/10)))
+          } else {
+            items[current<0?(delta>0?0:items.length-1):(current+delta+items.length)%items.length]?.focus()
+            sound('Menu_dong')
+          }
+        }
+        return
+      }
+      if(!playing)return
+      if(action==='accept'){game.confirmEnding();return}
+      if(action==='pause'){if(!game.confirmEnding())game.pause();return}
+      if(action==='cameraLeft')game.turnCamera('left')
+      if(action==='cameraRight')game.turnCamera('right')
+    },
+  })
+  const controllerHelp=controller?.standard
+    ?`${controller.name} connected · Left stick / D-pad: roll · L1 / R1: camera · Triangle / Y: overview · Options / Start: pause · Cross / A: select · Circle / B: back`
+    :controller?'Joystick connected · Stick: roll / navigate · Button 1: select · Button 2: back'
+    :'Controller: press any controller button to connect automatically.'
   const menuBackground=!!panel&&!inCourse
   const points=Math.max(0,Math.floor(state.time*2))
   return <main className="original-app">
@@ -135,8 +176,10 @@ export default function App() {
     <OfflineDownload host={offlineHost}/>
     <MobileControls onInput={touchInput} onView={touchView} onRotate={touchRotate} active={playing&&phoneControls} original sensitivity={1} settingsHost={controlHost}/>
     {playing&&<button className="original-button game-menu-toggle" aria-label="Pause game" onClick={()=>engine.current?.pause()}><span className="menu-toggle-icon" aria-hidden="true"><i/><i/><i/></span></button>}
+    {playing&&controller&&<div className="controller-status" role="status">{controller.name} connected</div>}
     {!panel&&!busy&&<OriginalHud points={points} lives={state.lives}/>}
     {panel&&!busy&&<div className={`original-menu ${inCourse?'over-course':''}`} data-panel={panel} role="dialog" aria-modal="true" aria-label={panel==='main'?'Main menu':panel==='pause'?'Pause menu':panel} ref={dialog}><div className="menu-content">
+      {['main','pause','controls'].includes(panel)&&<p className="control-help controller-help" role="status">{controllerHelp}</p>}
       {panel==='main'&&<>
         {<Button key={'M_Main_But_1'} name={'M_Main_But_1'} onClick={()=>navigate('levels')} compact={false}>{label(0)}</Button>}{<Button key={'M_Main_But_2'} name={'M_Main_But_2'} onClick={highscore} compact={false}>{label(1)}</Button>}{<Button key={'M_Main_But_3'} name={'M_Main_But_3'} onClick={options} compact={false}>{label(2)}</Button>}{<Button key={'M_Main_But_4'} name={'M_Main_But_4'} onClick={()=>{setReturnTo('main');navigate('credits')}} compact={false}>{label(4)}</Button>}{<Button key={'M_Main_But_5'} name={'M_Main_But_5'} onClick={()=>ask('quit')} compact={false}>{label(3)}</Button>}
       </>}

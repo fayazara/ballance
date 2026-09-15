@@ -55,6 +55,7 @@ export class OriginalEngine {
   state: GameState = { phase: 'paused', level: 0, lives: 3, time: 500, score: 1000, material: 'wood', checkpoint: 0, speed: 0, message: '' }
   settings: Settings = { sound: false, quality: true, sensitivity: 1 }
   touch = { x: 0, z: 0, brake: false }
+  controller = { x: 0, z: 0, brake: false }
   scene = new THREE.Scene()
   camera = new THREE.PerspectiveCamera(45, 1, .1, 1800)
   renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' })
@@ -458,7 +459,7 @@ export class OriginalEngine {
     if(!dead)return false
     if(!this.respawnSequence.begin())return true
     this.pendingTransformation=undefined
-    this.touch={x:0,z:0,brake:false}
+    this.touch={x:0,z:0,brake:false};this.controller={x:0,z:0,brake:false}
     this.native?.input(new Set(),this.yaw)
     this.cancelPointExtras()
     this.audio.effect('Misc_Fall')
@@ -569,8 +570,8 @@ export class OriginalEngine {
       return
       }
     }
-    let x = Number(this.keys.has('arrowright') || this.keys.has('d')) - Number(this.keys.has('arrowleft') || this.keys.has('a')) + this.touch.x
-    let z = Number(this.keys.has('arrowdown') || this.keys.has('s')) - Number(this.keys.has('arrowup') || this.keys.has('w')) + this.touch.z
+    let x = Number(this.keys.has('arrowright') || this.keys.has('d')) - Number(this.keys.has('arrowleft') || this.keys.has('a')) + this.touch.x + this.controller.x
+    let z = Number(this.keys.has('arrowdown') || this.keys.has('s')) - Number(this.keys.has('arrowup') || this.keys.has('w')) + this.touch.z + this.controller.z
     if (this.keys.has('shift')||this.pendingTransformation) { x = 0; z = 0 }
     // Original arrow keys create independent axis controllers, including diagonal input.
     x = THREE.MathUtils.clamp(x, -1, 1); z = THREE.MathUtils.clamp(z, -1, 1)
@@ -587,7 +588,11 @@ export class OriginalEngine {
         if(this.keys.has('arrowup')||this.keys.has('w')||this.touch.z<0) held.add('forward')
         if(this.keys.has('arrowdown')||this.keys.has('s')||this.touch.z>0) held.add('backward')
       }
-      this.native.input(held,this.cameraInputFrame)
+      const blocked=this.keys.has('shift')||!!this.pendingTransformation
+      this.native.input(held,this.cameraInputFrame,{
+        x:blocked||held.has('left')||held.has('right')?0:this.controller.x,
+        z:blocked||held.has('forward')||held.has('backward')?0:this.controller.z,
+      })
     } else driveBall(this.body, this.state.material, dx, dz, dt, this.settings.sensitivity)
     const bounds = this.ballModels.get(this.state.material)?.geometry.boundingBox
     if (!this.native&&bounds) for (const fan of this.fans) fan.apply(this.body, bounds, dt)
@@ -646,7 +651,7 @@ export class OriginalEngine {
         this.camera.position.copy(this.gameCamera.position);this.camera.lookAt(this.gameCamera.target)
       } else {
         this.follow.lerp(this.ball.position, 1 - Math.exp(-dt * 8)); this.yaw += (this.targetYaw - this.yaw) * (1 - Math.exp(-dt * 9))
-        const high = this.keys.has(' ') || this.touch.brake
+        const high = this.keys.has(' ') || this.touch.brake || this.controller.brake
         this.camera.position.copy(this.follow).add(new THREE.Vector3(Math.sin(this.yaw) * (high ? 8 : 13), high ? 22 : 13, Math.cos(this.yaw) * (high ? 8 : 13)))
         this.camera.lookAt(this.follow.clone().add(new THREE.Vector3(0, .25, 0)))
       }
@@ -694,7 +699,7 @@ export class OriginalEngine {
     this.endingCamera.step(dt*1000,native.player.renderPose.position,this.gameCamera.position,
       this.gameCamera.target,this.ufo?.stage==='flight',this.gameCamera)
     if(!this.endingCamera.active)this.gameCamera.step(dt*1000,native.player.renderPose.position,
-      this.endingAge===undefined&&(this.keys.has(' ')||this.touch.brake))
+      this.endingAge===undefined&&(this.keys.has(' ')||this.touch.brake||this.controller.brake))
     this.yaw=this.targetYaw=this.gameCamera.inputYaw
   }
   private stepCollectibles(dt:number) {
@@ -720,7 +725,11 @@ export class OriginalEngine {
       pickup.visual.point.cancel();if(pickup.mesh)pickup.mesh.visible=false
     }
   }
-  pause() { if (this.loading) return; if (this.state.phase === 'playing') this.state.phase = 'paused'; else if (this.state.phase === 'paused') this.state.phase = 'playing'; this.last=0;this.keys.clear();this.touch={x:0,z:0,brake:false}; this.audio.paused = this.state.phase !== 'playing'; this.audio.sync(); if (this.transformation.active) this.audio.resumeEffect('Misc_Trafo'); if(this.lightning?.state.active)this.audio.resumeEffect('Misc_Lightning'); this.emit() }
+  pause() { if (this.loading) return; if (this.state.phase === 'playing') this.state.phase = 'paused'; else if (this.state.phase === 'paused') this.state.phase = 'playing'; this.last=0;this.keys.clear();this.touch={x:0,z:0,brake:false};this.controller={x:0,z:0,brake:false}; this.audio.paused = this.state.phase !== 'playing'; this.audio.sync(); if (this.transformation.active) this.audio.resumeEffect('Misc_Trafo'); if(this.lightning?.state.active)this.audio.resumeEffect('Misc_Lightning'); this.emit() }
+  confirmEnding() {
+    if(this.state.phase!=='playing'||this.endingAge===undefined||this.endingAge*1000<finishData.presentation.skyFadeMs)return false
+    this.completeCourse();return true
+  }
   private completeCourse() {
     this.state.score=(this.state.level+1)*100+Math.floor(this.state.time*2)+this.state.lives*200
     this.state.phase='won';this.audio.paused=true;this.audio.sync();this.emit()

@@ -40,3 +40,6 @@
 .floating-dpad{border-color:#c5b99488;background:#24271f38;box-shadow:inset 0 0 0 2px #23262055,inset 0 0 0 3px #b7aa7955}
 .floating-dpad i{border:2px solid #b6ad94;background:linear-gradient(#595950,#343730 48%,#2b2e28 49%,#44463c);box-shadow:inset 0 0 0 2px #232620,inset 0 0 0 3px #88816a,0 2px 7px #0005}
 .offline-management{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+.controller-status{position:absolute;top:max(14px,env(safe-area-inset-top));left:max(14px,env(safe-area-inset-left));z-index:2;padding:7px 12px;border:1px solid #ac956280;border-radius:6px;background:#171b17d9;color:#d9ceb5;font-size:12px;pointer-events:none}
+.controller-help{text-align:center;text-wrap:balance}
+.original-menu button:focus{outline:2px solid #f1d59d;outline-offset:4px}

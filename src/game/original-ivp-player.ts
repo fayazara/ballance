@@ -17,7 +17,7 @@ export class OriginalIvpPlayer {
   private bounds=new Map<Material,THREE.Box3>()
   private handle?:number
   private captured:OriginalPlayerPose
-  private drives=new Map<OriginalDriveKey,{handle:number;direction:number[]}>()
+  private drives=new Map<OriginalDriveKey|'controller',{handle:number;direction:number[];strength:number}>()
   private disposed=false
   material:Material
   physicalizations=0
@@ -54,11 +54,13 @@ export class OriginalIvpPlayer {
   }
   /** Input callbacks resolve the camera/world direction when a key controller
    * starts. Opposing keys remain independent, as in the original behavior graph. */
-  drive(key:OriginalDriveKey,direction:readonly number[]|undefined) {
+  drive(key:OriginalDriveKey|'controller',direction:readonly number[]|undefined,strength=1) {
     this.live()
     if(direction&&(direction.length!==3||!direction.every(Number.isFinite))) throw new Error('Invalid original drive direction')
+    if(!Number.isFinite(strength)||strength<0)throw new Error('Invalid drive strength')
+    if(strength===0)direction=undefined
     const previous=this.drives.get(key)
-    if(previous&&direction&&previous.direction.every((v,i)=>v===direction[i])) return
+    if(previous&&direction&&previous.strength===strength&&previous.direction.every((v,i)=>v===direction[i])) return
     // Gameplay.nmo connects both force outputs (Create and Shutdown) to
     // Physics WakeUp 1653. A release must wake a sleeping ball too: another
     // independently held key may still own a force controller.
@@ -67,8 +69,8 @@ export class OriginalIvpPlayer {
       if(this.handle!==undefined) this.world.wake(this.handle)
     }
     if(this.handle===undefined||!direction) return
-    const force=this.world.force({body:this.handle,position:[0,0,0],positionSpace:'core',direction,value:PLAYER_PHYSICS[this.material].driveImpulse})
-    this.drives.set(key,{handle:force,direction:[...direction]})
+    const force=this.world.force({body:this.handle,position:[0,0,0],positionSpace:'core',direction,value:PLAYER_PHYSICS[this.material].driveImpulse*strength})
+    this.drives.set(key,{handle:force,direction:[...direction],strength})
     this.world.wake(this.handle)
   }
   /** Unphysicalize for a transformer; contacts and old controller handles end. */

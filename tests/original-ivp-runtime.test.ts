@@ -32,6 +32,27 @@ async function setup(level=1) {
   return new OriginalIvpRuntime(await create(),course,balls,modules,visuals)
 }
 
+test('runtime forwards stick magnitude separately from normalized camera direction and clears it on idle',{skip:!available},async()=>{
+  const runtime=await setup(),calls:{key:string;direction:readonly number[]|undefined;strength:number}[]=[]
+  const drive=runtime.player.drive.bind(runtime.player)
+  runtime.player.drive=(key,direction,strength=1)=>{calls.push({key,direction,strength});drive(key,direction,strength)}
+  try {
+    const frame=new THREE.Matrix4().makeRotationY(Math.PI/2).elements
+    runtime.input(new Set(),frame,{x:.25,z:0})
+    let analog=calls.findLast(c=>c.key==='controller')!
+    assert.equal(analog.strength,.25)
+    assert.ok(Math.abs(analog.direction![2]!+1)<1e-10)
+    runtime.input(new Set(),frame,{x:.1,z:0})
+    assert.equal(calls.at(-1)!.strength,.1,'held stick updates continuously')
+    runtime.input(new Set(['right']),0)
+    analog=calls.at(-1)!
+    assert.equal(analog.key,'controller');assert.equal(analog.direction,undefined)
+    assert.equal(calls.findLast(c=>c.key==='right')!.strength,1)
+    runtime.input(new Set(),0)
+    assert.deepEqual(runtime.activeDriveKeys,[])
+  } finally {runtime.dispose()}
+})
+
 test('native runtime advances IVP by the DLL-filtered frame duration and keeps the clock across sector resets',{skip:!available},async()=> {
   const runtime=await setup()
   try {
