@@ -1,0 +1,27 @@
+src/controls/gamepad-input.ts
+  s_13d0f893e8de28::t_bc3300cf287d55 34
+src/game/original-engine.ts
+  s_13d0f893e8de28::t_516918c4383a58 586-589,591
+src/game/original-ivp-player.ts
+  s_13d0f893e8de28::t_f3fe7749c53b19 20,57,61,70-71
+src/game/original-ivp-runtime.ts
+  s_13d0f893e8de28::t_2ff3dab07d8eda 272
+tests/gamepad-input.test.ts
+  s_13d0f893e8de28::t_484eb906f248a9 26
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "17fb1b1c8bf8956040dc371041d8aee64bd5ad72",
+  "prompts": {},
+  "sessions": {
+    "s_13d0f893e8de28": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0a4a2-302b-7e70-8415-c40135c3f04f",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Fayaz Ahmed <fayazara@gmail.com>"
+    }
+  }
+}
